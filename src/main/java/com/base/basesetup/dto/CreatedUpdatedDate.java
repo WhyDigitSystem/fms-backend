@@ -25,20 +25,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreatedUpdatedDate {
-	private Date createdDate;
-	private Date updatedDate;
+	private Date createddate;
+	private Date updateddate;
 
 	@PrePersist
 	public void onSave() {
 		Date currentDate = new Date();
-		this.createdDate = currentDate;
-		this.updatedDate = currentDate;
+		this.createddate = currentDate;
+		this.updateddate = currentDate;
 	}
 
 	@PostLoad
 	public void onUpdate() {
 		Date currentDate = new Date();
-		this.updatedDate = currentDate;
+		this.updateddate = currentDate;
 	}
 
 }

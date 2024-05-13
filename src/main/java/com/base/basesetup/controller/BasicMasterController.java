@@ -24,10 +24,18 @@ import com.base.basesetup.common.CommonConstant;
 import com.base.basesetup.common.UserConstants;
 import com.base.basesetup.dto.CityDTO;
 import com.base.basesetup.dto.CountryDTO;
+import com.base.basesetup.dto.DepartmentDTO;
+import com.base.basesetup.dto.DesignationDTO;
+import com.base.basesetup.dto.EmployeeDTO;
+import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.ResponseDTO;
 import com.base.basesetup.dto.StateDTO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CountryVO;
+import com.base.basesetup.entity.DepartmentVO;
+import com.base.basesetup.entity.DesignationVO;
+import com.base.basesetup.entity.EmployeeVO;
+import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.StateVO;
 import com.base.basesetup.service.BasicMasterService;
 
@@ -276,6 +284,119 @@ public class BasicMasterController extends BaseController {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
 			responseDTO = createServiceResponseError(responseObjectsMap, "State update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	//DEPARTMENT ____________________________________________________________________________
+	
+	@PutMapping("updateCreateDepartment")
+	public ResponseEntity<ResponseDTO> updateCreateDepartment(@Valid @RequestBody DepartmentDTO departmentDTO) {
+		String methodName = "updateCreateDepartment()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			DepartmentVO departmentVO = basicMasterService.updateCreateDepartment(departmentDTO);
+			if (departmentVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Department updated successfully");
+				responseObjectsMap.put("departmentVO", departmentVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "Department not found for ID: " + departmentDTO.getDepartmentId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "Department update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "Department update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	
+	// DESIGNATION
+	
+	@PutMapping("updateCreateDesignation")
+	public ResponseEntity<ResponseDTO> updateCreateDesignation(@Valid @RequestBody DesignationDTO designationDTO) {
+		String methodName = "updateCreateDesignation()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			DesignationVO designationVO = basicMasterService.updateCreateDesignation(designationDTO);
+			if (designationVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Designation updated successfully");
+				responseObjectsMap.put("designationVO", designationVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "Designation not found for ID: " + designationDTO.getDesignationId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "Designation update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "Designation update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	// EMPLOYEE_________________________________________________________________________
+	
+	@PutMapping("updateCreateEmployee")
+	public ResponseEntity<ResponseDTO> updateCreateEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+		String methodName = "updateCreateDesignation()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			EmployeeVO employeeVO = basicMasterService.updateCreateEmployee(employeeDTO);
+			if (employeeVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Designation updated successfully");
+				responseObjectsMap.put("employeeVO", employeeVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "Employee not found for ID: " + employeeDTO.getEmployeeId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "Employee update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "Designation update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	// PORT
+	
+	@PutMapping("updateCreatePort")
+	public ResponseEntity<ResponseDTO> updateCreatePort(@Valid @RequestBody PortDTO portDTO) {
+		String methodName = "updateCreatePort()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			PortVO portVO = basicMasterService.updateCreatePort(portDTO);
+			if (portVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Port updated successfully");
+				responseObjectsMap.put("portVO", portVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "Port not found for ID: " + portDTO.getPortId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "Port update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "Port update failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
