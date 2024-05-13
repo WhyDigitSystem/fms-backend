@@ -292,4 +292,42 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		portVO.setPort(portDTO.getPort());
 		portVO.setActive(portDTO.isActive());
 	}
+
+	@Override
+	public List<DepartmentVO> getDepartmentById(Long id) {
+		List<DepartmentVO> departmentVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  Department BY Id : {}", id);
+			departmentVO = departmentRepo.findDepartmentById(id);
+		} else {
+			LOGGER.info("Successfully Received  Department For All Id.");
+			departmentVO = departmentRepo.findAll();
+		}
+		return departmentVO;
+	}
+
+	@Override
+	public List<DepartmentVO> getDepartmentByOrgId(Long orgId) {
+		
+		return departmentRepo.findDepartmentByOrgId(orgId);
+	}
+
+	@Override
+	public List<DesignationVO> getDesignationById(Long id) {
+		List<DesignationVO> designationVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  Designation BY Id : {}", id);
+			designationVO = designationRepo.findDesignationById(id);
+		} else {
+			LOGGER.info("Successfully Received  Designation For All Id.");
+			designationVO = designationRepo.findAll();
+		}
+		return designationVO;
+	}
+
+	@Override
+	public List<DesignationVO> getDesignationByOrgId(Long orgid) {
+		
+		return designationRepo.findDesignationByorgId(orgid);
+	}
 }

@@ -60,6 +60,14 @@ public interface BasicMasterService {
 	EmployeeVO updateCreateEmployee(@Valid EmployeeDTO employeeDTO) throws ApplicationException;
 
 	PortVO updateCreatePort(@Valid PortDTO portDTO) throws ApplicationException;
+
+	List<DepartmentVO> getDepartmentById(Long id);
+
+	List<DepartmentVO> getDepartmentByOrgId(Long orgId);
+
+	List<DesignationVO> getDesignationById(Long id);
+
+	List<DesignationVO> getDesignationByOrgId(Long orgid);
 	
 
 	
