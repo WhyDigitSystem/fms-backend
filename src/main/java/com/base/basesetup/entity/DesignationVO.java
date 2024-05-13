@@ -24,19 +24,19 @@ public class DesignationVO {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "designationgen")
 	@SequenceGenerator(name = "designationgen",sequenceName = "designationseq",initialValue = 1000000001,allocationSize = 1)
 	@Column(name="designationid")
-	private Long designationId;
-	@Column(name="designation", length = 30)
+	private Long id;
+	@Column(name="designation")
 	private String designation;
 	
-	@Column(name="createdby", length = 30)
+	@Column(name="createdby")
 	private String createdBy;
-	@Column(name="modifiedby", length = 30)
+	@Column(name="modifiedby")
 	private String updatedBy;
 	@Column(name="orgid")
 	private Long orgId;
 	@Column(name="cancel")
 	private boolean cancel;
-	@Column(name="cancelremarks",length =50)
+	@Column(name="cancelremarks")
 	private boolean cancelRemarks;
 	private boolean active;
 	
