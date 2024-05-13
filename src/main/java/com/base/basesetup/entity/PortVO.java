@@ -26,27 +26,27 @@ public class PortVO {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "portgen")
 	@SequenceGenerator(name = "portgen", sequenceName = "portseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "portid")
-	private Long portId;
+	private Long id;
 
-	@Column(name = "port", length = 30)
+	@Column(name = "port")
 	private String port;
-	@Column(name = "country", length = 30)
+	@Column(name = "country")
 	private String country;
-	@Column(name = "type", length = 30)
+	@Column(name = "type")
 	private String type;
-	@Column(name = "code", length = 20)
+	@Column(name = "code")
 	private int code;
 
 	private boolean status;
-	@Column(name = "createdby", length = 30)
+	@Column(name = "createdby")
 	private String createdBy;
-	@Column(name = "modifiedby", length = 30)
+	@Column(name = "modifiedby")
 	private String updatedBy;
 	@Column(name = "orgid")
 	private Long orgId;
 	@Column(name = "cancel")
 	private boolean cancel;
-	@Column(name = "cancelremarks", length = 50)
+	@Column(name = "cancelremarks")
 	private boolean cancelRemarks;
 	private boolean active;
 

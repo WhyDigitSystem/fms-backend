@@ -50,7 +50,7 @@ public class CountryVO {
 	private String createdBy;
 
 	@Column(name = "modifiedby")
-	private String modifiedBy;
+	private String updatedBy;
 
 	@Column(name = "cancelremarks")
 	private String cancelRemarks;

@@ -21,5 +21,5 @@ public class PortDTO {
 
 	private Long orgId;
 
-	private boolean active;
+	
 }

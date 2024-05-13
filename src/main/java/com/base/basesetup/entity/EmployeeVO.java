@@ -27,41 +27,41 @@ public class EmployeeVO {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employeegen")
 	@SequenceGenerator(name = "employeegen", sequenceName = "employeeseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "employeeid")
-	private Long employeeId;
+	private Long id;
 
-	@Column(name = "employeecode", length = 30)
+	@Column(name = "employeecode")
 	private String employeeCode;
-	@Column(name = "employeename", length = 30)
+	@Column(name = "employeename")
 	private String employeeName;
-	@Column(name = "gender", length = 20)
+	@Column(name = "gender")
 	private String gender;
-	@Column(name = "branch", length = 30)
+	@Column(name = "branch")
 	private String branch;
 	@Column(name = "joiningdate")
 	private LocalDate joiningDate;
-	@Column(name = "department", length = 30)
+	@Column(name = "department")
 	private String department;
-	@Column(name = "designation", length = 30)
+	@Column(name = "designation")
 	private String designation;
-	@Column(name = "appoinmenttype", length = 30)
+	@Column(name = "appoinmenttype")
 	private String appoinmentType;
-	@Column(name = "modeofentry", length = 30)
+	@Column(name = "modeofentry")
 	private String modeOfEntry;
-	@Column(name = "dateofbirth", length = 30)
+	@Column(name = "dateofbirth")
 	private String dateOfBirth;
-	@Column(name = "leavingdate", length = 30)
+	@Column(name = "leavingdate")
 	private LocalDate leavingDate;
 
 	private boolean status;
-	@Column(name = "createdby", length = 30)
+	@Column(name = "createdby")
 	private String createdBy;
-	@Column(name = "modifiedby", length = 30)
+	@Column(name = "modifiedby")
 	private String updatedBy;
 	@Column(name = "orgid")
 	private Long orgId;
 	@Column(name = "cancel")
 	private boolean cancel;
-	@Column(name = "cancelremarks", length = 50)
+	@Column(name = "cancelremarks")
 	private boolean cancelRemarks;
 	private boolean active;
 

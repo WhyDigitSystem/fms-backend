@@ -25,21 +25,21 @@ public class DepartmentVO {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "departmentgen")
 	@SequenceGenerator(name = "departmentgen",sequenceName = "departmentseq",initialValue = 1000000001,allocationSize = 1)
 	@Column(name="departmentid")
-	private Long departmentId;
-	@Column(name="departmentcode", length = 30)
+	private Long id;
+	@Column(name="departmentcode")
 	private String departmentCode;
-	@Column(name="department", length = 30)
+	@Column(name="department")
 	private String department;
 	
-	@Column(name="createdby", length = 30)
+	@Column(name="createdby")
 	private String createdBy;
-	@Column(name="modifiedby", length = 30)
+	@Column(name="modifiedby")
 	private String updatedBy;
 	@Column(name="orgid")
 	private Long orgId;
 	@Column(name="cancel")
 	private boolean cancel;
-	@Column(name="cancelremarks",length =50)
+	@Column(name="cancelremarks")
 	private boolean cancelRemarks;
 	private boolean active;
 	

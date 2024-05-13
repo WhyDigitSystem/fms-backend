@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.base.basesetup.dto.CityDTO;
+import com.base.basesetup.dto.CompanyDTO;
 import com.base.basesetup.dto.CountryDTO;
 import com.base.basesetup.dto.DepartmentDTO;
 import com.base.basesetup.dto.DesignationDTO;
@@ -19,6 +20,7 @@ import com.base.basesetup.dto.EmployeeDTO;
 import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.StateDTO;
 import com.base.basesetup.entity.CityVO;
+import com.base.basesetup.entity.CompanyVO;
 import com.base.basesetup.entity.CountryVO;
 import com.base.basesetup.entity.DepartmentVO;
 import com.base.basesetup.entity.DesignationVO;
@@ -27,6 +29,7 @@ import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.StateVO;
 import com.base.basesetup.exception.ApplicationException;
 import com.base.basesetup.repo.CityRepo;
+import com.base.basesetup.repo.CompanyRepo;
 import com.base.basesetup.repo.CountryRepo;
 import com.base.basesetup.repo.DepartmentRepo;
 import com.base.basesetup.repo.DesignationRepo;
@@ -47,6 +50,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	@Autowired
 	StateRepo stateRepo;
+	
+	@Autowired
+	CompanyRepo companyRepo;
 
 	@Autowired
 	DepartmentRepo departmentRepo;
@@ -60,7 +66,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	@Autowired
 	PortRepo portRepo;
 
-	// Country------------------------------------------------------------------------------------
+	//COUNTRY
 
 	@Override
 	public List<CountryVO> getCountryById(Long id) {
@@ -107,7 +113,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	}
 
-//City----------------------------------------------------------------------------------------------
+    //CITY
 
 	@Override
 	public List<CityVO> getCityById(Long id) {
@@ -155,9 +161,14 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		cityVO.setState(cityDTO.getState());
 
 	}
+	
+	@Override
+	public List<CityVO> getAllCityByState(Long orgId, String country) {
+		return cityRepo.findAllCityByState(orgId, country);
+	}
 
 	// State
-	// -----------------------------------------------------------------------------------
+
 	@Override
 	public List<StateVO> getStateById(Long id) {
 		List<StateVO> stateVO = new ArrayList<>();
@@ -200,10 +211,19 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		stateVO.setStateCode(stateDTO.getStateCode());
 		stateVO.setStateName(stateDTO.getStateName());
 		stateVO.setUserId(stateDTO.getUserId());
+		stateVO.setCountry(stateDTO.getCountry());
+		stateVO.setRegion(stateDTO.getRegion());
+		stateVO.setStateNumber(stateDTO.getStateNumber());
 
 	}
+	
+	@Override
+    public List<StateVO> getAllStateByCountry(Long orgId, String country) {
+	   return stateRepo.findAllStateByCountry(orgId, country);
+  }
 
-	// Department_________________________________________________________________________________
+
+	// Department
 
 	@Override
 	public DepartmentVO updateCreateDepartment(@Valid DepartmentDTO departmentDTO) throws ApplicationException {
@@ -224,7 +244,29 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		departmentVO.setDepartmentCode(departmentDTO.getDepartmentCode());
 		departmentVO.setOrgId(departmentDTO.getOrgId());
 	}
+	
+	@Override
+	public List<DepartmentVO> getDepartmentById(Long id) {
+		List<DepartmentVO> departmentVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  Department BY Id : {}", id);
+			departmentVO = departmentRepo.findDepartmentById(id);
+		} else {
+			LOGGER.info("Successfully Received  Department For All Id.");
+			departmentVO = departmentRepo.findAll();
+		}
+		return departmentVO;
+	}
 
+	@Override
+	public List<DepartmentVO> getDepartmentByOrgId(Long orgId) {
+		
+		return departmentRepo.findDepartmentByOrgId(orgId);
+	}
+
+
+	//Designation
+	
 	@Override
 	public DesignationVO updateCreateDesignation(@Valid DesignationDTO designationDTO) throws ApplicationException {
 		DesignationVO designationVO = new DesignationVO();
@@ -237,12 +279,32 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		return designationRepo.save(designationVO);
 
 	}
-
-	private void getDesignationVOFromDesignationDTO(@Valid DesignationDTO designationDTO, DesignationVO designationVO) {
-		designationVO.setDesignation(designationDTO.getDesignation());
-		designationVO.setOrgId(designationDTO.getOrgId());
+	    private void getDesignationVOFromDesignationDTO(@Valid DesignationDTO designationDTO, DesignationVO designationVO) {
+		   designationVO.setDesignation(designationDTO.getDesignation());
+		   designationVO.setOrgId(designationDTO.getOrgId());
+	}
+	
+	@Override
+	public List<DesignationVO> getDesignationById(Long id) {
+		List<DesignationVO> designationVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  Designation BY Id : {}", id);
+			designationVO = designationRepo.findDesignationById(id);
+		} else {
+			LOGGER.info("Successfully Received  Designation For All Id.");
+			designationVO = designationRepo.findAll();
+		}
+		return designationVO;
 	}
 
+	@Override
+	public List<DesignationVO> getDesignationByOrgId(Long orgid) {
+		
+		return designationRepo.findDesignationByorgId(orgid);
+	}
+
+	//Employee 
+	
 	@Override
 	public EmployeeVO updateCreateEmployee(@Valid EmployeeDTO employeeDTO) throws ApplicationException {
 		EmployeeVO employeeVO = new EmployeeVO();
@@ -272,6 +334,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		employeeVO.setOrgId(employeeDTO.getOrgId());
 	}
 
+	//Port
+	
 	@Override
 	public PortVO updateCreatePort(@Valid PortDTO portDTO) throws ApplicationException {
 		PortVO portVO = new PortVO();
@@ -290,44 +354,65 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		portVO.setType(portDTO.getType());
 		portVO.setOrgId(portDTO.getOrgId());
 		portVO.setPort(portDTO.getPort());
-		portVO.setActive(portDTO.isActive());
-	}
-
-	@Override
-	public List<DepartmentVO> getDepartmentById(Long id) {
-		List<DepartmentVO> departmentVO = new ArrayList<>();
-		if (ObjectUtils.isNotEmpty(id)) {
-			LOGGER.info("Successfully Received  Department BY Id : {}", id);
-			departmentVO = departmentRepo.findDepartmentById(id);
-		} else {
-			LOGGER.info("Successfully Received  Department For All Id.");
-			departmentVO = departmentRepo.findAll();
-		}
-		return departmentVO;
-	}
-
-	@Override
-	public List<DepartmentVO> getDepartmentByOrgId(Long orgId) {
 		
-		return departmentRepo.findDepartmentByOrgId(orgId);
 	}
 
-	@Override
-	public List<DesignationVO> getDesignationById(Long id) {
-		List<DesignationVO> designationVO = new ArrayList<>();
-		if (ObjectUtils.isNotEmpty(id)) {
-			LOGGER.info("Successfully Received  Designation BY Id : {}", id);
-			designationVO = designationRepo.findDesignationById(id);
-		} else {
-			LOGGER.info("Successfully Received  Designation For All Id.");
-			designationVO = designationRepo.findAll();
+	
+	
+     //COMPANY
+	
+		@Override
+		public List<CompanyVO> getCompanyById(Long id) {
+			List<CompanyVO> companyVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(id)) {
+				LOGGER.info("Successfully Received Company BY Id : {}", id);
+				companyVO = companyRepo.findCompanyById(id);
+			} else {
+				LOGGER.info("Successfully Received Company For All Id.");
+				companyVO = companyRepo.findAll();
+			}
+			return companyVO;
 		}
-		return designationVO;
-	}
 
-	@Override
-	public List<DesignationVO> getDesignationByOrgId(Long orgid) {
-		
-		return designationRepo.findDesignationByorgId(orgid);
-	}
+     @Override
+      public List<CompanyVO> getCompanyByOrgId(Long orgId) {
+	     List<CompanyVO> companyVO = new ArrayList<>();
+	      if (ObjectUtils.isNotEmpty(orgId)) {
+		  LOGGER.info("Successfully Received  Company BY Id : {}", orgId);
+		   companyVO = companyRepo.findCompanyByOrgId(orgId);
+	      } else {
+		   LOGGER.info("Successfully Received  Company For All OrgId.");
+		   companyVO = companyRepo.findAll();
+	  }
+	    return companyVO;
+     }
+
+    @Override
+    public CompanyVO updateCreateCompany(@Valid CompanyDTO companyDTO) throws ApplicationException {
+ 	   CompanyVO companyVO = new CompanyVO();
+			if (ObjectUtils.isNotEmpty(companyDTO.getId())) {
+				companyVO = companyRepo.findById(companyDTO.getId())
+						.orElseThrow(() -> new ApplicationException("Invalid company Details"));
+			}
+			getCompanyVOFromCompanyDTO(companyDTO, companyVO);
+			return companyRepo.save(companyVO);
+		}
+
+		private void getCompanyVOFromCompanyDTO(@Valid CompanyDTO companyDTO, CompanyVO companyVO) {
+     companyVO.setCompanyName(companyDTO.getCompanyName());		
+     companyVO.setCompanyCode(companyDTO.getCompanyCode());	
+     companyVO.setEmail(companyDTO.getEmail());	
+     companyVO.setPhoneNo(companyDTO.getPhoneNo());	
+     companyVO.setAddress(companyDTO.getAddress());	
+     companyVO.setCountry(companyDTO.getCountry());	
+     companyVO.setState(companyDTO.getState());	
+     companyVO.setCity(companyDTO.getCity());
+     companyVO.setPinCode(companyDTO.getPinCode());	
+     companyVO.setAdminEmail(companyDTO.getAdminEmail());	
+     companyVO.setPassport(companyDTO.getPassport());	
+     companyVO.setUserId(companyDTO.getUserId());	
+     companyVO.setOrgId(companyDTO.getOrgId());	
+	}  
 }
+
+
