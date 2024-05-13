@@ -12,13 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.base.basesetup.dto.CityDTO;
+import com.base.basesetup.dto.CompanyDTO;
 import com.base.basesetup.dto.CountryDTO;
 import com.base.basesetup.dto.StateDTO;
 import com.base.basesetup.entity.CityVO;
+import com.base.basesetup.entity.CompanyVO;
 import com.base.basesetup.entity.CountryVO;
 import com.base.basesetup.entity.StateVO;
 import com.base.basesetup.exception.ApplicationException;
 import com.base.basesetup.repo.CityRepo;
+import com.base.basesetup.repo.CompanyRepo;
 import com.base.basesetup.repo.CountryRepo;
 import com.base.basesetup.repo.StateRepo;
 
@@ -35,6 +38,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	
 	@Autowired
 	StateRepo stateRepo;
+	
+	@Autowired
+	CompanyRepo companyRepo;
 
 	//Country------------------------------------------------------------------------------------
 	
@@ -129,8 +135,13 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		cityVO.setCountry(cityDTO.getCountry());
 		cityVO.setUserId(cityDTO.getUserId());
 		cityVO.setState(cityDTO.getState());
-
+    }
+	
+	@Override
+	public List<CityVO> getAllCityByState(Long orgId, String country) {
+		return cityRepo.findAllCityByState(orgId, country);
 	}
+	
 	//State -----------------------------------------------------------------------------------
 		@Override
 		public List<StateVO> getStateById(Long id) {
@@ -174,8 +185,71 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			stateVO.setStateCode(stateDTO.getStateCode());
 			stateVO.setStateName(stateDTO.getStateName());
 			stateVO.setUserId(stateDTO.getUserId());
+			stateVO.setCountry(stateDTO.getCountry());
+			stateVO.setRegion(stateDTO.getRegion());
+			stateVO.setStateNumber(stateDTO.getStateNumber());
 
 		}
+		
+		@Override
+	      public List<StateVO> getAllStateByCountry(Long orgId, String country) {
+		   return stateRepo.findAllStateByCountry(orgId, country);
+	    }
+		
+  //     Company-------------------------------------------------------------------------------
+		
+		@Override
+		public List<CompanyVO> getCompanyById(Long id) {
+			List<CompanyVO> companyVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(id)) {
+				LOGGER.info("Successfully Received Company BY Id : {}", id);
+				companyVO = companyRepo.findCompanyById(id);
+			} else {
+				LOGGER.info("Successfully Received Company For All Id.");
+				companyVO = companyRepo.findAll();
+			}
+			return companyVO;
+		}
+
+@Override
+public List<CompanyVO> getCompanyByOrgId(Long orgId) {
+	List<CompanyVO> companyVO = new ArrayList<>();
+	if (ObjectUtils.isNotEmpty(orgId)) {
+		LOGGER.info("Successfully Received  Company BY Id : {}", orgId);
+		companyVO = companyRepo.findCompanyByOrgId(orgId);
+	} else {
+		LOGGER.info("Successfully Received  Company For All OrgId.");
+		companyVO = companyRepo.findAll();
+	}
+	return companyVO;
+}
+
+       @Override
+       public CompanyVO updateCreateCompany(@Valid CompanyDTO companyDTO) throws ApplicationException {
+    	   CompanyVO companyVO = new CompanyVO();
+			if (ObjectUtils.isNotEmpty(companyDTO.getId())) {
+				companyVO = companyRepo.findById(companyDTO.getId())
+						.orElseThrow(() -> new ApplicationException("Invalid company Details"));
+			}
+			getCompanyVOFromCompanyDTO(companyDTO, companyVO);
+			return companyRepo.save(companyVO);
+		}
+
+		private void getCompanyVOFromCompanyDTO(@Valid CompanyDTO companyDTO, CompanyVO companyVO) {
+        companyVO.setCompanyName(companyDTO.getCompanyName());		
+        companyVO.setCompanyCode(companyDTO.getCompanyCode());	
+        companyVO.setEmail(companyDTO.getEmail());	
+        companyVO.setPhoneNo(companyDTO.getPhoneNo());	
+        companyVO.setAddress(companyDTO.getAddress());	
+        companyVO.setCountry(companyDTO.getCountry());	
+        companyVO.setState(companyDTO.getState());	
+        companyVO.setCity(companyDTO.getCity());
+        companyVO.setPinCode(companyDTO.getPinCode());	
+        companyVO.setAdminEmail(companyDTO.getAdminEmail());	
+        companyVO.setPassport(companyDTO.getPassport());	
+        companyVO.setUserId(companyDTO.getUserId());	
+        companyVO.setOrgId(companyDTO.getOrgId());	
+	}  
 
 
 }
