@@ -48,8 +48,6 @@ public class CompanyVO {
 	private String adminEmail;
 	@Column(name = "passport")
 	private String passport;
-	@Column(name="userid")
-    private String userId;
 	@Column(name = "cancel")
 	private boolean cancel;
 	@Column(name = "createdby")

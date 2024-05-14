@@ -109,7 +109,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		countryVO.setCountry(countryDTO.getCountry());
 		countryVO.setCountryCode(countryDTO.getCountryCode());
 		countryVO.setOrgId(countryDTO.getOrgId());
-		countryVO.setUserId(countryDTO.getUserId());
 
 	}
 
@@ -157,7 +156,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		cityVO.setCityCode(cityDTO.getCityCode());
 		cityVO.setCityName(cityDTO.getCityName());
 		cityVO.setCountry(cityDTO.getCountry());
-		cityVO.setUserId(cityDTO.getUserId());
 		cityVO.setState(cityDTO.getState());
 
 	}
@@ -210,7 +208,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		stateVO.setOrgId(stateDTO.getOrgId());
 		stateVO.setStateCode(stateDTO.getStateCode());
 		stateVO.setStateName(stateDTO.getStateName());
-		stateVO.setUserId(stateDTO.getUserId());
 		stateVO.setCountry(stateDTO.getCountry());
 		stateVO.setRegion(stateDTO.getRegion());
 		stateVO.setStateNumber(stateDTO.getStateNumber());
@@ -410,7 +407,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
      companyVO.setPinCode(companyDTO.getPinCode());	
      companyVO.setAdminEmail(companyDTO.getAdminEmail());	
      companyVO.setPassport(companyDTO.getPassport());	
-     companyVO.setUserId(companyDTO.getUserId());	
      companyVO.setOrgId(companyDTO.getOrgId());	
 	}  
 }
