@@ -16,38 +16,31 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "company")
+@Table(name = "container")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyVO {
+public class ContainerVO {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "companygen")
-	@SequenceGenerator(name = "companygen", sequenceName = "companyseq", initialValue = 1000000001, allocationSize = 1)
-	@Column(name = "companyid")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "containergen")
+	@SequenceGenerator(name = "containergen", sequenceName = "containerseq", initialValue = 1000000001, allocationSize = 1)
+	@Column(name = "containerid")
 	private Long id;
-	@Column(name = "companyname")
-	private String companyName;
-	@Column(name = "companycode")
-	private String companyCode;
-	@Column(name = "email")
-	private String email;
-	@Column(name = "phoneno")
-	private Long phoneNo;
-	@Column(name = "address")
-	private String address;
-	@Column(name = "country")
-	private String country;
-	@Column(name = "state")
-	private String state;
-	@Column(name = "city")
-	private String city;
-	@Column(name = "pincode")
-	private String pinCode;
-	@Column(name = "adminemail")
-	private String adminEmail;
-	@Column(name = "passport")
-	private String passport;
+	@Column(name = "containertype")
+	private String containerType;
+	@Column(name = "category")
+	private String category;
+	@Column(name = "length")
+	private float length;
+	@Column(name = "width")
+	private float width;
+	@Column(name = "height")
+	private float height;
+	@Column(name = "weight")
+	private float weight;
+	@Column(name = "volume")
+	private float volume;
+	
 	@Column(name = "cancel")
 	private boolean cancel;
 	@Column(name = "createdby")
@@ -65,4 +58,3 @@ public class CompanyVO {
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
 
 }
-

@@ -16,38 +16,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "company")
+@Table(name = "events")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyVO {
+public class EventsVO {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "companygen")
-	@SequenceGenerator(name = "companygen", sequenceName = "companyseq", initialValue = 1000000001, allocationSize = 1)
-	@Column(name = "companyid")
-	private Long id;
-	@Column(name = "companyname")
-	private String companyName;
-	@Column(name = "companycode")
-	private String companyCode;
-	@Column(name = "email")
-	private String email;
-	@Column(name = "phoneno")
-	private Long phoneNo;
-	@Column(name = "address")
-	private String address;
-	@Column(name = "country")
-	private String country;
-	@Column(name = "state")
-	private String state;
-	@Column(name = "city")
-	private String city;
-	@Column(name = "pincode")
-	private String pinCode;
-	@Column(name = "adminemail")
-	private String adminEmail;
-	@Column(name = "passport")
-	private String passport;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "eventsgen")
+	@SequenceGenerator(name = "eventsgen", sequenceName = "eventsseq", initialValue = 1000000001, allocationSize = 1)
+	@Column(name = "eventsid")
+	private long id;
+	@Column(name = "eventdescription")
+	private String eventDescription;
+	@Column(name = "eventtype")
+	private String eventType;
+	
 	@Column(name = "cancel")
 	private boolean cancel;
 	@Column(name = "createdby")
@@ -63,6 +46,4 @@ public class CompanyVO {
 	
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
-
 }
-
