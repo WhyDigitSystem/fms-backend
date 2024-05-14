@@ -37,9 +37,6 @@ public class CountryVO {
 	@Column(name = "active")
 	private boolean active;
 	
-	@Column(name = "userid")
-	private String userId;
-	
 	@Column(unique = true)
 	private String dupchk;
 
