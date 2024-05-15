@@ -26,9 +26,9 @@ public class CompanyVO {
 	@SequenceGenerator(name = "companygen", sequenceName = "companyseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "companyid")
 	private Long id;
-	@Column(name = "companyname")
+	@Column(name = "company")
 	private String companyName;
-	@Column(name = "companycode")
+	@Column(name = "code")
 	private String companyCode;
 	@Column(name = "email")
 	private String email;

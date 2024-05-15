@@ -26,9 +26,9 @@ public class SegmentsVO {
 	@SequenceGenerator(name = "segmentsgen", sequenceName = "segmentsseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "segmentsid")
 	private Long id;
-	@Column(name = "segmentname")
+	@Column(name = "segment")
 	private String segmentName;
-	@Column(name = "segmentdescription")
+	@Column(name = "description")
 	private String segmentDescription;
 	
 

@@ -26,7 +26,7 @@ public class ContainerVO {
 	@SequenceGenerator(name = "containergen", sequenceName = "containerseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "containerid")
 	private Long id;
-	@Column(name = "containertype")
+	@Column(name = "type")
 	private String containerType;
 	@Column(name = "category")
 	private String category;

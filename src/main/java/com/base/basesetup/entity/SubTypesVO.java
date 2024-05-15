@@ -34,7 +34,7 @@ public class SubTypesVO {
 	private Long id;
 	@Column(name = "subtype")
 	private String subType;
-	@Column(name = "subtypecode")
+	@Column(name = "code")
 	private String subTypeCode;
 	@Column(name = "subtypename")
 	private String subTypeName;

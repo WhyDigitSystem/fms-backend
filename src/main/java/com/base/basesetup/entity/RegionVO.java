@@ -26,9 +26,9 @@ public class RegionVO {
 	@SequenceGenerator(name = "regiongen", sequenceName = "regionseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "regionid")
 	private Long id;
-	@Column(name = "regioncode")
+	@Column(name = "code")
 	private String regionCode;
-	@Column(name = "regionname")
+	@Column(name = "region")
 	private String regionName;
 	
 	@Column(name = "cancel")

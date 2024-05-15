@@ -26,7 +26,7 @@ public class DepartmentVO {
 	@SequenceGenerator(name = "departmentgen",sequenceName = "departmentseq",initialValue = 1000000001,allocationSize = 1)
 	@Column(name="departmentid")
 	private Long id;
-	@Column(name="departmentcode")
+	@Column(name="code")
 	private String departmentCode;
 	@Column(name="department")
 	private String department;

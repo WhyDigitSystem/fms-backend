@@ -26,9 +26,9 @@ public class EventsVO {
 	@SequenceGenerator(name = "eventsgen", sequenceName = "eventsseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "eventsid")
 	private long id;
-	@Column(name = "eventdescription")
+	@Column(name = "description")
 	private String eventDescription;
-	@Column(name = "eventtype")
+	@Column(name = "type")
 	private String eventType;
 	
 	@Column(name = "cancel")

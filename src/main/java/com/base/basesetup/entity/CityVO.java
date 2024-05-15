@@ -27,7 +27,7 @@ public class CityVO {
 	@Column(name="cityid")
 	private Long id;
 	
-	@Column(name="citycode")
+	@Column(name="code")
 	private String cityCode;
 	@Column(name="country")
 	private String country;

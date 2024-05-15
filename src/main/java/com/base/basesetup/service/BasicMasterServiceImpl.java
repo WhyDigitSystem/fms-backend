@@ -13,28 +13,40 @@ import org.springframework.stereotype.Service;
 
 import com.base.basesetup.dto.CityDTO;
 import com.base.basesetup.dto.CompanyDTO;
+import com.base.basesetup.dto.ContainerDTO;
 import com.base.basesetup.dto.CountryDTO;
 import com.base.basesetup.dto.DepartmentDTO;
 import com.base.basesetup.dto.DesignationDTO;
 import com.base.basesetup.dto.EmployeeDTO;
+import com.base.basesetup.dto.EventsDTO;
 import com.base.basesetup.dto.PortDTO;
+import com.base.basesetup.dto.RegionDTO;
+import com.base.basesetup.dto.SegmentsDTO;
 import com.base.basesetup.dto.StateDTO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CompanyVO;
+import com.base.basesetup.entity.ContainerVO;
 import com.base.basesetup.entity.CountryVO;
 import com.base.basesetup.entity.DepartmentVO;
 import com.base.basesetup.entity.DesignationVO;
 import com.base.basesetup.entity.EmployeeVO;
+import com.base.basesetup.entity.EventsVO;
 import com.base.basesetup.entity.PortVO;
+import com.base.basesetup.entity.RegionVO;
+import com.base.basesetup.entity.SegmentsVO;
 import com.base.basesetup.entity.StateVO;
 import com.base.basesetup.exception.ApplicationException;
 import com.base.basesetup.repo.CityRepo;
 import com.base.basesetup.repo.CompanyRepo;
+import com.base.basesetup.repo.ContainerRepo;
 import com.base.basesetup.repo.CountryRepo;
 import com.base.basesetup.repo.DepartmentRepo;
 import com.base.basesetup.repo.DesignationRepo;
 import com.base.basesetup.repo.EmployeeRepo;
+import com.base.basesetup.repo.EventsRepo;
 import com.base.basesetup.repo.PortRepo;
+import com.base.basesetup.repo.RegionRepo;
+import com.base.basesetup.repo.SegmentsRepo;
 import com.base.basesetup.repo.StateRepo;
 
 @Service
@@ -65,7 +77,20 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	@Autowired
 	PortRepo portRepo;
+	
+	@Autowired
+	ContainerRepo containerRepo;
+	
+	@Autowired
+	EventsRepo eventsRepo;
+	
+	@Autowired
+	SegmentsRepo segmentsRepo;
+	
+	@Autowired
+	RegionRepo regionRepo;
 
+	
 	//COUNTRY
 
 	@Override
@@ -225,8 +250,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	@Override
 	public DepartmentVO updateCreateDepartment(@Valid DepartmentDTO departmentDTO) throws ApplicationException {
 		DepartmentVO departmentVO = new DepartmentVO();
-		if (ObjectUtils.isNotEmpty(departmentDTO.getDepartmentId())) {
-			departmentVO = departmentRepo.findById(departmentDTO.getDepartmentId())
+		if (ObjectUtils.isNotEmpty(departmentDTO.getId())) {
+			departmentVO = departmentRepo.findById(departmentDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Department Details"));
 
 		}
@@ -267,8 +292,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	@Override
 	public DesignationVO updateCreateDesignation(@Valid DesignationDTO designationDTO) throws ApplicationException {
 		DesignationVO designationVO = new DesignationVO();
-		if (ObjectUtils.isNotEmpty(designationDTO.getDesignationId())) {
-			designationVO = designationRepo.findById(designationDTO.getDesignationId())
+		if (ObjectUtils.isNotEmpty(designationDTO.getId())) {
+			designationVO = designationRepo.findById(designationDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Designation Details"));
 
 		}
@@ -303,10 +328,36 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	//Employee 
 	
 	@Override
+	public List<EmployeeVO> getEmployeeById(Long id) {
+		List<EmployeeVO> employeeVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received Employee BY Id : {}", id);
+			employeeVO = employeeRepo.getEmployeeById(id);
+		} else {
+			LOGGER.info("Successfully Received  Employee For All Id.");
+			employeeVO = employeeRepo.findAll();
+		}
+		return employeeVO;
+	}
+	
+	@Override
+	public List<EmployeeVO> getEmployeeByOrgId(Long orgid) {
+		List<EmployeeVO> employeeVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received Employee BY OrgId : {}", orgid);
+			employeeVO = employeeRepo.getEmployeeByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  Employee For All OrgId.");
+			employeeVO = employeeRepo.findAll();
+		}
+		return employeeVO;
+	}
+	
+	@Override
 	public EmployeeVO updateCreateEmployee(@Valid EmployeeDTO employeeDTO) throws ApplicationException {
 		EmployeeVO employeeVO = new EmployeeVO();
-		if (ObjectUtils.isNotEmpty(employeeDTO.getEmployeeId())) {
-			employeeVO = employeeRepo.findById(employeeDTO.getEmployeeId())
+		if (ObjectUtils.isNotEmpty(employeeDTO.getId())) {
+			employeeVO = employeeRepo.findById(employeeDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Employee Details"));
 		}
 
@@ -336,8 +387,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	@Override
 	public PortVO updateCreatePort(@Valid PortDTO portDTO) throws ApplicationException {
 		PortVO portVO = new PortVO();
-		if (ObjectUtils.isNotEmpty(portDTO.getPortId())) {
-			portVO = portRepo.findById(portDTO.getPortId())
+		if (ObjectUtils.isNotEmpty(portDTO.getId())) {
+			portVO = portRepo.findById(portDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Port Details"));
 		}
 		getPortVOFromPortDTO(portDTO, portVO);
@@ -353,8 +404,33 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		portVO.setPort(portDTO.getPort());
 		
 	}
-
 	
+
+	@Override
+	public List<PortVO> getPortById(Long id) {
+		List<PortVO> portVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received Port BY Id : {}", id);
+			portVO = portRepo.getPortById(id);
+		} else {
+			LOGGER.info("Successfully Received  Port For All Id.");
+			portVO = portRepo.findAll();
+		}
+		return portVO;
+	}
+
+	@Override
+	public List<PortVO> getPortByOrgId(Long orgid) {
+		List<PortVO> portVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received Port BY OrgId : {}", orgid);
+			portVO = portRepo.getPortByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  Port For All OrgId.");
+			portVO = portRepo.findAll();
+		}
+		return portVO;
+	}
 	
      //COMPANY
 	
@@ -383,6 +459,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	  }
 	    return companyVO;
      }
+     
 
     @Override
     public CompanyVO updateCreateCompany(@Valid CompanyDTO companyDTO) throws ApplicationException {
@@ -408,7 +485,196 @@ public class BasicMasterServiceImpl implements BasicMasterService {
      companyVO.setAdminEmail(companyDTO.getAdminEmail());	
      companyVO.setPassport(companyDTO.getPassport());	
      companyVO.setOrgId(companyDTO.getOrgId());	
-	}  
+	}
+
+		//Container
+		
+		@Override
+		public List<ContainerVO> getContainerById(Long id) {
+			List<ContainerVO> containerVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(id)) {
+				LOGGER.info("Successfully Received  Container BY Id : {}", id);
+				containerVO = containerRepo.findContainerById(id);
+			} else {
+				LOGGER.info("Successfully Received  Container For All Id.");
+				containerVO = containerRepo.findAll();
+			}
+			return containerVO;
+		}
+
+		@Override
+		public List<ContainerVO> getContainerByOrgId(Long Orgid) {
+			List<ContainerVO> containerVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(Orgid)) {
+				LOGGER.info("Successfully Received  Container BY OrgId : {}", Orgid);
+				containerVO = containerRepo.getContainerByOrgId(Orgid);
+			} else {
+				LOGGER.info("Successfully Received  Container For All OrgId.");
+				containerVO = containerRepo.findAll();
+			}
+			return containerVO;
+		}
+
+		@Override
+		public ContainerVO updateCreateContainer(@Valid ContainerDTO containerDTO) throws ApplicationException {
+			ContainerVO containerVO = new ContainerVO();
+			if (ObjectUtils.isNotEmpty(containerDTO.getId())) {
+				containerVO = containerRepo.findById(containerDTO.getId())
+						.orElseThrow(() -> new ApplicationException("Invalid Container Details"));
+			}
+			getContainerVOFromContainerDTO(containerDTO, containerVO);
+			return containerRepo.save(containerVO);
+		}
+
+		private void getContainerVOFromContainerDTO(@Valid ContainerDTO containerDTO, ContainerVO containerVO) {
+           containerVO.setContainerType(containerDTO.getContainerType());	
+           containerVO.setCategory(containerDTO.getCategory());			
+           containerVO.setLength(containerDTO.getLength());
+           containerVO.setWidth(containerDTO.getWidth());			
+           containerVO.setHeight(containerDTO.getHeight());	
+           containerVO.setWeight(containerDTO.getWeight());	
+           containerVO.setVolume(containerDTO.getVolume());	
+           containerVO.setOrgId(containerDTO.getOrgId());			
+
+		}
+		
+		//Events
+
+		@Override
+		public List<EventsVO> getEventsById(Long id) {
+			List<EventsVO> eventsVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(id)) {
+				LOGGER.info("Successfully Received  Events BY Id : {}", id);
+				eventsVO = eventsRepo.findEventsById(id);
+			} else {
+				LOGGER.info("Successfully Received  Events For All Id.");
+				eventsVO = eventsRepo.findAll();
+			}
+			return eventsVO;
+		}
+
+		@Override
+		public List<EventsVO> getEventsByOrgId(Long Orgid) {
+			List<EventsVO> eventsVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(Orgid)) {
+				LOGGER.info("Successfully Received  Events BY OrgId : {}", Orgid);
+				eventsVO = eventsRepo.findEventsByOrgId(Orgid);
+			} else {
+				LOGGER.info("Successfully Received  Events For All OrgId.");
+				eventsVO = eventsRepo.findAll();
+			}
+			return eventsVO;
+		}
+
+		@Override
+		public EventsVO updateCreateEvents(@Valid EventsDTO eventsDTO) throws ApplicationException {
+		     EventsVO eventsVO = new EventsVO();
+			if (ObjectUtils.isNotEmpty(eventsDTO.getId())) {
+				eventsVO = eventsRepo.findById(eventsDTO.getId())
+						.orElseThrow(() -> new ApplicationException("Invalid Events Details"));
+			}
+			getEventsVOFromEventsDTO(eventsDTO, eventsVO);
+			return eventsRepo.save(eventsVO);
+		}
+
+		private void getEventsVOFromEventsDTO(@Valid EventsDTO eventsDTO, EventsVO eventsVO) {
+			eventsVO.setEventDescription(eventsDTO.getEventDescription());
+			eventsVO.setEventType(eventsDTO.getEventType());
+			eventsVO.setOrgId(eventsDTO.getOrgId());		
+		}
+		
+		//Segments
+
+		@Override
+		public List<SegmentsVO> getSegmentsById(Long id) {
+			List<SegmentsVO> segmentsVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(id)) {
+				LOGGER.info("Successfully Received  Segments BY Id : {}", id);
+				segmentsVO = segmentsRepo.getSegmentsById(id);
+			} else {
+				LOGGER.info("Successfully Received  Segments For All Id.");
+				segmentsVO = segmentsRepo.findAll();
+			}
+			return segmentsVO;
+		}
+
+		@Override
+		public List<SegmentsVO> getSegmentsByOrgId(Long orgid) {
+			List<SegmentsVO> segmentsVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(orgid)) {
+				LOGGER.info("Successfully Received  Segments BY OrgId : {}", orgid);
+				segmentsVO = segmentsRepo.getSegmentsByOrgId(orgid);
+			} else {
+				LOGGER.info("Successfully Received  Segments For All OrgId.");
+				segmentsVO = segmentsRepo.findAll();
+			}
+			return segmentsVO;
+		}
+
+		@Override
+		public SegmentsVO updateCreateSegments(@Valid SegmentsDTO segmentsDTO) throws ApplicationException {
+			SegmentsVO segmentsVO = new SegmentsVO();
+				if (ObjectUtils.isNotEmpty(segmentsDTO.getId())) {
+					segmentsVO = segmentsRepo.findById(segmentsDTO.getId())
+							.orElseThrow(() -> new ApplicationException("Invalid Segments Details"));
+				}
+				getSegmentsVOFromSegmentsDTO(segmentsDTO, segmentsVO);
+				return segmentsRepo.save(segmentsVO);
+			}
+
+			private void getSegmentsVOFromSegmentsDTO(@Valid SegmentsDTO segmentsDTO, SegmentsVO segmentsVO) {
+				segmentsVO.setSegmentName(segmentsDTO.getSegmentName());
+				segmentsVO.setSegmentDescription(segmentsDTO.getSegmentDescription());
+				segmentsVO.setOrgId(segmentsDTO.getOrgId());
+		}
+
+			//Region
+			
+			@Override
+			public List<RegionVO> getRegionById(Long id) {
+				List<RegionVO> regionVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(id)) {
+					LOGGER.info("Successfully Received  Region BY Id : {}", id);
+					regionVO = regionRepo.getRegionById(id);
+				} else {
+					LOGGER.info("Successfully Received  Region For All Id.");
+					regionVO = regionRepo.findAll();
+				}
+				return regionVO;
+			}
+
+			@Override
+			public List<RegionVO> getRegionByOrgId(Long orgid) {
+				List<RegionVO> regionVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(orgid)) {
+					LOGGER.info("Successfully Received  Region BY OrgId : {}", orgid);
+					regionVO = regionRepo.getRegionByOrgId(orgid);
+				} else {
+					LOGGER.info("Successfully Received  Region For All OrgId.");
+					regionVO = regionRepo.findAll();
+				}
+				return regionVO;
+			}
+
+			@Override
+			public RegionVO updateCreateRegion(@Valid RegionDTO regionDTO) throws ApplicationException {
+				RegionVO regionVO = new RegionVO();
+				if (ObjectUtils.isNotEmpty(regionDTO.getId())) {
+					regionVO = regionRepo.findById(regionDTO.getId())
+							.orElseThrow(() -> new ApplicationException("Invalid Region Details"));
+				}
+				getRegionVOFromRegionDTO(regionDTO, regionVO);
+				return regionRepo.save(regionVO);
+			}
+
+			private void getRegionVOFromRegionDTO(@Valid RegionDTO regionDTO, RegionVO regionVO) {
+            regionVO.setRegionCode(regionDTO.getRegionCode());
+            regionVO.setRegionName(regionDTO.getRegionName());	
+            regionVO.setOrgId(regionDTO.getOrgId());				
+			}
+
+			
+			
 }
 
 

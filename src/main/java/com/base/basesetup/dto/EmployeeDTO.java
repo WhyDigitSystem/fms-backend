@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeDTO {
-	private Long employeeId;
+	private Long Id;
 	
 	private Long OrgId;
 

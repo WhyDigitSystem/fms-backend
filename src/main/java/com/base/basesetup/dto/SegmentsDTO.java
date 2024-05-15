@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SegmentDTO {
+public class SegmentsDTO {
 	private Long id;
 	private String segmentName;
 	private String segmentDescription;

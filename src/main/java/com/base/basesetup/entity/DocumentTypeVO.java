@@ -31,11 +31,11 @@ public class DocumentTypeVO {
 	@SequenceGenerator(name = "documenttypegen", sequenceName = "documenttypeseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "documenttypeid")
 	private Long id;
-	@Column(name = "documentname")
+	@Column(name = "document")
 	private String documentName;
-	@Column(name = "documenttype")
+	@Column(name = "type")
 	private String documentType;
-	@Column(name = "documentdescription")
+	@Column(name = "description")
 	private String documentDescription;
 	@Column(name = "module")
 	private String module;

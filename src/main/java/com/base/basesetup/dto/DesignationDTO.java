@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class DesignationDTO {
-	private Long designationId;
+	private Long Id;
 	private String designation;
 	private Long orgId;
 }
