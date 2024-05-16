@@ -21,6 +21,8 @@ import com.base.basesetup.dto.DocumentTypeDTO;
 import com.base.basesetup.dto.DocumentTypeMappingDTO;
 import com.base.basesetup.dto.EmployeeDTO;
 import com.base.basesetup.dto.EventsDTO;
+import com.base.basesetup.dto.ListOfValues1DTO;
+import com.base.basesetup.dto.ListOfValuesDTO;
 import com.base.basesetup.dto.MappingDTO;
 import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.RegionDTO;
@@ -37,6 +39,8 @@ import com.base.basesetup.entity.DocumentTypeMappingVO;
 import com.base.basesetup.entity.DocumentTypeVO;
 import com.base.basesetup.entity.EmployeeVO;
 import com.base.basesetup.entity.EventsVO;
+import com.base.basesetup.entity.ListOfValues1VO;
+import com.base.basesetup.entity.ListOfValuesVO;
 import com.base.basesetup.entity.MappingVO;
 import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.RegionVO;
@@ -54,6 +58,8 @@ import com.base.basesetup.repo.DocumentTypeMappingRepo;
 import com.base.basesetup.repo.DocumentTypeRepo;
 import com.base.basesetup.repo.EmployeeRepo;
 import com.base.basesetup.repo.EventsRepo;
+import com.base.basesetup.repo.ListOfValues1Repo;
+import com.base.basesetup.repo.ListOfValuesRepo;
 import com.base.basesetup.repo.MappingRepo;
 import com.base.basesetup.repo.PortRepo;
 import com.base.basesetup.repo.RegionRepo;
@@ -113,6 +119,12 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	
 	@Autowired
 	MappingRepo mappingRepo;
+	
+	@Autowired
+	ListOfValuesRepo listOfValuesRepo;
+	
+	@Autowired
+	ListOfValues1Repo listOfValues1Repo;
 	
 	//COUNTRY
 
@@ -867,6 +879,82 @@ public class BasicMasterServiceImpl implements BasicMasterService {
                  documentTypeMappingVO.setFinancialYear(documentTypeMappingDTO.getFinancialYear());				
 
 			}
+
+			//ListOfValues
+			
+			@Override
+			public List<ListOfValuesVO> getListOfValuesById(Long id) {
+				List<ListOfValuesVO> listOfValuesVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(id)) {
+					LOGGER.info("Successfully Received  ListOfValues BY Id : {}", id);
+					listOfValuesVO = listOfValuesRepo.getListOfValuesById(id);
+				} else {
+					LOGGER.info("Successfully Received  ListOfValues For All Id.");
+					listOfValuesVO = listOfValuesRepo.findAll();
+				}
+				return listOfValuesVO;
+			}
+
+			@Override
+			public List<ListOfValuesVO> getListOfValuesByOrgId(Long orgid) {
+				List<ListOfValuesVO> listOfValuesVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(orgid)) {
+					LOGGER.info("Successfully Received  ListOfValues BY OrgId : {}", orgid);
+					listOfValuesVO = listOfValuesRepo.getListOfValuesByOrgId(orgid);
+				} else {
+					LOGGER.info("Successfully Received  ListOfValues For All OrgId.");
+					listOfValuesVO = listOfValuesRepo.findAll();
+				}
+				return listOfValuesVO;
+			}
+
+			@Override
+			public ListOfValuesVO updateCreateListOfValues(@Valid ListOfValuesDTO listOfValuesDTO) throws ApplicationException {
+				ListOfValuesVO listOfValuesVO = new ListOfValuesVO();
+				if (ObjectUtils.isNotEmpty(listOfValuesDTO.getId())) {
+					listOfValuesVO = listOfValuesRepo.findById(listOfValuesDTO.getId())
+							.orElseThrow(() -> new ApplicationException("Invalid ListOfValues details"));
+				}
+
+				List<ListOfValues1VO> listOfValues1VOs = new ArrayList<>();
+				if (listOfValuesDTO.getListOfValues1DTO() != null) {
+					for (ListOfValues1DTO listOfValues1DTO : listOfValuesDTO.getListOfValues1DTO()) {
+						if (listOfValues1DTO.getId() != null & ObjectUtils.isNotEmpty(listOfValues1DTO.getId())) {
+							ListOfValues1VO listOfValues1VO = listOfValues1Repo.findById(listOfValues1DTO.getId()).get();
+							listOfValues1VO.setCode(listOfValues1DTO.getCode());
+							listOfValues1VO.setDescription(listOfValues1DTO.getDescription());
+							listOfValues1VO.setActive(listOfValues1DTO.isActive());
+							listOfValues1VO.setListOfValuesVO(listOfValuesVO);
+							listOfValues1VOs.add(listOfValues1VO);
+
+						} else {
+							ListOfValues1VO listOfValues1VO = new ListOfValues1VO();
+							listOfValues1VO.setCode(listOfValues1DTO.getCode());
+							listOfValues1VO.setDescription(listOfValues1DTO.getDescription());
+							listOfValues1VO.setActive(listOfValues1DTO.isActive());
+							listOfValues1VO.setListOfValuesVO(listOfValuesVO);
+							listOfValues1VOs.add(listOfValues1VO);
+
+
+						}
+					}
+				}
+
+				getListOfValuesVOFromTypesOfValuesDTO(listOfValuesDTO, listOfValuesVO);
+
+				listOfValuesVO.setListOfValues1VO(listOfValues1VOs);
+				return listOfValuesRepo.save(listOfValuesVO);
+
+			}
+			
+			private void getListOfValuesVOFromTypesOfValuesDTO(@Valid ListOfValuesDTO listOfValuesDTO,
+					ListOfValuesVO listOfValuesVO) {
+                   listOfValuesVO.setCode(listOfValuesDTO.getCode());		
+                   listOfValuesVO.setOrgId(listOfValuesDTO.getOrgId());	
+                   listOfValuesVO.setDescription(listOfValuesDTO.getDescription());				
+			}
+
+			
 
 		
 

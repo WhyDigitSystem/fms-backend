@@ -16,6 +16,7 @@ import com.base.basesetup.dto.DocumentTypeDTO;
 import com.base.basesetup.dto.DocumentTypeMappingDTO;
 import com.base.basesetup.dto.EmployeeDTO;
 import com.base.basesetup.dto.EventsDTO;
+import com.base.basesetup.dto.ListOfValuesDTO;
 import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.RegionDTO;
 import com.base.basesetup.dto.SegmentsDTO;
@@ -30,6 +31,7 @@ import com.base.basesetup.entity.DocumentTypeMappingVO;
 import com.base.basesetup.entity.DocumentTypeVO;
 import com.base.basesetup.entity.EmployeeVO;
 import com.base.basesetup.entity.EventsVO;
+import com.base.basesetup.entity.ListOfValuesVO;
 import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.RegionVO;
 import com.base.basesetup.entity.SegmentsVO;
@@ -155,6 +157,14 @@ public interface BasicMasterService {
 	List<DocumentTypeMappingVO> getDocumentTypeMappingByOrgId(Long orgid);
 
 	DocumentTypeMappingVO updateCreateDocumentTypeMapping(@Valid DocumentTypeMappingDTO documentTypeMappingDTO) throws ApplicationException;
+
+	//ListOfValues
+	
+	List<ListOfValuesVO> getListOfValuesById(Long id);
+
+	List<ListOfValuesVO> getListOfValuesByOrgId(Long orgid);
+
+	ListOfValuesVO updateCreateListOfValues(@Valid ListOfValuesDTO listOfValuesDTO) throws ApplicationException;
 	
 
 }
