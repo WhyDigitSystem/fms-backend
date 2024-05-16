@@ -38,6 +38,7 @@ import com.base.basesetup.dto.RegionDTO;
 import com.base.basesetup.dto.ResponseDTO;
 import com.base.basesetup.dto.SegmentsDTO;
 import com.base.basesetup.dto.StateDTO;
+import com.base.basesetup.dto.TermsAndConditionDTO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CompanyVO;
 import com.base.basesetup.entity.ContainerVO;
@@ -53,6 +54,7 @@ import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.RegionVO;
 import com.base.basesetup.entity.SegmentsVO;
 import com.base.basesetup.entity.StateVO;
+import com.base.basesetup.entity.TermsAndConditionVO;
 import com.base.basesetup.service.BasicMasterService;
 
 
@@ -145,7 +147,9 @@ public class BasicMasterController extends BaseController {
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
 	}
-//-------------------------------------------------------------------------------------------------
+	
+      //CITY 
+	
 	@GetMapping("/getCityById")
 	public ResponseEntity<ResponseDTO> getCityById(@RequestParam(required = false) Long id) {
 		String methodName = "getCityById()";
@@ -1329,5 +1333,84 @@ public class BasicMasterController extends BaseController {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
+	//TermsAndCondition
+	
+	@GetMapping("/getTermsAndConditionById")
+	public ResponseEntity<ResponseDTO> getTermsAndConditionById(@RequestParam(required = false) Long id) {
+		String methodName = "getTermsAndConditionById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<TermsAndConditionVO> termsAndConditionVO = new ArrayList<>();
+		try {
+			termsAndConditionVO = basicMasterService.getTermsAndConditionById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "TermsAndCondition information get successfully By Id");
+			responseObjectsMap.put("termsAndConditionVO", termsAndConditionVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "TermsAndCondition information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getTermsAndConditionByOrgId")
+	public ResponseEntity<ResponseDTO> getTermsAndConditionByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getTermsAndConditionByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<TermsAndConditionVO> termsAndConditionVO = new ArrayList<>();
+		try {
+			termsAndConditionVO = basicMasterService.getTermsAndConditionByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "TermsAndCondition information get successfully By OrgId");
+			responseObjectsMap.put("termsAndConditionVO", termsAndConditionVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "TermsAndCondition information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+
+	@PutMapping("/updateCreateTermsAndCondition")
+	public ResponseEntity<ResponseDTO> updateCreateTermsAndCondition(@Valid @RequestBody TermsAndConditionDTO termsAndConditionDTO) {
+		String methodName = "updateCreateTermsAndCondition()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			TermsAndConditionVO termsAndConditionVO = basicMasterService.updateCreateCountry(termsAndConditionDTO);
+			if (termsAndConditionVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "TermsAndCondition updated successfully");
+				responseObjectsMap.put("termsAndConditionVO", termsAndConditionVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "TermsAndCondition not found for ID: " + termsAndConditionDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "TermsAndCondition update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "TermsAndCondition update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
 	
 }

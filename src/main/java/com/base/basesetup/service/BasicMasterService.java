@@ -21,6 +21,7 @@ import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.RegionDTO;
 import com.base.basesetup.dto.SegmentsDTO;
 import com.base.basesetup.dto.StateDTO;
+import com.base.basesetup.dto.TermsAndConditionDTO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CompanyVO;
 import com.base.basesetup.entity.ContainerVO;
@@ -36,6 +37,7 @@ import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.RegionVO;
 import com.base.basesetup.entity.SegmentsVO;
 import com.base.basesetup.entity.StateVO;
+import com.base.basesetup.entity.TermsAndConditionVO;
 import com.base.basesetup.exception.ApplicationException;
 
 @Service
@@ -165,6 +167,14 @@ public interface BasicMasterService {
 	List<ListOfValuesVO> getListOfValuesByOrgId(Long orgid);
 
 	ListOfValuesVO updateCreateListOfValues(@Valid ListOfValuesDTO listOfValuesDTO) throws ApplicationException;
+
+	//TermsOfCondition
+	
+	List<TermsAndConditionVO> getTermsAndConditionById(Long id);
+
+	List<TermsAndConditionVO> getTermsAndConditionByOrgId(Long orgid);
+
+	TermsAndConditionVO updateCreateCountry(@Valid TermsAndConditionDTO termsAndConditionDTO) throws ApplicationException;
 	
 
 }

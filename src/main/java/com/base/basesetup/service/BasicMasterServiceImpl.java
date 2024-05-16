@@ -29,6 +29,7 @@ import com.base.basesetup.dto.RegionDTO;
 import com.base.basesetup.dto.SegmentsDTO;
 import com.base.basesetup.dto.StateDTO;
 import com.base.basesetup.dto.SubTypesDTO;
+import com.base.basesetup.dto.TermsAndConditionDTO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CompanyVO;
 import com.base.basesetup.entity.ContainerVO;
@@ -47,6 +48,7 @@ import com.base.basesetup.entity.RegionVO;
 import com.base.basesetup.entity.SegmentsVO;
 import com.base.basesetup.entity.StateVO;
 import com.base.basesetup.entity.SubTypesVO;
+import com.base.basesetup.entity.TermsAndConditionVO;
 import com.base.basesetup.exception.ApplicationException;
 import com.base.basesetup.repo.CityRepo;
 import com.base.basesetup.repo.CompanyRepo;
@@ -66,6 +68,7 @@ import com.base.basesetup.repo.RegionRepo;
 import com.base.basesetup.repo.SegmentsRepo;
 import com.base.basesetup.repo.StateRepo;
 import com.base.basesetup.repo.SubTypesRepo;
+import com.base.basesetup.repo.TermsAndConditionRepo;
 
 @Service
 public class BasicMasterServiceImpl implements BasicMasterService {
@@ -125,6 +128,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	
 	@Autowired
 	ListOfValues1Repo listOfValues1Repo;
+	
+	@Autowired
+	TermsAndConditionRepo termsAndConditionRepo;
 	
 	//COUNTRY
 
@@ -954,13 +960,54 @@ public class BasicMasterServiceImpl implements BasicMasterService {
                    listOfValuesVO.setDescription(listOfValuesDTO.getDescription());				
 			}
 
+			//TermsAndCondition
 			
+			@Override
+			public List<TermsAndConditionVO> getTermsAndConditionById(Long id) {
+				List<TermsAndConditionVO> termsAndConditionVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(id)) {
+					LOGGER.info("Successfully Received  TermsAndCondition BY Id : {}", id);
+					termsAndConditionVO = termsAndConditionRepo.getTermsAndConditionById(id);
+				} else {
+					LOGGER.info("Successfully Received  TermsAndCondition For All Id.");
+					termsAndConditionVO = termsAndConditionRepo.findAll();
+				}
+				return termsAndConditionVO;
+			}
 
+			@Override
+			public List<TermsAndConditionVO> getTermsAndConditionByOrgId(Long orgid) {
+				List<TermsAndConditionVO> termsAndConditionVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(orgid)) {
+					LOGGER.info("Successfully Received  TermsAndCondition BY OrgId : {}", orgid);
+					termsAndConditionVO = termsAndConditionRepo.getTermsAndConditionByOrgId(orgid);
+				} else {
+					LOGGER.info("Successfully Received  TermsAndCondition For All OrgId.");
+					termsAndConditionVO = termsAndConditionRepo.findAll();
+				}
+				return termsAndConditionVO;
+			}
+
+			@Override
+			public TermsAndConditionVO updateCreateCountry(@Valid TermsAndConditionDTO termsAndConditionDTO) throws ApplicationException {
+				TermsAndConditionVO termsAndConditionVO = new TermsAndConditionVO();
+				if (ObjectUtils.isNotEmpty(termsAndConditionDTO.getId())) {
+					termsAndConditionVO = termsAndConditionRepo.findById(termsAndConditionDTO.getId())
+							.orElseThrow(() -> new ApplicationException("Invalid TermsAndCondition Details"));
+				}
+				getTermsAndConditionVOFromTermsAndConditionDTO(termsAndConditionDTO, termsAndConditionVO);
+				return termsAndConditionRepo.save(termsAndConditionVO);
+			}
+
+			private void getTermsAndConditionVOFromTermsAndConditionDTO(
+					@Valid TermsAndConditionDTO termsAndConditionDTO, TermsAndConditionVO termsAndConditionVO) {
+				termsAndConditionVO.setBranch(termsAndConditionDTO.getBranch());	
+				termsAndConditionVO.setTerms(termsAndConditionDTO.getTerms());		
+				termsAndConditionVO.setDocumentType(termsAndConditionDTO.getDocumentType());		
+				termsAndConditionVO.setPartyType(termsAndConditionDTO.getPartyType());	
+				termsAndConditionVO.setOrgId(termsAndConditionDTO.getOrgId());		
+			}
 		
-
-		
-
-			
 }
 
 
