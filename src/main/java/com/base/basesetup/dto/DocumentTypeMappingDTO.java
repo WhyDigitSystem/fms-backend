@@ -2,11 +2,6 @@ package com.base.basesetup.dto;
 
 import java.util.List;
 
-import javax.persistence.Column;
-
-import com.base.basesetup.entity.DocumentTypeVO;
-import com.base.basesetup.entity.SubTypesVO;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +16,6 @@ public class DocumentTypeMappingDTO {
 	private String financialYear;
 	private Long orgId;
 
-	
+	private List<MappingDTO> mappingDTO;
+
 }

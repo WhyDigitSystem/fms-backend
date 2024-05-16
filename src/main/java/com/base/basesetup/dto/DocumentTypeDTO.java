@@ -1,5 +1,7 @@
 package com.base.basesetup.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,5 +27,5 @@ public class DocumentTypeDTO {
 	private String prefix;
 	private Long orgId;
 
-	
+	private List<SubTypesDTO> subTypesDTO;
 }

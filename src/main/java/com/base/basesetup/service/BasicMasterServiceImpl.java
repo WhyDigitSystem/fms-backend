@@ -17,24 +17,32 @@ import com.base.basesetup.dto.ContainerDTO;
 import com.base.basesetup.dto.CountryDTO;
 import com.base.basesetup.dto.DepartmentDTO;
 import com.base.basesetup.dto.DesignationDTO;
+import com.base.basesetup.dto.DocumentTypeDTO;
+import com.base.basesetup.dto.DocumentTypeMappingDTO;
 import com.base.basesetup.dto.EmployeeDTO;
 import com.base.basesetup.dto.EventsDTO;
+import com.base.basesetup.dto.MappingDTO;
 import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.RegionDTO;
 import com.base.basesetup.dto.SegmentsDTO;
 import com.base.basesetup.dto.StateDTO;
+import com.base.basesetup.dto.SubTypesDTO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CompanyVO;
 import com.base.basesetup.entity.ContainerVO;
 import com.base.basesetup.entity.CountryVO;
 import com.base.basesetup.entity.DepartmentVO;
 import com.base.basesetup.entity.DesignationVO;
+import com.base.basesetup.entity.DocumentTypeMappingVO;
+import com.base.basesetup.entity.DocumentTypeVO;
 import com.base.basesetup.entity.EmployeeVO;
 import com.base.basesetup.entity.EventsVO;
+import com.base.basesetup.entity.MappingVO;
 import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.RegionVO;
 import com.base.basesetup.entity.SegmentsVO;
 import com.base.basesetup.entity.StateVO;
+import com.base.basesetup.entity.SubTypesVO;
 import com.base.basesetup.exception.ApplicationException;
 import com.base.basesetup.repo.CityRepo;
 import com.base.basesetup.repo.CompanyRepo;
@@ -42,12 +50,16 @@ import com.base.basesetup.repo.ContainerRepo;
 import com.base.basesetup.repo.CountryRepo;
 import com.base.basesetup.repo.DepartmentRepo;
 import com.base.basesetup.repo.DesignationRepo;
+import com.base.basesetup.repo.DocumentTypeMappingRepo;
+import com.base.basesetup.repo.DocumentTypeRepo;
 import com.base.basesetup.repo.EmployeeRepo;
 import com.base.basesetup.repo.EventsRepo;
+import com.base.basesetup.repo.MappingRepo;
 import com.base.basesetup.repo.PortRepo;
 import com.base.basesetup.repo.RegionRepo;
 import com.base.basesetup.repo.SegmentsRepo;
 import com.base.basesetup.repo.StateRepo;
+import com.base.basesetup.repo.SubTypesRepo;
 
 @Service
 public class BasicMasterServiceImpl implements BasicMasterService {
@@ -90,6 +102,17 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	@Autowired
 	RegionRepo regionRepo;
 
+	@Autowired
+	DocumentTypeRepo documentTypeRepo;
+	
+	@Autowired
+	DocumentTypeMappingRepo documentTypeMappingRepo;
+	
+	@Autowired
+	SubTypesRepo subTypesRepo;
+	
+	@Autowired
+	MappingRepo mappingRepo;
 	
 	//COUNTRY
 
@@ -673,7 +696,182 @@ public class BasicMasterServiceImpl implements BasicMasterService {
             regionVO.setOrgId(regionDTO.getOrgId());				
 			}
 
+			//DocumentType
 			
+			@Override
+			public List<DocumentTypeVO> getDocumentTypeById(Long id) {
+				List<DocumentTypeVO> documentTypeVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(id)) {
+					LOGGER.info("Successfully Received  DocumentType BY Id : {}", id);
+					documentTypeVO = documentTypeRepo.getDocumentTypeById(id);
+				} else {
+					LOGGER.info("Successfully Received  DocumentType For All Id.");
+					documentTypeVO = documentTypeRepo.findAll();
+				}
+				return documentTypeVO;
+			}
+
+			@Override
+			public List<DocumentTypeVO> getDocumentTypeByOrgId(Long orgid) {
+				List<DocumentTypeVO> documentTypeVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(orgid)) {
+					LOGGER.info("Successfully Received  DocumentType BY OrgId : {}", orgid);
+					documentTypeVO = documentTypeRepo.getDocumentTypeByOrgId(orgid);
+				} else {
+					LOGGER.info("Successfully Received  DocumentType For All OrgId.");
+					documentTypeVO = documentTypeRepo.findAll();
+				}
+				return documentTypeVO;
+			}
+			
+			@Override
+			public DocumentTypeVO updateCreateDocumentType(@Valid DocumentTypeDTO documentTypeDTO) throws ApplicationException {
+				DocumentTypeVO documentTypeVO = new DocumentTypeVO();
+				if (ObjectUtils.isNotEmpty(documentTypeDTO.getId())) {
+					documentTypeVO = documentTypeRepo.findById(documentTypeDTO.getId())
+							.orElseThrow(() -> new ApplicationException("Invalid DocumentType details"));
+				}
+
+				List<SubTypesVO> subTypesVOs = new ArrayList<>();
+				if (documentTypeDTO.getSubTypesDTO() != null) {
+					for (SubTypesDTO subTypesDTO : documentTypeDTO.getSubTypesDTO()) {
+						if (subTypesDTO.getId() != null & ObjectUtils.isNotEmpty(subTypesDTO.getId())) {
+							SubTypesVO subTypesVO = subTypesRepo.findById(subTypesDTO.getId()).get();
+							subTypesVO.setSubType(subTypesDTO.getSubType());
+							subTypesVO.setSubTypeCode(subTypesDTO.getSubTypeCode());
+							subTypesVO.setMonth(subTypesDTO.getMonth());
+							subTypesVO.setSubTypeName(subTypesDTO.getSubTypeName());
+							subTypesVO.setDocumentTypeVO(documentTypeVO);
+							subTypesVOs.add(subTypesVO);
+
+						} else {
+							SubTypesVO subTypesVO = new SubTypesVO();
+							subTypesVO.setSubType(subTypesDTO.getSubType());
+							subTypesVO.setSubTypeCode(subTypesDTO.getSubTypeCode());
+							subTypesVO.setMonth(subTypesDTO.getMonth());
+							subTypesVO.setSubTypeName(subTypesDTO.getSubTypeName());
+							subTypesVO.setDocumentTypeVO(documentTypeVO);
+							subTypesVOs.add(subTypesVO);
+
+						}
+					}
+				}
+
+				getDocumentTypeVOFromDocumentTypeDTO(documentTypeDTO, documentTypeVO);
+
+				documentTypeVO.setSubTypesVO(subTypesVOs);
+				return documentTypeRepo.save(documentTypeVO);
+
+			}
+			
+			private void getDocumentTypeVOFromDocumentTypeDTO(@Valid DocumentTypeDTO documentTypeDTO,
+					DocumentTypeVO documentTypeVO) {
+				documentTypeVO.setDocumentName(documentTypeDTO.getDocumentName());
+				documentTypeVO.setDocumentCode(documentTypeDTO.getDocumentCode());
+				documentTypeVO.setDocumentType(documentTypeDTO.getDocumentType());
+				documentTypeVO.setDocumentDescription(documentTypeDTO.getDocumentDescription());
+				documentTypeVO.setModule(documentTypeDTO.getModule());
+				documentTypeVO.setSubModule(documentTypeDTO.getSubModule());
+				documentTypeVO.setPrimaryTable(documentTypeDTO.getPrimaryTable());
+				documentTypeVO.setAutoGenField(documentTypeDTO.getAutoGenField());
+				documentTypeVO.setPrefixField(documentTypeDTO.getPrefixField());
+				documentTypeVO.setCode(documentTypeDTO.getCode());
+				documentTypeVO.setFinyr(documentTypeDTO.getFinyr());
+				documentTypeVO.setBranch(documentTypeDTO.getBranch());
+				documentTypeVO.setPrefix(documentTypeDTO.getPrefix());
+				documentTypeVO.setOrgId(documentTypeDTO.getOrgId());
+			}
+
+			//DocumentTypeMapping
+			
+			@Override
+			public List<DocumentTypeMappingVO> getDocumentTypeMappingById(Long id) {
+				List<DocumentTypeMappingVO> documentTypeMappingVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(id)) {
+					LOGGER.info("Successfully Received  DocumentTypeMapping BY Id : {}", id);
+					documentTypeMappingVO = documentTypeMappingRepo.getDocumentTypeMappingById(id);
+				} else {
+					LOGGER.info("Successfully Received  DocumentTypeMapping For All Id.");
+					documentTypeMappingVO = documentTypeMappingRepo.findAll();
+				}
+				return documentTypeMappingVO;
+			}
+
+			@Override
+			public List<DocumentTypeMappingVO> getDocumentTypeMappingByOrgId(Long orgid) {
+				List<DocumentTypeMappingVO> documentTypeMappingVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(orgid)) {
+					LOGGER.info("Successfully Received  DocumentTypeMapping BY OrgId : {}", orgid);
+					documentTypeMappingVO = documentTypeMappingRepo.getDocumentTypeMappingByOrgId(orgid);
+				} else {
+					LOGGER.info("Successfully Received  DocumentTypeMapping For All OrgId.");
+					documentTypeMappingVO = documentTypeMappingRepo.findAll();
+				}
+				return documentTypeMappingVO;
+			}
+
+			@Override
+			public DocumentTypeMappingVO updateCreateDocumentTypeMapping(@Valid DocumentTypeMappingDTO documentTypeMappingDTO) throws ApplicationException {
+				DocumentTypeMappingVO documentTypeMappingVO = new DocumentTypeMappingVO();
+				if (ObjectUtils.isNotEmpty(documentTypeMappingDTO.getId())) {
+					documentTypeMappingVO = documentTypeMappingRepo.findById(documentTypeMappingDTO.getId())
+							.orElseThrow(() -> new ApplicationException("Invalid DocumentTypeMapping details"));
+				}
+
+				List<MappingVO> mappingVOs = new ArrayList<>();
+				if (documentTypeMappingDTO.getMappingDTO() != null) {
+					for (MappingDTO mappingDTO : documentTypeMappingDTO.getMappingDTO()) {
+						if (mappingDTO.getId() != null & ObjectUtils.isNotEmpty(mappingDTO.getId())) {
+							MappingVO mappingVO = mappingRepo.findById(mappingDTO.getId()).get();
+							mappingVO.setDocType(mappingDTO.getDocType());
+							mappingVO.setSubType(mappingDTO.getSubType());
+							mappingVO.setSubTypeId(mappingDTO.getSubTypeId());
+							mappingVO.setSubTypeCode(mappingDTO.getSubTypeCode());
+							mappingVO.setDocname(mappingDTO.getDocname());
+							mappingVO.setPrefix(mappingDTO.getPrefix());
+							mappingVO.setPostFinance(mappingDTO.isPostFinance());
+							mappingVO.setLastNo(mappingDTO.getLastNo());
+							mappingVO.setResetOnFinYear(mappingDTO.isResetOnFinYear());
+							mappingVO.setDocumentTypeMappingVO(documentTypeMappingVO);
+							mappingVOs.add(mappingVO);
+
+						} else {
+							MappingVO mappingVO = new MappingVO();
+							mappingVO.setDocType(mappingDTO.getDocType());
+							mappingVO.setSubType(mappingDTO.getSubType());
+							mappingVO.setSubTypeId(mappingDTO.getSubTypeId());
+							mappingVO.setSubTypeCode(mappingDTO.getSubTypeCode());
+							mappingVO.setDocname(mappingDTO.getDocname());
+							mappingVO.setPrefix(mappingDTO.getPrefix());
+							mappingVO.setPostFinance(mappingDTO.isPostFinance());
+							mappingVO.setLastNo(mappingDTO.getLastNo());
+							mappingVO.setResetOnFinYear(mappingDTO.isResetOnFinYear());
+							mappingVO.setDocumentTypeMappingVO(documentTypeMappingVO);
+							mappingVOs.add(mappingVO);
+
+						}
+					}
+				}
+
+				getDocumentTypeMappingVOFromDocumentTypeMappingDTO(documentTypeMappingDTO, documentTypeMappingVO);
+
+				documentTypeMappingVO.setMappingVO(mappingVOs);
+				return documentTypeMappingRepo.save(documentTypeMappingVO);
+
+			}
+			
+			private void getDocumentTypeMappingVOFromDocumentTypeMappingDTO(
+					@Valid DocumentTypeMappingDTO documentTypeMappingDTO, DocumentTypeMappingVO documentTypeMappingVO) {
+                 documentTypeMappingVO.setBranch(documentTypeMappingDTO.getBranch());		
+                 documentTypeMappingVO.setOrgId(documentTypeMappingDTO.getOrgId());	
+                 documentTypeMappingVO.setFinancialYear(documentTypeMappingDTO.getFinancialYear());				
+
+			}
+
+		
+
+		
+
 			
 }
 

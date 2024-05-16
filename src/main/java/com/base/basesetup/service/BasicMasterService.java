@@ -12,6 +12,8 @@ import com.base.basesetup.dto.ContainerDTO;
 import com.base.basesetup.dto.CountryDTO;
 import com.base.basesetup.dto.DepartmentDTO;
 import com.base.basesetup.dto.DesignationDTO;
+import com.base.basesetup.dto.DocumentTypeDTO;
+import com.base.basesetup.dto.DocumentTypeMappingDTO;
 import com.base.basesetup.dto.EmployeeDTO;
 import com.base.basesetup.dto.EventsDTO;
 import com.base.basesetup.dto.PortDTO;
@@ -24,6 +26,8 @@ import com.base.basesetup.entity.ContainerVO;
 import com.base.basesetup.entity.CountryVO;
 import com.base.basesetup.entity.DepartmentVO;
 import com.base.basesetup.entity.DesignationVO;
+import com.base.basesetup.entity.DocumentTypeMappingVO;
+import com.base.basesetup.entity.DocumentTypeVO;
 import com.base.basesetup.entity.EmployeeVO;
 import com.base.basesetup.entity.EventsVO;
 import com.base.basesetup.entity.PortVO;
@@ -136,14 +140,21 @@ public interface BasicMasterService {
 
 	List<PortVO> getPortByOrgId(Long orgid);
 
-
+	//DocumentType
 	
+	List<DocumentTypeVO> getDocumentTypeById(Long id);
 
+	List<DocumentTypeVO> getDocumentTypeByOrgId(Long orgid);
 	
+	DocumentTypeVO updateCreateDocumentType(@Valid DocumentTypeDTO documentTypeDTO) throws ApplicationException;
 
+	//DocumentTypeMapping
 
+	List<DocumentTypeMappingVO> getDocumentTypeMappingById(Long id);
 
+	List<DocumentTypeMappingVO> getDocumentTypeMappingByOrgId(Long orgid);
 
+	DocumentTypeMappingVO updateCreateDocumentTypeMapping(@Valid DocumentTypeMappingDTO documentTypeMappingDTO) throws ApplicationException;
 	
 
 }
