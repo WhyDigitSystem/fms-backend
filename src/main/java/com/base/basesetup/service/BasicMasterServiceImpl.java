@@ -928,6 +928,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 						if (listOfValues1DTO.getId() != null & ObjectUtils.isNotEmpty(listOfValues1DTO.getId())) {
 							ListOfValues1VO listOfValues1VO = listOfValues1Repo.findById(listOfValues1DTO.getId()).get();
 							listOfValues1VO.setCode(listOfValues1DTO.getCode());
+							listOfValues1VO.setSNo(listOfValues1DTO.getSNo());
 							listOfValues1VO.setDescription(listOfValues1DTO.getDescription());
 							listOfValues1VO.setActive(listOfValues1DTO.isActive());
 							listOfValues1VO.setListOfValuesVO(listOfValuesVO);
@@ -936,6 +937,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 						} else {
 							ListOfValues1VO listOfValues1VO = new ListOfValues1VO();
 							listOfValues1VO.setCode(listOfValues1DTO.getCode());
+							listOfValues1VO.setSNo(listOfValues1DTO.getSNo());
 							listOfValues1VO.setDescription(listOfValues1DTO.getDescription());
 							listOfValues1VO.setActive(listOfValues1DTO.isActive());
 							listOfValues1VO.setListOfValuesVO(listOfValuesVO);

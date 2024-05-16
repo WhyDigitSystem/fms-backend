@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ListOfValues1DTO {
 	private Long id;
+	private Long sNo;
 	private String code;
 	private String description;
 	private boolean active;

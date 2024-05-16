@@ -31,6 +31,8 @@ public class ListOfValues1VO {
 	@SequenceGenerator(name = "listofvalues1gen", sequenceName = "listofvalues1seq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "listofvalues1id")
 	private Long id;
+	@Column(name = "sno")
+	private Long sNo;
 	@Column(name = "code")
 	private String code;
 	@Column(name = "description")
