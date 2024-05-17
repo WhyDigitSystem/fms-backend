@@ -16,7 +16,9 @@ import com.base.basesetup.dto.DocumentTypeDTO;
 import com.base.basesetup.dto.DocumentTypeMappingDTO;
 import com.base.basesetup.dto.EmployeeDTO;
 import com.base.basesetup.dto.EventsDTO;
+import com.base.basesetup.dto.GstInDTO;
 import com.base.basesetup.dto.ListOfValuesDTO;
+import com.base.basesetup.dto.PartyScreeningDTO;
 import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.RegionDTO;
 import com.base.basesetup.dto.SegmentsDTO;
@@ -32,7 +34,9 @@ import com.base.basesetup.entity.DocumentTypeMappingVO;
 import com.base.basesetup.entity.DocumentTypeVO;
 import com.base.basesetup.entity.EmployeeVO;
 import com.base.basesetup.entity.EventsVO;
+import com.base.basesetup.entity.GstInVO;
 import com.base.basesetup.entity.ListOfValuesVO;
+import com.base.basesetup.entity.PartyScreeningVO;
 import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.RegionVO;
 import com.base.basesetup.entity.SegmentsVO;
@@ -175,6 +179,22 @@ public interface BasicMasterService {
 	List<TermsAndConditionVO> getTermsAndConditionByOrgId(Long orgid);
 
 	TermsAndConditionVO updateCreateCountry(@Valid TermsAndConditionDTO termsAndConditionDTO) throws ApplicationException;
+
+	//GstIn
+	
+	List<GstInVO> getGstInById(Long id);
+
+	List<GstInVO> getGstInByOrgId(Long orgid);
+
+	GstInVO updateCreateGstIn(@Valid GstInDTO gstInDTO) throws ApplicationException;
+	
+	//PartyScreening
+
+	List<PartyScreeningVO> getPartyScreeningById(Long id);
+
+	List<PartyScreeningVO> getPartyScreeningByOrgId(Long orgid);
+
+	PartyScreeningVO updateCreatePartyScreening(@Valid PartyScreeningDTO partyScreeningDTO) throws ApplicationException;
 	
 
 }

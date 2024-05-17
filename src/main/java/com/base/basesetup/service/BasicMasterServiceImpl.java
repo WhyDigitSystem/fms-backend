@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.base.basesetup.dto.BusinessAddressDTO;
 import com.base.basesetup.dto.CityDTO;
 import com.base.basesetup.dto.CompanyDTO;
 import com.base.basesetup.dto.ContainerDTO;
@@ -21,15 +22,19 @@ import com.base.basesetup.dto.DocumentTypeDTO;
 import com.base.basesetup.dto.DocumentTypeMappingDTO;
 import com.base.basesetup.dto.EmployeeDTO;
 import com.base.basesetup.dto.EventsDTO;
+import com.base.basesetup.dto.GstInDTO;
 import com.base.basesetup.dto.ListOfValues1DTO;
 import com.base.basesetup.dto.ListOfValuesDTO;
 import com.base.basesetup.dto.MappingDTO;
+import com.base.basesetup.dto.PartyScreeningDTO;
 import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.RegionDTO;
 import com.base.basesetup.dto.SegmentsDTO;
 import com.base.basesetup.dto.StateDTO;
+import com.base.basesetup.dto.StateGstDTO;
 import com.base.basesetup.dto.SubTypesDTO;
 import com.base.basesetup.dto.TermsAndConditionDTO;
+import com.base.basesetup.entity.BusinessAddressVO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CompanyVO;
 import com.base.basesetup.entity.ContainerVO;
@@ -40,16 +45,20 @@ import com.base.basesetup.entity.DocumentTypeMappingVO;
 import com.base.basesetup.entity.DocumentTypeVO;
 import com.base.basesetup.entity.EmployeeVO;
 import com.base.basesetup.entity.EventsVO;
+import com.base.basesetup.entity.GstInVO;
 import com.base.basesetup.entity.ListOfValues1VO;
 import com.base.basesetup.entity.ListOfValuesVO;
 import com.base.basesetup.entity.MappingVO;
+import com.base.basesetup.entity.PartyScreeningVO;
 import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.RegionVO;
 import com.base.basesetup.entity.SegmentsVO;
+import com.base.basesetup.entity.StateGstVO;
 import com.base.basesetup.entity.StateVO;
 import com.base.basesetup.entity.SubTypesVO;
 import com.base.basesetup.entity.TermsAndConditionVO;
 import com.base.basesetup.exception.ApplicationException;
+import com.base.basesetup.repo.BusinessAddressRepo;
 import com.base.basesetup.repo.CityRepo;
 import com.base.basesetup.repo.CompanyRepo;
 import com.base.basesetup.repo.ContainerRepo;
@@ -60,12 +69,15 @@ import com.base.basesetup.repo.DocumentTypeMappingRepo;
 import com.base.basesetup.repo.DocumentTypeRepo;
 import com.base.basesetup.repo.EmployeeRepo;
 import com.base.basesetup.repo.EventsRepo;
+import com.base.basesetup.repo.GstInRepo;
 import com.base.basesetup.repo.ListOfValues1Repo;
 import com.base.basesetup.repo.ListOfValuesRepo;
 import com.base.basesetup.repo.MappingRepo;
+import com.base.basesetup.repo.PartyScreeningRepo;
 import com.base.basesetup.repo.PortRepo;
 import com.base.basesetup.repo.RegionRepo;
 import com.base.basesetup.repo.SegmentsRepo;
+import com.base.basesetup.repo.StateGstRepo;
 import com.base.basesetup.repo.StateRepo;
 import com.base.basesetup.repo.SubTypesRepo;
 import com.base.basesetup.repo.TermsAndConditionRepo;
@@ -131,6 +143,18 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	
 	@Autowired
 	TermsAndConditionRepo termsAndConditionRepo;
+	
+	@Autowired
+	GstInRepo gstInRepo;
+	
+	@Autowired
+	StateGstRepo stateGstRepo;
+	
+	@Autowired
+	BusinessAddressRepo businessAddressRepo;
+	
+	@Autowired
+	PartyScreeningRepo partyScreeningRepo;
 	
 	//COUNTRY
 
@@ -1008,6 +1032,168 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 				termsAndConditionVO.setDocumentType(termsAndConditionDTO.getDocumentType());		
 				termsAndConditionVO.setPartyType(termsAndConditionDTO.getPartyType());	
 				termsAndConditionVO.setOrgId(termsAndConditionDTO.getOrgId());		
+			}
+
+			//GstIn
+			
+			@Override
+			public List<GstInVO> getGstInById(Long id) {
+				List<GstInVO> gstInVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(id)) {
+					LOGGER.info("Successfully Received  GstIn BY Id : {}", id);
+					gstInVO = gstInRepo.getGstInById(id);
+				} else {
+					LOGGER.info("Successfully Received  GstIn For All Id.");
+					gstInVO = gstInRepo.findAll();
+				}
+				return gstInVO;
+			}
+
+			@Override
+			public List<GstInVO> getGstInByOrgId(Long orgid) {
+				List<GstInVO> gstInVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(orgid)) {
+					LOGGER.info("Successfully Received  GstIn BY OrgId : {}", orgid);
+					gstInVO = gstInRepo.getGstInByOrgId(orgid);
+				} else {
+					LOGGER.info("Successfully Received  GstIn For All OrgId.");
+					gstInVO = gstInRepo.findAll();
+				}
+				return gstInVO;
+			}
+
+			@Override
+			public GstInVO updateCreateGstIn(@Valid GstInDTO gstInDTO) throws ApplicationException {
+				GstInVO gstInVO = new GstInVO();
+				if (ObjectUtils.isNotEmpty(gstInDTO.getId())) {
+					gstInVO = gstInRepo.findById(gstInDTO.getId())
+							.orElseThrow(() -> new ApplicationException("Invalid gstIn details"));
+				}
+				List<StateGstVO> stateGstVOs = new ArrayList<>();
+				if (gstInDTO.getStateGstDTO() != null) {
+					for (StateGstDTO stateGstDTO : gstInDTO.getStateGstDTO()) {
+						if (stateGstDTO.getId() != null & ObjectUtils.isNotEmpty(stateGstDTO.getId())) {
+							StateGstVO stateGstVO = stateGstRepo.findById(stateGstDTO.getId()).get();	
+							stateGstVO.setStateGst(stateGstDTO.getStateGst());
+							stateGstVO.setGstIn(stateGstDTO.getGstIn());
+							stateGstVO.setStateCode(stateGstDTO.getStateCode());
+							stateGstVO.setContactPerson(stateGstDTO.getContactPerson());
+							stateGstVO.setContactPhoneNo(stateGstDTO.getContactPhoneNo());
+							stateGstVO.setContactEmail(stateGstDTO.getContactEmail());
+							stateGstVO.setGstInVO(gstInVO);
+							stateGstVOs.add(stateGstVO);
+
+						} else {
+							StateGstVO stateGstVO = new StateGstVO();
+							stateGstVO.setStateGst(stateGstDTO.getStateGst());
+							stateGstVO.setGstIn(stateGstDTO.getGstIn());
+							stateGstVO.setStateCode(stateGstDTO.getStateCode());
+							stateGstVO.setContactPerson(stateGstDTO.getContactPerson());
+							stateGstVO.setContactPhoneNo(stateGstDTO.getContactPhoneNo());
+							stateGstVO.setContactEmail(stateGstDTO.getContactEmail());
+							stateGstVO.setGstInVO(gstInVO);
+							stateGstVOs.add(stateGstVO);
+						}
+					}
+				}
+				List<BusinessAddressVO> businessAddressVOs = new ArrayList<>();
+				if (gstInDTO.getBusinessAddressDTO() != null) {
+					for (BusinessAddressDTO businessAddressDTO : gstInDTO.getBusinessAddressDTO()) {
+						if (businessAddressDTO.getId() != null & ObjectUtils.isNotEmpty(businessAddressDTO.getId())) {
+							BusinessAddressVO businessAddressVO = businessAddressRepo.findById(businessAddressDTO.getId()).get();
+							businessAddressVO.setState(businessAddressDTO.getState());
+							businessAddressVO.setAddress1(businessAddressDTO.getAddress1());
+							businessAddressVO.setAddress2(businessAddressDTO.getAddress2());
+							businessAddressVO.setBusinessPlace(businessAddressDTO.getBusinessPlace());
+							businessAddressVO.setCityName(businessAddressDTO.getCityName());
+							businessAddressVO.setContactPerson(businessAddressDTO.getContactPerson());
+							businessAddressVO.setContactPhoneNo(businessAddressDTO.getContactPhoneNo());
+							businessAddressVO.setContactEmail(businessAddressDTO.getContactEmail());
+							businessAddressVO.setGstInVO(gstInVO);
+							businessAddressVOs.add(businessAddressVO);
+
+						} else {
+							BusinessAddressVO businessAddressVO = new BusinessAddressVO();
+							businessAddressVO.setState(businessAddressDTO.getState());
+							businessAddressVO.setAddress1(businessAddressDTO.getAddress1());
+							businessAddressVO.setAddress2(businessAddressDTO.getAddress2());
+							businessAddressVO.setBusinessPlace(businessAddressDTO.getBusinessPlace());
+							businessAddressVO.setCityName(businessAddressDTO.getCityName());
+							businessAddressVO.setContactPerson(businessAddressDTO.getContactPerson());
+							businessAddressVO.setContactPhoneNo(businessAddressDTO.getContactPhoneNo());
+							businessAddressVO.setContactEmail(businessAddressDTO.getContactEmail());
+							businessAddressVO.setGstInVO(gstInVO);
+							businessAddressVOs.add(businessAddressVO);
+						}
+					}
+				}
+				getGstInVOFromGstInDTO(gstInDTO, gstInVO);
+				gstInVO.setStateGstVO(stateGstVOs);
+				gstInVO.setBusinessAddressVO(businessAddressVOs);
+				return gstInRepo.save(gstInVO);
+			}
+
+			private void getGstInVOFromGstInDTO(@Valid GstInDTO gstInDTO, GstInVO gstInVO) {
+				gstInVO.setPan(gstInDTO.getPan());	
+				gstInVO.setPanName(gstInDTO.getPanName());			
+				gstInVO.setPartyName(gstInDTO.getPartyName());			
+				gstInVO.setAccountType(gstInDTO.getAccountType());			
+				gstInVO.setBusinessCategory(gstInDTO.getBusinessCategory());
+				gstInVO.setBussinessType(gstInDTO.getBussinessType());			
+				gstInVO.setOrgId(gstInDTO.getOrgId());			
+			}
+
+			
+			//PartyScreening
+			
+			@Override
+			public List<PartyScreeningVO> getPartyScreeningById(Long id) {
+				List<PartyScreeningVO> partyScreeningVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(id)) {
+					LOGGER.info("Successfully Received  PartyScreening BY Id : {}", id);
+					partyScreeningVO = partyScreeningRepo.getPartyScreeningById(id);
+				} else {
+					LOGGER.info("Successfully Received  PartyScreening For All Id.");
+					partyScreeningVO = partyScreeningRepo.findAll();
+				}
+				return partyScreeningVO;
+			}
+
+			@Override
+			public List<PartyScreeningVO> getPartyScreeningByOrgId(Long orgid) {
+				List<PartyScreeningVO> partyScreeningVO = new ArrayList<>();
+				if (ObjectUtils.isNotEmpty(orgid)) {
+					LOGGER.info("Successfully Received  PartyScreening BY OrgId : {}", orgid);
+					partyScreeningVO = partyScreeningRepo.getPartyScreeningByOrgId(orgid);
+				} else {
+					LOGGER.info("Successfully Received  PartyScreening For All OrgId.");
+					partyScreeningVO = partyScreeningRepo.findAll();
+				}
+				return partyScreeningVO;
+			}
+
+			@Override
+			public PartyScreeningVO updateCreatePartyScreening(@Valid PartyScreeningDTO partyScreeningDTO) throws ApplicationException {
+				PartyScreeningVO partyScreeningVO = new PartyScreeningVO();
+				if (ObjectUtils.isNotEmpty(partyScreeningDTO.getId())) {
+					partyScreeningVO = partyScreeningRepo.findById(partyScreeningDTO.getId())
+							.orElseThrow(() -> new ApplicationException("Invalid PartyScreening Details"));
+				}
+				getPartyScreeningVOFromPartyScreeningDTO(partyScreeningDTO, partyScreeningVO);
+				return partyScreeningRepo.save(partyScreeningVO);
+			}
+
+			private void getPartyScreeningVOFromPartyScreeningDTO(@Valid PartyScreeningDTO partyScreeningDTO,
+					PartyScreeningVO partyScreeningVO) {
+                 partyScreeningVO.setPartyType(partyScreeningDTO.getPartyType());
+                 partyScreeningVO.setEntityName(partyScreeningDTO.getEntityName());			
+                 partyScreeningVO.setAlternativeEntityNames(partyScreeningDTO.getAlternativeEntityNames());			
+                 partyScreeningVO.setUniqueId(partyScreeningDTO.getUniqueId());			
+                 partyScreeningVO.setIncludeAlias(partyScreeningDTO.getIncludeAlias());	
+                 partyScreeningVO.setScreeningstatus(partyScreeningDTO.getScreeningstatus());
+                 partyScreeningVO.setOrgId(partyScreeningDTO.getOrgId());			
+
+
 			}
 		
 }

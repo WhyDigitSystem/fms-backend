@@ -32,7 +32,9 @@ import com.base.basesetup.dto.DocumentTypeDTO;
 import com.base.basesetup.dto.DocumentTypeMappingDTO;
 import com.base.basesetup.dto.EmployeeDTO;
 import com.base.basesetup.dto.EventsDTO;
+import com.base.basesetup.dto.GstInDTO;
 import com.base.basesetup.dto.ListOfValuesDTO;
+import com.base.basesetup.dto.PartyScreeningDTO;
 import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.RegionDTO;
 import com.base.basesetup.dto.ResponseDTO;
@@ -49,7 +51,9 @@ import com.base.basesetup.entity.DocumentTypeMappingVO;
 import com.base.basesetup.entity.DocumentTypeVO;
 import com.base.basesetup.entity.EmployeeVO;
 import com.base.basesetup.entity.EventsVO;
+import com.base.basesetup.entity.GstInVO;
 import com.base.basesetup.entity.ListOfValuesVO;
+import com.base.basesetup.entity.PartyScreeningVO;
 import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.RegionVO;
 import com.base.basesetup.entity.SegmentsVO;
@@ -1413,4 +1417,164 @@ public class BasicMasterController extends BaseController {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
+	
+	//GSTIN
+	
+	@GetMapping("/getGstInById")
+	public ResponseEntity<ResponseDTO> getGstInById(@RequestParam(required = false) Long id) {
+		String methodName = "getGstInById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<GstInVO> gstInVO = new ArrayList<>();
+		try {
+			gstInVO = basicMasterService.getGstInById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "GstIn information get successfully By Id");
+			responseObjectsMap.put("gstInVO", gstInVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "GstIn information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getGstInByOrgId")
+	public ResponseEntity<ResponseDTO> getGstInByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getGstInByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<GstInVO> gstInVO = new ArrayList<>();
+		try {
+			gstInVO = basicMasterService.getGstInByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "GstIn information get successfully By OrgId");
+			responseObjectsMap.put("gstInVO", gstInVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "GstIn information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PutMapping("/updateCreateGstIn")
+	public ResponseEntity<ResponseDTO> updateCreateGstIn(@Valid @RequestBody GstInDTO gstInDTO) {
+		String methodName = "updateCreateGstIn()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			GstInVO gstInVO = basicMasterService.updateCreateGstIn(gstInDTO);
+			if (gstInVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "GstIn updated successfully");
+				responseObjectsMap.put("gstInVO", gstInVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "GstIn not found for ID: " + gstInDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "GstIn update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "GstIn update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	//PartyScreening
+	
+	@GetMapping("/getPartyScreeningById")
+	public ResponseEntity<ResponseDTO> getPartyScreeningById(@RequestParam(required = false) Long id) {
+		String methodName = "getPartyScreeningById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<PartyScreeningVO> partyScreeningVO = new ArrayList<>();
+		try {
+			partyScreeningVO = basicMasterService.getPartyScreeningById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PartyScreening information get successfully By Id");
+			responseObjectsMap.put("partyScreeningVO", partyScreeningVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "PartyScreening information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getPartyScreeningByOrgId")
+	public ResponseEntity<ResponseDTO> getPartyScreeningByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getPartyScreeningByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<PartyScreeningVO> partyScreeningVO = new ArrayList<>();
+		try {
+			partyScreeningVO = basicMasterService.getPartyScreeningByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PartyScreening information get successfully By OrgId");
+			responseObjectsMap.put("partyScreeningVO", partyScreeningVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "PartyScreening information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PutMapping("/updateCreatePartyScreening")
+	public ResponseEntity<ResponseDTO> updateCreatePartyScreening(@Valid @RequestBody PartyScreeningDTO partyScreeningDTO) {
+		String methodName = "updateCreatePartyScreening()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			PartyScreeningVO partyScreeningVO = basicMasterService.updateCreatePartyScreening(partyScreeningDTO);
+			if (partyScreeningVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PartyScreening updated successfully");
+				responseObjectsMap.put("partyScreeningVO", partyScreeningVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "PartyScreening not found for ID: " + partyScreeningDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "PartyScreening update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "PartyScreening update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
 }
