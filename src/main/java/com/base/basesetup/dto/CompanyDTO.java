@@ -22,6 +22,8 @@ public class CompanyDTO {
 	private String passport;
 	private String userId;
 	private Long orgId;
-
+	private String createdBy;
+	private String updatedBy;
+	private boolean active;
 }
 

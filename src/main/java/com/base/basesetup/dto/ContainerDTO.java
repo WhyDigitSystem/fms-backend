@@ -17,5 +17,8 @@ public class ContainerDTO {
 	private float weight;
 	private float volume;
 	private Long orgId;
+	private String createdBy;
+	private String updatedBy;
+	private boolean active;
 
 }

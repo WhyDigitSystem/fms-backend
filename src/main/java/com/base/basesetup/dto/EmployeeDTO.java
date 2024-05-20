@@ -37,5 +37,9 @@ public class EmployeeDTO {
 	private LocalDate leavingDate;
 	
 	private boolean status;
+	
+	private String createdBy;
+	private String updatedBy;
+	private boolean active;
 
 }

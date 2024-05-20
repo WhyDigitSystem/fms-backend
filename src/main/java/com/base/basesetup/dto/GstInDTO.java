@@ -20,6 +20,9 @@ public class GstInDTO {
 	private String bussinessType;
 	private String businessCategory;
 	private Long orgId;
+	private String createdBy;
+	private String updatedBy;
+	private boolean active;
 
  private List<StateGstDTO> stateGstDTO;
  

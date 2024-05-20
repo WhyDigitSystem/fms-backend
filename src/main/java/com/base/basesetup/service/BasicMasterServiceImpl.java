@@ -330,6 +330,10 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		departmentVO.setDepartment(departmentDTO.getDepartment());
 		departmentVO.setDepartmentCode(departmentDTO.getDepartmentCode());
 		departmentVO.setOrgId(departmentDTO.getOrgId());
+		departmentVO.setActive(departmentDTO.isActive());
+		departmentVO.setUpdatedBy(departmentDTO.getUpdatedBy());
+		departmentVO.setCreatedBy(departmentDTO.getCreatedBy());
+
 	}
 	
 	@Override
@@ -369,6 +373,10 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	    private void getDesignationVOFromDesignationDTO(@Valid DesignationDTO designationDTO, DesignationVO designationVO) {
 		   designationVO.setDesignation(designationDTO.getDesignation());
 		   designationVO.setOrgId(designationDTO.getOrgId());
+		   designationVO.setActive(designationDTO.isActive());
+		   designationVO.setUpdatedBy(designationDTO.getUpdatedBy());
+		   designationVO.setCreatedBy(designationDTO.getCreatedBy());
+
 	}
 	
 	@Override
@@ -445,6 +453,10 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		employeeVO.setLeavingDate(employeeDTO.getLeavingDate());
 		employeeVO.setStatus(employeeDTO.isStatus());
 		employeeVO.setOrgId(employeeDTO.getOrgId());
+		employeeVO.setActive(employeeDTO.isActive());
+		employeeVO.setUpdatedBy(employeeDTO.getUpdatedBy());
+		employeeVO.setCreatedBy(employeeDTO.getCreatedBy());
+
 	}
 
 	//Port
@@ -467,6 +479,10 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		portVO.setType(portDTO.getType());
 		portVO.setOrgId(portDTO.getOrgId());
 		portVO.setPort(portDTO.getPort());
+		portVO.setActive(portDTO.isActive());
+		portVO.setUpdatedBy(portDTO.getUpdatedBy());
+		portVO.setCreatedBy(portDTO.getCreatedBy());
+
 		
 	}
 	
@@ -550,6 +566,10 @@ public class BasicMasterServiceImpl implements BasicMasterService {
      companyVO.setAdminEmail(companyDTO.getAdminEmail());	
      companyVO.setPassport(companyDTO.getPassport());	
      companyVO.setOrgId(companyDTO.getOrgId());	
+     companyVO.setActive(companyDTO.isActive());	
+     companyVO.setCreatedBy(companyDTO.getCreatedBy());	
+     companyVO.setUpdatedBy(companyDTO.getUpdatedBy());	
+
 	}
 
 		//Container
@@ -599,7 +619,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
            containerVO.setHeight(containerDTO.getHeight());	
            containerVO.setWeight(containerDTO.getWeight());	
            containerVO.setVolume(containerDTO.getVolume());	
-           containerVO.setOrgId(containerDTO.getOrgId());			
+           containerVO.setOrgId(containerDTO.getOrgId());	
+           containerVO.setActive(containerDTO.isActive());			
+           containerVO.setCreatedBy(containerDTO.getCreatedBy());			
+           containerVO.setUpdatedBy(containerDTO.getUpdatedBy());			
+
 
 		}
 		
@@ -645,7 +669,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		private void getEventsVOFromEventsDTO(@Valid EventsDTO eventsDTO, EventsVO eventsVO) {
 			eventsVO.setEventDescription(eventsDTO.getEventDescription());
 			eventsVO.setEventType(eventsDTO.getEventType());
-			eventsVO.setOrgId(eventsDTO.getOrgId());		
+			eventsVO.setOrgId(eventsDTO.getOrgId());
+			eventsVO.setActive(eventsDTO.isActive());		
+			eventsVO.setCreatedBy(eventsDTO.getCreatedBy());		
+			eventsVO.setUpdatedBy(eventsDTO.getUpdatedBy());		
+
 		}
 		
 		//Segments
@@ -691,6 +719,10 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 				segmentsVO.setSegmentName(segmentsDTO.getSegmentName());
 				segmentsVO.setSegmentDescription(segmentsDTO.getSegmentDescription());
 				segmentsVO.setOrgId(segmentsDTO.getOrgId());
+				segmentsVO.setActive(segmentsDTO.isActive());
+				segmentsVO.setCreatedBy(segmentsDTO.getCreatedBy());
+				segmentsVO.setUpdatedBy(segmentsDTO.getUpdatedBy());
+
 		}
 
 			//Region
@@ -735,7 +767,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			private void getRegionVOFromRegionDTO(@Valid RegionDTO regionDTO, RegionVO regionVO) {
             regionVO.setRegionCode(regionDTO.getRegionCode());
             regionVO.setRegionName(regionDTO.getRegionName());	
-            regionVO.setOrgId(regionDTO.getOrgId());				
+            regionVO.setOrgId(regionDTO.getOrgId());	
+            regionVO.setActive(regionDTO.isActive());				
+            regionVO.setCreatedBy(regionDTO.getCreatedBy());				
+            regionVO.setUpdatedBy(regionDTO.getUpdatedBy());				
+
 			}
 
 			//DocumentType
@@ -822,6 +858,10 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 				documentTypeVO.setBranch(documentTypeDTO.getBranch());
 				documentTypeVO.setPrefix(documentTypeDTO.getPrefix());
 				documentTypeVO.setOrgId(documentTypeDTO.getOrgId());
+				documentTypeVO.setActive(documentTypeDTO.isActive());
+				documentTypeVO.setCreatedBy(documentTypeDTO.getCreatedBy());
+				documentTypeVO.setUpdatedBy(documentTypeDTO.getUpdatedBy());
+
 			}
 
 			//DocumentTypeMapping
@@ -906,7 +946,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					@Valid DocumentTypeMappingDTO documentTypeMappingDTO, DocumentTypeMappingVO documentTypeMappingVO) {
                  documentTypeMappingVO.setBranch(documentTypeMappingDTO.getBranch());		
                  documentTypeMappingVO.setOrgId(documentTypeMappingDTO.getOrgId());	
-                 documentTypeMappingVO.setFinancialYear(documentTypeMappingDTO.getFinancialYear());				
+                 documentTypeMappingVO.setFinancialYear(documentTypeMappingDTO.getFinancialYear());	
+                 documentTypeMappingVO.setCreatedBy(documentTypeMappingDTO.getCreatedBy());	
+                 documentTypeMappingVO.setUpdatedBy(documentTypeMappingDTO.getUpdatedBy());	
+                 documentTypeMappingVO.setActive(documentTypeMappingDTO.isActive());	
+
 
 			}
 
@@ -983,7 +1027,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					ListOfValuesVO listOfValuesVO) {
                    listOfValuesVO.setCode(listOfValuesDTO.getCode());		
                    listOfValuesVO.setOrgId(listOfValuesDTO.getOrgId());	
-                   listOfValuesVO.setDescription(listOfValuesDTO.getDescription());				
+                   listOfValuesVO.setDescription(listOfValuesDTO.getDescription());	
+                   listOfValuesVO.setActive(listOfValuesDTO.isActive());	
+                   listOfValuesVO.setUpdatedBy(listOfValuesDTO.getUpdatedBy());	
+                   listOfValuesVO.setCreatedBy(listOfValuesDTO.getCreatedBy());	
+
 			}
 
 			//TermsAndCondition
@@ -1031,7 +1079,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 				termsAndConditionVO.setTerms(termsAndConditionDTO.getTerms());		
 				termsAndConditionVO.setDocumentType(termsAndConditionDTO.getDocumentType());		
 				termsAndConditionVO.setPartyType(termsAndConditionDTO.getPartyType());	
-				termsAndConditionVO.setOrgId(termsAndConditionDTO.getOrgId());		
+				termsAndConditionVO.setOrgId(termsAndConditionDTO.getOrgId());	
+				termsAndConditionVO.setActive(termsAndConditionDTO.isActive());		
+				termsAndConditionVO.setCreatedBy(termsAndConditionDTO.getCreatedBy());		
+				termsAndConditionVO.setUpdatedBy(termsAndConditionDTO.getUpdatedBy());		
+
 			}
 
 			//GstIn
@@ -1140,7 +1192,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 				gstInVO.setAccountType(gstInDTO.getAccountType());			
 				gstInVO.setBusinessCategory(gstInDTO.getBusinessCategory());
 				gstInVO.setBussinessType(gstInDTO.getBussinessType());			
-				gstInVO.setOrgId(gstInDTO.getOrgId());			
+				gstInVO.setOrgId(gstInDTO.getOrgId());	
+				gstInVO.setActive(gstInDTO.isActive());			
+				gstInVO.setUpdatedBy(gstInDTO.getUpdatedBy());			
+				gstInVO.setCreatedBy(gstInDTO.getCreatedBy());			
+
 			}
 
 			
@@ -1191,7 +1247,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
                  partyScreeningVO.setUniqueId(partyScreeningDTO.getUniqueId());			
                  partyScreeningVO.setIncludeAlias(partyScreeningDTO.getIncludeAlias());	
                  partyScreeningVO.setScreeningstatus(partyScreeningDTO.getScreeningstatus());
-                 partyScreeningVO.setOrgId(partyScreeningDTO.getOrgId());			
+                 partyScreeningVO.setOrgId(partyScreeningDTO.getOrgId());
+                 partyScreeningVO.setActive(partyScreeningDTO.isActive());			
+                 partyScreeningVO.setCreatedBy(partyScreeningDTO.getCreatedBy());			
+                 partyScreeningVO.setUpdatedBy(partyScreeningDTO.getUpdatedBy());			
+
 
 
 			}

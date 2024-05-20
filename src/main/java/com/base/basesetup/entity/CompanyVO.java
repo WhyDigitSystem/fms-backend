@@ -54,12 +54,13 @@ public class CompanyVO {
 	private String createdBy;
 	@Column(name = "modifiedby")
 	private String  updatedBy;
+	@Column(name="active")
+    private boolean active;
 	@Column(name = "cancelremarks")
 	private String cancelRemarks;
 	@Column(name="orgid")
 	private Long orgId;
-	@Column(name="active")
-    private boolean active;
+	
 	
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();

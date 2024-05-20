@@ -15,6 +15,9 @@ public class DocumentTypeMappingDTO {
 	private String branch;
 	private String financialYear;
 	private Long orgId;
+	private String createdBy;
+	private String updatedBy;
+	private boolean active;
 
 	private List<MappingDTO> mappingDTO;
 

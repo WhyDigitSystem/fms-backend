@@ -16,6 +16,9 @@ public class PartyScreeningDTO {
 	private String includeAlias;
 	private String screeningstatus;
 	private long orgId;
+	private String createdBy;
+	private String updatedBy;
+	private boolean active;
 
 	
 }

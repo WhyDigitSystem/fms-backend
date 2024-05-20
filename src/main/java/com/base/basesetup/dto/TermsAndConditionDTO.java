@@ -14,5 +14,8 @@ public class TermsAndConditionDTO {
 	private String terms;
 	private String partyType;
 	private Long orgId;
+	private String createdBy;
+	private String updatedBy;
+	private boolean active;
 
 }

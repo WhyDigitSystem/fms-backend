@@ -26,6 +26,9 @@ public class DocumentTypeDTO {
 	private int branch;
 	private String prefix;
 	private Long orgId;
-
+	private String createdBy;
+	private String updatedBy;
+	private boolean active;
+	
 	private List<SubTypesDTO> subTypesDTO;
 }
