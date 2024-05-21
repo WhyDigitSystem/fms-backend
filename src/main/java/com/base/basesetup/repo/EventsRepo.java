@@ -17,4 +17,10 @@ public interface EventsRepo extends JpaRepository<EventsVO, Long>{
 	@Query(nativeQuery = true,value = "select * from events where orgid=?1")
 	List<EventsVO> findEventsByOrgId(Long orgid);
 
+	@Query(nativeQuery = true, value = "CALL next_sequence_value()")
+	int getbyeventsid();
+
+	@Query(nativeQuery = true, value = "select sequence_value from eventsidseq")
+	int findeventid();
+
 }

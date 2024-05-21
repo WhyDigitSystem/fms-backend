@@ -654,27 +654,44 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			}
 			return eventsVO;
 		}
-
+		
 		@Override
 		public EventsVO updateCreateEvents(@Valid EventsDTO eventsDTO) throws ApplicationException {
-		     EventsVO eventsVO = new EventsVO();
-			if (ObjectUtils.isNotEmpty(eventsDTO.getId())) {
-				eventsVO = eventsRepo.findById(eventsDTO.getId())
-						.orElseThrow(() -> new ApplicationException("Invalid Events Details"));
-			}
-			getEventsVOFromEventsDTO(eventsDTO, eventsVO);
-			return eventsRepo.save(eventsVO);
+		    EventsVO eventsVO = new EventsVO();
+		    // Check if the event ID is present in the DTO
+		    if (ObjectUtils.isNotEmpty(eventsDTO.getId())) {
+		        // Fetch the existing event or throw an exception if it doesn't exist
+		        eventsVO = eventsRepo.findById(eventsDTO.getId())
+		                .orElseThrow(() -> new ApplicationException("Invalid Events Details"));
+	    } 
+		    else {
+		        // Create a new EventsVO instance if the event ID is not present
+		        eventsVO = new EventsVO();
+
+		        // Generate a new unique event ID
+		        int eventid = eventsRepo.findeventid(); // Ensure this method is correctly implemented to fetch the next sequence value
+		        String eventsid = "Ev" + eventid;
+		        eventsRepo.getbyeventsid();
+		        eventsVO.setEventid(eventsid); // Assuming this sets the unique event ID to the eventsVO
+		    }
+
+		    // Update eventsVO fields with values from eventsDTO
+		    updateEventsVOFromEventsDTO(eventsDTO, eventsVO);
+
+		    // Save the updated or new event
+		    return eventsRepo.save(eventsVO);
 		}
 
-		private void getEventsVOFromEventsDTO(@Valid EventsDTO eventsDTO, EventsVO eventsVO) {
-			eventsVO.setEventDescription(eventsDTO.getEventDescription());
-			eventsVO.setEventType(eventsDTO.getEventType());
-			eventsVO.setOrgId(eventsDTO.getOrgId());
-			eventsVO.setActive(eventsDTO.isActive());		
-			eventsVO.setCreatedBy(eventsDTO.getCreatedBy());		
-			eventsVO.setUpdatedBy(eventsDTO.getUpdatedBy());		
-
+		private void updateEventsVOFromEventsDTO(@Valid EventsDTO eventsDTO, EventsVO eventsVO) {
+		    // Copy properties from DTO to VO
+		    eventsVO.setEventDescription(eventsDTO.getEventDescription());
+		    eventsVO.setEventType(eventsDTO.getEventType());
+		    eventsVO.setOrgId(eventsDTO.getOrgId());
+		    eventsVO.setActive(eventsDTO.isActive());
+		    eventsVO.setCreatedBy(eventsDTO.getCreatedBy());
+		    eventsVO.setUpdatedBy(eventsDTO.getUpdatedBy());
 		}
+
 		
 		//Segments
 

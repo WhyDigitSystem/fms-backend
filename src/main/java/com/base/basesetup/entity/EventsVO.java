@@ -25,7 +25,9 @@ public class EventsVO {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "eventsgen")
 	@SequenceGenerator(name = "eventsgen", sequenceName = "eventsseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "eventsid")
-	private long id;
+	private Long id;
+	@Column(name = "eventid")
+	private String eventid;
 	@Column(name = "description")
 	private String eventDescription;
 	@Column(name = "type")

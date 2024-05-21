@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventsDTO {
-
+    
 	private Long id;
 	private String eventDescription;
 	private String eventType;
