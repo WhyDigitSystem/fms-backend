@@ -7,12 +7,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DepartmentDTO {
-	private Long Id;
-	private String departmentCode;
-	private String department;
+public class ContainerDTO {
+	private Long id;
+	private String containerType;
+	private String category;
+	private float length;
+	private float width;
+	private float height;
+	private float weight;
+	private float volume;
 	private Long orgId;
 	private String createdBy;
 	private String updatedBy;
 	private boolean active;
+
 }

@@ -16,33 +16,37 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "department")
+@Table(name = "segments")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DepartmentVO {
+public class SegmentsVO {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "departmentgen")
-	@SequenceGenerator(name = "departmentgen",sequenceName = "departmentseq",initialValue = 1000000001,allocationSize = 1)
-	@Column(name="departmentid")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "segmentsgen")
+	@SequenceGenerator(name = "segmentsgen", sequenceName = "segmentsseq", initialValue = 1000000001, allocationSize = 1)
+	@Column(name = "segmentsid")
 	private Long id;
-	@Column(name="code")
-	private String departmentCode;
-	@Column(name="department")
-	private String department;
+	@Column(name = "segment")
+	private String segmentName;
+	@Column(name = "description")
+	private String segmentDescription;
 	
-	@Column(name="createdby")
+
+	@Column(name = "cancel")
+	private boolean cancel;
+	@Column(name = "createdby")
 	private String createdBy;
-	@Column(name="modifiedby")
-	private String updatedBy;
+	@Column(name = "modifiedby")
+	private String  updatedBy;
+	@Column(name = "cancelremarks")
+	private String cancelRemarks;
 	@Column(name="orgid")
 	private Long orgId;
-	@Column(name="cancel")
-	private boolean cancel;
-	@Column(name="cancelremarks")
-	private boolean cancelRemarks;
-	private boolean active;
+	@Column(name="active")
+    private boolean active;
 	
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
+
+
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeDTO {
-	private Long employeeId;
+	private Long Id;
 	
 	private Long OrgId;
 
@@ -37,5 +37,9 @@ public class EmployeeDTO {
 	private LocalDate leavingDate;
 	
 	private boolean status;
+	
+	private String createdBy;
+	private String updatedBy;
+	private boolean active;
 
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PortDTO {
 
-	private Long portId;
+	private Long Id;
 
 	private String port;
 
@@ -21,5 +21,8 @@ public class PortDTO {
 
 	private Long orgId;
 
-	
+	private String createdBy;
+	private String updatedBy;
+	private boolean active;
+
 }

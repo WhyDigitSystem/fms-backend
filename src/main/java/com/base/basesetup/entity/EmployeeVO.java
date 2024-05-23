@@ -29,9 +29,9 @@ public class EmployeeVO {
 	@Column(name = "employeeid")
 	private Long id;
 
-	@Column(name = "employeecode")
+	@Column(name = "code")
 	private String employeeCode;
-	@Column(name = "employeename")
+	@Column(name = "employee")
 	private String employeeName;
 	@Column(name = "gender")
 	private String gender;

@@ -8,20 +8,40 @@ import org.springframework.stereotype.Service;
 
 import com.base.basesetup.dto.CityDTO;
 import com.base.basesetup.dto.CompanyDTO;
+import com.base.basesetup.dto.ContainerDTO;
 import com.base.basesetup.dto.CountryDTO;
 import com.base.basesetup.dto.DepartmentDTO;
 import com.base.basesetup.dto.DesignationDTO;
+import com.base.basesetup.dto.DocumentTypeDTO;
+import com.base.basesetup.dto.DocumentTypeMappingDTO;
 import com.base.basesetup.dto.EmployeeDTO;
+import com.base.basesetup.dto.EventsDTO;
+import com.base.basesetup.dto.GstInDTO;
+import com.base.basesetup.dto.ListOfValuesDTO;
+import com.base.basesetup.dto.PartyScreeningDTO;
 import com.base.basesetup.dto.PortDTO;
+import com.base.basesetup.dto.RegionDTO;
+import com.base.basesetup.dto.SegmentsDTO;
 import com.base.basesetup.dto.StateDTO;
+import com.base.basesetup.dto.TermsAndConditionDTO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CompanyVO;
+import com.base.basesetup.entity.ContainerVO;
 import com.base.basesetup.entity.CountryVO;
 import com.base.basesetup.entity.DepartmentVO;
 import com.base.basesetup.entity.DesignationVO;
+import com.base.basesetup.entity.DocumentTypeMappingVO;
+import com.base.basesetup.entity.DocumentTypeVO;
 import com.base.basesetup.entity.EmployeeVO;
+import com.base.basesetup.entity.EventsVO;
+import com.base.basesetup.entity.GstInVO;
+import com.base.basesetup.entity.ListOfValuesVO;
+import com.base.basesetup.entity.PartyScreeningVO;
 import com.base.basesetup.entity.PortVO;
+import com.base.basesetup.entity.RegionVO;
+import com.base.basesetup.entity.SegmentsVO;
 import com.base.basesetup.entity.StateVO;
+import com.base.basesetup.entity.TermsAndConditionVO;
 import com.base.basesetup.exception.ApplicationException;
 
 @Service
@@ -73,11 +93,17 @@ public interface BasicMasterService {
 	
 	// Employee
 	
+	List<EmployeeVO> getEmployeeById(Long id);
+	
 	EmployeeVO updateCreateEmployee(@Valid EmployeeDTO employeeDTO) throws ApplicationException;
 
+	List<EmployeeVO> getEmployeeByOrgId(Long orgid);
+	
 	//Port
 	
 	PortVO updateCreatePort(@Valid PortDTO portDTO) throws ApplicationException;
+
+	List<PortVO> getPortById(Long id);
 
 
     //Company
@@ -87,8 +113,88 @@ public interface BasicMasterService {
 	List<CompanyVO> getCompanyByOrgId(Long orgId);
 
 	CompanyVO updateCreateCompany(@Valid CompanyDTO companyDTO) throws ApplicationException;
+	
+	//Container
 
+	List<ContainerVO> getContainerById(Long id);
 
+	List<ContainerVO> getContainerByOrgId(Long orgid);
+
+	ContainerVO updateCreateContainer(@Valid ContainerDTO containerDTO) throws ApplicationException;
+	
+	//Events
+
+	List<EventsVO> getEventsById(Long id);
+
+	List<EventsVO> getEventsByOrgId(Long orgid);
+
+	EventsVO updateCreateEvents(@Valid EventsDTO eventsDTO) throws ApplicationException;
+	
+	//Segments
+
+	List<SegmentsVO> getSegmentsById(Long id);
+
+	List<SegmentsVO> getSegmentsByOrgId(Long orgid);
+
+	SegmentsVO updateCreateSegments(@Valid SegmentsDTO segmentsDTO) throws ApplicationException;
+
+	//Region
+
+	List<RegionVO> getRegionById(Long id);
+
+	List<RegionVO> getRegionByOrgId(Long orgid);
+
+	RegionVO updateCreateRegion(@Valid RegionDTO regionDTO) throws ApplicationException;
+
+	List<PortVO> getPortByOrgId(Long orgid);
+
+	//DocumentType
+	
+	List<DocumentTypeVO> getDocumentTypeById(Long id);
+
+	List<DocumentTypeVO> getDocumentTypeByOrgId(Long orgid);
+	
+	DocumentTypeVO updateCreateDocumentType(@Valid DocumentTypeDTO documentTypeDTO) throws ApplicationException;
+
+	//DocumentTypeMapping
+
+	List<DocumentTypeMappingVO> getDocumentTypeMappingById(Long id);
+
+	List<DocumentTypeMappingVO> getDocumentTypeMappingByOrgId(Long orgid);
+
+	DocumentTypeMappingVO updateCreateDocumentTypeMapping(@Valid DocumentTypeMappingDTO documentTypeMappingDTO) throws ApplicationException;
+
+	//ListOfValues
+	
+	List<ListOfValuesVO> getListOfValuesById(Long id);
+
+	List<ListOfValuesVO> getListOfValuesByOrgId(Long orgid);
+
+	ListOfValuesVO updateCreateListOfValues(@Valid ListOfValuesDTO listOfValuesDTO) throws ApplicationException;
+
+	//TermsOfCondition
+	
+	List<TermsAndConditionVO> getTermsAndConditionById(Long id);
+
+	List<TermsAndConditionVO> getTermsAndConditionByOrgId(Long orgid);
+
+	TermsAndConditionVO updateCreateCountry(@Valid TermsAndConditionDTO termsAndConditionDTO) throws ApplicationException;
+
+	//GstIn
+	
+	List<GstInVO> getGstInById(Long id);
+
+	List<GstInVO> getGstInByOrgId(Long orgid);
+
+	GstInVO updateCreateGstIn(@Valid GstInDTO gstInDTO) throws ApplicationException;
+	
+	//PartyScreening
+
+	List<PartyScreeningVO> getPartyScreeningById(Long id);
+
+	List<PartyScreeningVO> getPartyScreeningByOrgId(Long orgid);
+
+	PartyScreeningVO updateCreatePartyScreening(@Valid PartyScreeningDTO partyScreeningDTO) throws ApplicationException;
 	
 
 }

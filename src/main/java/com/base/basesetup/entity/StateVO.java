@@ -28,7 +28,7 @@ public class StateVO {
 	@Column(name="stateid")
 	private Long id;
 	
-	@Column(name="statecode")
+	@Column(name="code")
 	private String stateCode;
 	@Column(name="state")
 	private String stateName;
