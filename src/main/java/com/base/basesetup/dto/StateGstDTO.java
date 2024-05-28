@@ -15,6 +15,6 @@ public class StateGstDTO {
 	private String gstIn;
 	private String stateCode;
 	private String contactPerson;
-	private long contactPhoneNo;
+	private String contactPhoneNo;
 	private String contactEmail;
 }

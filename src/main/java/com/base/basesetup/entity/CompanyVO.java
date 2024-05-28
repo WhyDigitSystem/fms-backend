@@ -33,7 +33,7 @@ public class CompanyVO {
 	@Column(name = "email")
 	private String email;
 	@Column(name = "phoneno")
-	private Long phoneNo;
+	private String phoneNo;
 	@Column(name = "address")
 	private String address;
 	@Column(name = "country")

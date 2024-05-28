@@ -40,7 +40,7 @@ public class StateGstVO {
 	@Column(name = "contactperson")
 	private String contactPerson;
 	@Column(name = "contactphoneno")
-	private long contactPhoneNo;
+	private String contactPhoneNo;
 	@Column(name = "contactemail")
 	private String contactEmail;
 	

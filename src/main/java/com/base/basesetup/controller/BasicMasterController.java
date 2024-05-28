@@ -754,7 +754,7 @@ public class BasicMasterController extends BaseController {
 		try {
 			CompanyVO companyVO = basicMasterService.updateCreateCompany(companyDTO);
 			if (companyVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "City updated successfully");
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Company updated successfully");
 				responseObjectsMap.put("companyVO", companyVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
@@ -834,12 +834,12 @@ public class BasicMasterController extends BaseController {
 		try {
 			ContainerVO containerVO = basicMasterService.updateCreateContainer(containerDTO);
 			if (containerVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Country updated successfully");
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Container updated successfully");
 				responseObjectsMap.put("containerVO", containerVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
 				errorMsg = "container not found for ID: " + containerDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "Country update failed", errorMsg);
+				responseDTO = createServiceResponseError(responseObjectsMap, "Container update failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();

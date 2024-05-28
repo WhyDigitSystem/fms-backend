@@ -12,7 +12,7 @@ public class CompanyDTO {
 	private String companyName;
 	private String companyCode;
 	private String email;
-	private Long phoneNo;
+	private String phoneNo;
 	private String address;
 	private String country;
 	private String state;
