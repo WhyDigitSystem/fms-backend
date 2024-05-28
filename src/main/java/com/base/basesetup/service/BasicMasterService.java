@@ -51,7 +51,7 @@ public interface BasicMasterService {
 	
 	List<CountryVO> getCountryById(Long id);
 
-	List<CountryVO> getCountryByOrgId(Long id);
+	List<CountryVO> getCountryByOrgId(Long orgid);
 
 	CountryVO updateCreateCountry(@Valid CountryDTO countryDTO) throws ApplicationException;
    

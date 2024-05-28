@@ -101,7 +101,7 @@ public class BasicMasterController extends BaseController {
 	}
 
 	@GetMapping("/getCountryByOrgId")
-	public ResponseEntity<ResponseDTO> getCountryByOrgId(@RequestParam(required = false) Long id) {
+	public ResponseEntity<ResponseDTO> getCountryByOrgId(@RequestParam(required = false) Long orgid) {
 		String methodName = "getCountryByOrgId()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
@@ -109,7 +109,7 @@ public class BasicMasterController extends BaseController {
 		ResponseDTO responseDTO = null;
 		List<CountryVO> countryVO = new ArrayList<>();
 		try {
-			countryVO = basicMasterService.getCountryByOrgId(id);
+			countryVO = basicMasterService.getCountryByOrgId(orgid);
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);

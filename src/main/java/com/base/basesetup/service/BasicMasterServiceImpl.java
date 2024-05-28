@@ -172,11 +172,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	}
 
 	@Override
-	public List<CountryVO> getCountryByOrgId(Long Orgid) {
+	public List<CountryVO> getCountryByOrgId(Long orgid) {
 		List<CountryVO> countryVO = new ArrayList<>();
-		if (ObjectUtils.isNotEmpty(Orgid)) {
-			LOGGER.info("Successfully Received  Country BY Id : {}", Orgid);
-			countryVO = countryRepo.findCountryByOrgId(Orgid);
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  Country BY Id : {}", orgid);
+			countryVO = countryRepo.findCountryByOrgId(orgid);
 		} else {
 			LOGGER.info("Successfully Received  Country For All OrgId.");
 			countryVO = countryRepo.findAll();
@@ -199,6 +199,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		countryVO.setCountry(countryDTO.getCountry());
 		countryVO.setCountryCode(countryDTO.getCountryCode());
 		countryVO.setOrgId(countryDTO.getOrgId());
+		countryVO.setActive(countryDTO.isActive());
+
 
 	}
 
@@ -247,6 +249,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		cityVO.setCityName(cityDTO.getCityName());
 		cityVO.setCountry(cityDTO.getCountry());
 		cityVO.setState(cityDTO.getState());
+		cityVO.setActive(cityDTO.isActive());
+
 
 	}
 	
@@ -301,6 +305,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		stateVO.setCountry(stateDTO.getCountry());
 		stateVO.setRegion(stateDTO.getRegion());
 		stateVO.setStateNumber(stateDTO.getStateNumber());
+		stateVO.setActive(stateDTO.isActive());
+
 
 	}
 	

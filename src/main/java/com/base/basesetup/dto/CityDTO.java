@@ -13,6 +13,7 @@ public class CityDTO {
 	private String country;
 	private String cityName;
 	private String state;
-	private String userId;
 	private Long orgId;
+	private boolean active;
+
 }
