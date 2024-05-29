@@ -35,7 +35,7 @@ public class PortVO {
 	@Column(name = "type")
 	private String type;
 	@Column(name = "code")
-	private int code;
+	private String code;
 
 	private boolean status;
 	@Column(name = "createdby")

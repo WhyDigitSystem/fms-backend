@@ -17,7 +17,7 @@ public class PortDTO {
 
 	private String type;
 
-	private int code;
+	private String code;
 
 	private Long orgId;
 
