@@ -32,20 +32,19 @@ public class EventsVO {
 	private String eventDescription;
 	@Column(name = "type")
 	private String eventType;
-	
+
 	@Column(name = "cancel")
 	private boolean cancel;
 	@Column(name = "createdby")
 	private String createdBy;
 	@Column(name = "modifiedby")
-	private String  updatedBy;
+	private String updatedBy;
 	@Column(name = "cancelremarks")
 	private String cancelRemarks;
-	@Column(name="orgid")
+	@Column(name = "orgid")
 	private Long orgId;
-	@Column(name="active")
-    private boolean active;
-	
+	@Column(name = "active")
+	private boolean active;
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
 }

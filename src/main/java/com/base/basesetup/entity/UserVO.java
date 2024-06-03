@@ -9,6 +9,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.base.basesetup.dto.CreatedUpdatedDate;
@@ -35,19 +38,29 @@ public class UserVO {
 	private String email;
 	private String userName;
 	private String password;
-//	private String phone;
-//	private String secondaryPhone;
 	private boolean loginStatus;
+	private String accessaddId;
+	private String accessWarehouse;
+	private String accessFlowId;
+	private Long pNo;
 	private boolean isActive;
-//	@Enumerated(EnumType.STRING)
-//	private Gender gender;
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-dd-MM")
-//	private LocalDate dob;
+	private String lastLogin;
 	@Enumerated(EnumType.STRING)
 	private Role role;
-
+	private long accessRightsRoleId;
+	@ManyToOne
+	@JoinColumn(name = "orgId")
+	private OrganizationVO organizationVO;
+	@OneToOne
+	@JoinColumn(name = "address_id")
+	private UserAddressVO userAddressVO;
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
-
 	private Date accountRemovedDate;
+	@ManyToOne
+	@JoinColumn(name = "emitter_id")
+	private CustomersVO customersVO;
+
+	
+	
 }
