@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
 
 	private UserVO getUserVOFromSignUpFormDTO(SignUpFormDTO signUpRequest) {
 		UserVO userVO = new UserVO();
-		userVO.setFirstName(signUpRequest.getFirstName());
-		userVO.setLastName(signUpRequest.getLastName());
+//		userVO.setFirstName(signUpRequest.getFirstName());
+//		userVO.setLastName(signUpRequest.getLastName());
 		userVO.setUserName(signUpRequest.getUserName());
 		userVO.setEmail(signUpRequest.getEmail());
 		try {
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 			LOGGER.error(e.getMessage());
 			throw new ApplicationContextException(UserConstants.ERRROR_MSG_UNABLE_TO_ENCODE_USER_PASSWORD);
 		}
-		userVO.setRole(Role.ROLE_USER);
+//		userVO.setRole(Role.ROLE_USER);
 		userVO.setActive(true);
 		return userVO;
 	}

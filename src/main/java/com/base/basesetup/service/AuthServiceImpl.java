@@ -56,8 +56,8 @@ public class AuthServiceImpl implements AuthService {
 
 	private UserVO getUserVOFromCreateUserFormDTO(CreateUserFormDTO createUserFormDTO) {
 		UserVO userVO = new UserVO();
-		userVO.setFirstName(createUserFormDTO.getFirstName());
-		userVO.setLastName(createUserFormDTO.getLastName());
+//		userVO.setFirstName(createUserFormDTO.getFirstName());
+//		userVO.setLastName(createUserFormDTO.getLastName());
 		userVO.setUserName(createUserFormDTO.getUserName());
 		userVO.setEmail(createUserFormDTO.getEmail());
 		try {
@@ -66,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
 			LOGGER.error(e.getMessage());
 			throw new ApplicationContextException(UserConstants.ERRROR_MSG_UNABLE_TO_ENCODE_USER_PASSWORD);
 		}
-		userVO.setRole(createUserFormDTO.getRole());
+//		userVO.setRole(createUserFormDTO.getRole());
 		userVO.setActive(true);
 		return userVO;
 	}
