@@ -123,6 +123,8 @@ public interface BasicMasterService {
 	ContainerVO updateCreateContainer(@Valid ContainerDTO containerDTO) throws ApplicationException;
 	
 	//Events
+	
+	String getLatestEventid();
 
 	List<EventsVO> getEventsById(Long id);
 
@@ -195,6 +197,7 @@ public interface BasicMasterService {
 	List<PartyScreeningVO> getPartyScreeningByOrgId(Long orgid);
 
 	PartyScreeningVO updateCreatePartyScreening(@Valid PartyScreeningDTO partyScreeningDTO) throws ApplicationException;
+
 	
 
 }

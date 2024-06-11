@@ -33,10 +33,10 @@ public class ListOfValues1VO {
 	private Long id;
 	@Column(name = "sno")
 	private Long sNo;
-	@Column(name = "code")
-	private String code;
-	@Column(name = "description")
-	private String description;
+	@Column(name = "valuecode")
+	private String valueCode;
+	@Column(name = "valuedescription")
+	private String valueDescription;
 	@Column(name = "active")
 	private boolean active;
 	

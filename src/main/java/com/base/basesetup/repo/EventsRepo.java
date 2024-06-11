@@ -23,4 +23,9 @@ public interface EventsRepo extends JpaRepository<EventsVO, Long>{
 	@Query(nativeQuery = true, value = "select sequence_value from eventsidseq")
 	int findeventid();
 
+//	@Query(nativeQuery = true, value = "SELECT CONCAT('Ev', LPAD(CAST(SUBSTRING(eventid, 3) AS UNSIGNED) + 1, LENGTH(SUBSTRING(eventid, 3)), '0')) AS next_eventid FROM fms_db.events ORDER BY eventid DESC LIMIT 1")
+//	String findLatestEventid();
+
+
 }
+

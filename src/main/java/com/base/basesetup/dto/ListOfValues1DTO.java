@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class ListOfValues1DTO {
 	private Long id;
 	private Long sNo;
-	private String code;
-	private String description;
+	private String valueCode;
+	private String valueDescription;
 	private boolean active;
 }

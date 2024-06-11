@@ -31,10 +31,10 @@ public class ListOfValuesVO {
 	@SequenceGenerator(name = "listofvaluesgen", sequenceName = "listofvaluesseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "listofvaluesid")
 	private Long id;
-	@Column(name = "code")
-	private String code;
-	@Column(name = "description")
-	private String description;
+	@Column(name = "listcode")
+	private String listCode;
+	@Column(name = "listdescription")
+	private String listDescription;
 	
 	@Column(name = "cancel")
 	private boolean cancel;

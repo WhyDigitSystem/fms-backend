@@ -21,10 +21,13 @@ public class DocumentTypeDTO {
 	private String autoGenField;
 	private String prefixField;
 	private String documentCode;
-	private int code;
-	private int finyr;
-	private int branch;
+	private String code;
+	private String finyr;
+	private String branch;
 	private String prefix;
+    private boolean financeTransaction;
+    private boolean postFinance;
+    private boolean noGeneration;
 	private Long orgId;
 	private String createdBy;
 	private String updatedBy;

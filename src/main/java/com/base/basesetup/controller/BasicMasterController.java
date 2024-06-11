@@ -61,9 +61,8 @@ import com.base.basesetup.entity.StateVO;
 import com.base.basesetup.entity.TermsAndConditionVO;
 import com.base.basesetup.service.BasicMasterService;
 
-
-@RestController
 @CrossOrigin
+@RestController
 @RequestMapping("/api/basicMaster")
 public class BasicMasterController extends BaseController {
 
@@ -851,6 +850,34 @@ public class BasicMasterController extends BaseController {
 	}
 	
 	//Events
+	
+	@GetMapping("/getLatestEventid")
+	public ResponseEntity<ResponseDTO> getLatestEventid() {
+		String methodName = "getLatestEventid()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		String eventsVO =null;
+		try {
+			eventsVO = basicMasterService.getLatestEventid();
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Events information get successfully By eventid");
+			responseObjectsMap.put("eventDocId", eventsVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "Events information receive failed By eventid",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
 	
 	@GetMapping("/getEventsById")
 	public ResponseEntity<ResponseDTO> getEventsById(@RequestParam(required = false) Long id) {

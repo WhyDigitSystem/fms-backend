@@ -17,11 +17,7 @@ public class CreateUserFormDTO {
 	private String firstName;
 	private Long userId;
 	private String lastName;
-	private Long emitterId;
 	private String userName;
-	private Long[] accessaddId;
-	private Long[] accessWarehouse;
-	private Long[] accessFlowId;
 	private Long pNo;
 	private boolean isActive;
 
@@ -38,7 +34,6 @@ public class CreateUserFormDTO {
 
 	private long orgId;
 
-	private UserAddressDTO userAddressDTO;
+//	private UserAddressDTO userAddressDTO;
 
-	private long accessRightsRoleId;
 }

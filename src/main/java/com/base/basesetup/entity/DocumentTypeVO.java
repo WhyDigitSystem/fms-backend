@@ -50,11 +50,17 @@ public class DocumentTypeVO {
 	@Column(name = "documentcode")
 	private String documentCode;
 	@Column(name = "code")
-	private int code;
+	private String code;
 	@Column(name = "finyr")
-	private int finyr;
+	private String finyr;
 	@Column(name = "branch")
-	private int branch;
+	private String branch;
+	@Column(name="financetransaction")
+    private boolean financeTransaction;
+	@Column(name="postfinance")
+    private boolean postFinance;
+	@Column(name="nogeneration")
+    private boolean noGeneration;
 	@Column(name = "prefix")
 	private String prefix;
 	

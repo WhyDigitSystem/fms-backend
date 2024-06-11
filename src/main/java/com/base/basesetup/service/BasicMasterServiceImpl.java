@@ -634,6 +634,15 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		
 		//Events
+		
+		@Override
+		public String getLatestEventid() {
+			
+			 int eventid = eventsRepo.findeventid(); // Ensure this method is correctly implemented to fetch the next sequence value
+		     String eventsid = "Ev" + eventid;
+			return eventsid;
+		}
+
 
 		@Override
 		public List<EventsVO> getEventsById(Long id) {
@@ -880,6 +889,10 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 				documentTypeVO.setFinyr(documentTypeDTO.getFinyr());
 				documentTypeVO.setBranch(documentTypeDTO.getBranch());
 				documentTypeVO.setPrefix(documentTypeDTO.getPrefix());
+				documentTypeVO.setPostFinance(documentTypeDTO.isPostFinance());
+				documentTypeVO.setFinanceTransaction(documentTypeDTO.isFinanceTransaction());
+				documentTypeVO.setNoGeneration(documentTypeDTO.isNoGeneration());
+
 				documentTypeVO.setOrgId(documentTypeDTO.getOrgId());
 				documentTypeVO.setActive(documentTypeDTO.isActive());
 				documentTypeVO.setCreatedBy(documentTypeDTO.getCreatedBy());
@@ -1018,18 +1031,18 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					for (ListOfValues1DTO listOfValues1DTO : listOfValuesDTO.getListOfValues1DTO()) {
 						if (listOfValues1DTO.getId() != null & ObjectUtils.isNotEmpty(listOfValues1DTO.getId())) {
 							ListOfValues1VO listOfValues1VO = listOfValues1Repo.findById(listOfValues1DTO.getId()).get();
-							listOfValues1VO.setCode(listOfValues1DTO.getCode());
+							listOfValues1VO.setValueCode(listOfValues1DTO.getValueCode());
 							listOfValues1VO.setSNo(listOfValues1DTO.getSNo());
-							listOfValues1VO.setDescription(listOfValues1DTO.getDescription());
+							listOfValues1VO.setValueDescription(listOfValues1DTO.getValueDescription());
 							listOfValues1VO.setActive(listOfValues1DTO.isActive());
 							listOfValues1VO.setListOfValuesVO(listOfValuesVO);
 							listOfValues1VOs.add(listOfValues1VO);
 
 						} else {
 							ListOfValues1VO listOfValues1VO = new ListOfValues1VO();
-							listOfValues1VO.setCode(listOfValues1DTO.getCode());
+							listOfValues1VO.setValueCode(listOfValues1DTO.getValueCode());
 							listOfValues1VO.setSNo(listOfValues1DTO.getSNo());
-							listOfValues1VO.setDescription(listOfValues1DTO.getDescription());
+							listOfValues1VO.setValueDescription(listOfValues1DTO.getValueDescription());
 							listOfValues1VO.setActive(listOfValues1DTO.isActive());
 							listOfValues1VO.setListOfValuesVO(listOfValuesVO);
 							listOfValues1VOs.add(listOfValues1VO);
@@ -1048,9 +1061,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			
 			private void getListOfValuesVOFromTypesOfValuesDTO(@Valid ListOfValuesDTO listOfValuesDTO,
 					ListOfValuesVO listOfValuesVO) {
-                   listOfValuesVO.setCode(listOfValuesDTO.getCode());		
+                   listOfValuesVO.setListCode(listOfValuesDTO.getListCode());		
                    listOfValuesVO.setOrgId(listOfValuesDTO.getOrgId());	
-                   listOfValuesVO.setDescription(listOfValuesDTO.getDescription());	
+                   listOfValuesVO.setListDescription(listOfValuesDTO.getListDescription());	
                    listOfValuesVO.setActive(listOfValuesDTO.isActive());	
                    listOfValuesVO.setUpdatedBy(listOfValuesDTO.getUpdatedBy());	
                    listOfValuesVO.setCreatedBy(listOfValuesDTO.getCreatedBy());	
@@ -1278,7 +1291,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 
 			}
-		
+
+					
 }
 
 

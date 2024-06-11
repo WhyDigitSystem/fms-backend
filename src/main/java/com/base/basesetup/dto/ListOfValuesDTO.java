@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ListOfValuesDTO {
 	private Long id;
-	private String code;
-	private String description;
+	private String listCode;
+	private String listDescription;
 	private Long orgId;
 	private String createdBy;
 	private String updatedBy;

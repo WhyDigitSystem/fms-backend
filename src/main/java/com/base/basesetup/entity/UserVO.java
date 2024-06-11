@@ -39,27 +39,19 @@ public class UserVO {
 	private String userName;
 	private String password;
 	private boolean loginStatus;
-	private String accessaddId;
-	private String accessWarehouse;
-	private String accessFlowId;
-	private Long pNo;
 	private boolean isActive;
 	private String lastLogin;
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	private long accessRightsRoleId;
 	@ManyToOne
 	@JoinColumn(name = "orgId")
 	private OrganizationVO organizationVO;
-	@OneToOne
-	@JoinColumn(name = "address_id")
-	private UserAddressVO userAddressVO;
+	
+	
+	
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
 	private Date accountRemovedDate;
-	@ManyToOne
-	@JoinColumn(name = "emitter_id")
-	private CustomersVO customersVO;
 
 	
 	
