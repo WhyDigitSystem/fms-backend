@@ -4,9 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.base.basesetup.dto.CreatedUpdatedDate;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -69,6 +72,13 @@ public class OrganizationVO {
 	
 	@Column(name = "cancelremarks",length = 25)
 	private String cancelRemarks;
+	
+	
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	@JsonBackReference
+	private UserVO userVO;
+	
 	
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();

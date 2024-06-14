@@ -1,7 +1,9 @@
 package com.base.basesetup.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -10,11 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.base.basesetup.dto.CreatedUpdatedDate;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,17 +26,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "userroles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-
-public class RolesVO {
+public class UserRolesVO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rolesgen")
 	@SequenceGenerator(name = "rolesgen", sequenceName = "rolesseq", initialValue = 1000000001, allocationSize = 1)
-	@Column(name = "rolesid")
+	@Column(name = "userrolesid")
 	private Long id;
 	@Column(name = "role")
 	private String role;
@@ -41,13 +43,15 @@ public class RolesVO {
 	@Column(name = "enddate")
 	private LocalDate enddate;
 	
+	@OneToMany(mappedBy = "userRolesVO",cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<ResponsibilitiesVO> responsibilityVO;
+	
 	@ManyToOne
 	@JoinColumn(name = "userId")
 	@JsonBackReference
 	private UserVO userVO;
 	
 	
-	@Embedded
-	@Builder.Default
-	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
+	
 }

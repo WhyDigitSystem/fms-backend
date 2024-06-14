@@ -1,6 +1,8 @@
 package com.base.basesetup.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,7 +27,7 @@ public class UserResponseDTO {
     private String reportingTO;
 	private String location;
 	private boolean isActive;
-	private String deactivatedOn;
+	private LocalDate deactivatedOn;
 	private Long orgId;
 	
 	private boolean loginStatus;
@@ -35,7 +37,9 @@ public class UserResponseDTO {
 	private String tokenId;
 	private String lastLogin;
 	
-	
+	private List<UserRolesDTO> rolesDTO;
+	private List<ProductsAccessibleDTO> productsAccessibleDTO;
+	private List<BranchesAccessibleDTO> branchesAccessibleDTO;
 }
 
 

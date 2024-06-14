@@ -1,10 +1,10 @@
 package com.base.basesetup.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,15 +12,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.base.basesetup.dto.CreatedUpdatedDate;
-import com.base.basesetup.dto.Role;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,7 +45,7 @@ public class UserVO {
     private String reportingTO;
 	private String location;
 	private boolean isActive;
-	private String deactivatedOn;
+	private LocalDate deactivatedOn;
 	private Long orgId;
 
 	private boolean loginStatus;
@@ -56,13 +53,10 @@ public class UserVO {
 	private String lastLogin;
 	@Enumerated(EnumType.STRING)
 	
-	@OneToMany
-	@JoinColumn(name = "orgId")
-	private OrganizationVO organizationVO;
 	
 	@OneToMany(mappedBy = "userVO",cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<RolesVO> RolesVO;
+	private List<UserRolesVO> userRolesVO;
 	
 	@OneToMany(mappedBy = "userVO",cascade = CascadeType.ALL)
 	@JsonManagedReference

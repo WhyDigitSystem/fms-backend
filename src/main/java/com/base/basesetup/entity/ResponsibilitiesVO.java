@@ -17,29 +17,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "productsaccessible")
+@Table(name = "responsibility")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-
-public class ProductsAccessibleVO {
-	
+@NoArgsConstructor
+public class ResponsibilitiesVO {
+     
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "productsaccessiblegen")
-	@SequenceGenerator(name = "productsaccessiblegen", sequenceName = "productsaccessibleseq", initialValue = 1000000001, allocationSize = 1)
-	@Column(name = "productsaccessibleid")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "responsibilitygen")
+	@SequenceGenerator(name = "responsibilitygen", sequenceName = "responsibilityseq", initialValue = 1000000001, allocationSize = 1)
+	@Column(name = "responsibilityid")
 	private Long id;
-	@Column(name = "productcode")
-	private String productCode;
-	@Column(name = "productname")
-	private String productName;
 	
 	@ManyToOne
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "userrolesId")
 	@JsonBackReference
-	private UserVO userVO;
-	
-
-	
-	
+	private UserRolesVO userRolesVO;
 }

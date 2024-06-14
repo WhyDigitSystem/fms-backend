@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+
 public class BranchesAccessibleVO {
 
 	@Id
@@ -42,8 +42,6 @@ public class BranchesAccessibleVO {
 	private UserVO userVO;
 	
 
-	@Embedded
-	@Builder.Default
-	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
+	
 	
 }
