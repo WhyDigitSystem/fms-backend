@@ -17,4 +17,8 @@ public interface DocumentTypeMappingRepo extends JpaRepository<DocumentTypeMappi
 	@Query(nativeQuery = true, value = "select * from documenttypemapping where orgid=?1")
 	List<DocumentTypeMappingVO> getDocumentTypeMappingByOrgId(Long orgid);
 
+	boolean existsByBranchAndOrgId(String branch, Long orgId);
+
+	boolean existsByFinancialYearAndOrgId(String financialYear, Long orgId);
+
 }

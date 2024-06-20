@@ -32,7 +32,7 @@ public class CountryVO {
 	private String countryCode;
 	
 	@Column(name="country")
-	private String country;
+	private String countryName;
 	
 	@Column(name = "active")
 	private boolean active;

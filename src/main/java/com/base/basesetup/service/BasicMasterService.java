@@ -1,6 +1,7 @@
 package com.base.basesetup.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -152,7 +153,11 @@ public interface BasicMasterService {
 
 	//DocumentType
 	
-	List<DocumentTypeVO> getDocumentTypeById(Long id);
+//	List<DocumentTypeVO> getDocumentTypeById(Long id);
+	
+	List<DocumentTypeVO> getAllDocumentType();
+
+	Optional<DocumentTypeVO> getDocumentTypeById(Long id);
 
 	List<DocumentTypeVO> getDocumentTypeByOrgId(Long orgid);
 	
@@ -198,6 +203,7 @@ public interface BasicMasterService {
 
 	PartyScreeningVO updateCreatePartyScreening(@Valid PartyScreeningDTO partyScreeningDTO) throws ApplicationException;
 
+	
 	
 
 }

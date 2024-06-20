@@ -20,5 +20,11 @@ public interface CityRepo extends JpaRepository<CityVO, Long> {
 	@Query(nativeQuery = true, value = "select * from city where orgid=?1 and state=?2")
 	List<CityVO> findAllCityByState(Long orgId, String country);
 
+	
+
+	boolean existsByCityNameAndOrgId(String cityName, Long orgId);
+
+	boolean existsByCityCodeAndOrgId(String cityCode, Long orgId);
+
 
 }

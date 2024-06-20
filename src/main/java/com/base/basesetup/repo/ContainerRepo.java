@@ -17,4 +17,6 @@ public interface ContainerRepo extends JpaRepository<ContainerVO, Long>{
 	@Query(nativeQuery = true, value = "select * from container where orgid=?1")
 	List<ContainerVO> getContainerByOrgId(Long id);
 
+	boolean existsByCategoryAndOrgId(String category, Long id);
+
 }

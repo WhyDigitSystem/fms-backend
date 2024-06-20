@@ -66,8 +66,7 @@ public class UserVO {
 	@JsonManagedReference
 	private List<BranchesAccessibleVO> branchesAccessibleVO;
 	
-	
-	
+
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
 

@@ -10,7 +10,7 @@ public class CountryDTO {
 
     private Long id;
 	private String countryCode;
-	private String country;
+	private String countryName;
 	private Long orgId;
 	private boolean active;
 

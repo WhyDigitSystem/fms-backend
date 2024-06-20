@@ -17,4 +17,8 @@ public interface DocumentTypeRepo extends JpaRepository<DocumentTypeVO, Long>{
 	@Query(nativeQuery = true, value = "select * from documenttype where orgid=?1")
 	List<DocumentTypeVO> getDocumentTypeByOrgId(Long orgid);
 
+	boolean existsByDocumentNameAndOrgId(String documentName, Long orgId);
+
+	boolean existsByDocumentTypeAndOrgId(String documentType, Long orgId);
+
 }

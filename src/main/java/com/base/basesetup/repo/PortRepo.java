@@ -15,4 +15,12 @@ public interface PortRepo extends JpaRepository<PortVO, Long>{
 	@Query(nativeQuery = true, value = "select * from port where orgid=?1")
 	List<PortVO> getPortByOrgId(Long orgid);
 
+	boolean existsByPortAndOrgId(String port, Long orgId);
+
+	boolean existsByCodeAndOrgId(String code, Long orgId);
+
+	boolean existsByPortAndOrgIdAndId(String port, Long orgId, Long id);
+
+	boolean existsByCodeAndOrgIdAndId(String code, Long orgId, Long id);
+
 }

@@ -17,4 +17,8 @@ public interface GstInRepo extends JpaRepository<GstInVO, Long>{
 	@Query(nativeQuery = true, value = "select * from gstin where orgid=?1")
 	List<GstInVO> getGstInByOrgId(Long orgid);
 
+	boolean existsByPanNameAndOrgId(String panName, Long orgId);
+
+	boolean existsByPartyNameAndOrgId(String partyName, Long id);
+
 }

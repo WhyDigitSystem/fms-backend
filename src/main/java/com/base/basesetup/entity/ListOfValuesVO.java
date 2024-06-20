@@ -44,6 +44,7 @@ public class ListOfValuesVO {
 	private String  updatedBy;
 	@Column(name = "cancelremarks")
 	private String cancelRemarks;
+	
 	@Column(name="orgid")
 	private Long orgId;
 	@Column(name="active")

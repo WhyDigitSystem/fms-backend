@@ -20,4 +20,6 @@ public interface UserRepo extends JpaRepository<UserVO, Long> {
 
 	boolean existsByEmail(String email);
 
+	UserVO findByEmail(String email);
+
 }

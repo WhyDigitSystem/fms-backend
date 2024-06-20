@@ -2,6 +2,7 @@ package com.base.basesetup.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -95,7 +96,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	@Autowired
 	StateRepo stateRepo;
-	
+
 	@Autowired
 	CompanyRepo companyRepo;
 
@@ -110,53 +111,53 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	@Autowired
 	PortRepo portRepo;
-	
+
 	@Autowired
 	ContainerRepo containerRepo;
-	
+
 	@Autowired
 	EventsRepo eventsRepo;
-	
+
 	@Autowired
 	SegmentsRepo segmentsRepo;
-	
+
 	@Autowired
 	RegionRepo regionRepo;
 
 	@Autowired
 	DocumentTypeRepo documentTypeRepo;
-	
+
 	@Autowired
 	DocumentTypeMappingRepo documentTypeMappingRepo;
-	
+
 	@Autowired
 	SubTypesRepo subTypesRepo;
-	
+
 	@Autowired
 	MappingRepo mappingRepo;
-	
+
 	@Autowired
 	ListOfValuesRepo listOfValuesRepo;
-	
+
 	@Autowired
 	ListOfValues1Repo listOfValues1Repo;
-	
+
 	@Autowired
 	TermsAndConditionRepo termsAndConditionRepo;
-	
+
 	@Autowired
 	GstInRepo gstInRepo;
-	
+
 	@Autowired
 	StateGstRepo stateGstRepo;
-	
+
 	@Autowired
 	BusinessAddressRepo businessAddressRepo;
-	
+
 	@Autowired
 	PartyScreeningRepo partyScreeningRepo;
-	
-	//COUNTRY
+
+	// COUNTRY
 
 	@Override
 	public List<CountryVO> getCountryById(Long id) {
@@ -190,21 +191,38 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
 			countryVO = countryRepo.findById(countryDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Country Details"));
+		} else {
+			if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
+				throw new ApplicationException("The given Country Name already exists.");
+			}
+			if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
+				throw new ApplicationException("The given Country Code already exists.");
+			}
 		}
+		// update check
+		if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
+			if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
+				throw new ApplicationException("The given Country Name already exists.");
+			}
+			if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
+				throw new ApplicationException("The given Country Code already exists");
+			}
+		}
+
 		getCountryVOFromCountryDTO(countryDTO, countryVO);
 		return countryRepo.save(countryVO);
 	}
 
-	private void getCountryVOFromCountryDTO(@Valid CountryDTO countryDTO, CountryVO countryVO) {
-		countryVO.setCountry(countryDTO.getCountry());
-		countryVO.setCountryCode(countryDTO.getCountryCode());
+	private void getCountryVOFromCountryDTO(@Valid CountryDTO countryDTO, CountryVO countryVO)
+			throws ApplicationException {
+
 		countryVO.setOrgId(countryDTO.getOrgId());
 		countryVO.setActive(countryDTO.isActive());
-
-
+		countryVO.setCountryCode(countryDTO.getCountryCode());
+		countryVO.setCountryName(countryDTO.getCountryName());
 	}
 
-    //CITY
+	// CITY
 
 	@Override
 	public List<CityVO> getCityById(Long id) {
@@ -238,22 +256,40 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(cityDTO.getId())) {
 			cityVO = cityRepo.findById(cityDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid City Details"));
+		} else {
+			if (cityRepo.existsByCityNameAndOrgId(cityDTO.getCityName(), cityDTO.getOrgId())) {
+				throw new ApplicationException("The given city name already exists.");
+			}
+			if (cityRepo.existsByCityCodeAndOrgId(cityDTO.getCityCode(), cityDTO.getOrgId())) {
+				throw new ApplicationException("The given city code already exists.");
+			}
 		}
+
+		// update check
+		if (ObjectUtils.isNotEmpty(cityDTO.getId())) {
+			if (cityRepo.existsByCityNameAndOrgId(cityDTO.getCityName(), cityDTO.getOrgId())) {
+				throw new ApplicationException("The given city name already exists.");
+			}
+			if (cityRepo.existsByCityCodeAndOrgId(cityDTO.getCityCode(), cityDTO.getOrgId())) {
+				throw new ApplicationException("The given city code already exists");
+			}
+		}
+
 		getCityVOFromCityDTO(cityDTO, cityVO);
 		return cityRepo.save(cityVO);
 	}
 
-	private void getCityVOFromCityDTO(@Valid CityDTO cityDTO, CityVO cityVO) {
+	private void getCityVOFromCityDTO(@Valid CityDTO cityDTO, CityVO cityVO) throws ApplicationException {
+
 		cityVO.setOrgId(cityDTO.getOrgId());
+		cityVO.setActive(cityDTO.isActive());
 		cityVO.setCityCode(cityDTO.getCityCode());
 		cityVO.setCityName(cityDTO.getCityName());
 		cityVO.setCountry(cityDTO.getCountry());
 		cityVO.setState(cityDTO.getState());
-		cityVO.setActive(cityDTO.isActive());
-
 
 	}
-	
+
 	@Override
 	public List<CityVO> getAllCityByState(Long orgId, String country) {
 		return cityRepo.findAllCityByState(orgId, country);
@@ -287,34 +323,51 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		return stateVO;
 	}
 
+
 	@Override
 	public StateVO updateCreateState(@Valid StateDTO stateDTO) throws ApplicationException {
 		StateVO stateVO = new StateVO();
 		if (ObjectUtils.isNotEmpty(stateDTO.getId())) {
 			stateVO = stateRepo.findById(stateDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid State Details"));
+		} else {
+			if (stateRepo.existsByStateCodeAndOrgId(stateDTO.getStateCode(), stateDTO.getOrgId())) {
+				throw new ApplicationException("The given State Code already exists.");
+			}
+			if (stateRepo.existsByStateNameAndOrgId(stateDTO.getStateName(), stateDTO.getOrgId())) {
+				throw new ApplicationException("The given state name already exists.");
+			}
 		}
+		// update check
+		if (ObjectUtils.isNotEmpty(stateDTO.getId())) {
+			if (stateRepo.existsByStateCodeAndOrgId(stateDTO.getStateCode(), stateDTO.getOrgId())) {
+				throw new ApplicationException("The given State Code already exists.");
+			}
+			if (stateRepo.existsByStateNameAndOrgId(stateDTO.getStateCode(), stateDTO.getOrgId())) {
+				throw new ApplicationException("The given State Name already exists");
+			}
+		}
+
 		getStateVOFromStateDTO(stateDTO, stateVO);
 		return stateRepo.save(stateVO);
 	}
 
-	private void getStateVOFromStateDTO(@Valid StateDTO stateDTO, StateVO stateVO) {
+	private void getStateVOFromStateDTO(@Valid StateDTO stateDTO, StateVO stateVO) throws ApplicationException {
+
 		stateVO.setOrgId(stateDTO.getOrgId());
+		stateVO.setActive(stateDTO.isActive());
 		stateVO.setStateCode(stateDTO.getStateCode());
 		stateVO.setStateName(stateDTO.getStateName());
 		stateVO.setCountry(stateDTO.getCountry());
 		stateVO.setRegion(stateDTO.getRegion());
 		stateVO.setStateNumber(stateDTO.getStateNumber());
-		stateVO.setActive(stateDTO.isActive());
-
 
 	}
-	
-	@Override
-    public List<StateVO> getAllStateByCountry(Long orgId, String country) {
-	   return stateRepo.findAllStateByCountry(orgId, country);
-  }
 
+	@Override
+	public List<StateVO> getAllStateByCountry(Long orgId, String country) {
+		return stateRepo.findAllStateByCountry(orgId, country);
+	}
 
 	// Department
 
@@ -341,7 +394,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		departmentVO.setCreatedBy(departmentDTO.getCreatedBy());
 
 	}
-	
+
 	@Override
 	public List<DepartmentVO> getDepartmentById(Long id) {
 		List<DepartmentVO> departmentVO = new ArrayList<>();
@@ -357,13 +410,12 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	@Override
 	public List<DepartmentVO> getDepartmentByOrgId(Long orgId) {
-		
+
 		return departmentRepo.findDepartmentByOrgId(orgId);
 	}
 
+	// Designation
 
-	//Designation
-	
 	@Override
 	public DesignationVO updateCreateDesignation(@Valid DesignationDTO designationDTO) throws ApplicationException {
 		DesignationVO designationVO = new DesignationVO();
@@ -376,15 +428,16 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		return designationRepo.save(designationVO);
 
 	}
-	    private void getDesignationVOFromDesignationDTO(@Valid DesignationDTO designationDTO, DesignationVO designationVO) {
-		   designationVO.setDesignation(designationDTO.getDesignation());
-		   designationVO.setOrgId(designationDTO.getOrgId());
-		   designationVO.setActive(designationDTO.isActive());
-		   designationVO.setUpdatedBy(designationDTO.getUpdatedBy());
-		   designationVO.setCreatedBy(designationDTO.getCreatedBy());
+
+	private void getDesignationVOFromDesignationDTO(@Valid DesignationDTO designationDTO, DesignationVO designationVO) {
+		designationVO.setDesignation(designationDTO.getDesignation());
+		designationVO.setOrgId(designationDTO.getOrgId());
+		designationVO.setActive(designationDTO.isActive());
+		designationVO.setUpdatedBy(designationDTO.getUpdatedBy());
+		designationVO.setCreatedBy(designationDTO.getCreatedBy());
 
 	}
-	
+
 	@Override
 	public List<DesignationVO> getDesignationById(Long id) {
 		List<DesignationVO> designationVO = new ArrayList<>();
@@ -400,12 +453,12 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	@Override
 	public List<DesignationVO> getDesignationByOrgId(Long orgid) {
-		
+
 		return designationRepo.findDesignationByorgId(orgid);
 	}
 
-	//Employee 
-	
+	// Employee
+
 	@Override
 	public List<EmployeeVO> getEmployeeById(Long id) {
 		List<EmployeeVO> employeeVO = new ArrayList<>();
@@ -418,7 +471,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		return employeeVO;
 	}
-	
+
 	@Override
 	public List<EmployeeVO> getEmployeeByOrgId(Long orgid) {
 		List<EmployeeVO> employeeVO = new ArrayList<>();
@@ -431,7 +484,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		return employeeVO;
 	}
-	
+
 	@Override
 	public EmployeeVO updateCreateEmployee(@Valid EmployeeDTO employeeDTO) throws ApplicationException {
 		EmployeeVO employeeVO = new EmployeeVO();
@@ -465,15 +518,32 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	}
 
-	//Port
-	
+	// Port
+
 	@Override
 	public PortVO updateCreatePort(@Valid PortDTO portDTO) throws ApplicationException {
 		PortVO portVO = new PortVO();
 		if (ObjectUtils.isNotEmpty(portDTO.getId())) {
 			portVO = portRepo.findById(portDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Port Details"));
+		} else {
+			// duplicate control while creating
+			if (portRepo.existsByPortAndOrgId(portDTO.getPort(), portDTO.getOrgId())) {
+				throw new ApplicationException("Port Name already exists ");
+			}
+			if (portRepo.existsByCodeAndOrgId(portDTO.getCode(), portDTO.getOrgId())) {
+				throw new ApplicationException("Port Code already exists");
+			}
 		}
+		if (ObjectUtils.isNotEmpty(portDTO.getId())) {
+			if (portRepo.existsByPortAndOrgId(portDTO.getPort(), portDTO.getOrgId())) {
+				throw new ApplicationException("Port Name already exists");
+			}
+			if (portRepo.existsByCodeAndOrgId(portDTO.getCode(), portDTO.getOrgId())) {
+				throw new ApplicationException("Port Code already exists");
+			}
+		}
+
 		getPortVOFromPortDTO(portDTO, portVO);
 		return portRepo.save(portVO);
 
@@ -489,9 +559,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		portVO.setUpdatedBy(portDTO.getUpdatedBy());
 		portVO.setCreatedBy(portDTO.getCreatedBy());
 
-		
 	}
-	
 
 	@Override
 	public List<PortVO> getPortById(Long id) {
@@ -518,131 +586,66 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		return portVO;
 	}
+
+	// Events
+
 	
-     //COMPANY
+	@Override
+	public EventsVO updateCreateEvents(@Valid EventsDTO eventsDTO) throws ApplicationException {
+		EventsVO eventsVO = new EventsVO();
+		// Check if the event ID is present in the DTO
+		if (ObjectUtils.isNotEmpty(eventsDTO.getId())) {
+			// Fetch the existing event or throw an exception if it doesn't exist
+			eventsVO = eventsRepo.findById(eventsDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid Events Details"));
+		} else {
+			// Create a new EventsVO instance if the event ID is not present
+			eventsVO = new EventsVO();
+
+			// Generate a new unique event ID
+			int eventid = eventsRepo.findeventid(); // Ensure this method is correctly implemented to fetch the next
+													// sequence value
+			String eventsid = "Ev" + eventid;
+			eventsRepo.getbyeventsid();
+			eventsVO.setEventid(eventsid); // Assuming this sets the unique event ID to the eventsVO
+			
+			if(eventsRepo.existsByEventDescriptionAndOrgId(eventsDTO.getEventDescription(),eventsDTO.getOrgId())) {
+				throw new ApplicationException("EventsDescription Already exists");
+			}
+		}
+		
+		if(ObjectUtils.isNotEmpty(eventsDTO.getId())) {
+			if(eventsRepo.existsByEventDescriptionAndOrgId(eventsDTO.getEventDescription(),eventsDTO.getOrgId())) {
+				throw new ApplicationException("EventsDescription Already exists");
+			}
+		}
 	
-		@Override
-		public List<CompanyVO> getCompanyById(Long id) {
-			List<CompanyVO> companyVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(id)) {
-				LOGGER.info("Successfully Received Company BY Id : {}", id);
-				companyVO = companyRepo.findCompanyById(id);
-			} else {
-				LOGGER.info("Successfully Received Company For All Id.");
-				companyVO = companyRepo.findAll();
-			}
-			return companyVO;
-		}
+		// Update eventsVO fields with values from eventsDTO
+		updateEventsVOFromEventsDTO(eventsDTO, eventsVO);
 
-     @Override
-      public List<CompanyVO> getCompanyByOrgId(Long orgId) {
-	     List<CompanyVO> companyVO = new ArrayList<>();
-	      if (ObjectUtils.isNotEmpty(orgId)) {
-		  LOGGER.info("Successfully Received  Company BY Id : {}", orgId);
-		   companyVO = companyRepo.findCompanyByOrgId(orgId);
-	      } else {
-		   LOGGER.info("Successfully Received  Company For All OrgId.");
-		   companyVO = companyRepo.findAll();
-	  }
-	    return companyVO;
-     }
-     
-
-    @Override
-    public CompanyVO updateCreateCompany(@Valid CompanyDTO companyDTO) throws ApplicationException {
- 	   CompanyVO companyVO = new CompanyVO();
-			if (ObjectUtils.isNotEmpty(companyDTO.getId())) {
-				companyVO = companyRepo.findById(companyDTO.getId())
-						.orElseThrow(() -> new ApplicationException("Invalid company Details"));
-			}
-			getCompanyVOFromCompanyDTO(companyDTO, companyVO);
-			return companyRepo.save(companyVO);
-		}
-
-		private void getCompanyVOFromCompanyDTO(@Valid CompanyDTO companyDTO, CompanyVO companyVO) {
-     companyVO.setCompanyName(companyDTO.getCompanyName());		
-     companyVO.setCompanyCode(companyDTO.getCompanyCode());	
-     companyVO.setEmail(companyDTO.getEmail());	
-     companyVO.setPhoneNo(companyDTO.getPhoneNo());	
-     companyVO.setAddress(companyDTO.getAddress());	
-     companyVO.setCountry(companyDTO.getCountry());	
-     companyVO.setState(companyDTO.getState());	
-     companyVO.setCity(companyDTO.getCity());
-     companyVO.setPinCode(companyDTO.getPinCode());	
-     companyVO.setAdminEmail(companyDTO.getAdminEmail());	
-     companyVO.setPassport(companyDTO.getPassport());	
-     companyVO.setOrgId(companyDTO.getOrgId());	
-     companyVO.setActive(companyDTO.isActive());	
-     companyVO.setCreatedBy(companyDTO.getCreatedBy());	
-     companyVO.setUpdatedBy(companyDTO.getUpdatedBy());	
-
+		// Save the updated or new event
+		return eventsRepo.save(eventsVO);
 	}
 
-		//Container
-		
-		@Override
-		public List<ContainerVO> getContainerById(Long id) {
-			List<ContainerVO> containerVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(id)) {
-				LOGGER.info("Successfully Received  Container BY Id : {}", id);
-				containerVO = containerRepo.findContainerById(id);
-			} else {
-				LOGGER.info("Successfully Received  Container For All Id.");
-				containerVO = containerRepo.findAll();
-			}
-			return containerVO;
-		}
-
-		@Override
-		public List<ContainerVO> getContainerByOrgId(Long Orgid) {
-			List<ContainerVO> containerVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(Orgid)) {
-				LOGGER.info("Successfully Received  Container BY OrgId : {}", Orgid);
-				containerVO = containerRepo.getContainerByOrgId(Orgid);
-			} else {
-				LOGGER.info("Successfully Received  Container For All OrgId.");
-				containerVO = containerRepo.findAll();
-			}
-			return containerVO;
-		}
-
-		@Override
-		public ContainerVO updateCreateContainer(@Valid ContainerDTO containerDTO) throws ApplicationException {
-			ContainerVO containerVO = new ContainerVO();
-			if (ObjectUtils.isNotEmpty(containerDTO.getId())) {
-				containerVO = containerRepo.findById(containerDTO.getId())
-						.orElseThrow(() -> new ApplicationException("Invalid Container Details"));
-			}
-			getContainerVOFromContainerDTO(containerDTO, containerVO);
-			return containerRepo.save(containerVO);
-		}
-
-		private void getContainerVOFromContainerDTO(@Valid ContainerDTO containerDTO, ContainerVO containerVO) {
-           containerVO.setContainerType(containerDTO.getContainerType());	
-           containerVO.setCategory(containerDTO.getCategory());			
-           containerVO.setLength(containerDTO.getLength());
-           containerVO.setWidth(containerDTO.getWidth());			
-           containerVO.setHeight(containerDTO.getHeight());	
-           containerVO.setWeight(containerDTO.getWeight());	
-           containerVO.setVolume(containerDTO.getVolume());	
-           containerVO.setOrgId(containerDTO.getOrgId());	
-           containerVO.setActive(containerDTO.isActive());			
-           containerVO.setCreatedBy(containerDTO.getCreatedBy());			
-           containerVO.setUpdatedBy(containerDTO.getUpdatedBy());			
-
-
-		}
-		
-		//Events
-		
+	private void updateEventsVOFromEventsDTO(@Valid EventsDTO eventsDTO, EventsVO eventsVO) {
+		// Copy properties from DTO to VO
+		eventsVO.setEventDescription(eventsDTO.getEventDescription());
+		eventsVO.setEventType(eventsDTO.getEventType());
+		eventsVO.setOrgId(eventsDTO.getOrgId());
+		eventsVO.setActive(eventsDTO.isActive());
+		eventsVO.setCreatedBy(eventsDTO.getCreatedBy());
+		eventsVO.setUpdatedBy(eventsDTO.getUpdatedBy());
+	}
+	
+	
 		@Override
 		public String getLatestEventid() {
-			
-			 int eventid = eventsRepo.findeventid(); // Ensure this method is correctly implemented to fetch the next sequence value
-		     String eventsid = "Ev" + eventid;
+
+			int eventid = eventsRepo.findeventid(); // Ensure this method is correctly implemented to fetch the next
+													// sequence value
+			String eventsid = "Ev" + eventid;
 			return eventsid;
 		}
-
 
 		@Override
 		public List<EventsVO> getEventsById(Long id) {
@@ -669,630 +672,780 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			}
 			return eventsVO;
 		}
-		
-		@Override
-		public EventsVO updateCreateEvents(@Valid EventsDTO eventsDTO) throws ApplicationException {
-		    EventsVO eventsVO = new EventsVO();
-		    // Check if the event ID is present in the DTO
-		    if (ObjectUtils.isNotEmpty(eventsDTO.getId())) {
-		        // Fetch the existing event or throw an exception if it doesn't exist
-		        eventsVO = eventsRepo.findById(eventsDTO.getId())
-		                .orElseThrow(() -> new ApplicationException("Invalid Events Details"));
-	    } 
-		    else {
-		        // Create a new EventsVO instance if the event ID is not present
-		        eventsVO = new EventsVO();
-
-		        // Generate a new unique event ID
-		        int eventid = eventsRepo.findeventid(); // Ensure this method is correctly implemented to fetch the next sequence value
-		        String eventsid = "Ev" + eventid;
-		        eventsRepo.getbyeventsid();
-		        eventsVO.setEventid(eventsid); // Assuming this sets the unique event ID to the eventsVO
-		    }
-
-		    // Update eventsVO fields with values from eventsDTO
-		    updateEventsVOFromEventsDTO(eventsDTO, eventsVO);
-
-		    // Save the updated or new event
-		    return eventsRepo.save(eventsVO);
-		}
-
-		private void updateEventsVOFromEventsDTO(@Valid EventsDTO eventsDTO, EventsVO eventsVO) {
-		    // Copy properties from DTO to VO
-		    eventsVO.setEventDescription(eventsDTO.getEventDescription());
-		    eventsVO.setEventType(eventsDTO.getEventType());
-		    eventsVO.setOrgId(eventsDTO.getOrgId());
-		    eventsVO.setActive(eventsDTO.isActive());
-		    eventsVO.setCreatedBy(eventsDTO.getCreatedBy());
-		    eventsVO.setUpdatedBy(eventsDTO.getUpdatedBy());
-		}
 
 		
-		//Segments
 
-		@Override
-		public List<SegmentsVO> getSegmentsById(Long id) {
-			List<SegmentsVO> segmentsVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(id)) {
-				LOGGER.info("Successfully Received  Segments BY Id : {}", id);
-				segmentsVO = segmentsRepo.getSegmentsById(id);
-			} else {
-				LOGGER.info("Successfully Received  Segments For All Id.");
-				segmentsVO = segmentsRepo.findAll();
+	// COMPANY
+
+	@Override
+	public List<CompanyVO> getCompanyById(Long id) {
+		List<CompanyVO> companyVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received Company BY Id : {}", id);
+			companyVO = companyRepo.findCompanyById(id);
+		} else {
+			LOGGER.info("Successfully Received Company For All Id.");
+			companyVO = companyRepo.findAll();
+		}
+		return companyVO;
+	}
+
+	@Override
+	public List<CompanyVO> getCompanyByOrgId(Long orgId) {
+		List<CompanyVO> companyVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgId)) {
+			LOGGER.info("Successfully Received  Company BY Id : {}", orgId);
+			companyVO = companyRepo.findCompanyByOrgId(orgId);
+		} else {
+			LOGGER.info("Successfully Received  Company For All OrgId.");
+			companyVO = companyRepo.findAll();
+		}
+		return companyVO;
+	}
+
+	@Override
+	public CompanyVO updateCreateCompany(@Valid CompanyDTO companyDTO) throws ApplicationException {
+		CompanyVO companyVO = new CompanyVO();
+		if (ObjectUtils.isNotEmpty(companyDTO.getId())) {
+			companyVO = companyRepo.findById(companyDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid company Details"));
+		}
+		getCompanyVOFromCompanyDTO(companyDTO, companyVO);
+		return companyRepo.save(companyVO);
+	}
+
+	private void getCompanyVOFromCompanyDTO(@Valid CompanyDTO companyDTO, CompanyVO companyVO) {
+		companyVO.setCompanyName(companyDTO.getCompanyName());
+		companyVO.setCompanyCode(companyDTO.getCompanyCode());
+		companyVO.setEmail(companyDTO.getEmail());
+		companyVO.setPhoneNo(companyDTO.getPhoneNo());
+		companyVO.setAddress(companyDTO.getAddress());
+		companyVO.setCountry(companyDTO.getCountry());
+		companyVO.setState(companyDTO.getState());
+		companyVO.setCity(companyDTO.getCity());
+		companyVO.setPinCode(companyDTO.getPinCode());
+		companyVO.setAdminEmail(companyDTO.getAdminEmail());
+		companyVO.setPassport(companyDTO.getPassport());
+		companyVO.setOrgId(companyDTO.getOrgId());
+		companyVO.setActive(companyDTO.isActive());
+		companyVO.setCreatedBy(companyDTO.getCreatedBy());
+		companyVO.setUpdatedBy(companyDTO.getUpdatedBy());
+
+	}
+
+	// Container
+
+	@Override
+	public List<ContainerVO> getContainerById(Long id) {
+		List<ContainerVO> containerVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  Container BY Id : {}", id);
+			containerVO = containerRepo.findContainerById(id);
+		} else {
+			LOGGER.info("Successfully Received  Container For All Id.");
+			containerVO = containerRepo.findAll();
+		}
+		return containerVO;
+	}
+
+	@Override
+	public List<ContainerVO> getContainerByOrgId(Long Orgid) {
+		List<ContainerVO> containerVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(Orgid)) {
+			LOGGER.info("Successfully Received  Container BY OrgId : {}", Orgid);
+			containerVO = containerRepo.getContainerByOrgId(Orgid);
+		} else {
+			LOGGER.info("Successfully Received  Container For All OrgId.");
+			containerVO = containerRepo.findAll();
+		}
+		return containerVO;
+	}
+
+	@Override
+	public ContainerVO updateCreateContainer(@Valid ContainerDTO containerDTO) throws ApplicationException {
+		ContainerVO containerVO = new ContainerVO();
+		if (ObjectUtils.isNotEmpty(containerDTO.getId())) {
+			containerVO = containerRepo.findById(containerDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid Container Details"));
+		}
+		
+		else {
+			if(containerRepo.existsByCategoryAndOrgId(containerDTO.getCategory(),containerDTO.getOrgId())) {
+				throw new ApplicationException("Category already Exists");
 			}
-			return segmentsVO;
+		}
+		
+		if(ObjectUtils.isNotEmpty(containerDTO.getId())) {
+			if(containerRepo.existsByCategoryAndOrgId(containerDTO.getCategory(),containerDTO.getOrgId())) {
+				throw new ApplicationException("Category already Exists");
+			}
+		}
+		getContainerVOFromContainerDTO(containerDTO, containerVO);
+		return containerRepo.save(containerVO);
+	}
+
+	private void getContainerVOFromContainerDTO(@Valid ContainerDTO containerDTO, ContainerVO containerVO) {
+		containerVO.setContainerType(containerDTO.getContainerType());
+		containerVO.setCategory(containerDTO.getCategory());
+		containerVO.setLength(containerDTO.getLength());
+		containerVO.setWidth(containerDTO.getWidth());
+		containerVO.setHeight(containerDTO.getHeight());
+		containerVO.setWeight(containerDTO.getWeight());
+		containerVO.setVolume(containerDTO.getVolume());
+		containerVO.setOrgId(containerDTO.getOrgId());
+		containerVO.setActive(containerDTO.isActive());
+		containerVO.setCreatedBy(containerDTO.getCreatedBy());
+		containerVO.setUpdatedBy(containerDTO.getUpdatedBy());
+
+	}
+
+	
+	// Segments
+
+	@Override
+	public List<SegmentsVO> getSegmentsById(Long id) {
+		List<SegmentsVO> segmentsVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  Segments BY Id : {}", id);
+			segmentsVO = segmentsRepo.getSegmentsById(id);
+		} else {
+			LOGGER.info("Successfully Received  Segments For All Id.");
+			segmentsVO = segmentsRepo.findAll();
+		}
+		return segmentsVO;
+	}
+
+	@Override
+	public List<SegmentsVO> getSegmentsByOrgId(Long orgid) {
+		List<SegmentsVO> segmentsVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  Segments BY OrgId : {}", orgid);
+			segmentsVO = segmentsRepo.getSegmentsByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  Segments For All OrgId.");
+			segmentsVO = segmentsRepo.findAll();
+		}
+		return segmentsVO;
+	}
+
+	@Override
+	public SegmentsVO updateCreateSegments(@Valid SegmentsDTO segmentsDTO) throws ApplicationException {
+		SegmentsVO segmentsVO = new SegmentsVO();
+		if (ObjectUtils.isNotEmpty(segmentsDTO.getId())) {
+			segmentsVO = segmentsRepo.findById(segmentsDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid Segments Details"));
+		}
+		getSegmentsVOFromSegmentsDTO(segmentsDTO, segmentsVO);
+		return segmentsRepo.save(segmentsVO);
+	}
+
+	private void getSegmentsVOFromSegmentsDTO(@Valid SegmentsDTO segmentsDTO, SegmentsVO segmentsVO) {
+		segmentsVO.setSegmentName(segmentsDTO.getSegmentName());
+		segmentsVO.setSegmentDescription(segmentsDTO.getSegmentDescription());
+		segmentsVO.setOrgId(segmentsDTO.getOrgId());
+		segmentsVO.setActive(segmentsDTO.isActive());
+		segmentsVO.setCreatedBy(segmentsDTO.getCreatedBy());
+		segmentsVO.setUpdatedBy(segmentsDTO.getUpdatedBy());
+
+	}
+
+	// Region
+
+	@Override
+	public List<RegionVO> getRegionById(Long id) {
+		List<RegionVO> regionVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  Region BY Id : {}", id);
+			regionVO = regionRepo.getRegionById(id);
+		} else {
+			LOGGER.info("Successfully Received  Region For All Id.");
+			regionVO = regionRepo.findAll();
+		}
+		return regionVO;
+	}
+
+	@Override
+	public List<RegionVO> getRegionByOrgId(Long orgid) {
+		List<RegionVO> regionVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  Region BY OrgId : {}", orgid);
+			regionVO = regionRepo.getRegionByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  Region For All OrgId.");
+			regionVO = regionRepo.findAll();
+		}
+		return regionVO;
+	}
+
+	@Override
+	public RegionVO updateCreateRegion(@Valid RegionDTO regionDTO) throws ApplicationException {
+		RegionVO regionVO = new RegionVO();
+		if (ObjectUtils.isNotEmpty(regionDTO.getId())) {
+			regionVO = regionRepo.findById(regionDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid Region Details"));
+		}
+		getRegionVOFromRegionDTO(regionDTO, regionVO);
+		return regionRepo.save(regionVO);
+	}
+
+	private void getRegionVOFromRegionDTO(@Valid RegionDTO regionDTO, RegionVO regionVO) {
+		regionVO.setRegionCode(regionDTO.getRegionCode());
+		regionVO.setRegionName(regionDTO.getRegionName());
+		regionVO.setOrgId(regionDTO.getOrgId());
+		regionVO.setActive(regionDTO.isActive());
+		regionVO.setCreatedBy(regionDTO.getCreatedBy());
+		regionVO.setUpdatedBy(regionDTO.getUpdatedBy());
+
+	}
+
+	// DocumentType
+
+//	@Override
+//	public List<DocumentTypeVO> getDocumentTypeById(Long id) {
+//		List<DocumentTypeVO> documentTypeVO = new ArrayList<>();
+//		if (ObjectUtils.isNotEmpty(id)) {
+//			LOGGER.info("Successfully Received  DocumentType BY Id : {}", id);
+//			documentTypeVO = documentTypeRepo.getDocumentTypeById(id);
+//		} else {
+//			LOGGER.info("Successfully Received  DocumentType For All Id.");
+//			documentTypeVO = documentTypeRepo.findAll();
+//		}
+//		return documentTypeVO;
+//	}
+	
+	@Override
+	public List<DocumentTypeVO> getAllDocumentType() {
+		return documentTypeRepo.findAll();
+	}
+
+	@Override
+	public Optional<DocumentTypeVO> getDocumentTypeById(Long id) {
+		return documentTypeRepo.findById(id);
+	}
+
+	@Override
+	public List<DocumentTypeVO> getDocumentTypeByOrgId(Long orgid) {
+		List<DocumentTypeVO> documentTypeVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  DocumentType BY OrgId : {}", orgid);
+			documentTypeVO = documentTypeRepo.getDocumentTypeByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  DocumentType For All OrgId.");
+			documentTypeVO = documentTypeRepo.findAll();
+		}
+		return documentTypeVO;
+	}
+
+	@Override
+	public DocumentTypeVO updateCreateDocumentType(@Valid DocumentTypeDTO documentTypeDTO) throws ApplicationException {
+		DocumentTypeVO documentTypeVO = new DocumentTypeVO();
+		if (ObjectUtils.isNotEmpty(documentTypeDTO.getId())) {
+			documentTypeVO = documentTypeRepo.findById(documentTypeDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid DocumentType details"));
+		}
+		else {
+			if(documentTypeRepo.existsByDocumentNameAndOrgId(documentTypeDTO.getDocumentName(),documentTypeDTO.getOrgId())) {
+				throw new ApplicationException("DocumentName already exists");
+			}
+			if(documentTypeRepo.existsByDocumentTypeAndOrgId(documentTypeDTO.getDocumentType(),documentTypeDTO.getOrgId())) {
+				throw new ApplicationException("DocumentType already exists");
+			}
+		}
+		
+		if(ObjectUtils.isNotEmpty(documentTypeDTO.getId())) {
+			if(documentTypeRepo.existsByDocumentNameAndOrgId(documentTypeDTO.getDocumentName(),documentTypeDTO.getOrgId())) {
+				throw new ApplicationException("DocumentName already exists");
+			}
+			if(documentTypeRepo.existsByDocumentTypeAndOrgId(documentTypeDTO.getDocumentType(),documentTypeDTO.getOrgId())) {
+				throw new ApplicationException("DocumentType already exists");
+			}
+		}
+		List<SubTypesVO> subTypesVOs = new ArrayList<>();
+		if (documentTypeDTO.getSubTypesDTO() != null) {
+			for (SubTypesDTO subTypesDTO : documentTypeDTO.getSubTypesDTO()) {
+				if (subTypesDTO.getId() != null & ObjectUtils.isNotEmpty(subTypesDTO.getId())) {
+					SubTypesVO subTypesVO = subTypesRepo.findById(subTypesDTO.getId()).get();
+					subTypesVO.setSubType(subTypesDTO.getSubType());
+					subTypesVO.setSubTypeCode(subTypesDTO.getSubTypeCode());
+					subTypesVO.setMonth(subTypesDTO.getMonth());
+					subTypesVO.setSubTypeName(subTypesDTO.getSubTypeName());
+					subTypesVO.setDocumentTypeVO(documentTypeVO);
+					subTypesVOs.add(subTypesVO);
+				
+
+				} else {
+					SubTypesVO subTypesVO = new SubTypesVO();
+					subTypesVO.setSubType(subTypesDTO.getSubType());
+					subTypesVO.setSubTypeCode(subTypesDTO.getSubTypeCode());
+					subTypesVO.setMonth(subTypesDTO.getMonth());
+					subTypesVO.setSubTypeName(subTypesDTO.getSubTypeName());
+					subTypesVO.setDocumentTypeVO(documentTypeVO);
+					subTypesVOs.add(subTypesVO);
+
+				}
+			}
 		}
 
-		@Override
-		public List<SegmentsVO> getSegmentsByOrgId(Long orgid) {
-			List<SegmentsVO> segmentsVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(orgid)) {
-				LOGGER.info("Successfully Received  Segments BY OrgId : {}", orgid);
-				segmentsVO = segmentsRepo.getSegmentsByOrgId(orgid);
-			} else {
-				LOGGER.info("Successfully Received  Segments For All OrgId.");
-				segmentsVO = segmentsRepo.findAll();
+		getDocumentTypeVOFromDocumentTypeDTO(documentTypeDTO, documentTypeVO);
+
+		documentTypeVO.setSubTypesVO(subTypesVOs);
+		return documentTypeRepo.save(documentTypeVO);
+
+	}
+
+	private void getDocumentTypeVOFromDocumentTypeDTO(@Valid DocumentTypeDTO documentTypeDTO,
+			DocumentTypeVO documentTypeVO) {
+		documentTypeVO.setDocumentName(documentTypeDTO.getDocumentName());
+		documentTypeVO.setDocumentCode(documentTypeDTO.getDocumentCode());
+		documentTypeVO.setDocumentType(documentTypeDTO.getDocumentType());
+		documentTypeVO.setDocumentDescription(documentTypeDTO.getDocumentDescription());
+		documentTypeVO.setModule(documentTypeDTO.getModule());
+		documentTypeVO.setSubModule(documentTypeDTO.getSubModule());
+		documentTypeVO.setPrimaryTable(documentTypeDTO.getPrimaryTable());
+		documentTypeVO.setAutoGenField(documentTypeDTO.getAutoGenField());
+		documentTypeVO.setPrefixField(documentTypeDTO.getPrefixField());
+		documentTypeVO.setCode(documentTypeDTO.getCode());
+		documentTypeVO.setFinyr(documentTypeDTO.getFinyr());
+		documentTypeVO.setBranch(documentTypeDTO.getBranch());
+		documentTypeVO.setPrefix(documentTypeDTO.getPrefix());
+		documentTypeVO.setPostFinance(documentTypeDTO.isPostFinance());
+		documentTypeVO.setFinanceTransaction(documentTypeDTO.isFinanceTransaction());
+		documentTypeVO.setNoGeneration(documentTypeDTO.isNoGeneration());
+
+		documentTypeVO.setOrgId(documentTypeDTO.getOrgId());
+		documentTypeVO.setActive(documentTypeDTO.isActive());
+		documentTypeVO.setCreatedBy(documentTypeDTO.getCreatedBy());
+		documentTypeVO.setUpdatedBy(documentTypeDTO.getUpdatedBy());
+
+	}
+
+	// DocumentTypeMapping
+
+	@Override
+	public List<DocumentTypeMappingVO> getDocumentTypeMappingById(Long id) {
+		List<DocumentTypeMappingVO> documentTypeMappingVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  DocumentTypeMapping BY Id : {}", id);
+			documentTypeMappingVO = documentTypeMappingRepo.getDocumentTypeMappingById(id);
+		} else {
+			LOGGER.info("Successfully Received  DocumentTypeMapping For All Id.");
+			documentTypeMappingVO = documentTypeMappingRepo.findAll();
+		}
+		return documentTypeMappingVO;
+	}
+
+	@Override
+	public List<DocumentTypeMappingVO> getDocumentTypeMappingByOrgId(Long orgid) {
+		List<DocumentTypeMappingVO> documentTypeMappingVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  DocumentTypeMapping BY OrgId : {}", orgid);
+			documentTypeMappingVO = documentTypeMappingRepo.getDocumentTypeMappingByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  DocumentTypeMapping For All OrgId.");
+			documentTypeMappingVO = documentTypeMappingRepo.findAll();
+		}
+		return documentTypeMappingVO;
+	}
+
+	@Override
+	public DocumentTypeMappingVO updateCreateDocumentTypeMapping(@Valid DocumentTypeMappingDTO documentTypeMappingDTO)
+			throws ApplicationException {
+		DocumentTypeMappingVO documentTypeMappingVO = new DocumentTypeMappingVO();
+		if (ObjectUtils.isNotEmpty(documentTypeMappingDTO.getId())) {
+			documentTypeMappingVO = documentTypeMappingRepo.findById(documentTypeMappingDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid DocumentTypeMapping details"));
+		}
+		
+		else {
+			if(documentTypeMappingRepo.existsByBranchAndOrgId(documentTypeMappingDTO.getBranch(),documentTypeMappingDTO.getOrgId())) {
+				throw new ApplicationException("Branch already exists");
 			}
-			return segmentsVO;
+			if(documentTypeMappingRepo.existsByFinancialYearAndOrgId(documentTypeMappingDTO.getFinancialYear(),documentTypeMappingDTO.getOrgId())) {
+				throw new ApplicationException("FinancialYear already exists");
+			}
+		}
+		
+		if(ObjectUtils.isNotEmpty(documentTypeMappingDTO.getId())) {
+			if(documentTypeMappingRepo.existsByBranchAndOrgId(documentTypeMappingDTO.getBranch(),documentTypeMappingDTO.getOrgId())) {
+				throw new ApplicationException("Branch already exists");
+			}
+			if(documentTypeMappingRepo.existsByFinancialYearAndOrgId(documentTypeMappingDTO.getFinancialYear(),documentTypeMappingDTO.getOrgId())) {
+				throw new ApplicationException("FinancialYear already exists");
+			}
 		}
 
-		@Override
-		public SegmentsVO updateCreateSegments(@Valid SegmentsDTO segmentsDTO) throws ApplicationException {
-			SegmentsVO segmentsVO = new SegmentsVO();
-				if (ObjectUtils.isNotEmpty(segmentsDTO.getId())) {
-					segmentsVO = segmentsRepo.findById(segmentsDTO.getId())
-							.orElseThrow(() -> new ApplicationException("Invalid Segments Details"));
+		List<MappingVO> mappingVOs = new ArrayList<>();
+		if (documentTypeMappingDTO.getMappingDTO() != null) {
+			for (MappingDTO mappingDTO : documentTypeMappingDTO.getMappingDTO()) {
+				if (mappingDTO.getId() != null & ObjectUtils.isNotEmpty(mappingDTO.getId())) {
+					MappingVO mappingVO = mappingRepo.findById(mappingDTO.getId()).get();
+					mappingVO.setDocType(mappingDTO.getDocType());
+					mappingVO.setSubType(mappingDTO.getSubType());
+					mappingVO.setSubTypeId(mappingDTO.getSubTypeId());
+					mappingVO.setSubTypeCode(mappingDTO.getSubTypeCode());
+					mappingVO.setDocname(mappingDTO.getDocname());
+					mappingVO.setPrefix(mappingDTO.getPrefix());
+					mappingVO.setPostFinance(mappingDTO.isPostFinance());
+					mappingVO.setLastNo(mappingDTO.getLastNo());
+					mappingVO.setResetOnFinYear(mappingDTO.isResetOnFinYear());
+					mappingVO.setDocumentTypeMappingVO(documentTypeMappingVO);
+					mappingVOs.add(mappingVO);
+
+				} else {
+					MappingVO mappingVO = new MappingVO();
+					mappingVO.setDocType(mappingDTO.getDocType());
+					mappingVO.setSubType(mappingDTO.getSubType());
+					mappingVO.setSubTypeId(mappingDTO.getSubTypeId());
+					mappingVO.setSubTypeCode(mappingDTO.getSubTypeCode());
+					mappingVO.setDocname(mappingDTO.getDocname());
+					mappingVO.setPrefix(mappingDTO.getPrefix());
+					mappingVO.setPostFinance(mappingDTO.isPostFinance());
+					mappingVO.setLastNo(mappingDTO.getLastNo());
+					mappingVO.setResetOnFinYear(mappingDTO.isResetOnFinYear());
+					mappingVO.setDocumentTypeMappingVO(documentTypeMappingVO);
+					mappingVOs.add(mappingVO);
+
 				}
-				getSegmentsVOFromSegmentsDTO(segmentsDTO, segmentsVO);
-				return segmentsRepo.save(segmentsVO);
 			}
-
-			private void getSegmentsVOFromSegmentsDTO(@Valid SegmentsDTO segmentsDTO, SegmentsVO segmentsVO) {
-				segmentsVO.setSegmentName(segmentsDTO.getSegmentName());
-				segmentsVO.setSegmentDescription(segmentsDTO.getSegmentDescription());
-				segmentsVO.setOrgId(segmentsDTO.getOrgId());
-				segmentsVO.setActive(segmentsDTO.isActive());
-				segmentsVO.setCreatedBy(segmentsDTO.getCreatedBy());
-				segmentsVO.setUpdatedBy(segmentsDTO.getUpdatedBy());
-
 		}
 
-			//Region
-			
-			@Override
-			public List<RegionVO> getRegionById(Long id) {
-				List<RegionVO> regionVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(id)) {
-					LOGGER.info("Successfully Received  Region BY Id : {}", id);
-					regionVO = regionRepo.getRegionById(id);
+		getDocumentTypeMappingVOFromDocumentTypeMappingDTO(documentTypeMappingDTO, documentTypeMappingVO);
+
+		documentTypeMappingVO.setMappingVO(mappingVOs);
+		return documentTypeMappingRepo.save(documentTypeMappingVO);
+
+	}
+
+	private void getDocumentTypeMappingVOFromDocumentTypeMappingDTO(
+			@Valid DocumentTypeMappingDTO documentTypeMappingDTO, DocumentTypeMappingVO documentTypeMappingVO) {
+		documentTypeMappingVO.setBranch(documentTypeMappingDTO.getBranch());
+		documentTypeMappingVO.setOrgId(documentTypeMappingDTO.getOrgId());
+		documentTypeMappingVO.setFinancialYear(documentTypeMappingDTO.getFinancialYear());
+		documentTypeMappingVO.setCreatedBy(documentTypeMappingDTO.getCreatedBy());
+		documentTypeMappingVO.setUpdatedBy(documentTypeMappingDTO.getUpdatedBy());
+		documentTypeMappingVO.setActive(documentTypeMappingDTO.isActive());
+
+	}
+
+	// ListOfValues
+
+	@Override
+	public List<ListOfValuesVO> getListOfValuesById(Long id) {
+		List<ListOfValuesVO> listOfValuesVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  ListOfValues BY Id : {}", id);
+			listOfValuesVO = listOfValuesRepo.getListOfValuesById(id);
+		} else {
+			LOGGER.info("Successfully Received  ListOfValues For All Id.");
+			listOfValuesVO = listOfValuesRepo.findAll();
+		}
+		return listOfValuesVO;
+	}
+
+	@Override
+	public List<ListOfValuesVO> getListOfValuesByOrgId(Long orgid) {
+		List<ListOfValuesVO> listOfValuesVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  ListOfValues BY OrgId : {}", orgid);
+			listOfValuesVO = listOfValuesRepo.getListOfValuesByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  ListOfValues For All OrgId.");
+			listOfValuesVO = listOfValuesRepo.findAll();
+		}
+		return listOfValuesVO;
+	}
+
+	@Override
+	public ListOfValuesVO updateCreateListOfValues(@Valid ListOfValuesDTO listOfValuesDTO) throws ApplicationException {
+		ListOfValuesVO listOfValuesVO = new ListOfValuesVO();
+		if (ObjectUtils.isNotEmpty(listOfValuesDTO.getId())) {
+			listOfValuesVO = listOfValuesRepo.findById(listOfValuesDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid ListOfValues details"));
+		}
+
+		List<ListOfValues1VO> listOfValues1VOs = new ArrayList<>();
+		if (listOfValuesDTO.getListOfValues1DTO() != null) {
+			for (ListOfValues1DTO listOfValues1DTO : listOfValuesDTO.getListOfValues1DTO()) {
+				if (listOfValues1DTO.getId() != null & ObjectUtils.isNotEmpty(listOfValues1DTO.getId())) {
+					ListOfValues1VO listOfValues1VO = listOfValues1Repo.findById(listOfValues1DTO.getId()).get();
+					listOfValues1VO.setValueCode(listOfValues1DTO.getValueCode());
+					listOfValues1VO.setSNo(listOfValues1DTO.getSNo());
+					listOfValues1VO.setValueDescription(listOfValues1DTO.getValueDescription());
+					listOfValues1VO.setActive(listOfValues1DTO.isActive());
+					listOfValues1VO.setListOfValuesVO(listOfValuesVO);
+					listOfValues1VOs.add(listOfValues1VO);
+
 				} else {
-					LOGGER.info("Successfully Received  Region For All Id.");
-					regionVO = regionRepo.findAll();
-				}
-				return regionVO;
-			}
+					ListOfValues1VO listOfValues1VO = new ListOfValues1VO();
+					listOfValues1VO.setValueCode(listOfValues1DTO.getValueCode());
+					listOfValues1VO.setSNo(listOfValues1DTO.getSNo());
+					listOfValues1VO.setValueDescription(listOfValues1DTO.getValueDescription());
+					listOfValues1VO.setActive(listOfValues1DTO.isActive());
+					listOfValues1VO.setListOfValuesVO(listOfValuesVO);
+					listOfValues1VOs.add(listOfValues1VO);
 
-			@Override
-			public List<RegionVO> getRegionByOrgId(Long orgid) {
-				List<RegionVO> regionVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(orgid)) {
-					LOGGER.info("Successfully Received  Region BY OrgId : {}", orgid);
-					regionVO = regionRepo.getRegionByOrgId(orgid);
+				}
+			}
+		}
+
+		getListOfValuesVOFromTypesOfValuesDTO(listOfValuesDTO, listOfValuesVO);
+
+		listOfValuesVO.setListOfValues1VO(listOfValues1VOs);
+		return listOfValuesRepo.save(listOfValuesVO);
+
+	}
+
+	private void getListOfValuesVOFromTypesOfValuesDTO(@Valid ListOfValuesDTO listOfValuesDTO,
+			ListOfValuesVO listOfValuesVO) {
+		listOfValuesVO.setListCode(listOfValuesDTO.getListCode());
+		listOfValuesVO.setOrgId(listOfValuesDTO.getOrgId());
+		listOfValuesVO.setListDescription(listOfValuesDTO.getListDescription());
+		listOfValuesVO.setActive(listOfValuesDTO.isActive());
+		listOfValuesVO.setUpdatedBy(listOfValuesDTO.getUpdatedBy());
+		listOfValuesVO.setCreatedBy(listOfValuesDTO.getCreatedBy());
+
+	}
+
+	// TermsAndCondition
+
+	@Override
+	public List<TermsAndConditionVO> getTermsAndConditionById(Long id) {
+		List<TermsAndConditionVO> termsAndConditionVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  TermsAndCondition BY Id : {}", id);
+			termsAndConditionVO = termsAndConditionRepo.getTermsAndConditionById(id);
+		} else {
+			LOGGER.info("Successfully Received  TermsAndCondition For All Id.");
+			termsAndConditionVO = termsAndConditionRepo.findAll();
+		}
+		return termsAndConditionVO;
+	}
+
+	@Override
+	public List<TermsAndConditionVO> getTermsAndConditionByOrgId(Long orgid) {
+		List<TermsAndConditionVO> termsAndConditionVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  TermsAndCondition BY OrgId : {}", orgid);
+			termsAndConditionVO = termsAndConditionRepo.getTermsAndConditionByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  TermsAndCondition For All OrgId.");
+			termsAndConditionVO = termsAndConditionRepo.findAll();
+		}
+		return termsAndConditionVO;
+	}
+
+	@Override
+	public TermsAndConditionVO updateCreateCountry(@Valid TermsAndConditionDTO termsAndConditionDTO)
+			throws ApplicationException {
+		TermsAndConditionVO termsAndConditionVO = new TermsAndConditionVO();
+		if (ObjectUtils.isNotEmpty(termsAndConditionDTO.getId())) {
+			termsAndConditionVO = termsAndConditionRepo.findById(termsAndConditionDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid TermsAndCondition Details"));
+		}
+		getTermsAndConditionVOFromTermsAndConditionDTO(termsAndConditionDTO, termsAndConditionVO);
+		return termsAndConditionRepo.save(termsAndConditionVO);
+	}
+
+	private void getTermsAndConditionVOFromTermsAndConditionDTO(@Valid TermsAndConditionDTO termsAndConditionDTO,
+			TermsAndConditionVO termsAndConditionVO) {
+		termsAndConditionVO.setBranch(termsAndConditionDTO.getBranch());
+		termsAndConditionVO.setTerms(termsAndConditionDTO.getTerms());
+		termsAndConditionVO.setDocumentType(termsAndConditionDTO.getDocumentType());
+		termsAndConditionVO.setPartyType(termsAndConditionDTO.getPartyType());
+		termsAndConditionVO.setOrgId(termsAndConditionDTO.getOrgId());
+		termsAndConditionVO.setActive(termsAndConditionDTO.isActive());
+		termsAndConditionVO.setCreatedBy(termsAndConditionDTO.getCreatedBy());
+		termsAndConditionVO.setUpdatedBy(termsAndConditionDTO.getUpdatedBy());
+
+	}
+
+	// GstIn
+
+	@Override
+	public List<GstInVO> getGstInById(Long id) {
+		List<GstInVO> gstInVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  GstIn BY Id : {}", id);
+			gstInVO = gstInRepo.getGstInById(id);
+		} else {
+			LOGGER.info("Successfully Received  GstIn For All Id.");
+			gstInVO = gstInRepo.findAll();
+		}
+		return gstInVO;
+	}
+
+	@Override
+	public List<GstInVO> getGstInByOrgId(Long orgid) {
+		List<GstInVO> gstInVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  GstIn BY OrgId : {}", orgid);
+			gstInVO = gstInRepo.getGstInByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  GstIn For All OrgId.");
+			gstInVO = gstInRepo.findAll();
+		}
+		return gstInVO;
+	}
+
+	@Override
+	public GstInVO updateCreateGstIn(@Valid GstInDTO gstInDTO) throws ApplicationException {
+		GstInVO gstInVO = new GstInVO();
+		if (ObjectUtils.isNotEmpty(gstInDTO.getId())) {
+			gstInVO = gstInRepo.findById(gstInDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid gstIn details"));
+		}
+		
+		else {
+			if(gstInRepo.existsByPanNameAndOrgId(gstInDTO.getPanName(),gstInDTO.getOrgId())) {
+				throw new ApplicationException("PanName already exists");
+			}
+			if(gstInRepo.existsByPartyNameAndOrgId(gstInDTO.getPartyName(),gstInDTO.getOrgId())) {
+				throw new ApplicationException("PartyName already Exists");
+			}
+		}
+		
+		if(ObjectUtils.isNotEmpty(gstInDTO.getId())) {
+			if(gstInRepo.existsByPanNameAndOrgId(gstInDTO.getPanName(),gstInDTO.getOrgId())) {
+				throw new ApplicationException("PanName already exists");
+			}
+			if(gstInRepo.existsByPartyNameAndOrgId(gstInDTO.getPartyName(),gstInDTO.getOrgId())) {
+				throw new ApplicationException("PartyName already Exists");
+			}
+		}
+		List<StateGstVO> stateGstVOs = new ArrayList<>();
+		if (gstInDTO.getStateGstDTO() != null) {
+			for (StateGstDTO stateGstDTO : gstInDTO.getStateGstDTO()) {
+				if (stateGstDTO.getId() != null & ObjectUtils.isNotEmpty(stateGstDTO.getId())) {
+					StateGstVO stateGstVO = stateGstRepo.findById(stateGstDTO.getId()).get();
+					stateGstVO.setStateGst(stateGstDTO.getStateGst());
+					stateGstVO.setGstIn(stateGstDTO.getGstIn());
+					stateGstVO.setStateCode(stateGstDTO.getStateCode());
+					stateGstVO.setContactPerson(stateGstDTO.getContactPerson());
+					stateGstVO.setContactPhoneNo(stateGstDTO.getContactPhoneNo());
+					stateGstVO.setContactEmail(stateGstDTO.getContactEmail());
+					stateGstVO.setGstInVO(gstInVO);
+					stateGstVOs.add(stateGstVO);
+
 				} else {
-					LOGGER.info("Successfully Received  Region For All OrgId.");
-					regionVO = regionRepo.findAll();
+					StateGstVO stateGstVO = new StateGstVO();
+					stateGstVO.setStateGst(stateGstDTO.getStateGst());
+					stateGstVO.setGstIn(stateGstDTO.getGstIn());
+					stateGstVO.setStateCode(stateGstDTO.getStateCode());
+					stateGstVO.setContactPerson(stateGstDTO.getContactPerson());
+					stateGstVO.setContactPhoneNo(stateGstDTO.getContactPhoneNo());
+					stateGstVO.setContactEmail(stateGstDTO.getContactEmail());
+					stateGstVO.setGstInVO(gstInVO);
+					stateGstVOs.add(stateGstVO);
 				}
-				return regionVO;
 			}
+		}
+		List<BusinessAddressVO> businessAddressVOs = new ArrayList<>();
+		if (gstInDTO.getBusinessAddressDTO() != null) {
+			for (BusinessAddressDTO businessAddressDTO : gstInDTO.getBusinessAddressDTO()) {
+				if (businessAddressDTO.getId() != null & ObjectUtils.isNotEmpty(businessAddressDTO.getId())) {
+					BusinessAddressVO businessAddressVO = businessAddressRepo.findById(businessAddressDTO.getId())
+							.get();
+					businessAddressVO.setState(businessAddressDTO.getState());
+					businessAddressVO.setAddress1(businessAddressDTO.getAddress1());
+					businessAddressVO.setAddress2(businessAddressDTO.getAddress2());
+					businessAddressVO.setBusinessPlace(businessAddressDTO.getBusinessPlace());
+					businessAddressVO.setCityName(businessAddressDTO.getCityName());
+					businessAddressVO.setContactPerson(businessAddressDTO.getContactPerson());
+					businessAddressVO.setContactPhoneNo(businessAddressDTO.getContactPhoneNo());
+					businessAddressVO.setContactEmail(businessAddressDTO.getContactEmail());
+					businessAddressVO.setGstInVO(gstInVO);
+					businessAddressVOs.add(businessAddressVO);
 
-			@Override
-			public RegionVO updateCreateRegion(@Valid RegionDTO regionDTO) throws ApplicationException {
-				RegionVO regionVO = new RegionVO();
-				if (ObjectUtils.isNotEmpty(regionDTO.getId())) {
-					regionVO = regionRepo.findById(regionDTO.getId())
-							.orElseThrow(() -> new ApplicationException("Invalid Region Details"));
-				}
-				getRegionVOFromRegionDTO(regionDTO, regionVO);
-				return regionRepo.save(regionVO);
-			}
-
-			private void getRegionVOFromRegionDTO(@Valid RegionDTO regionDTO, RegionVO regionVO) {
-            regionVO.setRegionCode(regionDTO.getRegionCode());
-            regionVO.setRegionName(regionDTO.getRegionName());	
-            regionVO.setOrgId(regionDTO.getOrgId());	
-            regionVO.setActive(regionDTO.isActive());				
-            regionVO.setCreatedBy(regionDTO.getCreatedBy());				
-            regionVO.setUpdatedBy(regionDTO.getUpdatedBy());				
-
-			}
-
-			//DocumentType
-			
-			@Override
-			public List<DocumentTypeVO> getDocumentTypeById(Long id) {
-				List<DocumentTypeVO> documentTypeVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(id)) {
-					LOGGER.info("Successfully Received  DocumentType BY Id : {}", id);
-					documentTypeVO = documentTypeRepo.getDocumentTypeById(id);
 				} else {
-					LOGGER.info("Successfully Received  DocumentType For All Id.");
-					documentTypeVO = documentTypeRepo.findAll();
+					BusinessAddressVO businessAddressVO = new BusinessAddressVO();
+					businessAddressVO.setState(businessAddressDTO.getState());
+					businessAddressVO.setAddress1(businessAddressDTO.getAddress1());
+					businessAddressVO.setAddress2(businessAddressDTO.getAddress2());
+					businessAddressVO.setBusinessPlace(businessAddressDTO.getBusinessPlace());
+					businessAddressVO.setCityName(businessAddressDTO.getCityName());
+					businessAddressVO.setContactPerson(businessAddressDTO.getContactPerson());
+					businessAddressVO.setContactPhoneNo(businessAddressDTO.getContactPhoneNo());
+					businessAddressVO.setContactEmail(businessAddressDTO.getContactEmail());
+					businessAddressVO.setGstInVO(gstInVO);
+					businessAddressVOs.add(businessAddressVO);
 				}
-				return documentTypeVO;
 			}
+		}
+		getGstInVOFromGstInDTO(gstInDTO, gstInVO);
+		gstInVO.setStateGstVO(stateGstVOs);
+		gstInVO.setBusinessAddressVO(businessAddressVOs);
+		return gstInRepo.save(gstInVO);
+	}
 
-			@Override
-			public List<DocumentTypeVO> getDocumentTypeByOrgId(Long orgid) {
-				List<DocumentTypeVO> documentTypeVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(orgid)) {
-					LOGGER.info("Successfully Received  DocumentType BY OrgId : {}", orgid);
-					documentTypeVO = documentTypeRepo.getDocumentTypeByOrgId(orgid);
-				} else {
-					LOGGER.info("Successfully Received  DocumentType For All OrgId.");
-					documentTypeVO = documentTypeRepo.findAll();
-				}
-				return documentTypeVO;
-			}
-			
-			@Override
-			public DocumentTypeVO updateCreateDocumentType(@Valid DocumentTypeDTO documentTypeDTO) throws ApplicationException {
-				DocumentTypeVO documentTypeVO = new DocumentTypeVO();
-				if (ObjectUtils.isNotEmpty(documentTypeDTO.getId())) {
-					documentTypeVO = documentTypeRepo.findById(documentTypeDTO.getId())
-							.orElseThrow(() -> new ApplicationException("Invalid DocumentType details"));
-				}
+	private void getGstInVOFromGstInDTO(@Valid GstInDTO gstInDTO, GstInVO gstInVO) {
+		gstInVO.setPan(gstInDTO.getPan());
+		gstInVO.setPanName(gstInDTO.getPanName());
+		gstInVO.setPartyName(gstInDTO.getPartyName());
+		gstInVO.setAccountType(gstInDTO.getAccountType());
+		gstInVO.setBusinessCategory(gstInDTO.getBusinessCategory());
+		gstInVO.setBussinessType(gstInDTO.getBussinessType());
+		gstInVO.setOrgId(gstInDTO.getOrgId());
+		gstInVO.setActive(gstInDTO.isActive());
+		gstInVO.setUpdatedBy(gstInDTO.getUpdatedBy());
+		gstInVO.setCreatedBy(gstInDTO.getCreatedBy());
 
-				List<SubTypesVO> subTypesVOs = new ArrayList<>();
-				if (documentTypeDTO.getSubTypesDTO() != null) {
-					for (SubTypesDTO subTypesDTO : documentTypeDTO.getSubTypesDTO()) {
-						if (subTypesDTO.getId() != null & ObjectUtils.isNotEmpty(subTypesDTO.getId())) {
-							SubTypesVO subTypesVO = subTypesRepo.findById(subTypesDTO.getId()).get();
-							subTypesVO.setSubType(subTypesDTO.getSubType());
-							subTypesVO.setSubTypeCode(subTypesDTO.getSubTypeCode());
-							subTypesVO.setMonth(subTypesDTO.getMonth());
-							subTypesVO.setSubTypeName(subTypesDTO.getSubTypeName());
-							subTypesVO.setDocumentTypeVO(documentTypeVO);
-							subTypesVOs.add(subTypesVO);
+	}
 
-						} else {
-							SubTypesVO subTypesVO = new SubTypesVO();
-							subTypesVO.setSubType(subTypesDTO.getSubType());
-							subTypesVO.setSubTypeCode(subTypesDTO.getSubTypeCode());
-							subTypesVO.setMonth(subTypesDTO.getMonth());
-							subTypesVO.setSubTypeName(subTypesDTO.getSubTypeName());
-							subTypesVO.setDocumentTypeVO(documentTypeVO);
-							subTypesVOs.add(subTypesVO);
+	// PartyScreening
 
-						}
-					}
-				}
+	@Override
+	public List<PartyScreeningVO> getPartyScreeningById(Long id) {
+		List<PartyScreeningVO> partyScreeningVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  PartyScreening BY Id : {}", id);
+			partyScreeningVO = partyScreeningRepo.getPartyScreeningById(id);
+		} else {
+			LOGGER.info("Successfully Received  PartyScreening For All Id.");
+			partyScreeningVO = partyScreeningRepo.findAll();
+		}
+		return partyScreeningVO;
+	}
 
-				getDocumentTypeVOFromDocumentTypeDTO(documentTypeDTO, documentTypeVO);
+	@Override
+	public List<PartyScreeningVO> getPartyScreeningByOrgId(Long orgid) {
+		List<PartyScreeningVO> partyScreeningVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  PartyScreening BY OrgId : {}", orgid);
+			partyScreeningVO = partyScreeningRepo.getPartyScreeningByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  PartyScreening For All OrgId.");
+			partyScreeningVO = partyScreeningRepo.findAll();
+		}
+		return partyScreeningVO;
+	}
 
-				documentTypeVO.setSubTypesVO(subTypesVOs);
-				return documentTypeRepo.save(documentTypeVO);
+	@Override
+	public PartyScreeningVO updateCreatePartyScreening(@Valid PartyScreeningDTO partyScreeningDTO)
+			throws ApplicationException {
+		PartyScreeningVO partyScreeningVO = new PartyScreeningVO();
+		if (ObjectUtils.isNotEmpty(partyScreeningDTO.getId())) {
+			partyScreeningVO = partyScreeningRepo.findById(partyScreeningDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid PartyScreening Details"));
+		}
+		getPartyScreeningVOFromPartyScreeningDTO(partyScreeningDTO, partyScreeningVO);
+		return partyScreeningRepo.save(partyScreeningVO);
+	}
 
-			}
-			
-			private void getDocumentTypeVOFromDocumentTypeDTO(@Valid DocumentTypeDTO documentTypeDTO,
-					DocumentTypeVO documentTypeVO) {
-				documentTypeVO.setDocumentName(documentTypeDTO.getDocumentName());
-				documentTypeVO.setDocumentCode(documentTypeDTO.getDocumentCode());
-				documentTypeVO.setDocumentType(documentTypeDTO.getDocumentType());
-				documentTypeVO.setDocumentDescription(documentTypeDTO.getDocumentDescription());
-				documentTypeVO.setModule(documentTypeDTO.getModule());
-				documentTypeVO.setSubModule(documentTypeDTO.getSubModule());
-				documentTypeVO.setPrimaryTable(documentTypeDTO.getPrimaryTable());
-				documentTypeVO.setAutoGenField(documentTypeDTO.getAutoGenField());
-				documentTypeVO.setPrefixField(documentTypeDTO.getPrefixField());
-				documentTypeVO.setCode(documentTypeDTO.getCode());
-				documentTypeVO.setFinyr(documentTypeDTO.getFinyr());
-				documentTypeVO.setBranch(documentTypeDTO.getBranch());
-				documentTypeVO.setPrefix(documentTypeDTO.getPrefix());
-				documentTypeVO.setPostFinance(documentTypeDTO.isPostFinance());
-				documentTypeVO.setFinanceTransaction(documentTypeDTO.isFinanceTransaction());
-				documentTypeVO.setNoGeneration(documentTypeDTO.isNoGeneration());
+	private void getPartyScreeningVOFromPartyScreeningDTO(@Valid PartyScreeningDTO partyScreeningDTO,
+			PartyScreeningVO partyScreeningVO) {
+		partyScreeningVO.setPartyType(partyScreeningDTO.getPartyType());
+		partyScreeningVO.setEntityName(partyScreeningDTO.getEntityName());
+		partyScreeningVO.setAlternativeEntityNames(partyScreeningDTO.getAlternativeEntityNames());
+		partyScreeningVO.setUniqueId(partyScreeningDTO.getUniqueId());
+		partyScreeningVO.setIncludeAlias(partyScreeningDTO.getIncludeAlias());
+		partyScreeningVO.setScreeningstatus(partyScreeningDTO.getScreeningstatus());
+		partyScreeningVO.setOrgId(partyScreeningDTO.getOrgId());
+		partyScreeningVO.setActive(partyScreeningDTO.isActive());
+		partyScreeningVO.setCreatedBy(partyScreeningDTO.getCreatedBy());
+		partyScreeningVO.setUpdatedBy(partyScreeningDTO.getUpdatedBy());
 
-				documentTypeVO.setOrgId(documentTypeDTO.getOrgId());
-				documentTypeVO.setActive(documentTypeDTO.isActive());
-				documentTypeVO.setCreatedBy(documentTypeDTO.getCreatedBy());
-				documentTypeVO.setUpdatedBy(documentTypeDTO.getUpdatedBy());
+	}
 
-			}
+	
 
-			//DocumentTypeMapping
-			
-			@Override
-			public List<DocumentTypeMappingVO> getDocumentTypeMappingById(Long id) {
-				List<DocumentTypeMappingVO> documentTypeMappingVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(id)) {
-					LOGGER.info("Successfully Received  DocumentTypeMapping BY Id : {}", id);
-					documentTypeMappingVO = documentTypeMappingRepo.getDocumentTypeMappingById(id);
-				} else {
-					LOGGER.info("Successfully Received  DocumentTypeMapping For All Id.");
-					documentTypeMappingVO = documentTypeMappingRepo.findAll();
-				}
-				return documentTypeMappingVO;
-			}
-
-			@Override
-			public List<DocumentTypeMappingVO> getDocumentTypeMappingByOrgId(Long orgid) {
-				List<DocumentTypeMappingVO> documentTypeMappingVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(orgid)) {
-					LOGGER.info("Successfully Received  DocumentTypeMapping BY OrgId : {}", orgid);
-					documentTypeMappingVO = documentTypeMappingRepo.getDocumentTypeMappingByOrgId(orgid);
-				} else {
-					LOGGER.info("Successfully Received  DocumentTypeMapping For All OrgId.");
-					documentTypeMappingVO = documentTypeMappingRepo.findAll();
-				}
-				return documentTypeMappingVO;
-			}
-
-			@Override
-			public DocumentTypeMappingVO updateCreateDocumentTypeMapping(@Valid DocumentTypeMappingDTO documentTypeMappingDTO) throws ApplicationException {
-				DocumentTypeMappingVO documentTypeMappingVO = new DocumentTypeMappingVO();
-				if (ObjectUtils.isNotEmpty(documentTypeMappingDTO.getId())) {
-					documentTypeMappingVO = documentTypeMappingRepo.findById(documentTypeMappingDTO.getId())
-							.orElseThrow(() -> new ApplicationException("Invalid DocumentTypeMapping details"));
-				}
-
-				List<MappingVO> mappingVOs = new ArrayList<>();
-				if (documentTypeMappingDTO.getMappingDTO() != null) {
-					for (MappingDTO mappingDTO : documentTypeMappingDTO.getMappingDTO()) {
-						if (mappingDTO.getId() != null & ObjectUtils.isNotEmpty(mappingDTO.getId())) {
-							MappingVO mappingVO = mappingRepo.findById(mappingDTO.getId()).get();
-							mappingVO.setDocType(mappingDTO.getDocType());
-							mappingVO.setSubType(mappingDTO.getSubType());
-							mappingVO.setSubTypeId(mappingDTO.getSubTypeId());
-							mappingVO.setSubTypeCode(mappingDTO.getSubTypeCode());
-							mappingVO.setDocname(mappingDTO.getDocname());
-							mappingVO.setPrefix(mappingDTO.getPrefix());
-							mappingVO.setPostFinance(mappingDTO.isPostFinance());
-							mappingVO.setLastNo(mappingDTO.getLastNo());
-							mappingVO.setResetOnFinYear(mappingDTO.isResetOnFinYear());
-							mappingVO.setDocumentTypeMappingVO(documentTypeMappingVO);
-							mappingVOs.add(mappingVO);
-
-						} else {
-							MappingVO mappingVO = new MappingVO();
-							mappingVO.setDocType(mappingDTO.getDocType());
-							mappingVO.setSubType(mappingDTO.getSubType());
-							mappingVO.setSubTypeId(mappingDTO.getSubTypeId());
-							mappingVO.setSubTypeCode(mappingDTO.getSubTypeCode());
-							mappingVO.setDocname(mappingDTO.getDocname());
-							mappingVO.setPrefix(mappingDTO.getPrefix());
-							mappingVO.setPostFinance(mappingDTO.isPostFinance());
-							mappingVO.setLastNo(mappingDTO.getLastNo());
-							mappingVO.setResetOnFinYear(mappingDTO.isResetOnFinYear());
-							mappingVO.setDocumentTypeMappingVO(documentTypeMappingVO);
-							mappingVOs.add(mappingVO);
-
-						}
-					}
-				}
-
-				getDocumentTypeMappingVOFromDocumentTypeMappingDTO(documentTypeMappingDTO, documentTypeMappingVO);
-
-				documentTypeMappingVO.setMappingVO(mappingVOs);
-				return documentTypeMappingRepo.save(documentTypeMappingVO);
-
-			}
-			
-			private void getDocumentTypeMappingVOFromDocumentTypeMappingDTO(
-					@Valid DocumentTypeMappingDTO documentTypeMappingDTO, DocumentTypeMappingVO documentTypeMappingVO) {
-                 documentTypeMappingVO.setBranch(documentTypeMappingDTO.getBranch());		
-                 documentTypeMappingVO.setOrgId(documentTypeMappingDTO.getOrgId());	
-                 documentTypeMappingVO.setFinancialYear(documentTypeMappingDTO.getFinancialYear());	
-                 documentTypeMappingVO.setCreatedBy(documentTypeMappingDTO.getCreatedBy());	
-                 documentTypeMappingVO.setUpdatedBy(documentTypeMappingDTO.getUpdatedBy());	
-                 documentTypeMappingVO.setActive(documentTypeMappingDTO.isActive());	
-
-
-			}
-
-			//ListOfValues
-			
-			@Override
-			public List<ListOfValuesVO> getListOfValuesById(Long id) {
-				List<ListOfValuesVO> listOfValuesVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(id)) {
-					LOGGER.info("Successfully Received  ListOfValues BY Id : {}", id);
-					listOfValuesVO = listOfValuesRepo.getListOfValuesById(id);
-				} else {
-					LOGGER.info("Successfully Received  ListOfValues For All Id.");
-					listOfValuesVO = listOfValuesRepo.findAll();
-				}
-				return listOfValuesVO;
-			}
-
-			@Override
-			public List<ListOfValuesVO> getListOfValuesByOrgId(Long orgid) {
-				List<ListOfValuesVO> listOfValuesVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(orgid)) {
-					LOGGER.info("Successfully Received  ListOfValues BY OrgId : {}", orgid);
-					listOfValuesVO = listOfValuesRepo.getListOfValuesByOrgId(orgid);
-				} else {
-					LOGGER.info("Successfully Received  ListOfValues For All OrgId.");
-					listOfValuesVO = listOfValuesRepo.findAll();
-				}
-				return listOfValuesVO;
-			}
-
-			@Override
-			public ListOfValuesVO updateCreateListOfValues(@Valid ListOfValuesDTO listOfValuesDTO) throws ApplicationException {
-				ListOfValuesVO listOfValuesVO = new ListOfValuesVO();
-				if (ObjectUtils.isNotEmpty(listOfValuesDTO.getId())) {
-					listOfValuesVO = listOfValuesRepo.findById(listOfValuesDTO.getId())
-							.orElseThrow(() -> new ApplicationException("Invalid ListOfValues details"));
-				}
-
-				List<ListOfValues1VO> listOfValues1VOs = new ArrayList<>();
-				if (listOfValuesDTO.getListOfValues1DTO() != null) {
-					for (ListOfValues1DTO listOfValues1DTO : listOfValuesDTO.getListOfValues1DTO()) {
-						if (listOfValues1DTO.getId() != null & ObjectUtils.isNotEmpty(listOfValues1DTO.getId())) {
-							ListOfValues1VO listOfValues1VO = listOfValues1Repo.findById(listOfValues1DTO.getId()).get();
-							listOfValues1VO.setValueCode(listOfValues1DTO.getValueCode());
-							listOfValues1VO.setSNo(listOfValues1DTO.getSNo());
-							listOfValues1VO.setValueDescription(listOfValues1DTO.getValueDescription());
-							listOfValues1VO.setActive(listOfValues1DTO.isActive());
-							listOfValues1VO.setListOfValuesVO(listOfValuesVO);
-							listOfValues1VOs.add(listOfValues1VO);
-
-						} else {
-							ListOfValues1VO listOfValues1VO = new ListOfValues1VO();
-							listOfValues1VO.setValueCode(listOfValues1DTO.getValueCode());
-							listOfValues1VO.setSNo(listOfValues1DTO.getSNo());
-							listOfValues1VO.setValueDescription(listOfValues1DTO.getValueDescription());
-							listOfValues1VO.setActive(listOfValues1DTO.isActive());
-							listOfValues1VO.setListOfValuesVO(listOfValuesVO);
-							listOfValues1VOs.add(listOfValues1VO);
-
-
-						}
-					}
-				}
-
-				getListOfValuesVOFromTypesOfValuesDTO(listOfValuesDTO, listOfValuesVO);
-
-				listOfValuesVO.setListOfValues1VO(listOfValues1VOs);
-				return listOfValuesRepo.save(listOfValuesVO);
-
-			}
-			
-			private void getListOfValuesVOFromTypesOfValuesDTO(@Valid ListOfValuesDTO listOfValuesDTO,
-					ListOfValuesVO listOfValuesVO) {
-                   listOfValuesVO.setListCode(listOfValuesDTO.getListCode());		
-                   listOfValuesVO.setOrgId(listOfValuesDTO.getOrgId());	
-                   listOfValuesVO.setListDescription(listOfValuesDTO.getListDescription());	
-                   listOfValuesVO.setActive(listOfValuesDTO.isActive());	
-                   listOfValuesVO.setUpdatedBy(listOfValuesDTO.getUpdatedBy());	
-                   listOfValuesVO.setCreatedBy(listOfValuesDTO.getCreatedBy());	
-
-			}
-
-			//TermsAndCondition
-			
-			@Override
-			public List<TermsAndConditionVO> getTermsAndConditionById(Long id) {
-				List<TermsAndConditionVO> termsAndConditionVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(id)) {
-					LOGGER.info("Successfully Received  TermsAndCondition BY Id : {}", id);
-					termsAndConditionVO = termsAndConditionRepo.getTermsAndConditionById(id);
-				} else {
-					LOGGER.info("Successfully Received  TermsAndCondition For All Id.");
-					termsAndConditionVO = termsAndConditionRepo.findAll();
-				}
-				return termsAndConditionVO;
-			}
-
-			@Override
-			public List<TermsAndConditionVO> getTermsAndConditionByOrgId(Long orgid) {
-				List<TermsAndConditionVO> termsAndConditionVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(orgid)) {
-					LOGGER.info("Successfully Received  TermsAndCondition BY OrgId : {}", orgid);
-					termsAndConditionVO = termsAndConditionRepo.getTermsAndConditionByOrgId(orgid);
-				} else {
-					LOGGER.info("Successfully Received  TermsAndCondition For All OrgId.");
-					termsAndConditionVO = termsAndConditionRepo.findAll();
-				}
-				return termsAndConditionVO;
-			}
-
-			@Override
-			public TermsAndConditionVO updateCreateCountry(@Valid TermsAndConditionDTO termsAndConditionDTO) throws ApplicationException {
-				TermsAndConditionVO termsAndConditionVO = new TermsAndConditionVO();
-				if (ObjectUtils.isNotEmpty(termsAndConditionDTO.getId())) {
-					termsAndConditionVO = termsAndConditionRepo.findById(termsAndConditionDTO.getId())
-							.orElseThrow(() -> new ApplicationException("Invalid TermsAndCondition Details"));
-				}
-				getTermsAndConditionVOFromTermsAndConditionDTO(termsAndConditionDTO, termsAndConditionVO);
-				return termsAndConditionRepo.save(termsAndConditionVO);
-			}
-
-			private void getTermsAndConditionVOFromTermsAndConditionDTO(
-					@Valid TermsAndConditionDTO termsAndConditionDTO, TermsAndConditionVO termsAndConditionVO) {
-				termsAndConditionVO.setBranch(termsAndConditionDTO.getBranch());	
-				termsAndConditionVO.setTerms(termsAndConditionDTO.getTerms());		
-				termsAndConditionVO.setDocumentType(termsAndConditionDTO.getDocumentType());		
-				termsAndConditionVO.setPartyType(termsAndConditionDTO.getPartyType());	
-				termsAndConditionVO.setOrgId(termsAndConditionDTO.getOrgId());	
-				termsAndConditionVO.setActive(termsAndConditionDTO.isActive());		
-				termsAndConditionVO.setCreatedBy(termsAndConditionDTO.getCreatedBy());		
-				termsAndConditionVO.setUpdatedBy(termsAndConditionDTO.getUpdatedBy());		
-
-			}
-
-			//GstIn
-			
-			@Override
-			public List<GstInVO> getGstInById(Long id) {
-				List<GstInVO> gstInVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(id)) {
-					LOGGER.info("Successfully Received  GstIn BY Id : {}", id);
-					gstInVO = gstInRepo.getGstInById(id);
-				} else {
-					LOGGER.info("Successfully Received  GstIn For All Id.");
-					gstInVO = gstInRepo.findAll();
-				}
-				return gstInVO;
-			}
-
-			@Override
-			public List<GstInVO> getGstInByOrgId(Long orgid) {
-				List<GstInVO> gstInVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(orgid)) {
-					LOGGER.info("Successfully Received  GstIn BY OrgId : {}", orgid);
-					gstInVO = gstInRepo.getGstInByOrgId(orgid);
-				} else {
-					LOGGER.info("Successfully Received  GstIn For All OrgId.");
-					gstInVO = gstInRepo.findAll();
-				}
-				return gstInVO;
-			}
-
-			@Override
-			public GstInVO updateCreateGstIn(@Valid GstInDTO gstInDTO) throws ApplicationException {
-				GstInVO gstInVO = new GstInVO();
-				if (ObjectUtils.isNotEmpty(gstInDTO.getId())) {
-					gstInVO = gstInRepo.findById(gstInDTO.getId())
-							.orElseThrow(() -> new ApplicationException("Invalid gstIn details"));
-				}
-				List<StateGstVO> stateGstVOs = new ArrayList<>();
-				if (gstInDTO.getStateGstDTO() != null) {
-					for (StateGstDTO stateGstDTO : gstInDTO.getStateGstDTO()) {
-						if (stateGstDTO.getId() != null & ObjectUtils.isNotEmpty(stateGstDTO.getId())) {
-							StateGstVO stateGstVO = stateGstRepo.findById(stateGstDTO.getId()).get();	
-							stateGstVO.setStateGst(stateGstDTO.getStateGst());
-							stateGstVO.setGstIn(stateGstDTO.getGstIn());
-							stateGstVO.setStateCode(stateGstDTO.getStateCode());
-							stateGstVO.setContactPerson(stateGstDTO.getContactPerson());
-							stateGstVO.setContactPhoneNo(stateGstDTO.getContactPhoneNo());
-							stateGstVO.setContactEmail(stateGstDTO.getContactEmail());
-							stateGstVO.setGstInVO(gstInVO);
-							stateGstVOs.add(stateGstVO);
-
-						} else {
-							StateGstVO stateGstVO = new StateGstVO();
-							stateGstVO.setStateGst(stateGstDTO.getStateGst());
-							stateGstVO.setGstIn(stateGstDTO.getGstIn());
-							stateGstVO.setStateCode(stateGstDTO.getStateCode());
-							stateGstVO.setContactPerson(stateGstDTO.getContactPerson());
-							stateGstVO.setContactPhoneNo(stateGstDTO.getContactPhoneNo());
-							stateGstVO.setContactEmail(stateGstDTO.getContactEmail());
-							stateGstVO.setGstInVO(gstInVO);
-							stateGstVOs.add(stateGstVO);
-						}
-					}
-				}
-				List<BusinessAddressVO> businessAddressVOs = new ArrayList<>();
-				if (gstInDTO.getBusinessAddressDTO() != null) {
-					for (BusinessAddressDTO businessAddressDTO : gstInDTO.getBusinessAddressDTO()) {
-						if (businessAddressDTO.getId() != null & ObjectUtils.isNotEmpty(businessAddressDTO.getId())) {
-							BusinessAddressVO businessAddressVO = businessAddressRepo.findById(businessAddressDTO.getId()).get();
-							businessAddressVO.setState(businessAddressDTO.getState());
-							businessAddressVO.setAddress1(businessAddressDTO.getAddress1());
-							businessAddressVO.setAddress2(businessAddressDTO.getAddress2());
-							businessAddressVO.setBusinessPlace(businessAddressDTO.getBusinessPlace());
-							businessAddressVO.setCityName(businessAddressDTO.getCityName());
-							businessAddressVO.setContactPerson(businessAddressDTO.getContactPerson());
-							businessAddressVO.setContactPhoneNo(businessAddressDTO.getContactPhoneNo());
-							businessAddressVO.setContactEmail(businessAddressDTO.getContactEmail());
-							businessAddressVO.setGstInVO(gstInVO);
-							businessAddressVOs.add(businessAddressVO);
-
-						} else {
-							BusinessAddressVO businessAddressVO = new BusinessAddressVO();
-							businessAddressVO.setState(businessAddressDTO.getState());
-							businessAddressVO.setAddress1(businessAddressDTO.getAddress1());
-							businessAddressVO.setAddress2(businessAddressDTO.getAddress2());
-							businessAddressVO.setBusinessPlace(businessAddressDTO.getBusinessPlace());
-							businessAddressVO.setCityName(businessAddressDTO.getCityName());
-							businessAddressVO.setContactPerson(businessAddressDTO.getContactPerson());
-							businessAddressVO.setContactPhoneNo(businessAddressDTO.getContactPhoneNo());
-							businessAddressVO.setContactEmail(businessAddressDTO.getContactEmail());
-							businessAddressVO.setGstInVO(gstInVO);
-							businessAddressVOs.add(businessAddressVO);
-						}
-					}
-				}
-				getGstInVOFromGstInDTO(gstInDTO, gstInVO);
-				gstInVO.setStateGstVO(stateGstVOs);
-				gstInVO.setBusinessAddressVO(businessAddressVOs);
-				return gstInRepo.save(gstInVO);
-			}
-
-			private void getGstInVOFromGstInDTO(@Valid GstInDTO gstInDTO, GstInVO gstInVO) {
-				gstInVO.setPan(gstInDTO.getPan());	
-				gstInVO.setPanName(gstInDTO.getPanName());			
-				gstInVO.setPartyName(gstInDTO.getPartyName());			
-				gstInVO.setAccountType(gstInDTO.getAccountType());			
-				gstInVO.setBusinessCategory(gstInDTO.getBusinessCategory());
-				gstInVO.setBussinessType(gstInDTO.getBussinessType());			
-				gstInVO.setOrgId(gstInDTO.getOrgId());	
-				gstInVO.setActive(gstInDTO.isActive());			
-				gstInVO.setUpdatedBy(gstInDTO.getUpdatedBy());			
-				gstInVO.setCreatedBy(gstInDTO.getCreatedBy());			
-
-			}
-
-			
-			//PartyScreening
-			
-			@Override
-			public List<PartyScreeningVO> getPartyScreeningById(Long id) {
-				List<PartyScreeningVO> partyScreeningVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(id)) {
-					LOGGER.info("Successfully Received  PartyScreening BY Id : {}", id);
-					partyScreeningVO = partyScreeningRepo.getPartyScreeningById(id);
-				} else {
-					LOGGER.info("Successfully Received  PartyScreening For All Id.");
-					partyScreeningVO = partyScreeningRepo.findAll();
-				}
-				return partyScreeningVO;
-			}
-
-			@Override
-			public List<PartyScreeningVO> getPartyScreeningByOrgId(Long orgid) {
-				List<PartyScreeningVO> partyScreeningVO = new ArrayList<>();
-				if (ObjectUtils.isNotEmpty(orgid)) {
-					LOGGER.info("Successfully Received  PartyScreening BY OrgId : {}", orgid);
-					partyScreeningVO = partyScreeningRepo.getPartyScreeningByOrgId(orgid);
-				} else {
-					LOGGER.info("Successfully Received  PartyScreening For All OrgId.");
-					partyScreeningVO = partyScreeningRepo.findAll();
-				}
-				return partyScreeningVO;
-			}
-
-			@Override
-			public PartyScreeningVO updateCreatePartyScreening(@Valid PartyScreeningDTO partyScreeningDTO) throws ApplicationException {
-				PartyScreeningVO partyScreeningVO = new PartyScreeningVO();
-				if (ObjectUtils.isNotEmpty(partyScreeningDTO.getId())) {
-					partyScreeningVO = partyScreeningRepo.findById(partyScreeningDTO.getId())
-							.orElseThrow(() -> new ApplicationException("Invalid PartyScreening Details"));
-				}
-				getPartyScreeningVOFromPartyScreeningDTO(partyScreeningDTO, partyScreeningVO);
-				return partyScreeningRepo.save(partyScreeningVO);
-			}
-
-			private void getPartyScreeningVOFromPartyScreeningDTO(@Valid PartyScreeningDTO partyScreeningDTO,
-					PartyScreeningVO partyScreeningVO) {
-                 partyScreeningVO.setPartyType(partyScreeningDTO.getPartyType());
-                 partyScreeningVO.setEntityName(partyScreeningDTO.getEntityName());			
-                 partyScreeningVO.setAlternativeEntityNames(partyScreeningDTO.getAlternativeEntityNames());			
-                 partyScreeningVO.setUniqueId(partyScreeningDTO.getUniqueId());			
-                 partyScreeningVO.setIncludeAlias(partyScreeningDTO.getIncludeAlias());	
-                 partyScreeningVO.setScreeningstatus(partyScreeningDTO.getScreeningstatus());
-                 partyScreeningVO.setOrgId(partyScreeningDTO.getOrgId());
-                 partyScreeningVO.setActive(partyScreeningDTO.isActive());			
-                 partyScreeningVO.setCreatedBy(partyScreeningDTO.getCreatedBy());			
-                 partyScreeningVO.setUpdatedBy(partyScreeningDTO.getUpdatedBy());			
-
-
-
-			}
-
-					
 }
-
-
