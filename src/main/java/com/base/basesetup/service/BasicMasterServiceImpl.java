@@ -546,11 +546,16 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			}
 		}
 		if (ObjectUtils.isNotEmpty(portDTO.getId())) {
+			PortVO port = portRepo.findById(portDTO.getId()).orElse(null);
+			if(!port.getPort().equals(portDTO.getPort())) {
 			if (portRepo.existsByPortAndOrgId(portDTO.getPort(), portDTO.getOrgId())) {
 				throw new ApplicationException("Port Name already exists");
 			}
+			}
+			if(!port.getCode().equals(portDTO.getCode())) {
 			if (portRepo.existsByCodeAndOrgId(portDTO.getCode(), portDTO.getOrgId())) {
 				throw new ApplicationException("Port Code already exists");
+			}
 			}
 		}
 
@@ -624,10 +629,14 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			}
 		}
 		
+		//Duplicate check
 		if(ObjectUtils.isNotEmpty(eventsDTO.getId())) {
+			EventsVO events=  eventsRepo.findById(eventsDTO.getId()).orElse(null);
+			if(!events.getEventDescription().equals(eventsDTO.getEventDescription())) {
 			if(eventsRepo.existsByEventDescriptionAndOrgId(eventsDTO.getEventDescription(),eventsDTO.getOrgId())) {
 				throw new ApplicationException("EventsDescription Already exists");
 			}
+		}
 		}
 	
 		// Update eventsVO fields with values from eventsDTO
@@ -779,6 +788,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					.orElseThrow(() -> new ApplicationException("Invalid Container Details"));
 		}
 		
+		//Duplicate check
 		else {
 			if(containerRepo.existsByCategoryAndOrgId(containerDTO.getCategory(),containerDTO.getOrgId())) {
 				throw new ApplicationException("Category already Exists");
@@ -786,8 +796,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		
 		if(ObjectUtils.isNotEmpty(containerDTO.getId())) {
+			ContainerVO container =  containerRepo.findById(containerDTO.getId()).orElse(null);
+			if(!container.getCategory().equals(containerDTO.getCategory())) {
 			if(containerRepo.existsByCategoryAndOrgId(containerDTO.getCategory(),containerDTO.getOrgId())) {
 				throw new ApplicationException("Category already Exists");
+			}
 			}
 		}
 		getContainerVOFromContainerDTO(containerDTO, containerVO);
@@ -1083,12 +1096,17 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		
 		if(ObjectUtils.isNotEmpty(documentTypeMappingDTO.getId())) {
+			DocumentTypeMappingVO documentTypeMapping = documentTypeMappingRepo.findById(documentTypeMappingDTO.getId()).orElse(null);
+			if(!documentTypeMapping.getBranch().equals(documentTypeMappingDTO.getBranch())) {
 			if(documentTypeMappingRepo.existsByBranchAndOrgId(documentTypeMappingDTO.getBranch(),documentTypeMappingDTO.getOrgId())) {
 				throw new ApplicationException("Branch already exists");
 			}
+			}
+			if(!documentTypeMapping.getFinancialYear().equals(documentTypeMappingDTO.getFinancialYear())) {
 			if(documentTypeMappingRepo.existsByFinancialYearAndOrgId(documentTypeMappingDTO.getFinancialYear(),documentTypeMappingDTO.getOrgId())) {
 				throw new ApplicationException("FinancialYear already exists");
 			}
+		}
 		}
 
 		List<MappingVO> mappingVOs = new ArrayList<>();
@@ -1311,6 +1329,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			gstInVO = gstInRepo.findById(gstInDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid gstIn details"));
 		}
+		//duplicate check
 		
 		else {
 			if(gstInRepo.existsByPanNameAndOrgId(gstInDTO.getPanName(),gstInDTO.getOrgId())) {
@@ -1322,11 +1341,16 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		
 		if(ObjectUtils.isNotEmpty(gstInDTO.getId())) {
+			GstInVO gstIn=  gstInRepo.findById(gstInDTO.getId()).orElse(null);
+			if(!gstIn.getPanName().equals(gstInDTO.getPanName())) {
 			if(gstInRepo.existsByPanNameAndOrgId(gstInDTO.getPanName(),gstInDTO.getOrgId())) {
 				throw new ApplicationException("PanName already exists");
 			}
+			}
+			if(!gstIn.getPartyName().equals(gstInDTO.getPartyName())) {
 			if(gstInRepo.existsByPartyNameAndOrgId(gstInDTO.getPartyName(),gstInDTO.getOrgId())) {
 				throw new ApplicationException("PartyName already Exists");
+			}
 			}
 		}
 		List<StateGstVO> stateGstVOs = new ArrayList<>();
