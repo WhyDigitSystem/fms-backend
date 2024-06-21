@@ -201,12 +201,22 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		// update check
 		if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
+			CountryVO country = countryRepo.findById(countryDTO.getId()).orElse(null);
+			
+			if(!country.getCountryName().equals(countryDTO.getCountryName()) ) {
+
 			if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
 				throw new ApplicationException("The given Country Name already exists.");
 			}
+			}
+			
+			if(!country.getCountryCode().equals(countryDTO.getCountryCode())) {
+				
 			if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
 				throw new ApplicationException("The given Country Code already exists");
 			}
+			
+		}
 		}
 
 		getCountryVOFromCountryDTO(countryDTO, countryVO);
@@ -943,6 +953,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			documentTypeVO = documentTypeRepo.findById(documentTypeDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid DocumentType details"));
 		}
+		//Duplicate check
 		else {
 			if(documentTypeRepo.existsByDocumentNameAndOrgId(documentTypeDTO.getDocumentName(),documentTypeDTO.getOrgId())) {
 				throw new ApplicationException("DocumentName already exists");
@@ -953,11 +964,17 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		
 		if(ObjectUtils.isNotEmpty(documentTypeDTO.getId())) {
+			
+			DocumentTypeVO documentType =documentTypeRepo.findById(documentTypeDTO.getId()).orElse(null);
+			if(!documentType.getDocumentName().equals(documentTypeDTO.getDocumentName())) {
 			if(documentTypeRepo.existsByDocumentNameAndOrgId(documentTypeDTO.getDocumentName(),documentTypeDTO.getOrgId())) {
 				throw new ApplicationException("DocumentName already exists");
 			}
+			}
+			if(!documentType.getDocumentType().equals(documentTypeDTO.getDocumentType())) {
 			if(documentTypeRepo.existsByDocumentTypeAndOrgId(documentTypeDTO.getDocumentType(),documentTypeDTO.getOrgId())) {
 				throw new ApplicationException("DocumentType already exists");
+			}
 			}
 		}
 		List<SubTypesVO> subTypesVOs = new ArrayList<>();
