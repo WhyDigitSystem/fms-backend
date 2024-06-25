@@ -39,7 +39,7 @@ public class MappingVO {
 	@Column(name = "subtypecode")
 	private String subTypeCode;
 	@Column(name = "docname")
-	private String docname;
+	private String docName;
 	@Column(name = "prefix")
 	private String prefix;
 	@Column(name = "postfinance")

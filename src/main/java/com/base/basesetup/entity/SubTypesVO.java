@@ -46,6 +46,7 @@ public class SubTypesVO {
 	@JsonBackReference
 	private DocumentTypeVO documentTypeVO;
 	
+	
 	@Embedded
 	@Builder.Default
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();

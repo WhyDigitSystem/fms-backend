@@ -16,7 +16,7 @@ public class MappingDTO {
 	private String subType;
 	private String subTypeId;
 	private String subTypeCode;
-	private String docname;
+	private String docName;
 	private String prefix;
 	private boolean postFinance;
 	private int lastNo;

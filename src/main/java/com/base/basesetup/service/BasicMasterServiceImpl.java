@@ -387,7 +387,30 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(departmentDTO.getId())) {
 			departmentVO = departmentRepo.findById(departmentDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Department Details"));
+        
+		}
+		else {
+			if(departmentRepo.existsByDepartmentAndOrgId(departmentDTO.getDepartment(),departmentDTO.getOrgId())) {
+				throw new ApplicationException("Department already exists");
+			}
+			if(departmentRepo.existsByDepartmentCodeAndOrgId(departmentDTO.getDepartmentCode(),departmentDTO.getOrgId())) {
+				throw new ApplicationException("DepartmentCode already exists");
+			}
+		}
+		
+		if(ObjectUtils.isNotEmpty(departmentDTO.getId())) {
+			DepartmentVO department = departmentRepo.findById(departmentDTO.getId()).orElse(null);
+			if(!department.getDepartment().equals(departmentDTO.getDepartment())) {
+				if(departmentRepo.existsByDepartmentAndOrgId(departmentDTO.getDepartment(),departmentDTO.getOrgId())) {
+					throw new ApplicationException("Department already exists");
+				}
+			}
+			if(!department.getDepartmentCode().equals(departmentDTO.getDepartmentCode())) {
+				if(departmentRepo.existsByDepartmentCodeAndOrgId(departmentDTO.getDepartmentCode(),departmentDTO.getOrgId())) {
+					throw new ApplicationException("DepartmentCode already exists");
+				}
 
+			}
 		}
 
 		getDepartmentVOFromDepartmentDTO(departmentDTO, departmentVO);
@@ -434,6 +457,23 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					.orElseThrow(() -> new ApplicationException("Invalid Designation Details"));
 
 		}
+		
+		else {
+			if(designationRepo.existsByDesignationAndOrgId(designationDTO.getDesignation(),designationDTO.getOrgId())){
+				throw new ApplicationException("Designation already Exists");
+			}
+			
+		}
+		
+		if(ObjectUtils.isNotEmpty(designationDTO.getId())) {
+			DesignationVO designation =  designationRepo.findById(designationDTO.getId()).orElse(null);
+			if(!designation.getDesignation().equals(designationDTO.getDesignation())) {
+				if(designationRepo.existsByDesignationAndOrgId(designationDTO.getDesignation(),designationDTO.getOrgId())){
+					throw new ApplicationException("Designation already Exists");
+				}
+			}
+		}
+		
 		getDesignationVOFromDesignationDTO(designationDTO, designationVO);
 		return designationRepo.save(designationVO);
 
@@ -990,20 +1030,13 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			}
 			}
 		}
+		
+		List<SubTypesVO> subTypesVOList = subTypesRepo.findByDocumentTypeVO(documentTypeVO);
+		subTypesRepo.deleteAll(subTypesVOList);
+		
 		List<SubTypesVO> subTypesVOs = new ArrayList<>();
 		if (documentTypeDTO.getSubTypesDTO() != null) {
-			for (SubTypesDTO subTypesDTO : documentTypeDTO.getSubTypesDTO()) {
-				if (subTypesDTO.getId() != null & ObjectUtils.isNotEmpty(subTypesDTO.getId())) {
-					SubTypesVO subTypesVO = subTypesRepo.findById(subTypesDTO.getId()).get();
-					subTypesVO.setSubType(subTypesDTO.getSubType());
-					subTypesVO.setSubTypeCode(subTypesDTO.getSubTypeCode());
-					subTypesVO.setMonth(subTypesDTO.getMonth());
-					subTypesVO.setSubTypeName(subTypesDTO.getSubTypeName());
-					subTypesVO.setDocumentTypeVO(documentTypeVO);
-					subTypesVOs.add(subTypesVO);
-				
-
-				} else {
+			for (SubTypesDTO subTypesDTO : documentTypeDTO.getSubTypesDTO()) {					
 					SubTypesVO subTypesVO = new SubTypesVO();
 					subTypesVO.setSubType(subTypesDTO.getSubType());
 					subTypesVO.setSubTypeCode(subTypesDTO.getSubTypeCode());
@@ -1011,10 +1044,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					subTypesVO.setSubTypeName(subTypesDTO.getSubTypeName());
 					subTypesVO.setDocumentTypeVO(documentTypeVO);
 					subTypesVOs.add(subTypesVO);
-
 				}
 			}
-		}
+		
 
 		getDocumentTypeVOFromDocumentTypeDTO(documentTypeDTO, documentTypeVO);
 
@@ -1109,30 +1141,18 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		}
 
+		List<MappingVO> mappingVOList = mappingRepo.findByDocumentTypeMappingVO(documentTypeMappingVO);
+		mappingRepo.deleteAll(mappingVOList);
+		
 		List<MappingVO> mappingVOs = new ArrayList<>();
 		if (documentTypeMappingDTO.getMappingDTO() != null) {
 			for (MappingDTO mappingDTO : documentTypeMappingDTO.getMappingDTO()) {
-				if (mappingDTO.getId() != null & ObjectUtils.isNotEmpty(mappingDTO.getId())) {
-					MappingVO mappingVO = mappingRepo.findById(mappingDTO.getId()).get();
-					mappingVO.setDocType(mappingDTO.getDocType());
-					mappingVO.setSubType(mappingDTO.getSubType());
-					mappingVO.setSubTypeId(mappingDTO.getSubTypeId());
-					mappingVO.setSubTypeCode(mappingDTO.getSubTypeCode());
-					mappingVO.setDocname(mappingDTO.getDocname());
-					mappingVO.setPrefix(mappingDTO.getPrefix());
-					mappingVO.setPostFinance(mappingDTO.isPostFinance());
-					mappingVO.setLastNo(mappingDTO.getLastNo());
-					mappingVO.setResetOnFinYear(mappingDTO.isResetOnFinYear());
-					mappingVO.setDocumentTypeMappingVO(documentTypeMappingVO);
-					mappingVOs.add(mappingVO);
-
-				} else {
 					MappingVO mappingVO = new MappingVO();
 					mappingVO.setDocType(mappingDTO.getDocType());
 					mappingVO.setSubType(mappingDTO.getSubType());
 					mappingVO.setSubTypeId(mappingDTO.getSubTypeId());
 					mappingVO.setSubTypeCode(mappingDTO.getSubTypeCode());
-					mappingVO.setDocname(mappingDTO.getDocname());
+					mappingVO.setDocName(mappingDTO.getDocName());
 					mappingVO.setPrefix(mappingDTO.getPrefix());
 					mappingVO.setPostFinance(mappingDTO.isPostFinance());
 					mappingVO.setLastNo(mappingDTO.getLastNo());
@@ -1141,7 +1161,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					mappingVOs.add(mappingVO);
 
 				}
-			}
 		}
 
 		getDocumentTypeMappingVOFromDocumentTypeMappingDTO(documentTypeMappingDTO, documentTypeMappingVO);
@@ -1198,19 +1217,13 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					.orElseThrow(() -> new ApplicationException("Invalid ListOfValues details"));
 		}
 
+		List<ListOfValues1VO> listOfValues1VOList = listOfValues1Repo.findBylistOfValuesVO(listOfValuesVO);
+		listOfValues1Repo.deleteAll(listOfValues1VOList);
+		
 		List<ListOfValues1VO> listOfValues1VOs = new ArrayList<>();
 		if (listOfValuesDTO.getListOfValues1DTO() != null) {
 			for (ListOfValues1DTO listOfValues1DTO : listOfValuesDTO.getListOfValues1DTO()) {
-				if (listOfValues1DTO.getId() != null & ObjectUtils.isNotEmpty(listOfValues1DTO.getId())) {
-					ListOfValues1VO listOfValues1VO = listOfValues1Repo.findById(listOfValues1DTO.getId()).get();
-					listOfValues1VO.setValueCode(listOfValues1DTO.getValueCode());
-					listOfValues1VO.setSNo(listOfValues1DTO.getSNo());
-					listOfValues1VO.setValueDescription(listOfValues1DTO.getValueDescription());
-					listOfValues1VO.setActive(listOfValues1DTO.isActive());
-					listOfValues1VO.setListOfValuesVO(listOfValuesVO);
-					listOfValues1VOs.add(listOfValues1VO);
-
-				} else {
+				
 					ListOfValues1VO listOfValues1VO = new ListOfValues1VO();
 					listOfValues1VO.setValueCode(listOfValues1DTO.getValueCode());
 					listOfValues1VO.setSNo(listOfValues1DTO.getSNo());
@@ -1220,7 +1233,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					listOfValues1VOs.add(listOfValues1VO);
 
 				}
-			}
+			
 		}
 
 		getListOfValuesVOFromTypesOfValuesDTO(listOfValuesDTO, listOfValuesVO);
@@ -1353,21 +1366,15 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			}
 			}
 		}
+		
+		List<StateGstVO> stateGstVOList = stateGstRepo.findByGstInVO(gstInVO);
+		stateGstRepo.deleteAll(stateGstVOList);
+		
 		List<StateGstVO> stateGstVOs = new ArrayList<>();
 		if (gstInDTO.getStateGstDTO() != null) {
 			for (StateGstDTO stateGstDTO : gstInDTO.getStateGstDTO()) {
-				if (stateGstDTO.getId() != null & ObjectUtils.isNotEmpty(stateGstDTO.getId())) {
-					StateGstVO stateGstVO = stateGstRepo.findById(stateGstDTO.getId()).get();
-					stateGstVO.setStateGst(stateGstDTO.getStateGst());
-					stateGstVO.setGstIn(stateGstDTO.getGstIn());
-					stateGstVO.setStateCode(stateGstDTO.getStateCode());
-					stateGstVO.setContactPerson(stateGstDTO.getContactPerson());
-					stateGstVO.setContactPhoneNo(stateGstDTO.getContactPhoneNo());
-					stateGstVO.setContactEmail(stateGstDTO.getContactEmail());
-					stateGstVO.setGstInVO(gstInVO);
-					stateGstVOs.add(stateGstVO);
+				
 
-				} else {
 					StateGstVO stateGstVO = new StateGstVO();
 					stateGstVO.setStateGst(stateGstDTO.getStateGst());
 					stateGstVO.setGstIn(stateGstDTO.getGstIn());
@@ -1378,26 +1385,15 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					stateGstVO.setGstInVO(gstInVO);
 					stateGstVOs.add(stateGstVO);
 				}
-			}
 		}
+		
+		List<BusinessAddressVO> businessAddressVOList = businessAddressRepo.findByGstInVO(gstInVO);
+		businessAddressRepo.deleteAll(businessAddressVOList);
+		
 		List<BusinessAddressVO> businessAddressVOs = new ArrayList<>();
 		if (gstInDTO.getBusinessAddressDTO() != null) {
 			for (BusinessAddressDTO businessAddressDTO : gstInDTO.getBusinessAddressDTO()) {
-				if (businessAddressDTO.getId() != null & ObjectUtils.isNotEmpty(businessAddressDTO.getId())) {
-					BusinessAddressVO businessAddressVO = businessAddressRepo.findById(businessAddressDTO.getId())
-							.get();
-					businessAddressVO.setState(businessAddressDTO.getState());
-					businessAddressVO.setAddress1(businessAddressDTO.getAddress1());
-					businessAddressVO.setAddress2(businessAddressDTO.getAddress2());
-					businessAddressVO.setBusinessPlace(businessAddressDTO.getBusinessPlace());
-					businessAddressVO.setCityName(businessAddressDTO.getCityName());
-					businessAddressVO.setContactPerson(businessAddressDTO.getContactPerson());
-					businessAddressVO.setContactPhoneNo(businessAddressDTO.getContactPhoneNo());
-					businessAddressVO.setContactEmail(businessAddressDTO.getContactEmail());
-					businessAddressVO.setGstInVO(gstInVO);
-					businessAddressVOs.add(businessAddressVO);
-
-				} else {
+				
 					BusinessAddressVO businessAddressVO = new BusinessAddressVO();
 					businessAddressVO.setState(businessAddressDTO.getState());
 					businessAddressVO.setAddress1(businessAddressDTO.getAddress1());
@@ -1410,7 +1406,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					businessAddressVO.setGstInVO(gstInVO);
 					businessAddressVOs.add(businessAddressVO);
 				}
-			}
 		}
 		getGstInVOFromGstInDTO(gstInDTO, gstInVO);
 		gstInVO.setStateGstVO(stateGstVOs);
