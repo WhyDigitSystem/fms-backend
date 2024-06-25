@@ -11,7 +11,6 @@ import com.base.basesetup.entity.MappingVO;
 @Repository
 public interface MappingRepo extends JpaRepository<MappingVO, Long>{
 
-	List<MappingVO> findByMappingVO(DocumentTypeMappingVO documentTypeMappingVO);
 
 	List<MappingVO> findByDocumentTypeMappingVO(DocumentTypeMappingVO documentTypeMappingVO);
 
