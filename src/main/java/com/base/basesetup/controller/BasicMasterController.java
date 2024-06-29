@@ -1642,7 +1642,9 @@ public class BasicMasterController extends BaseController {
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
-		try {
+	
+		
+		     try {
 			PartyScreeningVO partyScreeningVO = basicMasterService.updateCreatePartyScreening(partyScreeningDTO);
 			if (partyScreeningVO != null) {
 				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PartyScreening updated successfully");

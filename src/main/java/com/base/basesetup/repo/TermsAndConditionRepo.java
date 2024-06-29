@@ -17,4 +17,10 @@ public interface TermsAndConditionRepo extends JpaRepository<TermsAndConditionVO
 	@Query(nativeQuery = true,value = "select * from termsandcondition where orgid=?1")
 	List<TermsAndConditionVO> getTermsAndConditionByOrgId(Long orgid);
 
+	boolean existsByTermsAndOrgId(String terms, Long orgId);
+
+	boolean existsByPartyTypeAndOrgId(String partyType, Long orgId);
+
+	boolean existsByDocumentTypeAndOrgId(String documentType, Long orgId);
+
 }

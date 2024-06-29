@@ -202,21 +202,21 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		// update check
 		if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
 			CountryVO country = countryRepo.findById(countryDTO.getId()).orElse(null);
-			
-			if(!country.getCountryName().equals(countryDTO.getCountryName()) ) {
 
-			if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
-				throw new ApplicationException("The given Country Name already exists.");
+			if (!country.getCountryName().equals(countryDTO.getCountryName())) {
+
+				if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
+					throw new ApplicationException("The given Country Name already exists.");
+				}
 			}
+
+			if (!country.getCountryCode().equals(countryDTO.getCountryCode())) {
+
+				if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
+					throw new ApplicationException("The given Country Code already exists");
+				}
+
 			}
-			
-			if(!country.getCountryCode().equals(countryDTO.getCountryCode())) {
-				
-			if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
-				throw new ApplicationException("The given Country Code already exists");
-			}
-			
-		}
 		}
 
 		getCountryVOFromCountryDTO(countryDTO, countryVO);
@@ -333,7 +333,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		return stateVO;
 	}
 
-
 	@Override
 	public StateVO updateCreateState(@Valid StateDTO stateDTO) throws ApplicationException {
 		StateVO stateVO = new StateVO();
@@ -387,26 +386,28 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(departmentDTO.getId())) {
 			departmentVO = departmentRepo.findById(departmentDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Department Details"));
-        
-		}
-		else {
-			if(departmentRepo.existsByDepartmentAndOrgId(departmentDTO.getDepartment(),departmentDTO.getOrgId())) {
+
+		} else {
+			if (departmentRepo.existsByDepartmentAndOrgId(departmentDTO.getDepartment(), departmentDTO.getOrgId())) {
 				throw new ApplicationException("Department already exists");
 			}
-			if(departmentRepo.existsByDepartmentCodeAndOrgId(departmentDTO.getDepartmentCode(),departmentDTO.getOrgId())) {
+			if (departmentRepo.existsByDepartmentCodeAndOrgId(departmentDTO.getDepartmentCode(),
+					departmentDTO.getOrgId())) {
 				throw new ApplicationException("DepartmentCode already exists");
 			}
 		}
-		
-		if(ObjectUtils.isNotEmpty(departmentDTO.getId())) {
+
+		if (ObjectUtils.isNotEmpty(departmentDTO.getId())) {
 			DepartmentVO department = departmentRepo.findById(departmentDTO.getId()).orElse(null);
-			if(!department.getDepartment().equals(departmentDTO.getDepartment())) {
-				if(departmentRepo.existsByDepartmentAndOrgId(departmentDTO.getDepartment(),departmentDTO.getOrgId())) {
+			if (!department.getDepartment().equals(departmentDTO.getDepartment())) {
+				if (departmentRepo.existsByDepartmentAndOrgId(departmentDTO.getDepartment(),
+						departmentDTO.getOrgId())) {
 					throw new ApplicationException("Department already exists");
 				}
 			}
-			if(!department.getDepartmentCode().equals(departmentDTO.getDepartmentCode())) {
-				if(departmentRepo.existsByDepartmentCodeAndOrgId(departmentDTO.getDepartmentCode(),departmentDTO.getOrgId())) {
+			if (!department.getDepartmentCode().equals(departmentDTO.getDepartmentCode())) {
+				if (departmentRepo.existsByDepartmentCodeAndOrgId(departmentDTO.getDepartmentCode(),
+						departmentDTO.getOrgId())) {
 					throw new ApplicationException("DepartmentCode already exists");
 				}
 
@@ -457,23 +458,25 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					.orElseThrow(() -> new ApplicationException("Invalid Designation Details"));
 
 		}
-		
+
 		else {
-			if(designationRepo.existsByDesignationAndOrgId(designationDTO.getDesignation(),designationDTO.getOrgId())){
+			if (designationRepo.existsByDesignationAndOrgId(designationDTO.getDesignation(),
+					designationDTO.getOrgId())) {
 				throw new ApplicationException("Designation already Exists");
 			}
-			
+
 		}
-		
-		if(ObjectUtils.isNotEmpty(designationDTO.getId())) {
-			DesignationVO designation =  designationRepo.findById(designationDTO.getId()).orElse(null);
-			if(!designation.getDesignation().equals(designationDTO.getDesignation())) {
-				if(designationRepo.existsByDesignationAndOrgId(designationDTO.getDesignation(),designationDTO.getOrgId())){
+
+		if (ObjectUtils.isNotEmpty(designationDTO.getId())) {
+			DesignationVO designation = designationRepo.findById(designationDTO.getId()).orElse(null);
+			if (!designation.getDesignation().equals(designationDTO.getDesignation())) {
+				if (designationRepo.existsByDesignationAndOrgId(designationDTO.getDesignation(),
+						designationDTO.getOrgId())) {
 					throw new ApplicationException("Designation already Exists");
 				}
 			}
 		}
-		
+
 		getDesignationVOFromDesignationDTO(designationDTO, designationVO);
 		return designationRepo.save(designationVO);
 
@@ -587,15 +590,15 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		if (ObjectUtils.isNotEmpty(portDTO.getId())) {
 			PortVO port = portRepo.findById(portDTO.getId()).orElse(null);
-			if(!port.getPort().equals(portDTO.getPort())) {
-			if (portRepo.existsByPortAndOrgId(portDTO.getPort(), portDTO.getOrgId())) {
-				throw new ApplicationException("Port Name already exists");
+			if (!port.getPort().equals(portDTO.getPort())) {
+				if (portRepo.existsByPortAndOrgId(portDTO.getPort(), portDTO.getOrgId())) {
+					throw new ApplicationException("Port Name already exists");
+				}
 			}
-			}
-			if(!port.getCode().equals(portDTO.getCode())) {
-			if (portRepo.existsByCodeAndOrgId(portDTO.getCode(), portDTO.getOrgId())) {
-				throw new ApplicationException("Port Code already exists");
-			}
+			if (!port.getCode().equals(portDTO.getCode())) {
+				if (portRepo.existsByCodeAndOrgId(portDTO.getCode(), portDTO.getOrgId())) {
+					throw new ApplicationException("Port Code already exists");
+				}
 			}
 		}
 
@@ -644,7 +647,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	// Events
 
-	
 	@Override
 	public EventsVO updateCreateEvents(@Valid EventsDTO eventsDTO) throws ApplicationException {
 		EventsVO eventsVO = new EventsVO();
@@ -663,22 +665,23 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			String eventsid = "Ev" + eventid;
 			eventsRepo.getbyeventsid();
 			eventsVO.setEventid(eventsid); // Assuming this sets the unique event ID to the eventsVO
-			
-			if(eventsRepo.existsByEventDescriptionAndOrgId(eventsDTO.getEventDescription(),eventsDTO.getOrgId())) {
+
+			if (eventsRepo.existsByEventDescriptionAndOrgId(eventsDTO.getEventDescription(), eventsDTO.getOrgId())) {
 				throw new ApplicationException("EventsDescription Already exists");
 			}
 		}
-		
-		//Duplicate check
-		if(ObjectUtils.isNotEmpty(eventsDTO.getId())) {
-			EventsVO events=  eventsRepo.findById(eventsDTO.getId()).orElse(null);
-			if(!events.getEventDescription().equals(eventsDTO.getEventDescription())) {
-			if(eventsRepo.existsByEventDescriptionAndOrgId(eventsDTO.getEventDescription(),eventsDTO.getOrgId())) {
-				throw new ApplicationException("EventsDescription Already exists");
+
+		// Duplicate check
+		if (ObjectUtils.isNotEmpty(eventsDTO.getId())) {
+			EventsVO events = eventsRepo.findById(eventsDTO.getId()).orElse(null);
+			if (!events.getEventDescription().equals(eventsDTO.getEventDescription())) {
+				if (eventsRepo.existsByEventDescriptionAndOrgId(eventsDTO.getEventDescription(),
+						eventsDTO.getOrgId())) {
+					throw new ApplicationException("EventsDescription Already exists");
+				}
 			}
 		}
-		}
-	
+
 		// Update eventsVO fields with values from eventsDTO
 		updateEventsVOFromEventsDTO(eventsDTO, eventsVO);
 
@@ -695,44 +698,41 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		eventsVO.setCreatedBy(eventsDTO.getCreatedBy());
 		eventsVO.setUpdatedBy(eventsDTO.getUpdatedBy());
 	}
-	
-	
-		@Override
-		public String getLatestEventid() {
 
-			int eventid = eventsRepo.findeventid(); // Ensure this method is correctly implemented to fetch the next
-													// sequence value
-			String eventsid = "Ev" + eventid;
-			return eventsid;
+	@Override
+	public String getLatestEventid() {
+
+		int eventid = eventsRepo.findeventid(); // Ensure this method is correctly implemented to fetch the next
+												// sequence value
+		String eventsid = "Ev" + eventid;
+		return eventsid;
+	}
+
+	@Override
+	public List<EventsVO> getEventsById(Long id) {
+		List<EventsVO> eventsVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  Events BY Id : {}", id);
+			eventsVO = eventsRepo.findEventsById(id);
+		} else {
+			LOGGER.info("Successfully Received  Events For All Id.");
+			eventsVO = eventsRepo.findAll();
 		}
+		return eventsVO;
+	}
 
-		@Override
-		public List<EventsVO> getEventsById(Long id) {
-			List<EventsVO> eventsVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(id)) {
-				LOGGER.info("Successfully Received  Events BY Id : {}", id);
-				eventsVO = eventsRepo.findEventsById(id);
-			} else {
-				LOGGER.info("Successfully Received  Events For All Id.");
-				eventsVO = eventsRepo.findAll();
-			}
-			return eventsVO;
+	@Override
+	public List<EventsVO> getEventsByOrgId(Long Orgid) {
+		List<EventsVO> eventsVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(Orgid)) {
+			LOGGER.info("Successfully Received  Events BY OrgId : {}", Orgid);
+			eventsVO = eventsRepo.findEventsByOrgId(Orgid);
+		} else {
+			LOGGER.info("Successfully Received  Events For All OrgId.");
+			eventsVO = eventsRepo.findAll();
 		}
-
-		@Override
-		public List<EventsVO> getEventsByOrgId(Long Orgid) {
-			List<EventsVO> eventsVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(Orgid)) {
-				LOGGER.info("Successfully Received  Events BY OrgId : {}", Orgid);
-				eventsVO = eventsRepo.findEventsByOrgId(Orgid);
-			} else {
-				LOGGER.info("Successfully Received  Events For All OrgId.");
-				eventsVO = eventsRepo.findAll();
-			}
-			return eventsVO;
-		}
-
-		
+		return eventsVO;
+	}
 
 	// COMPANY
 
@@ -827,20 +827,20 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			containerVO = containerRepo.findById(containerDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Container Details"));
 		}
-		
-		//Duplicate check
+
+		// Duplicate check
 		else {
-			if(containerRepo.existsByCategoryAndOrgId(containerDTO.getCategory(),containerDTO.getOrgId())) {
+			if (containerRepo.existsByCategoryAndOrgId(containerDTO.getCategory(), containerDTO.getOrgId())) {
 				throw new ApplicationException("Category already Exists");
 			}
 		}
-		
-		if(ObjectUtils.isNotEmpty(containerDTO.getId())) {
-			ContainerVO container =  containerRepo.findById(containerDTO.getId()).orElse(null);
-			if(!container.getCategory().equals(containerDTO.getCategory())) {
-			if(containerRepo.existsByCategoryAndOrgId(containerDTO.getCategory(),containerDTO.getOrgId())) {
-				throw new ApplicationException("Category already Exists");
-			}
+
+		if (ObjectUtils.isNotEmpty(containerDTO.getId())) {
+			ContainerVO container = containerRepo.findById(containerDTO.getId()).orElse(null);
+			if (!container.getCategory().equals(containerDTO.getCategory())) {
+				if (containerRepo.existsByCategoryAndOrgId(containerDTO.getCategory(), containerDTO.getOrgId())) {
+					throw new ApplicationException("Category already Exists");
+				}
 			}
 		}
 		getContainerVOFromContainerDTO(containerDTO, containerVO);
@@ -862,7 +862,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	}
 
-	
 	// Segments
 
 	@Override
@@ -898,6 +897,35 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			segmentsVO = segmentsRepo.findById(segmentsDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Segments Details"));
 		}
+		else {
+			if (segmentsRepo.existsBySegmentNameAndOrgId(segmentsDTO.getSegmentName(),
+					segmentsDTO.getOrgId())) {
+				throw new ApplicationException("SegmentName already Exists");
+			}
+			if (segmentsRepo.existsBySegmentDescriptionAndOrgId(segmentsDTO.getSegmentDescription(),
+					segmentsDTO.getOrgId())) {
+				throw new ApplicationException("SegmentDescription already Exists");
+			}
+			
+		}
+
+		if (ObjectUtils.isNotEmpty(segmentsDTO.getId())) {
+			SegmentsVO segments = segmentsRepo.findById(segmentsDTO.getId()).orElse(null);
+			if (!segments.getSegmentName().equals(segmentsDTO.getSegmentName())) {
+				if (segmentsRepo.existsBySegmentNameAndOrgId(segmentsDTO.getSegmentName(),
+						segmentsDTO.getOrgId())) {
+					throw new ApplicationException("SegmentName already Exists");
+				}
+				if (!segments.getSegmentDescription()
+						.equals(segmentsDTO.getSegmentDescription())) {
+					if (segmentsRepo.existsBySegmentDescriptionAndOrgId(segmentsDTO.getSegmentDescription(),
+							segmentsDTO.getOrgId())) {
+						throw new ApplicationException("SegmentDescription already Exists");
+					}
+				}
+			}
+		}
+
 		getSegmentsVOFromSegmentsDTO(segmentsDTO, segmentsVO);
 		return segmentsRepo.save(segmentsVO);
 	}
@@ -947,6 +975,33 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			regionVO = regionRepo.findById(regionDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Region Details"));
 		}
+		else {
+			if (regionRepo.existsByRegionNameAndOrgId(regionDTO.getRegionName(),
+					regionDTO.getOrgId())) {
+				throw new ApplicationException("RegionName already exists");
+			}
+			if (regionRepo.existsByRegionCodeAndOrgId(regionDTO.getRegionCode(),
+					regionDTO.getOrgId())) {
+				throw new ApplicationException("RegionCode already exists");
+			}
+		}
+
+		if (ObjectUtils.isNotEmpty(regionDTO.getId())) {
+
+			RegionVO region = regionRepo.findById(regionDTO.getId()).orElse(null);
+			if (!region.getRegionName().equals(regionDTO.getRegionName())) {
+				if (regionRepo.existsByRegionNameAndOrgId(regionDTO.getRegionName(),
+						regionDTO.getOrgId())) {
+					throw new ApplicationException("RegionName already exists");
+				}
+			}
+			if (!region.getRegionCode().equals(regionDTO.getRegionCode())) {
+				if (regionRepo.existsByRegionCodeAndOrgId(regionDTO.getRegionCode(),
+						regionDTO.getOrgId())) {
+					throw new ApplicationException("RegionCode already exists");
+				}
+			}
+		}
 		getRegionVOFromRegionDTO(regionDTO, regionVO);
 		return regionRepo.save(regionVO);
 	}
@@ -973,9 +1028,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 //			LOGGER.info("Successfully Received  DocumentType For All Id.");
 //			documentTypeVO = documentTypeRepo.findAll();
 //		}
+	
+	
 //		return documentTypeVO;
 //	}
-	
+
 	@Override
 	public List<DocumentTypeVO> getAllDocumentType() {
 		return documentTypeRepo.findAll();
@@ -1006,49 +1063,53 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			documentTypeVO = documentTypeRepo.findById(documentTypeDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid DocumentType details"));
 		}
-		//Duplicate check
+		// Duplicate check
 		else {
-			if(documentTypeRepo.existsByDocumentNameAndOrgId(documentTypeDTO.getDocumentName(),documentTypeDTO.getOrgId())) {
+			if (documentTypeRepo.existsByDocumentNameAndOrgId(documentTypeDTO.getDocumentName(),
+					documentTypeDTO.getOrgId())) {
 				throw new ApplicationException("DocumentName already exists");
 			}
-			if(documentTypeRepo.existsByDocumentTypeAndOrgId(documentTypeDTO.getDocumentType(),documentTypeDTO.getOrgId())) {
+			if (documentTypeRepo.existsByDocumentTypeAndOrgId(documentTypeDTO.getDocumentType(),
+					documentTypeDTO.getOrgId())) {
 				throw new ApplicationException("DocumentType already exists");
 			}
 		}
-		
-		if(ObjectUtils.isNotEmpty(documentTypeDTO.getId())) {
-			
-			DocumentTypeVO documentType =documentTypeRepo.findById(documentTypeDTO.getId()).orElse(null);
-			if(!documentType.getDocumentName().equals(documentTypeDTO.getDocumentName())) {
-			if(documentTypeRepo.existsByDocumentNameAndOrgId(documentTypeDTO.getDocumentName(),documentTypeDTO.getOrgId())) {
-				throw new ApplicationException("DocumentName already exists");
-			}
-			}
-			if(!documentType.getDocumentType().equals(documentTypeDTO.getDocumentType())) {
-			if(documentTypeRepo.existsByDocumentTypeAndOrgId(documentTypeDTO.getDocumentType(),documentTypeDTO.getOrgId())) {
-				throw new ApplicationException("DocumentType already exists");
-			}
-			}
-		}
-		
-		List<SubTypesVO> subTypesVOList = subTypesRepo.findByDocumentTypeVO(documentTypeVO);
-		subTypesRepo.deleteAll(subTypesVOList);
-		
-		List<SubTypesVO> subTypesVOs = new ArrayList<>();
-		if (documentTypeDTO.getSubTypesDTO() != null) {
-			for (SubTypesDTO subTypesDTO : documentTypeDTO.getSubTypesDTO()) {					
-					SubTypesVO subTypesVO = new SubTypesVO();
-					subTypesVO.setSubType(subTypesDTO.getSubType());
-					subTypesVO.setSubTypeCode(subTypesDTO.getSubTypeCode());
-					subTypesVO.setMonth(subTypesDTO.getMonth());
-					subTypesVO.setSubTypeName(subTypesDTO.getSubTypeName());
-					subTypesVO.setDocumentTypeVO(documentTypeVO);
-					subTypesVOs.add(subTypesVO);
+
+		if (ObjectUtils.isNotEmpty(documentTypeDTO.getId())) {
+
+			DocumentTypeVO documentType = documentTypeRepo.findById(documentTypeDTO.getId()).orElse(null);
+			if (!documentType.getDocumentName().equals(documentTypeDTO.getDocumentName())) {
+				if (documentTypeRepo.existsByDocumentNameAndOrgId(documentTypeDTO.getDocumentName(),
+						documentTypeDTO.getOrgId())) {
+					throw new ApplicationException("DocumentName already exists");
 				}
 			}
-		
+			if (!documentType.getDocumentType().equals(documentTypeDTO.getDocumentType())) {
+				if (documentTypeRepo.existsByDocumentTypeAndOrgId(documentTypeDTO.getDocumentType(),
+						documentTypeDTO.getOrgId())) {
+					throw new ApplicationException("DocumentType already exists");
+				}
+			}
+		}
 
 		getDocumentTypeVOFromDocumentTypeDTO(documentTypeDTO, documentTypeVO);
+		documentTypeVO = documentTypeRepo.save(documentTypeVO);
+
+		List<SubTypesVO> subTypesVOList = subTypesRepo.findByDocumentTypeVO(documentTypeVO);
+		subTypesRepo.deleteAll(subTypesVOList);
+
+		List<SubTypesVO> subTypesVOs = new ArrayList<>();
+		if (documentTypeDTO.getSubTypesDTO() != null) {
+			for (SubTypesDTO subTypesDTO : documentTypeDTO.getSubTypesDTO()) {
+				SubTypesVO subTypesVO = new SubTypesVO();
+				subTypesVO.setSubType(subTypesDTO.getSubType());
+				subTypesVO.setSubTypeCode(subTypesDTO.getSubTypeCode());
+				subTypesVO.setMonth(subTypesDTO.getMonth());
+				subTypesVO.setSubTypeName(subTypesDTO.getSubTypeName());
+				subTypesVO.setDocumentTypeVO(documentTypeVO);
+				subTypesVOs.add(subTypesVO);
+			}
+		}
 
 		documentTypeVO.setSubTypesVO(subTypesVOs);
 		return documentTypeRepo.save(documentTypeVO);
@@ -1117,53 +1178,59 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			documentTypeMappingVO = documentTypeMappingRepo.findById(documentTypeMappingDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid DocumentTypeMapping details"));
 		}
-		
+
 		else {
-			if(documentTypeMappingRepo.existsByBranchAndOrgId(documentTypeMappingDTO.getBranch(),documentTypeMappingDTO.getOrgId())) {
+			if (documentTypeMappingRepo.existsByBranchAndOrgId(documentTypeMappingDTO.getBranch(),
+					documentTypeMappingDTO.getOrgId())) {
 				throw new ApplicationException("Branch already exists");
 			}
-			if(documentTypeMappingRepo.existsByFinancialYearAndOrgId(documentTypeMappingDTO.getFinancialYear(),documentTypeMappingDTO.getOrgId())) {
+			if (documentTypeMappingRepo.existsByFinancialYearAndOrgId(documentTypeMappingDTO.getFinancialYear(),
+					documentTypeMappingDTO.getOrgId())) {
 				throw new ApplicationException("FinancialYear already exists");
 			}
 		}
-		
-		if(ObjectUtils.isNotEmpty(documentTypeMappingDTO.getId())) {
-			DocumentTypeMappingVO documentTypeMapping = documentTypeMappingRepo.findById(documentTypeMappingDTO.getId()).orElse(null);
-			if(!documentTypeMapping.getBranch().equals(documentTypeMappingDTO.getBranch())) {
-			if(documentTypeMappingRepo.existsByBranchAndOrgId(documentTypeMappingDTO.getBranch(),documentTypeMappingDTO.getOrgId())) {
-				throw new ApplicationException("Branch already exists");
-			}
-			}
-			if(!documentTypeMapping.getFinancialYear().equals(documentTypeMappingDTO.getFinancialYear())) {
-			if(documentTypeMappingRepo.existsByFinancialYearAndOrgId(documentTypeMappingDTO.getFinancialYear(),documentTypeMappingDTO.getOrgId())) {
-				throw new ApplicationException("FinancialYear already exists");
-			}
-		}
-		}
 
-		List<MappingVO> mappingVOList = mappingRepo.findByDocumentTypeMappingVO(documentTypeMappingVO);
-		mappingRepo.deleteAll(mappingVOList);
-		
-		List<MappingVO> mappingVOs = new ArrayList<>();
-		if (documentTypeMappingDTO.getMappingDTO() != null) {
-			for (MappingDTO mappingDTO : documentTypeMappingDTO.getMappingDTO()) {
-					MappingVO mappingVO = new MappingVO();
-					mappingVO.setDocType(mappingDTO.getDocType());
-					mappingVO.setSubType(mappingDTO.getSubType());
-					mappingVO.setSubTypeId(mappingDTO.getSubTypeId());
-					mappingVO.setSubTypeCode(mappingDTO.getSubTypeCode());
-					mappingVO.setDocName(mappingDTO.getDocName());
-					mappingVO.setPrefix(mappingDTO.getPrefix());
-					mappingVO.setPostFinance(mappingDTO.isPostFinance());
-					mappingVO.setLastNo(mappingDTO.getLastNo());
-					mappingVO.setResetOnFinYear(mappingDTO.isResetOnFinYear());
-					mappingVO.setDocumentTypeMappingVO(documentTypeMappingVO);
-					mappingVOs.add(mappingVO);
-
+		if (ObjectUtils.isNotEmpty(documentTypeMappingDTO.getId())) {
+			DocumentTypeMappingVO documentTypeMapping = documentTypeMappingRepo.findById(documentTypeMappingDTO.getId())
+					.orElse(null);
+			if (!documentTypeMapping.getBranch().equals(documentTypeMappingDTO.getBranch())) {
+				if (documentTypeMappingRepo.existsByBranchAndOrgId(documentTypeMappingDTO.getBranch(),
+						documentTypeMappingDTO.getOrgId())) {
+					throw new ApplicationException("Branch already exists");
 				}
+			}
+			if (!documentTypeMapping.getFinancialYear().equals(documentTypeMappingDTO.getFinancialYear())) {
+				if (documentTypeMappingRepo.existsByFinancialYearAndOrgId(documentTypeMappingDTO.getFinancialYear(),
+						documentTypeMappingDTO.getOrgId())) {
+					throw new ApplicationException("FinancialYear already exists");
+				}
+			}
 		}
 
 		getDocumentTypeMappingVOFromDocumentTypeMappingDTO(documentTypeMappingDTO, documentTypeMappingVO);
+		documentTypeMappingVO = documentTypeMappingRepo.save(documentTypeMappingVO);
+
+		List<MappingVO> mappingVOList = mappingRepo.findByDocumentTypeMappingVO(documentTypeMappingVO);
+		mappingRepo.deleteAll(mappingVOList);
+
+		List<MappingVO> mappingVOs = new ArrayList<>();
+		if (documentTypeMappingDTO.getMappingDTO() != null) {
+			for (MappingDTO mappingDTO : documentTypeMappingDTO.getMappingDTO()) {
+				MappingVO mappingVO = new MappingVO();
+				mappingVO.setDocType(mappingDTO.getDocType());
+				mappingVO.setSubType(mappingDTO.getSubType());
+				mappingVO.setSubTypeId(mappingDTO.getSubTypeId());
+				mappingVO.setSubTypeCode(mappingDTO.getSubTypeCode());
+				mappingVO.setDocName(mappingDTO.getDocName());
+				mappingVO.setPrefix(mappingDTO.getPrefix());
+				mappingVO.setPostFinance(mappingDTO.isPostFinance());
+				mappingVO.setLastNo(mappingDTO.getLastNo());
+				mappingVO.setResetOnFinYear(mappingDTO.isResetOnFinYear());
+				mappingVO.setDocumentTypeMappingVO(documentTypeMappingVO);
+				mappingVOs.add(mappingVO);
+
+			}
+		}
 
 		documentTypeMappingVO.setMappingVO(mappingVOs);
 		return documentTypeMappingRepo.save(documentTypeMappingVO);
@@ -1216,6 +1283,39 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			listOfValuesVO = listOfValuesRepo.findById(listOfValuesDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ListOfValues details"));
 		}
+		
+		else {
+			if (listOfValuesRepo.existsByListCodeAndOrgId(listOfValuesDTO.getListCode(),
+					listOfValuesDTO.getOrgId())) {
+				throw new ApplicationException("ListCode already Exists");
+			}
+			if (listOfValuesRepo.existsByListDescriptionAndOrgId(listOfValuesDTO.getListDescription(),
+					listOfValuesDTO.getOrgId())) {
+				throw new ApplicationException("ListDescription already Exists");
+			}
+			
+		}
+
+		if (ObjectUtils.isNotEmpty(listOfValuesDTO.getId())) {
+			ListOfValuesVO listOfValues = listOfValuesRepo.findById(listOfValuesDTO.getId()).orElse(null);
+			if (!listOfValues.getListCode().equals(listOfValuesDTO.getListCode())) {
+				if (listOfValuesRepo.existsByListCodeAndOrgId(listOfValuesDTO.getListCode(),
+						listOfValuesDTO.getOrgId())) {
+					throw new ApplicationException("ListCode already Exists");
+				}
+				if (!listOfValues.getListDescription()
+						.equals(listOfValuesDTO.getListDescription())) {
+					if (listOfValuesRepo.existsByListDescriptionAndOrgId(listOfValuesDTO.getListDescription(),
+							listOfValuesDTO.getOrgId())) {
+						throw new ApplicationException("ListDescription already Exists");
+					}
+
+				}
+			}
+		}
+	getListOfValuesVOFromTypesOfValuesDTO(listOfValuesDTO, listOfValuesVO);
+		listOfValuesVO = listOfValuesRepo.save(listOfValuesVO);
+
 
 		List<ListOfValues1VO> listOfValues1VOList = listOfValues1Repo.findBylistOfValuesVO(listOfValuesVO);
 		listOfValues1Repo.deleteAll(listOfValues1VOList);
@@ -1233,15 +1333,16 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					listOfValues1VOs.add(listOfValues1VO);
 
 				}
-			
 		}
-
-		getListOfValuesVOFromTypesOfValuesDTO(listOfValuesDTO, listOfValuesVO);
-
+		
+		
+		
 		listOfValuesVO.setListOfValues1VO(listOfValues1VOs);
 		return listOfValuesRepo.save(listOfValuesVO);
 
-	}
+		}
+
+
 
 	private void getListOfValuesVOFromTypesOfValuesDTO(@Valid ListOfValuesDTO listOfValuesDTO,
 			ListOfValuesVO listOfValuesVO) {
@@ -1289,6 +1390,44 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(termsAndConditionDTO.getId())) {
 			termsAndConditionVO = termsAndConditionRepo.findById(termsAndConditionDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid TermsAndCondition Details"));
+		}
+		
+		else {
+			if (termsAndConditionRepo.existsByDocumentTypeAndOrgId(termsAndConditionDTO.getDocumentType(),
+					termsAndConditionDTO.getOrgId())) {
+				throw new ApplicationException("DocumentType already exists");
+			}
+			if (termsAndConditionRepo.existsByPartyTypeAndOrgId(termsAndConditionDTO.getPartyType(),
+					termsAndConditionDTO.getOrgId())) {
+				throw new ApplicationException("PartyType already exists");
+			}
+			if (termsAndConditionRepo.existsByTermsAndOrgId(termsAndConditionDTO.getTerms(),
+					termsAndConditionDTO.getOrgId())) {
+				throw new ApplicationException("Terms already exists");
+			}
+		}
+
+		if (ObjectUtils.isNotEmpty(termsAndConditionDTO.getId())) {
+
+			TermsAndConditionVO termsAndCondition = termsAndConditionRepo.findById(termsAndConditionDTO.getId()).orElse(null);
+			if (!termsAndCondition.getDocumentType().equals(termsAndConditionDTO.getDocumentType())) {
+				if (termsAndConditionRepo.existsByDocumentTypeAndOrgId(termsAndConditionDTO.getDocumentType(),
+						termsAndConditionDTO.getOrgId())) {
+					throw new ApplicationException("DocumentType already exists");
+				}
+			}
+			if (!termsAndCondition.getPartyType().equals(termsAndConditionDTO.getPartyType())) {
+				if (termsAndConditionRepo.existsByPartyTypeAndOrgId(termsAndConditionDTO.getPartyType(),
+						termsAndConditionDTO.getOrgId())) {
+					throw new ApplicationException("PartyType already exists");
+				}
+			}
+			if (!termsAndCondition.getTerms().equals(termsAndConditionDTO.getTerms())) {
+				if (termsAndConditionRepo.existsByTermsAndOrgId(termsAndConditionDTO.getTerms(),
+						termsAndConditionDTO.getOrgId())) {
+					throw new ApplicationException("Terms already exists");
+				}
+			}
 		}
 		getTermsAndConditionVOFromTermsAndConditionDTO(termsAndConditionDTO, termsAndConditionVO);
 		return termsAndConditionRepo.save(termsAndConditionVO);
@@ -1342,72 +1481,73 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			gstInVO = gstInRepo.findById(gstInDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid gstIn details"));
 		}
-		//duplicate check
-		
+		// duplicate check
+
 		else {
-			if(gstInRepo.existsByPanNameAndOrgId(gstInDTO.getPanName(),gstInDTO.getOrgId())) {
+			if (gstInRepo.existsByPanNameAndOrgId(gstInDTO.getPanName(), gstInDTO.getOrgId())) {
 				throw new ApplicationException("PanName already exists");
 			}
-			if(gstInRepo.existsByPartyNameAndOrgId(gstInDTO.getPartyName(),gstInDTO.getOrgId())) {
+			if (gstInRepo.existsByPartyNameAndOrgId(gstInDTO.getPartyName(), gstInDTO.getOrgId())) {
 				throw new ApplicationException("PartyName already Exists");
 			}
 		}
-		
-		if(ObjectUtils.isNotEmpty(gstInDTO.getId())) {
-			GstInVO gstIn=  gstInRepo.findById(gstInDTO.getId()).orElse(null);
-			if(!gstIn.getPanName().equals(gstInDTO.getPanName())) {
-			if(gstInRepo.existsByPanNameAndOrgId(gstInDTO.getPanName(),gstInDTO.getOrgId())) {
-				throw new ApplicationException("PanName already exists");
+
+		if (ObjectUtils.isNotEmpty(gstInDTO.getId())) {
+			GstInVO gstIn = gstInRepo.findById(gstInDTO.getId()).orElse(null);
+			if (!gstIn.getPanName().equals(gstInDTO.getPanName())) {
+				if (gstInRepo.existsByPanNameAndOrgId(gstInDTO.getPanName(), gstInDTO.getOrgId())) {
+					throw new ApplicationException("PanName already exists");
+				}
 			}
-			}
-			if(!gstIn.getPartyName().equals(gstInDTO.getPartyName())) {
-			if(gstInRepo.existsByPartyNameAndOrgId(gstInDTO.getPartyName(),gstInDTO.getOrgId())) {
-				throw new ApplicationException("PartyName already Exists");
-			}
+			if (!gstIn.getPartyName().equals(gstInDTO.getPartyName())) {
+				if (gstInRepo.existsByPartyNameAndOrgId(gstInDTO.getPartyName(), gstInDTO.getOrgId())) {
+					throw new ApplicationException("PartyName already Exists");
+				}
 			}
 		}
-		
+
+		getGstInVOFromGstInDTO(gstInDTO, gstInVO);
+		gstInVO = gstInRepo.save(gstInVO);
+
 		List<StateGstVO> stateGstVOList = stateGstRepo.findByGstInVO(gstInVO);
 		stateGstRepo.deleteAll(stateGstVOList);
-		
+
 		List<StateGstVO> stateGstVOs = new ArrayList<>();
 		if (gstInDTO.getStateGstDTO() != null) {
 			for (StateGstDTO stateGstDTO : gstInDTO.getStateGstDTO()) {
-				
 
-					StateGstVO stateGstVO = new StateGstVO();
-					stateGstVO.setStateGst(stateGstDTO.getStateGst());
-					stateGstVO.setGstIn(stateGstDTO.getGstIn());
-					stateGstVO.setStateCode(stateGstDTO.getStateCode());
-					stateGstVO.setContactPerson(stateGstDTO.getContactPerson());
-					stateGstVO.setContactPhoneNo(stateGstDTO.getContactPhoneNo());
-					stateGstVO.setContactEmail(stateGstDTO.getContactEmail());
-					stateGstVO.setGstInVO(gstInVO);
-					stateGstVOs.add(stateGstVO);
-				}
+				StateGstVO stateGstVO = new StateGstVO();
+				stateGstVO.setStateGst(stateGstDTO.getStateGst());
+				stateGstVO.setGstIn(stateGstDTO.getGstIn());
+				stateGstVO.setStateCode(stateGstDTO.getStateCode());
+				stateGstVO.setContactPerson(stateGstDTO.getContactPerson());
+				stateGstVO.setContactPhoneNo(stateGstDTO.getContactPhoneNo());
+				stateGstVO.setContactEmail(stateGstDTO.getContactEmail());
+				stateGstVO.setGstInVO(gstInVO);
+				stateGstVOs.add(stateGstVO);
+			}
 		}
-		
+
 		List<BusinessAddressVO> businessAddressVOList = businessAddressRepo.findByGstInVO(gstInVO);
 		businessAddressRepo.deleteAll(businessAddressVOList);
-		
+
 		List<BusinessAddressVO> businessAddressVOs = new ArrayList<>();
 		if (gstInDTO.getBusinessAddressDTO() != null) {
 			for (BusinessAddressDTO businessAddressDTO : gstInDTO.getBusinessAddressDTO()) {
-				
-					BusinessAddressVO businessAddressVO = new BusinessAddressVO();
-					businessAddressVO.setState(businessAddressDTO.getState());
-					businessAddressVO.setAddress1(businessAddressDTO.getAddress1());
-					businessAddressVO.setAddress2(businessAddressDTO.getAddress2());
-					businessAddressVO.setBusinessPlace(businessAddressDTO.getBusinessPlace());
-					businessAddressVO.setCityName(businessAddressDTO.getCityName());
-					businessAddressVO.setContactPerson(businessAddressDTO.getContactPerson());
-					businessAddressVO.setContactPhoneNo(businessAddressDTO.getContactPhoneNo());
-					businessAddressVO.setContactEmail(businessAddressDTO.getContactEmail());
-					businessAddressVO.setGstInVO(gstInVO);
-					businessAddressVOs.add(businessAddressVO);
-				}
+
+				BusinessAddressVO businessAddressVO = new BusinessAddressVO();
+				businessAddressVO.setState(businessAddressDTO.getState());
+				businessAddressVO.setAddress1(businessAddressDTO.getAddress1());
+				businessAddressVO.setAddress2(businessAddressDTO.getAddress2());
+				businessAddressVO.setBusinessPlace(businessAddressDTO.getBusinessPlace());
+				businessAddressVO.setCityName(businessAddressDTO.getCityName());
+				businessAddressVO.setContactPerson(businessAddressDTO.getContactPerson());
+				businessAddressVO.setContactPhoneNo(businessAddressDTO.getContactPhoneNo());
+				businessAddressVO.setContactEmail(businessAddressDTO.getContactEmail());
+				businessAddressVO.setGstInVO(gstInVO);
+				businessAddressVOs.add(businessAddressVO);
+			}
 		}
-		getGstInVOFromGstInDTO(gstInDTO, gstInVO);
 		gstInVO.setStateGstVO(stateGstVOs);
 		gstInVO.setBusinessAddressVO(businessAddressVOs);
 		return gstInRepo.save(gstInVO);
@@ -1462,6 +1602,64 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(partyScreeningDTO.getId())) {
 			partyScreeningVO = partyScreeningRepo.findById(partyScreeningDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid PartyScreening Details"));
+		} else {
+			if (partyScreeningRepo.existsByEntityNameAndOrgId(partyScreeningDTO.getEntityName(),
+					partyScreeningDTO.getOrgId())) {
+				throw new ApplicationException("EntityName already Exists");
+			}
+			if (partyScreeningRepo.existsByAlternativeEntityNamesAndOrgId(partyScreeningDTO.getAlternativeEntityNames(),
+					partyScreeningDTO.getOrgId())) {
+				throw new ApplicationException("AlternativeEntityName already Exists");
+			}
+			if (partyScreeningRepo.existsByUniqueIdAndOrgId(partyScreeningDTO.getUniqueId(),
+					partyScreeningDTO.getOrgId())) {
+				throw new ApplicationException("UniqueId already Exists");
+			}
+			if (partyScreeningRepo.existsByIncludeAliasAndOrgId(partyScreeningDTO.getIncludeAlias(),
+					partyScreeningDTO.getOrgId())) {
+				throw new ApplicationException("IncludeAlias already Exists");
+			}
+			if (partyScreeningRepo.existsByScreeningStatusAndOrgId(partyScreeningDTO.getScreeningStatus(),
+					partyScreeningDTO.getOrgId())) {
+				throw new ApplicationException("ScreeningStatus already Exists");
+			}
+		}
+
+		if (ObjectUtils.isNotEmpty(partyScreeningDTO.getId())) {
+			PartyScreeningVO partyScreening = partyScreeningRepo.findById(partyScreeningDTO.getId()).orElse(null);
+			if (!partyScreeningVO.getEntityName().equals(partyScreeningDTO.getEntityName())) {
+				if (partyScreeningRepo.existsByEntityNameAndOrgId(partyScreeningDTO.getEntityName(),
+						partyScreeningDTO.getOrgId())) {
+					throw new ApplicationException("EntityName already Exists");
+				}
+				if (!partyScreeningVO.getAlternativeEntityNames()
+						.equals(partyScreeningDTO.getAlternativeEntityNames())) {
+					if (partyScreeningRepo.existsByAlternativeEntityNamesAndOrgId(
+							partyScreeningDTO.getAlternativeEntityNames(), partyScreeningDTO.getOrgId())) {
+						throw new ApplicationException("AlternativeEntityName already Exists");
+					}
+
+					if (partyScreeningVO.getUniqueId() != partyScreeningDTO.getUniqueId()) {
+						if (partyScreeningRepo.existsByUniqueIdAndOrgId(partyScreeningDTO.getUniqueId(),
+								partyScreeningDTO.getOrgId())) {
+							throw new ApplicationException("UniqueId already Exists");
+						}
+					}
+					if (partyScreeningVO.getIncludeAlias().equals(partyScreeningDTO.getIncludeAlias())) {
+						if (partyScreeningRepo.existsByIncludeAliasAndOrgId(partyScreeningDTO.getIncludeAlias(),
+								partyScreeningDTO.getOrgId())) {
+							throw new ApplicationException("IncludeAlias already Exists");
+						}
+					}
+					if (partyScreeningVO.getScreeningStatus().equals(partyScreeningDTO.getScreeningStatus())) {
+						if (partyScreeningRepo.existsByScreeningStatusAndOrgId(partyScreeningDTO.getScreeningStatus(),
+								partyScreeningDTO.getOrgId())) {
+							throw new ApplicationException("ScreeningStatus already Exists");
+						}
+					}
+
+				}
+			}
 		}
 		getPartyScreeningVOFromPartyScreeningDTO(partyScreeningDTO, partyScreeningVO);
 		return partyScreeningRepo.save(partyScreeningVO);
@@ -1471,17 +1669,16 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			PartyScreeningVO partyScreeningVO) {
 		partyScreeningVO.setPartyType(partyScreeningDTO.getPartyType());
 		partyScreeningVO.setEntityName(partyScreeningDTO.getEntityName());
+
 		partyScreeningVO.setAlternativeEntityNames(partyScreeningDTO.getAlternativeEntityNames());
 		partyScreeningVO.setUniqueId(partyScreeningDTO.getUniqueId());
 		partyScreeningVO.setIncludeAlias(partyScreeningDTO.getIncludeAlias());
-		partyScreeningVO.setScreeningstatus(partyScreeningDTO.getScreeningstatus());
+		partyScreeningVO.setScreeningStatus(partyScreeningDTO.getScreeningStatus());
 		partyScreeningVO.setOrgId(partyScreeningDTO.getOrgId());
 		partyScreeningVO.setActive(partyScreeningDTO.isActive());
 		partyScreeningVO.setCreatedBy(partyScreeningDTO.getCreatedBy());
 		partyScreeningVO.setUpdatedBy(partyScreeningDTO.getUpdatedBy());
 
 	}
-
-	
 
 }

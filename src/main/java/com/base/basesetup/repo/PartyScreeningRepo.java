@@ -17,4 +17,16 @@ public interface PartyScreeningRepo extends JpaRepository<PartyScreeningVO, Long
 	@Query(nativeQuery = true,value = "select * from partyscreening where orgid=?1")
 	List<PartyScreeningVO> getPartyScreeningByOrgId(Long orgid);
 
+	boolean existsByEntityNameAndOrgId(String entityName, long orgId);
+
+
+	boolean existsByUniqueIdAndOrgId(long uniqueId, long orgId);
+
+	boolean existsByIncludeAliasAndOrgId(String includeAlias, long orgId);
+
+
+	boolean existsByAlternativeEntityNamesAndOrgId(String alternativeEntityNames, long orgId);
+
+	boolean existsByScreeningStatusAndOrgId(String screeningStatus, long orgId);
+
 }

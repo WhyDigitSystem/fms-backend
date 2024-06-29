@@ -35,7 +35,6 @@ public class ListOfValuesVO {
 	private String listCode;
 	@Column(name = "listdescription")
 	private String listDescription;
-	
 	@Column(name = "cancel")
 	private boolean cancel;
 	@Column(name = "createdby")

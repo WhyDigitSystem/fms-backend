@@ -17,4 +17,8 @@ public interface SegmentsRepo extends JpaRepository<SegmentsVO, Long>{
 	@Query(nativeQuery = true,value = "select * from segments where orgid=?1")
 	List<SegmentsVO> getSegmentsByOrgId(Long orgid);
 
+	boolean existsBySegmentDescriptionAndOrgId(String segmentDescription, Long orgId);
+
+	boolean existsBySegmentNameAndOrgId(String segmentName, Long orgId);
+
 }

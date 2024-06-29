@@ -22,4 +22,5 @@ public interface DocumentTypeRepo extends JpaRepository<DocumentTypeVO, Long>{
 	boolean existsByDocumentTypeAndOrgId(String documentType, Long orgId);
 
 
+
 }

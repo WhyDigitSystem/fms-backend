@@ -15,5 +15,11 @@ public interface ListOfValuesRepo extends JpaRepository<ListOfValuesVO, Long> {
 	
 	@Query(nativeQuery = true, value = "select * from listofvalues where orgid=?1")
 	List<ListOfValuesVO> getListOfValuesByOrgId(Long orgid);
+
+	boolean existsByListCodeAndOrgId(String listCode, Long orgId);
+
+	boolean existsByListDescriptionAndOrgId(String listDescription, Long orgId);
+
+
         
 }

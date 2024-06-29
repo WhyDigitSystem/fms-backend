@@ -17,4 +17,8 @@ public interface RegionRepo extends JpaRepository<RegionVO, Long>{
 	@Query(nativeQuery = true,value = "select * from region where orgid=?1")
 	List<RegionVO> getRegionByOrgId(Long orgid);
 
+	boolean existsByRegionNameAndOrgId(String regionName, Long orgId);
+
+	boolean existsByRegionCodeAndOrgId(String regionCode, Long orgId);
+
 }

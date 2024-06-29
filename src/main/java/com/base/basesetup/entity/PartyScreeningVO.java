@@ -37,7 +37,7 @@ public class PartyScreeningVO {
 	@Column(name = "includealias")
 	private String includeAlias;
 	@Column(name = "screeningstatus")
-	private String screeningstatus;
+	private String screeningStatus;
 	
 	@Column(name = "cancel")
 	private boolean cancel;
