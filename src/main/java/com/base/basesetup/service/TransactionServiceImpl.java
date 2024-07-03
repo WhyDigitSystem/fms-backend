@@ -15,7 +15,6 @@ import com.base.basesetup.dto.CostEstimateDTO;
 import com.base.basesetup.dto.PackingListDTO;
 import com.base.basesetup.dto.ShipmentAODTO;
 import com.base.basesetup.entity.CostEstimateVO;
-import com.base.basesetup.entity.EventsVO;
 import com.base.basesetup.entity.PackingListVO;
 import com.base.basesetup.entity.ShipmentAOVO;
 import com.base.basesetup.exception.ApplicationException;
@@ -73,15 +72,15 @@ public class TransactionServiceImpl implements TransactionService{
 					.orElseThrow(() -> new ApplicationException("Invalid ShipmentAO details"));
 		}
 		else {
-			// Create a new EventsVO instance if the event ID is not present
+			// Create a new shipmentAOVO instance if the doc ID is not present
 			shipmentAOVO = new ShipmentAOVO();
 
-			// Generate a new unique event ID
+			// Generate a new unique doc ID
 			int docid = shipmentAORepo.finddocid(); // Ensure this method is correctly implemented to fetch the next
 													// sequence value
 			String docsid = "SH" + docid;
 			shipmentAORepo.getbydocsid();
-			shipmentAOVO.setDocId(docsid); // Assuming this sets the unique event ID to the eventsVO
+			shipmentAOVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
 		}
 		
 		getShipmentAOVOFromShipmentAODTO(shipmentAODTO, shipmentAOVO);
@@ -180,6 +179,9 @@ public class TransactionServiceImpl implements TransactionService{
 		shipmentAOVO.setOrgId(shipmentAODTO.getOrgId());
 		shipmentAOVO.setUpdatedBy(shipmentAODTO.getUpdatedBy());
 		shipmentAOVO.setCreatedBy(shipmentAODTO.getCreatedBy());
+		shipmentAOVO.setShippingBill(shipmentAODTO.getShippingBill());
+		shipmentAOVO.setDate(shipmentAODTO.getDate());
+
 
 	}
 

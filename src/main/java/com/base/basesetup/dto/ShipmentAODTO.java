@@ -50,6 +50,9 @@ public class ShipmentAODTO {
 	private BigDecimal totalChWt;
 	private BigDecimal totalVolWt;
 	private BigDecimal totEstimationCost;
+	private String shippingBill;
+	private LocalDate date;
+	
 	
 	
 	private boolean cancel;

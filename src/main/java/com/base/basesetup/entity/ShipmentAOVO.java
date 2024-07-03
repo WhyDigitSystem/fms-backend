@@ -107,6 +107,10 @@ public class ShipmentAOVO {
 	private BigDecimal totalVolWt;
 	@Column(name = "totestimatiomcost")
 	private BigDecimal totEstimationCost;
+	@Column(name = "shippingbill")
+	private String shippingBill;
+	@Column(name = "date")
+	private LocalDate date;
 	
 	
 	@Column(name = "cancel")
