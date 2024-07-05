@@ -2,7 +2,6 @@ package com.base.basesetup.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShipmentAODTO {
+public class ShipmentFollowUpDTO {
 	private Long id;
 	private String docId;
 	private LocalDate docDate;
@@ -50,6 +49,14 @@ public class ShipmentAODTO {
 	private BigDecimal totalChWt;
 	private BigDecimal totalVolWt;
 	private BigDecimal totEstimationCost;
+	private String shippingBill;
+	private LocalDate date;
+	private boolean documentReceived;
+	private boolean pickUpDone;
+	private boolean customsClearanceDone;
+	private LocalDate documentReceiveddate;
+	private LocalDate pickUpDonedate;
+	private LocalDate customsClearanceDonedate;
 	
 	
 	
@@ -60,10 +67,4 @@ public class ShipmentAODTO {
 	private Long orgId;
     private boolean active;
     
-    
-	private List<CostEstimateDTO> costEstimateDTO;
-	private List<PackingListDTO> packingListDTO;
-
-
-	
 }

@@ -111,6 +111,18 @@ public class ShipmentAOVO {
 	private String shippingBill;
 	@Column(name = "date")
 	private LocalDate date;
+	@Column(name = "documentreceived")
+	private boolean documentReceived;
+	@Column(name = "pickupdone")
+	private boolean pickUpDone;
+	@Column(name = "customsclearancedone")
+	private boolean customsClearanceDone;
+	@Column(name = "documentreceiveddate")
+	private LocalDate documentReceiveddate;
+	@Column(name = "pickupdonedate")
+	private LocalDate pickUpDonedate;
+	@Column(name = "customsclearancedonedate")
+	private LocalDate customsClearanceDonedate;
 	
 	
 	@Column(name = "cancel")

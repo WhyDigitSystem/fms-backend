@@ -23,4 +23,13 @@ public interface ShipmentAORepo extends JpaRepository<ShipmentAOVO, Long> {
 	@Query(nativeQuery = true, value = "select sequence_value from docsidseq")
 	int finddocid();
 
+	@Query(nativeQuery = true, value = "select * from t_aesohdr where shipmentaoid=?1")
+	List<ShipmentAOVO> findShipmentFollowUpById(Long id);
+
+	@Query(nativeQuery = true, value = "select * from t_aesohdr where orgid=?1")
+	List<ShipmentAOVO> getShipmentFollowUpByOrgId(Long orgid);
+
+	@Query(nativeQuery = true, value = "select * from t_aesohdr where docid=?1")
+	ShipmentAOVO getShipmentFollowUpByDocId(String docId);
+
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.base.basesetup.dto.CostEstimateDTO;
 import com.base.basesetup.dto.PackingListDTO;
 import com.base.basesetup.dto.ShipmentAODTO;
+import com.base.basesetup.dto.ShipmentFollowUpDTO;
 import com.base.basesetup.entity.CostEstimateVO;
 import com.base.basesetup.entity.PackingListVO;
 import com.base.basesetup.entity.ShipmentAOVO;
@@ -36,6 +37,7 @@ public class TransactionServiceImpl implements TransactionService{
 	@Autowired
 	CostEstimateRepo costEstimateRepo;
 	
+	
 	//ShipmentAO
 	
 	@Override
@@ -45,20 +47,20 @@ public class TransactionServiceImpl implements TransactionService{
 				LOGGER.info("Successfully Received  ShipmentAO BY Id : {}", id);
 				shipmentAOVO = shipmentAORepo.findShipmentAOById(id);
 			} else {
-				LOGGER.info("Successfully Received  Country For All Id.");
+				LOGGER.info("Successfully Received  ShipmentAO For All Id.");
 				shipmentAOVO = shipmentAORepo.findAll();
 			}
 			return shipmentAOVO;
 		}
 
 	@Override
-	public List<ShipmentAOVO> getShipmentAOByOrgId(Long orgid) {
+	public List<ShipmentAOVO> getShipmentAOByOrgId(Long orgId) {
 			List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(orgid)) {
-				LOGGER.info("Successfully Received  ShipmentAO BY Id : {}", orgid);
-				shipmentAOVO = shipmentAORepo.getShipmentAOByOrgId(orgid);
+			if (ObjectUtils.isNotEmpty(orgId)) {
+				LOGGER.info("Successfully Received  ShipmentAO BY Id : {}", orgId);
+				shipmentAOVO = shipmentAORepo.getShipmentAOByOrgId(orgId);
 			} else {
-				LOGGER.info("Successfully Received  Country For All OrgId.");
+				LOGGER.info("Successfully Received  ShipmentAO For All OrgId.");
 				shipmentAOVO = shipmentAORepo.findAll();
 			}
 			return shipmentAOVO;
@@ -179,11 +181,107 @@ public class TransactionServiceImpl implements TransactionService{
 		shipmentAOVO.setOrgId(shipmentAODTO.getOrgId());
 		shipmentAOVO.setUpdatedBy(shipmentAODTO.getUpdatedBy());
 		shipmentAOVO.setCreatedBy(shipmentAODTO.getCreatedBy());
-		shipmentAOVO.setShippingBill(shipmentAODTO.getShippingBill());
-		shipmentAOVO.setDate(shipmentAODTO.getDate());
+		
+
+	}
+	
+	//ShipmentFollowUp
+	
+	@Override
+	public List<ShipmentAOVO> getShipmentFollowUpById(Long id) {
+			List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(id)) {
+				LOGGER.info("Successfully Received  ShipmentFollowUp BY Id : {}", id);
+				shipmentAOVO = shipmentAORepo.findShipmentFollowUpById(id);
+			} else {
+				LOGGER.info("Successfully Received  ShipperFollowUp For All Id.");
+				shipmentAOVO = shipmentAORepo.findAll();
+			}
+			return shipmentAOVO;
+		}
+	
+	@Override
+	public List<ShipmentAOVO> getShipmentFollowUpByOrgId(Long orgId) {
+			List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(orgId)) {
+				LOGGER.info("Successfully Received  ShipmentFollowUp BY Id : {}", orgId);
+				shipmentAOVO = shipmentAORepo.getShipmentFollowUpByOrgId(orgId);
+			} else {
+				LOGGER.info("Successfully Received  ShipmentFollowUp For All OrgId.");
+				shipmentAOVO = shipmentAORepo.findAll();
+			}
+			return shipmentAOVO;
+		}
+	@Override
+	public ShipmentAOVO updateCreateShipmentFollowUp(@Valid ShipmentFollowUpDTO shipmentFollowUpDTO) throws ApplicationException {
+		ShipmentAOVO shipmentAOVO = new ShipmentAOVO();
+		if (ObjectUtils.isNotEmpty(shipmentFollowUpDTO.getId())) {
+			shipmentAOVO = shipmentAORepo.findById(shipmentFollowUpDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid ShipmentAO details"));
+		}
+		getShipmentAOVOFromShipmentFollowUpDTO(shipmentFollowUpDTO, shipmentAOVO);
+		return shipmentAORepo.save(shipmentAOVO);
+
+	}
+
+	private void getShipmentAOVOFromShipmentFollowUpDTO(@Valid ShipmentFollowUpDTO shipmentFollowUpDTO, ShipmentAOVO shipmentAOVO) {
+		shipmentAOVO.setDocDate(shipmentFollowUpDTO.getDocDate());
+		shipmentAOVO.setGlobalShipNo(shipmentFollowUpDTO.getGlobalShipNo());
+		shipmentAOVO.setPol(shipmentFollowUpDTO.getPol());
+		shipmentAOVO.setPod(shipmentFollowUpDTO.getPod());
+		shipmentAOVO.setJobNO(shipmentFollowUpDTO.getJobNO());
+		shipmentAOVO.setJobDate(shipmentFollowUpDTO.getJobDate());
+		shipmentAOVO.setFpod(shipmentFollowUpDTO.getFpod());
+		shipmentAOVO.setNominatedBy(shipmentFollowUpDTO.getNominatedBy());
+		shipmentAOVO.setHawbNO(shipmentFollowUpDTO.getHawbNO());
+		shipmentAOVO.setHawbDate(shipmentFollowUpDTO.getHawbDate());
+		shipmentAOVO.setDeliveryTerms(shipmentFollowUpDTO.getDeliveryTerms());
+		shipmentAOVO.setFreight(shipmentFollowUpDTO.getFreight());
+		shipmentAOVO.setMawbNo(shipmentFollowUpDTO.getMawbNo());
+		shipmentAOVO.setMawbDate(shipmentFollowUpDTO.getMawbDate());
+		shipmentAOVO.setProjectCargo(shipmentFollowUpDTO.isProjectCargo());
+		shipmentAOVO.setDirectMaster(shipmentFollowUpDTO.isDirectMaster());
+		shipmentAOVO.setJobAssigned(shipmentFollowUpDTO.isJobAssigned());
+		shipmentAOVO.setMasterFinalize(shipmentFollowUpDTO.isMasterFinalize());
+		shipmentAOVO.setShipperInvoiceNo(shipmentFollowUpDTO.getShipperInvoiceNo());
+		shipmentAOVO.setBillOfEntry(shipmentFollowUpDTO.getBillOfEntry());
+		shipmentAOVO.setShipper(shipmentFollowUpDTO.getShipper());
+		shipmentAOVO.setSAddType(shipmentFollowUpDTO.getSAddType());
+		shipmentAOVO.setSAddress(shipmentFollowUpDTO.getSAddress());
+		shipmentAOVO.setNotify(shipmentFollowUpDTO.getNotify());
+		shipmentAOVO.setNAddType(shipmentFollowUpDTO.getNAddType());
+		shipmentAOVO.setNAddress(shipmentFollowUpDTO.getNAddress());
+		shipmentAOVO.setConsignee(shipmentFollowUpDTO.getConsignee());
+		shipmentAOVO.setCaddType(shipmentFollowUpDTO.getCaddType());
+		shipmentAOVO.setCAddress(shipmentFollowUpDTO.getCAddress());
+		shipmentAOVO.setSalesCategory(shipmentFollowUpDTO.getSalesCategory());
+		shipmentAOVO.setSalesPerson(shipmentFollowUpDTO.getSalesPerson());
+		shipmentAOVO.setTotalNoOfPkgs(shipmentFollowUpDTO.getTotalNoOfPkgs());
+		shipmentAOVO.setTotalGrtWt(shipmentFollowUpDTO.getTotalGrtWt());
+		shipmentAOVO.setTotalChWt(shipmentFollowUpDTO.getTotalChWt());
+		shipmentAOVO.setTotalVolWt(shipmentFollowUpDTO.getTotalVolWt());
+		shipmentAOVO.setTotEstimationCost(shipmentFollowUpDTO.getTotEstimationCost());
+		shipmentAOVO.setActive(shipmentFollowUpDTO.isActive());
+		shipmentAOVO.setOrgId(shipmentFollowUpDTO.getOrgId());
+		shipmentAOVO.setUpdatedBy(shipmentFollowUpDTO.getUpdatedBy());
+		shipmentAOVO.setCreatedBy(shipmentFollowUpDTO.getCreatedBy());
+		shipmentAOVO.setShippingBill(shipmentFollowUpDTO.getShippingBill());
+		shipmentAOVO.setDate(shipmentFollowUpDTO.getDate());
+		shipmentAOVO.setDocumentReceived(shipmentFollowUpDTO.isDocumentReceived());
+		shipmentAOVO.setPickUpDone(shipmentFollowUpDTO.isPickUpDone());
+		shipmentAOVO.setCustomsClearanceDone(shipmentFollowUpDTO.isCustomsClearanceDone());
+		shipmentAOVO.setDocumentReceiveddate(shipmentFollowUpDTO.getDocumentReceiveddate());
+		shipmentAOVO.setPickUpDonedate(shipmentFollowUpDTO.getPickUpDonedate());
+		shipmentAOVO.setCustomsClearanceDonedate(shipmentFollowUpDTO.getCustomsClearanceDonedate());
+
+
 
 
 	}
 
+	@Override
+	public ShipmentAOVO getShipmentFollowUpByDocId(String docId) {
+		return shipmentAORepo.getShipmentFollowUpByDocId(docId);
+	}
 
 }

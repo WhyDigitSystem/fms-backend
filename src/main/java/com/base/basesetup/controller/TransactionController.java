@@ -24,6 +24,7 @@ import com.base.basesetup.common.CommonConstant;
 import com.base.basesetup.common.UserConstants;
 import com.base.basesetup.dto.ResponseDTO;
 import com.base.basesetup.dto.ShipmentAODTO;
+import com.base.basesetup.dto.ShipmentFollowUpDTO;
 import com.base.basesetup.entity.ShipmentAOVO;
 import com.base.basesetup.service.TransactionService;
 
@@ -115,5 +116,110 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
+ // ShipmentFollowUp
+	
+	@GetMapping("/getShipmentFollowUpById")
+	public ResponseEntity<ResponseDTO> getShipmentFollowUpById(@RequestParam(required = false) Long id) {
+		String methodName = "getShipmentFollowUpById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
+		try {
+			shipmentAOVO = transactionService.getShipmentFollowUpById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ShipmentFollowup information get successfully By Id");
+			responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "ShipmentFollowup information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getShipmentFollowUpByOrgId")
+	public ResponseEntity<ResponseDTO> getShipmentFollowUpByOrgId(@RequestParam(required = false) Long orgId) {
+		String methodName = "getShipmentFollowUpByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
+		try {
+			shipmentAOVO = transactionService.getShipmentFollowUpByOrgId(orgId);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentFollowup information get successfully By OrgId");
+			responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentFollowup information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PostMapping("/updateCreateShipmentFollowUp")
+	public ResponseEntity<ResponseDTO> updateCreateShipmentFollowUp(@Valid @RequestBody ShipmentFollowUpDTO shipmentFollowUpDTO) {
+		String methodName = "updateCreateShipmentFollowUp()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			ShipmentAOVO shipmentAOVO = transactionService.updateCreateShipmentFollowUp(shipmentFollowUpDTO);
+			if (shipmentAOVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentFollowup updated successfully");
+				responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "shipmentAO not found for ID: " + shipmentFollowUpDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "shipmentFollowup update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentFollowup update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getShipmentFollowUpByDocId")
+	public ResponseEntity<ResponseDTO> getShipmentFollowUpByDocId(@RequestParam(required = false) String docId) {
+		String methodName = "getShipmentFollowUpByDocId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		ShipmentAOVO shipmentAOVO = new ShipmentAOVO();
+		try {
+			shipmentAOVO = transactionService.getShipmentFollowUpByDocId(docId);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentFollowup information get successfully By DocId");
+			responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentFollowup information receive failed By DocId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
 
 }
