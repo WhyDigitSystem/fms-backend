@@ -29,9 +29,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PackingListVO {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "packinglistgen")
-	@SequenceGenerator(name = "packinglistgen", sequenceName = "packinglistseq", initialValue = 1000000001, allocationSize = 1)
-	@Column(name = "packingListid")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_aesodtlgen")
+	@SequenceGenerator(name = "t_aesodtlgen", sequenceName = "t_aesodtlseq", initialValue = 1000000001, allocationSize = 1)
+	@Column(name = "t_aesodtlid")
 	private Long id;
 	@Column(name = "sidnO")
 	private String sIdNO;

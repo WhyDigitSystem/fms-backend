@@ -6,8 +6,10 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
+import com.base.basesetup.dto.MasterAirWayBillDTO;
 import com.base.basesetup.dto.ShipmentAODTO;
 import com.base.basesetup.dto.ShipmentFollowUpDTO;
+import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.ShipmentAOVO;
 import com.base.basesetup.exception.ApplicationException;
 
@@ -31,5 +33,13 @@ public interface TransactionService {
 	ShipmentAOVO updateCreateShipmentFollowUp(@Valid ShipmentFollowUpDTO shipmentFollowUpDTO) throws ApplicationException;
 
 	ShipmentAOVO getShipmentFollowUpByDocId(String docId);
+	
+	//MasterAirWayBill
+
+	List<MasterAirWayBillVO> getMasterAirWayBillById(Long id);
+
+	List<MasterAirWayBillVO> getMasterAirWayBillByOrgId(Long orgid);
+
+	MasterAirWayBillVO updateCreateMasterAirWayBill(@Valid MasterAirWayBillDTO masterAirWayBillDTO) throws ApplicationException;
 
 }

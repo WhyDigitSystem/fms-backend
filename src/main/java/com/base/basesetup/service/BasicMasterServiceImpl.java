@@ -1511,7 +1511,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 		List<StateGstVO> stateGstVOList = stateGstRepo.findByGstInVO(gstInVO);
 		stateGstRepo.deleteAll(stateGstVOList);
-
+		
+		
+		
 		List<StateGstVO> stateGstVOs = new ArrayList<>();
 		if (gstInDTO.getStateGstDTO() != null) {
 			for (StateGstDTO stateGstDTO : gstInDTO.getStateGstDTO()) {
@@ -1530,6 +1532,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 		List<BusinessAddressVO> businessAddressVOList = businessAddressRepo.findByGstInVO(gstInVO);
 		businessAddressRepo.deleteAll(businessAddressVOList);
+
 
 		List<BusinessAddressVO> businessAddressVOs = new ArrayList<>();
 		if (gstInDTO.getBusinessAddressDTO() != null) {

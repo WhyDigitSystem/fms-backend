@@ -29,9 +29,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ShipmentAOVO {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shipmentaogen")
-	@SequenceGenerator(name = "shipmentaogen", sequenceName = "shipmentaoseq", initialValue = 1000000001, allocationSize = 1)
-	@Column(name = "shipmentaoid")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_aesohdrgen")
+	@SequenceGenerator(name = "t_aesohdrgen", sequenceName = "t_aesohdrseq", initialValue = 1000000001, allocationSize = 1)
+	@Column(name = "t_aesohdrid")
 	private Long id;
 	@Column(name = "docid")
 	private String docId;

@@ -29,9 +29,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CostEstimateVO {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "costestimategen")
-	@SequenceGenerator(name = "costestimategen", sequenceName = "costestimateseq", initialValue = 1000000001, allocationSize = 1)
-	@Column(name = "costestimateid")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_aesocostgen")
+	@SequenceGenerator(name = "t_aesocostgen", sequenceName = "t_aesocostseq", initialValue = 1000000001, allocationSize = 1)
+	@Column(name = "t_aesocostid")
 	private Long id;
 	@Column(name = "partyvendor")
 	private String partyVendor;
