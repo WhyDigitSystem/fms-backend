@@ -23,19 +23,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "ef_aemastercarrierdtl")
+@Table(name = "ef_aiord_carrierdtl")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CarrierDetailsVO {
+public class PreAlertCarrierDetailsVO {
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ef_aemastercarrierdtlgen")
-	@SequenceGenerator(name = "ef_aemastercarrierdtlgen", sequenceName = "ef_aemastercarrierdtlseq", initialValue = 1000000001, allocationSize = 1)
-	@Column(name = "ef_aemastercarrierdtlid")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ef_aiord_carrierdtlgen")
+	@SequenceGenerator(name = "ef_aiord_carrierdtlgen", sequenceName = "ef_aiord_carrierdtlseq", initialValue = 1000000001, allocationSize = 1)
+	@Column(name = "ef_aiord_carrierdtlid")
 	private Long id;
-	@Column(name = "frightno")
-	private String frightNo;
+	@Column(name = "airlinecode")
+	private Long airLineCode;
+	@Column(name = "airlinename")
+	private String airLineName;
+	@Column(name = "flightno")
+	private String flightNo;
 	@Column(name = "etd")
 	private LocalDate etd;
 	@Column(name = "etdtime")
@@ -50,10 +55,10 @@ public class CarrierDetailsVO {
 	private String pod;
 	
 	@ManyToOne
-	@JoinColumn(name = "ef_aemasterhdrid")
+	@JoinColumn(name = "ef_aiord_hdrid")
 	@JsonBackReference
-	private MasterAirWayBillVO masterAirWayBillVO;
-
+	private PreAlertVO preAlertVO;
+	
 	@Embedded
 	@Builder.Default
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();

@@ -11,36 +11,39 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.base.basesetup.dto.BusinessAddressDTO;
 import com.base.basesetup.dto.CarrierDetailsDTO;
 import com.base.basesetup.dto.CostEstimateDTO;
 import com.base.basesetup.dto.DeclaredByDTO;
-import com.base.basesetup.dto.GstInDTO;
 import com.base.basesetup.dto.HouseDetailsDTO;
+import com.base.basesetup.dto.HouseParticularsDTO;
 import com.base.basesetup.dto.MasterAirWayBillDTO;
 import com.base.basesetup.dto.PackingListDTO;
+import com.base.basesetup.dto.PreAlertCarrierDetailsDTO;
+import com.base.basesetup.dto.PreAlertDTO;
 import com.base.basesetup.dto.PrintDetailsDTO;
 import com.base.basesetup.dto.ShipmentAODTO;
 import com.base.basesetup.dto.ShipmentFollowUpDTO;
-import com.base.basesetup.dto.StateGstDTO;
-import com.base.basesetup.entity.BusinessAddressVO;
 import com.base.basesetup.entity.CarrierDetailsVO;
 import com.base.basesetup.entity.CostEstimateVO;
 import com.base.basesetup.entity.DeclaredByVO;
-import com.base.basesetup.entity.GstInVO;
 import com.base.basesetup.entity.HouseDetailsVO;
+import com.base.basesetup.entity.HouseParticularsVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.PackingListVO;
+import com.base.basesetup.entity.PreAlertCarrierDetailsVO;
+import com.base.basesetup.entity.PreAlertVO;
 import com.base.basesetup.entity.PrintDetailsVO;
 import com.base.basesetup.entity.ShipmentAOVO;
-import com.base.basesetup.entity.StateGstVO;
 import com.base.basesetup.exception.ApplicationException;
 import com.base.basesetup.repo.CarrierDetailsRepo;
 import com.base.basesetup.repo.CostEstimateRepo;
 import com.base.basesetup.repo.DeclaredByRepo;
 import com.base.basesetup.repo.HouseDetailsRepo;
+import com.base.basesetup.repo.HouseParticularsRepo;
 import com.base.basesetup.repo.MasterAirWayBillRepo;
 import com.base.basesetup.repo.PackingListRepo;
+import com.base.basesetup.repo.PreAlertCarrierDetailsRepo;
+import com.base.basesetup.repo.PreAlertRepo;
 import com.base.basesetup.repo.PrintDetailsRepo;
 import com.base.basesetup.repo.ShipmentAORepo;
 
@@ -72,6 +75,15 @@ public class TransactionServiceImpl implements TransactionService{
 	
 	@Autowired
 	PrintDetailsRepo printDetailsRepo;
+	
+	@Autowired
+	PreAlertRepo preAlertRepo;
+	
+	@Autowired
+	HouseParticularsRepo houseParticularsRepo;
+	
+	@Autowired
+	PreAlertCarrierDetailsRepo preAlertCarrierDetailsRepo;
 	
 	//ShipmentAO
 	
@@ -531,6 +543,154 @@ public class TransactionServiceImpl implements TransactionService{
 
 		
 	}
+
+	@Override
+	public List<PreAlertVO> getPreAlertById(Long id) {
+		List<PreAlertVO> preAlertVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  PreAlert BY Id : {}", id);
+			preAlertVO = preAlertRepo.findPreAlertById(id);
+		} else {
+			LOGGER.info("Successfully Received  PreAlert For All Id.");
+			preAlertVO = preAlertRepo.findAll();
+		}
+		return preAlertVO;
+	}
+
+	@Override
+	public List<PreAlertVO> getPreAlertByOrgId(Long orgid) {
+		List<PreAlertVO> preAlertVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  PreAlert BY OrgId : {}", orgid);
+			preAlertVO = preAlertRepo.findPreAlertByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  PreAlert For All OrgId.");
+			preAlertVO = preAlertRepo.findAll();
+		}
+		return preAlertVO;
+	}
+
+	@Override
+	public PreAlertVO updateCreatePreAlert(@Valid PreAlertDTO preAlertDTO) throws ApplicationException {
+		PreAlertVO preAlertVO = new PreAlertVO();
+		if (ObjectUtils.isNotEmpty(preAlertDTO.getId())) {
+			preAlertVO = preAlertRepo.findById(preAlertDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid PreAlert details"));
+		}
+		getPreAlertVOFromPreAlertDTO(preAlertDTO, preAlertVO);
+		preAlertVO = preAlertRepo.save(preAlertVO);
+		
+		
+		List<HouseParticularsVO> houseParticularsVOList = houseParticularsRepo.findByPreAlertVO(preAlertVO);
+		houseParticularsRepo.deleteAll(houseParticularsVOList);
+		
+		List<PreAlertCarrierDetailsVO> preAlertCarrierDetailsVOList = preAlertCarrierDetailsRepo.findByPreAlertVO(preAlertVO);
+		preAlertCarrierDetailsRepo.deleteAll(preAlertCarrierDetailsVOList);
+		
+		List<HouseParticularsVO> houseParticularsVOs = new ArrayList<>();
+		if (preAlertDTO.getHouseParticularsDTO() != null) {
+			for (HouseParticularsDTO houseParticularsDTO : preAlertDTO.getHouseParticularsDTO()) {
+
+				HouseParticularsVO houseParticularsVO = new HouseParticularsVO();
+				houseParticularsVO.setHouseNO(houseParticularsDTO.getHouseNO());
+				houseParticularsVO.setDate(houseParticularsDTO.getDate());
+				houseParticularsVO.setJobNo(houseParticularsDTO.getJobNo());
+				houseParticularsVO.setJobBranch(houseParticularsDTO.getJobBranch());
+				houseParticularsVO.setClosed(houseParticularsDTO.getClosed());
+				houseParticularsVO.setPkgs(houseParticularsDTO.getPkgs());
+				houseParticularsVO.setGrwt(houseParticularsDTO.getGrwt());
+				houseParticularsVO.setChwt(houseParticularsDTO.getChwt());
+				houseParticularsVO.setShipper(houseParticularsDTO.getShipper());
+				houseParticularsVO.setConsignee(houseParticularsDTO.getConsignee());
+				houseParticularsVO.setBro(houseParticularsDTO.getBro());
+				houseParticularsVO.setNotify(houseParticularsDTO.getNotify());
+				houseParticularsVO.setSalesCategory(houseParticularsDTO.getSalesCategory());
+				houseParticularsVO.setSalesPerson(houseParticularsDTO.getSalesPerson());
+				houseParticularsVO.setPod(houseParticularsDTO.getPod());
+				houseParticularsVO.setFpod(houseParticularsDTO.getFpod());
+				houseParticularsVO.setIncoterm(houseParticularsDTO.getIncoterm());
+				houseParticularsVO.setFreight(houseParticularsDTO.getFreight());
+				houseParticularsVO.setIndustry(houseParticularsDTO.getIndustry());
+				houseParticularsVO.setBillOfEntry(houseParticularsDTO.getBillOfEntry());
+				houseParticularsVO.setItemDescription(houseParticularsDTO.getItemDescription());
+				
+				houseParticularsVO.setPreAlertVO(preAlertVO);;
+				houseParticularsVOs.add(houseParticularsVO);
+			}
+		}
+		
+
+		List<PreAlertCarrierDetailsVO> preAlertCarrierDetailsVOS = new ArrayList<>();
+		if (preAlertDTO.getPreAlertCarrierDetailsDTO() != null) {
+			for (PreAlertCarrierDetailsDTO preAlertCarrierDetailsDTO : preAlertDTO.getPreAlertCarrierDetailsDTO()) {
+
+				PreAlertCarrierDetailsVO preAlertCarrierDetailsVO = new PreAlertCarrierDetailsVO();
+				preAlertCarrierDetailsVO.setAirLineCode(preAlertCarrierDetailsDTO.getAirLineCode());
+				preAlertCarrierDetailsVO.setAirLineName(preAlertCarrierDetailsDTO.getAirLineName());
+				preAlertCarrierDetailsVO.setFlightNo(preAlertCarrierDetailsDTO.getFlightNo());
+				preAlertCarrierDetailsVO.setEta(preAlertCarrierDetailsDTO.getEta());
+				preAlertCarrierDetailsVO.setEtaTime(preAlertCarrierDetailsDTO.getEtaTime());
+				preAlertCarrierDetailsVO.setEtd(preAlertCarrierDetailsDTO.getEtd());
+				preAlertCarrierDetailsVO.setEtdTime(preAlertCarrierDetailsDTO.getEtdTime());
+				preAlertCarrierDetailsVO.setPol(preAlertCarrierDetailsDTO.getPol());
+				preAlertCarrierDetailsVO.setPod(preAlertCarrierDetailsDTO.getPod());
+				
+				preAlertCarrierDetailsVO.setPreAlertVO(preAlertVO);;
+				preAlertCarrierDetailsVOS.add(preAlertCarrierDetailsVO);
+			}
+		}
+		
+		preAlertVO.setHouseParticularsVO(houseParticularsVOs);;
+		preAlertVO.setPreAlertCarrierDetailsVO(preAlertCarrierDetailsVOS);
+		
+		return preAlertRepo.save(preAlertVO);
+
+	}
+
+	private void getPreAlertVOFromPreAlertDTO(@Valid PreAlertDTO preAlertDTO, PreAlertVO preAlertVO) {
+		preAlertVO.setDirect(preAlertDTO.isDirect());
+		preAlertVO.setDocNo(preAlertDTO.getDocNo());
+		preAlertVO.setDocDate(preAlertDTO.getDocDate());
+		preAlertVO.setAirCarrier(preAlertDTO.getAirCarrier());
+		preAlertVO.setDocNo(preAlertDTO.getDocNo());
+		preAlertVO.setDocDate(preAlertDTO.getDocDate());
+		preAlertVO.setAirCarrier(preAlertDTO.getAirCarrier());
+		preAlertVO.setAirCarrierType(preAlertDTO.getAirCarrierType());
+		preAlertVO.setFlightDate(preAlertDTO.getFlightDate());
+		preAlertVO.setFlightTime(preAlertDTO.getFlightTime());
+		preAlertVO.setMasterDate(preAlertDTO.getMasterDate());
+		preAlertVO.setShipType(preAlertDTO.getShipType());
+		preAlertVO.setGrWt(preAlertDTO.getGrWt());
+		preAlertVO.setPol(preAlertDTO.getPol());
+		preAlertVO.setDocDate1(preAlertDTO.getDocDate1());
+		preAlertVO.setFlightNo(preAlertDTO.getFlightNo());
+		preAlertVO.setMasterNo(preAlertDTO.getMasterNo());
+		preAlertVO.setMasterNo1(preAlertDTO.getMasterNo1());
+		preAlertVO.setNoOfPkgs(preAlertDTO.getNoOfPkgs());
+		preAlertVO.setChWt(preAlertDTO.getChWt());
+		preAlertVO.setPod(preAlertDTO.getPod());
+		preAlertVO.setManifestDone(preAlertDTO.isManifestDone());
+		preAlertVO.setJobAssigned(preAlertDTO.getJobAssigned());
+		preAlertVO.setAgent(preAlertDTO.getAgent());
+		preAlertVO.setConsignee(preAlertDTO.getConsignee());
+		preAlertVO.setItemDescription(preAlertDTO.getItemDescription());
+		preAlertVO.setIgmNo(preAlertDTO.getIgmNo());
+		preAlertVO.setIgmNoDate(preAlertDTO.getIgmNoDate());
+		preAlertVO.setDefFreightCurr(preAlertDTO.getDefFreightCurr());
+		preAlertVO.setDefFreightCurr1(preAlertDTO.getDefFreightCurr1());
+		preAlertVO.setMasterFreight(preAlertDTO.getMasterFreight());
+		preAlertVO.setAirlineDoNo(preAlertDTO.getAirlineDoNo());
+		preAlertVO.setSectorAwd(preAlertDTO.getSectorAwd());
+		preAlertVO.setTotHousePkgs(preAlertDTO.getTotHousePkgs());
+		preAlertVO.setTotHouseChWt(preAlertDTO.getTotHouseChWt());
+		preAlertVO.setTotHouseGrwt(preAlertDTO.getTotHouseGrwt());
+		preAlertVO.setUpdatedBy(preAlertDTO.getUpdatedBy());
+		preAlertVO.setCreatedBy(preAlertDTO.getCreatedBy());
+		preAlertVO.setOrgId(preAlertDTO.getOrgId());
+		preAlertVO.setActive(preAlertDTO.isActive());
+	}
+
+	
 
 
 
