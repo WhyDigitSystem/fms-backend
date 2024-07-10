@@ -22,15 +22,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="t_aesodtl")
+@Table(name="t_sesodtl")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PackingListVO {
+public class SoPackingListVO {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_aesodtlgen")
-	@SequenceGenerator(name = "t_aesodtlgen", sequenceName = "t_aesodtlseq", initialValue = 1000000001, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_sesodtlgen")
+	@SequenceGenerator(name = "t_sesodtlgen", sequenceName = "t_sesodtlseq", initialValue = 1000000001, allocationSize = 1)
 	@Column(name = "t_aesodtlid")
 	private Long id;
 	@Column(name = "sidnO")
@@ -63,9 +63,9 @@ public class PackingListVO {
 	private BigDecimal volume;
 	
 	@ManyToOne
-	@JoinColumn(name = "t_aesohdrid")
+	@JoinColumn(name = "t_sesohdrid")
 	@JsonBackReference
-	private ShipmentAOVO shipmentAOVO;
+	private ShipmentSOVO shipmentSOVO;
 	
 	
 	@Embedded

@@ -22,14 +22,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.base.basesetup.common.CommonConstant;
 import com.base.basesetup.common.UserConstants;
+import com.base.basesetup.dto.AdvanceCanAiDTO;
 import com.base.basesetup.dto.MasterAirWayBillDTO;
 import com.base.basesetup.dto.PreAlertDTO;
 import com.base.basesetup.dto.ResponseDTO;
 import com.base.basesetup.dto.ShipmentAODTO;
-import com.base.basesetup.dto.ShipmentFollowUpDTO;
+import com.base.basesetup.dto.ShipmentAOFollowUpDTO;
+import com.base.basesetup.dto.ShipmentSODTO;
+import com.base.basesetup.dto.ShipmentSOFollowUpDTO;
+import com.base.basesetup.entity.AdvanceCanAiVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.PreAlertVO;
 import com.base.basesetup.entity.ShipmentAOVO;
+import com.base.basesetup.entity.ShipmentSOVO;
 import com.base.basesetup.service.TransactionService;
 
 @CrossOrigin
@@ -122,104 +127,104 @@ public class TransactionController extends BaseController  {
 	
  // ShipmentFollowUp
 	
-	@GetMapping("/getShipmentFollowUpById")
-	public ResponseEntity<ResponseDTO> getShipmentFollowUpById(@RequestParam(required = false) Long id) {
-		String methodName = "getShipmentFollowUpById()";
+	@GetMapping("/getShipmentAOFollowUpById")
+	public ResponseEntity<ResponseDTO> getShipmentAOFollowUpById(@RequestParam(required = false) Long id) {
+		String methodName = "getShipmentAOFollowUpById()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
 		List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
 		try {
-			shipmentAOVO = transactionService.getShipmentFollowUpById(id);
+			shipmentAOVO = transactionService.getShipmentAOFollowUpById(id);
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
 		}
 		if (StringUtils.isBlank(errorMsg)) {
-			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ShipmentFollowup information get successfully By Id");
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ShipmentAOFollowup information get successfully By Id");
 			responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
 			responseDTO = createServiceResponse(responseObjectsMap);
 		} else {
-			responseDTO = createServiceResponseError(responseObjectsMap, "ShipmentFollowup information receive failed By Id",
+			responseDTO = createServiceResponseError(responseObjectsMap, "ShipmentAOFollowup information receive failed By Id",
 					errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@GetMapping("/getShipmentFollowUpByOrgId")
-	public ResponseEntity<ResponseDTO> getShipmentFollowUpByOrgId(@RequestParam(required = false) Long orgId) {
-		String methodName = "getShipmentFollowUpByOrgId()";
+	@GetMapping("/getShipmentAOFollowUpByOrgId")
+	public ResponseEntity<ResponseDTO> getShipmentAOFollowUpByOrgId(@RequestParam(required = false) Long orgId) {
+		String methodName = "getShipmentAOFollowUpByOrgId()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
 		List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
 		try {
-			shipmentAOVO = transactionService.getShipmentFollowUpByOrgId(orgId);
+			shipmentAOVO = transactionService.getShipmentAOFollowUpByOrgId(orgId);
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
 		}
 		if (StringUtils.isBlank(errorMsg)) {
-			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentFollowup information get successfully By OrgId");
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentAOFollowup information get successfully By OrgId");
 			responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
 			responseDTO = createServiceResponse(responseObjectsMap);
 		} else {
-			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentFollowup information receive failed By OrgId",
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentAOFollowup information receive failed By OrgId",
 					errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateShipmentFollowUp")
-	public ResponseEntity<ResponseDTO> updateCreateShipmentFollowUp(@Valid @RequestBody ShipmentFollowUpDTO shipmentFollowUpDTO) {
-		String methodName = "updateCreateShipmentFollowUp()";
+	@PostMapping("/updateCreateShipmentAOFollowUp")
+	public ResponseEntity<ResponseDTO> updateCreateAOShipmentFollowUp(@Valid @RequestBody ShipmentAOFollowUpDTO shipmentFollowUpDTO) {
+		String methodName = "updateCreateShipmentAOFollowUp()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
 		try {
-			ShipmentAOVO shipmentAOVO = transactionService.updateCreateShipmentFollowUp(shipmentFollowUpDTO);
+			ShipmentAOVO shipmentAOVO = transactionService.updateCreateShipmentAOFollowUp(shipmentFollowUpDTO);
 			if (shipmentAOVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentFollowup updated successfully");
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentAOFollowup updated successfully");
 				responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
 				errorMsg = "shipmentAO not found for ID: " + shipmentFollowUpDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "shipmentFollowup update failed", errorMsg);
+				responseDTO = createServiceResponseError(responseObjectsMap, "shipmentAOFollowup update failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentFollowup update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentAOFollowup update failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@GetMapping("/getShipmentFollowUpByDocId")
-	public ResponseEntity<ResponseDTO> getShipmentFollowUpByDocId(@RequestParam(required = false) String docId) {
-		String methodName = "getShipmentFollowUpByDocId()";
+	@GetMapping("/getShipmentAOFollowUpByDocId")
+	public ResponseEntity<ResponseDTO> getShipmentAOFollowUpByDocId(@RequestParam(required = false) String docId) {
+		String methodName = "getShipmentAOFollowUpByDocId()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
 		ShipmentAOVO shipmentAOVO = new ShipmentAOVO();
 		try {
-			shipmentAOVO = transactionService.getShipmentFollowUpByDocId(docId);
+			shipmentAOVO = transactionService.getShipmentAOFollowUpByDocId(docId);
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
 		}
 		if (StringUtils.isBlank(errorMsg)) {
-			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentFollowup information get successfully By DocId");
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentAOFollowup information get successfully By DocId");
 			responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
 			responseDTO = createServiceResponse(responseObjectsMap);
 		} else {
-			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentFollowup information receive failed By DocId",
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentAOFollowup information receive failed By DocId",
 					errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
@@ -388,4 +393,274 @@ public class TransactionController extends BaseController  {
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
 	}
+	
+	//AdvanceCanAi
+	
+	@GetMapping("/getAdvanceCanAiById")
+	public ResponseEntity<ResponseDTO> getAdvanceCanAiById(@RequestParam(required = false) Long id) {
+		String methodName = "getAdvanceCanAiById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<AdvanceCanAiVO> advanceCanAiVO = new ArrayList<>();
+		try {
+			advanceCanAiVO = transactionService.getAdvanceCanAiById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanAi information get successfully By Id");
+			responseObjectsMap.put("advanceCanAiVO", advanceCanAiVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAi information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getAdvanceCanAiByOrgId")
+	public ResponseEntity<ResponseDTO> getAdvanceCanAiByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getAdvanceCanAiByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<AdvanceCanAiVO> advanceCanAiVO = new ArrayList<>();
+		try {
+			advanceCanAiVO = transactionService.getAdvanceCanAiByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanAi information get successfully By OrgId");
+			responseObjectsMap.put("advanceCanAiVO", advanceCanAiVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAi information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PostMapping("/updateCreateAdvanceCanAi")
+	public ResponseEntity<ResponseDTO> updateCreateAdvanceCanAi(@Valid @RequestBody AdvanceCanAiDTO advanceCanAiDTO) {
+		String methodName = "updateCreateAdvanceCanAi()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			AdvanceCanAiVO advanceCanAiVO = transactionService.updateCreateAdvanceCanAi(advanceCanAiDTO);
+			if (advanceCanAiVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanAi updated successfully");
+				responseObjectsMap.put("advanceCanAiVO", advanceCanAiVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "AdvanceCanAi not found for ID: " + advanceCanAiDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAi update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAi update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	//ShipperSO
+	
+	@GetMapping("/getShipmentSOById")
+	public ResponseEntity<ResponseDTO> getShipmentSOById(@RequestParam(required = false) Long id) {
+		String methodName = "getShipmentSOById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
+		try {
+			shipmentSOVO = transactionService.getShipmentSOById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ShipmentSO information get successfully By Id");
+			responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "ShipmentSO information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getShipmentSOByOrgId")
+	public ResponseEntity<ResponseDTO> getShipmentSOByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getShipmentSOByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
+		try {
+			shipmentSOVO = transactionService.getShipmentSOByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentSO information get successfully By OrgId");
+			responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSO information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PostMapping("/updateCreateShipmentSO")
+	public ResponseEntity<ResponseDTO> updateCreateShipmentSO(@Valid @RequestBody ShipmentSODTO shipmentSODTO) {
+		String methodName = "updateCreateShipmentSO()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			ShipmentSOVO shipmentSOVO = transactionService.updateCreateShipmentSO(shipmentSODTO);
+			if (shipmentSOVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentSO updated successfully");
+				responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "shipmentSO not found for ID: " + shipmentSODTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSO update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSO update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	//ShipperSOFollowup
+	
+	@GetMapping("/getShipmentSOFollowUpById")
+	public ResponseEntity<ResponseDTO> getShipmentSOFollowUpById(@RequestParam(required = false) Long id) {
+		String methodName = "getShipmentSOById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
+		try {
+			shipmentSOVO = transactionService.getShipmentSOFollowUpById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ShipmentSOFollowUp information get successfully By Id");
+			responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "ShipmentSOFollowup information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getShipmentSOFollowUpByOrgId")
+	public ResponseEntity<ResponseDTO> getShipmentSOFollowUpByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getShipmentSOFollowUpByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
+		try {
+			shipmentSOVO = transactionService.getShipmentSOFollowUpByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentSOFollowUp information get successfully By OrgId");
+			responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSOFollowUp information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PostMapping("/updateCreateShipmentSOFollowUp")
+	public ResponseEntity<ResponseDTO> updateCreateShipmentSOFollowUp(@Valid @RequestBody ShipmentSOFollowUpDTO shipmentSOFollowUpDTO) {
+		String methodName = "updateCreateShipmentSOFollowUp()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			ShipmentSOVO shipmentSOVO = transactionService.updateCreateShipmentSOFollowUp(shipmentSOFollowUpDTO);
+			if (shipmentSOVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentSOFollowup updated successfully");
+				responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "shipmentSO not found for ID: " + shipmentSOFollowUpDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSOFollowup update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSOFollowup update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+
+	@GetMapping("/getShipmentSOFollowUpByDocId")
+	public ResponseEntity<ResponseDTO> getShipmentSOFollowUpByDocId(@RequestParam(required = false) String docId) {
+		String methodName = "getShipmentSOFollowUpByDocId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		ShipmentSOVO shipmentSOVO = new ShipmentSOVO();
+		try {
+			shipmentSOVO = transactionService.getShipmentSOFollowUpByDocId(docId);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentSOFollowup information get successfully By DocId");
+			responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSOFollowup information receive failed By DocId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	
+	
 }

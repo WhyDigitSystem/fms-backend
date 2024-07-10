@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.base.basesetup.entity.ShipmentAOVO;
+import com.base.basesetup.entity.ShipmentSOVO;
 
 @Repository
 public interface ShipmentAORepo extends JpaRepository<ShipmentAOVO, Long> {
 
-	@Query(nativeQuery = true, value = "select * from t_aesohdr where shipmentaoid=?1")
+	@Query(nativeQuery = true, value = "select * from t_aesohdr where t_aesohdrid=?1")
 	List<ShipmentAOVO> findShipmentAOById(Long id);
 
 	@Query(nativeQuery = true, value = "select * from t_aesohdr where orgid=?1")
@@ -23,13 +24,14 @@ public interface ShipmentAORepo extends JpaRepository<ShipmentAOVO, Long> {
 	@Query(nativeQuery = true, value = "select sequence_value from docsidseq")
 	int finddocid();
 
-	@Query(nativeQuery = true, value = "select * from t_aesohdr where shipmentaoid=?1")
-	List<ShipmentAOVO> findShipmentFollowUpById(Long id);
+	@Query(nativeQuery = true, value = "select * from t_aesohdr where t_aesohdrid=?1")
+	List<ShipmentAOVO> findShipmentAOFollowUpById(Long id);
 
 	@Query(nativeQuery = true, value = "select * from t_aesohdr where orgid=?1")
-	List<ShipmentAOVO> getShipmentFollowUpByOrgId(Long orgid);
+	List<ShipmentAOVO> getShipmentAOFollowUpByOrgId(Long orgid);
 
 	@Query(nativeQuery = true, value = "select * from t_aesohdr where docid=?1")
-	ShipmentAOVO getShipmentFollowUpByDocId(String docId);
+	ShipmentAOVO getShipmentAOFollowUpByDocId(String docId);
+
 
 }

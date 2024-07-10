@@ -22,16 +22,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "t_aesocost")
+@Table(name = "t_sesocost")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CostEstimateVO {
+public class SoCostEstimateVO {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_aesocostgen")
-	@SequenceGenerator(name = "t_aesocostgen", sequenceName = "t_aesocostseq", initialValue = 1000000001, allocationSize = 1)
-	@Column(name = "t_aesocostid")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_sesocostgen")
+	@SequenceGenerator(name = "t_sesocostgen", sequenceName = "t_sesocostseq", initialValue = 1000000001, allocationSize = 1)
+	@Column(name = "t_sesocostid")
 	private Long id;
 	@Column(name = "partyvendor")
 	private String partyVendor;
@@ -53,15 +53,14 @@ public class CostEstimateVO {
 	
 	
 	@ManyToOne
-	@JoinColumn(name = "t_aesohdrid")
+	@JoinColumn(name = "t_sesohdrid")
 	@JsonBackReference
-	private ShipmentAOVO shipmentAOVO;
+	private ShipmentSOVO shipmentSOVO;
 	
 	
 	@Embedded
 	@Builder.Default
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
 
-	
 	
 }
