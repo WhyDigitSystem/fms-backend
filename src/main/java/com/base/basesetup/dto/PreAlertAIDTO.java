@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PreAlertDTO {
+public class PreAlertAIDTO {
 
 	private Long id;
 	private boolean direct;
@@ -56,7 +56,7 @@ public class PreAlertDTO {
     private boolean active;
 	private String createdBy;
 	
-	private List<HouseParticularsDTO> houseParticularsDTO;
-	private List<PreAlertCarrierDetailsDTO> preAlertCarrierDetailsDTO;
+	private List<HouseParticularsAIDTO> houseParticularsAIDTO;
+	private List<PreAlertCarrierDetailsAIDTO> preAlertCarrierDetailsAIDTO;
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.base.basesetup.dto.CreatedUpdatedDate;
+import com.fasterxml.jackson.annotation.JsonGetter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,6 +56,10 @@ public class CountryVO {
 	@Column(name="orgid")
 	private Long orgId;
 	
+	@JsonGetter("active")
+	public String getActive() {
+		return active ? "Active" : "In-Active";
+	} 
 	
     @Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();

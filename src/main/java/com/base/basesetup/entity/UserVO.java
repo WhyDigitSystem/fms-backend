@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.base.basesetup.dto.CreatedUpdatedDate;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -43,7 +44,7 @@ public class UserVO {
 	private String email;
     private String reportingTO;
 	private String location;
-	private boolean isActive;
+	private boolean active;
 	private LocalDate deactivatedOn;
 	private Long orgId;
 
@@ -69,6 +70,9 @@ public class UserVO {
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
 
-	
+	@JsonGetter("active")
+	public String getActive() {
+		return active ? "Active" : "In-Active";
+	}
 	
 }

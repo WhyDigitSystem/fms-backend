@@ -14,14 +14,19 @@ import org.springframework.stereotype.Service;
 import com.base.basesetup.dto.AdvanceCanAiDTO;
 import com.base.basesetup.dto.CarrierDetailsDTO;
 import com.base.basesetup.dto.ChargeParticularDTO;
+import com.base.basesetup.dto.ContainerAllocationSODTO;
+import com.base.basesetup.dto.ContainerDetailsSIDTO;
+import com.base.basesetup.dto.ContainerDetailsSODTO;
 import com.base.basesetup.dto.CostEstimateDTO;
 import com.base.basesetup.dto.DeclaredByDTO;
 import com.base.basesetup.dto.HouseDetailsDTO;
-import com.base.basesetup.dto.HouseParticularsDTO;
+import com.base.basesetup.dto.HouseParticularsAIDTO;
+import com.base.basesetup.dto.HouseParticularsSIDTO;
 import com.base.basesetup.dto.MasterAirWayBillDTO;
 import com.base.basesetup.dto.PackingListDTO;
-import com.base.basesetup.dto.PreAlertCarrierDetailsDTO;
-import com.base.basesetup.dto.PreAlertDTO;
+import com.base.basesetup.dto.PreAlertAIDTO;
+import com.base.basesetup.dto.PreAlertCarrierDetailsAIDTO;
+import com.base.basesetup.dto.PreAlertSIDTO;
 import com.base.basesetup.dto.PrintDetailsDTO;
 import com.base.basesetup.dto.ShipmentAODTO;
 import com.base.basesetup.dto.ShipmentAOFollowUpDTO;
@@ -29,39 +34,52 @@ import com.base.basesetup.dto.ShipmentSODTO;
 import com.base.basesetup.dto.ShipmentSOFollowUpDTO;
 import com.base.basesetup.dto.SoCostEstimateDTO;
 import com.base.basesetup.dto.SoPackingListDTO;
+import com.base.basesetup.dto.VesselDetailsSIDTO;
 import com.base.basesetup.entity.AdvanceCanAiVO;
 import com.base.basesetup.entity.CarrierDetailsVO;
 import com.base.basesetup.entity.ChargeParticularVO;
+import com.base.basesetup.entity.ContainerAllocationSOVO;
+import com.base.basesetup.entity.ContainerDetailsSIVO;
+import com.base.basesetup.entity.ContainerDetailsSOVO;
 import com.base.basesetup.entity.CostEstimateVO;
 import com.base.basesetup.entity.DeclaredByVO;
 import com.base.basesetup.entity.HouseDetailsVO;
-import com.base.basesetup.entity.HouseParticularsVO;
+import com.base.basesetup.entity.HouseParticularsAIVO;
+import com.base.basesetup.entity.HouseParticularsSIVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.PackingListVO;
-import com.base.basesetup.entity.PreAlertCarrierDetailsVO;
-import com.base.basesetup.entity.PreAlertVO;
+import com.base.basesetup.entity.PreAlertAIVO;
+import com.base.basesetup.entity.PreAlertCarrierDetailsAIVO;
+import com.base.basesetup.entity.PreAlertSIVO;
 import com.base.basesetup.entity.PrintDetailsVO;
 import com.base.basesetup.entity.ShipmentAOVO;
 import com.base.basesetup.entity.ShipmentSOVO;
 import com.base.basesetup.entity.SoCostEstimateVO;
 import com.base.basesetup.entity.SoPackingListVO;
+import com.base.basesetup.entity.VesselDetailsSIVO;
 import com.base.basesetup.exception.ApplicationException;
 import com.base.basesetup.repo.AdvanceCanAiRepo;
 import com.base.basesetup.repo.CarrierDetailsRepo;
 import com.base.basesetup.repo.ChargeParticularRepo;
+import com.base.basesetup.repo.ContainerAllocationSORepo;
+import com.base.basesetup.repo.ContainerDetailsSIRepo;
+import com.base.basesetup.repo.ContainerDetailsSORepo;
 import com.base.basesetup.repo.CostEstimateRepo;
 import com.base.basesetup.repo.DeclaredByRepo;
 import com.base.basesetup.repo.HouseDetailsRepo;
-import com.base.basesetup.repo.HouseParticularsRepo;
+import com.base.basesetup.repo.HouseParticularsAIRepo;
+import com.base.basesetup.repo.HouseParticularsSIRepo;
 import com.base.basesetup.repo.MasterAirWayBillRepo;
 import com.base.basesetup.repo.PackingListRepo;
-import com.base.basesetup.repo.PreAlertCarrierDetailsRepo;
-import com.base.basesetup.repo.PreAlertRepo;
+import com.base.basesetup.repo.PreAlertAIRepo;
+import com.base.basesetup.repo.PreAlertCarrierDetailsAIRepo;
+import com.base.basesetup.repo.PreAlertSIRepo;
 import com.base.basesetup.repo.PrintDetailsRepo;
 import com.base.basesetup.repo.ShipmentAORepo;
 import com.base.basesetup.repo.ShipmentSORepo;
 import com.base.basesetup.repo.SoCostEstimateRepo;
 import com.base.basesetup.repo.SoPackingListRepo;
+import com.base.basesetup.repo.VesselDetailsSIRepo;
 
 @Service
 public class TransactionServiceImpl implements TransactionService{
@@ -93,13 +111,13 @@ public class TransactionServiceImpl implements TransactionService{
 	PrintDetailsRepo printDetailsRepo;
 	
 	@Autowired
-	PreAlertRepo preAlertRepo;
+	PreAlertAIRepo preAlertAIRepo;
 	
 	@Autowired
-	HouseParticularsRepo houseParticularsRepo;
+	HouseParticularsAIRepo houseParticularsAIRepo;
 	
 	@Autowired
-	PreAlertCarrierDetailsRepo preAlertCarrierDetailsRepo;
+	PreAlertCarrierDetailsAIRepo preAlertCarrierDetailsAIRepo;
 	
 	@Autowired
 	AdvanceCanAiRepo advanceCanAiRepo;
@@ -115,6 +133,24 @@ public class TransactionServiceImpl implements TransactionService{
 	
 	@Autowired
 	SoCostEstimateRepo soCostEstimateRepo;
+	
+	@Autowired
+	ContainerAllocationSORepo containerAllocationSORepo;
+	
+	@Autowired
+	ContainerDetailsSORepo containerDetailsSORepo;
+	
+	@Autowired
+	PreAlertSIRepo preAlertSIRepo;
+	
+	@Autowired
+	VesselDetailsSIRepo vesselDetailsSIRepo;
+
+	@Autowired
+	HouseParticularsSIRepo houseParticularsSIRepo;
+	
+	@Autowired
+	ContainerDetailsSIRepo containerDetailsSIRepo;
 	
 	//ShipmentAO
 	
@@ -572,153 +608,158 @@ public class TransactionServiceImpl implements TransactionService{
 
 		
 	}
+	
+	//PreAlertAI
 
 	@Override
-	public List<PreAlertVO> getPreAlertById(Long id) {
-		List<PreAlertVO> preAlertVO = new ArrayList<>();
+	public List<PreAlertAIVO> getPreAlertAIById(Long id) {
+		List<PreAlertAIVO> preAlertAIVO = new ArrayList<>();
 		if (ObjectUtils.isNotEmpty(id)) {
-			LOGGER.info("Successfully Received  PreAlert BY Id : {}", id);
-			preAlertVO = preAlertRepo.findPreAlertById(id);
+			LOGGER.info("Successfully Received  PreAlertAI BY Id : {}", id);
+			preAlertAIVO = preAlertAIRepo.findPreAlertById(id);
 		} else {
-			LOGGER.info("Successfully Received  PreAlert For All Id.");
-			preAlertVO = preAlertRepo.findAll();
+			LOGGER.info("Successfully Received  PreAlertAI For All Id.");
+			preAlertAIVO = preAlertAIRepo.findAll();
 		}
-		return preAlertVO;
+		return preAlertAIVO;
 	}
 
 	@Override
-	public List<PreAlertVO> getPreAlertByOrgId(Long orgid) {
-		List<PreAlertVO> preAlertVO = new ArrayList<>();
+	public List<PreAlertAIVO> getPreAlertAIByOrgId(Long orgid) {
+		List<PreAlertAIVO> preAlertAIVO = new ArrayList<>();
 		if (ObjectUtils.isNotEmpty(orgid)) {
-			LOGGER.info("Successfully Received  PreAlert BY OrgId : {}", orgid);
-			preAlertVO = preAlertRepo.findPreAlertByOrgId(orgid);
+			LOGGER.info("Successfully Received  PreAlertAI BY OrgId : {}", orgid);
+			preAlertAIVO = preAlertAIRepo.findPreAlertByOrgId(orgid);
 		} else {
-			LOGGER.info("Successfully Received  PreAlert For All OrgId.");
-			preAlertVO = preAlertRepo.findAll();
+			LOGGER.info("Successfully Received  PreAlertAI For All OrgId.");
+			preAlertAIVO = preAlertAIRepo.findAll();
 		}
-		return preAlertVO;
+		return preAlertAIVO;
 	}
 
 	@Override
-	public PreAlertVO updateCreatePreAlert(@Valid PreAlertDTO preAlertDTO) throws ApplicationException {
-		PreAlertVO preAlertVO = new PreAlertVO();
-		if (ObjectUtils.isNotEmpty(preAlertDTO.getId())) {
-			preAlertVO = preAlertRepo.findById(preAlertDTO.getId())
-					.orElseThrow(() -> new ApplicationException("Invalid PreAlert details"));
+	public PreAlertAIVO updateCreatePreAlertAI(@Valid PreAlertAIDTO preAlertAIDTO) throws ApplicationException {
+		PreAlertAIVO preAlertAIVO = new PreAlertAIVO();
+		if (ObjectUtils.isNotEmpty(preAlertAIDTO.getId())) {
+			preAlertAIVO = preAlertAIRepo.findById(preAlertAIDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid PreAlertAI details"));
 		}
-		getPreAlertVOFromPreAlertDTO(preAlertDTO, preAlertVO);
-		preAlertVO = preAlertRepo.save(preAlertVO);
+		getPreAlertAIVOFromPreAlertAIDTO(preAlertAIDTO, preAlertAIVO);
+		preAlertAIVO = preAlertAIRepo.save(preAlertAIVO);
 		
 		
-		List<HouseParticularsVO> houseParticularsVOList = houseParticularsRepo.findByPreAlertVO(preAlertVO);
-		houseParticularsRepo.deleteAll(houseParticularsVOList);
+		List<HouseParticularsAIVO> houseParticularsVOList = houseParticularsAIRepo.findByPreAlertAIVO(preAlertAIVO);
+		houseParticularsAIRepo.deleteAll(houseParticularsVOList);
 		
-		List<PreAlertCarrierDetailsVO> preAlertCarrierDetailsVOList = preAlertCarrierDetailsRepo.findByPreAlertVO(preAlertVO);
-		preAlertCarrierDetailsRepo.deleteAll(preAlertCarrierDetailsVOList);
+		List<PreAlertCarrierDetailsAIVO> preAlertCarrierDetailsVOList = preAlertCarrierDetailsAIRepo.findByPreAlertAIVO(preAlertAIVO);
+		preAlertCarrierDetailsAIRepo.deleteAll(preAlertCarrierDetailsVOList);
 		
-		List<HouseParticularsVO> houseParticularsVOs = new ArrayList<>();
-		if (preAlertDTO.getHouseParticularsDTO() != null) {
-			for (HouseParticularsDTO houseParticularsDTO : preAlertDTO.getHouseParticularsDTO()) {
+		List<HouseParticularsAIVO> houseParticularsAIVOs = new ArrayList<>();
+		if (preAlertAIDTO.getHouseParticularsAIDTO() != null) {
+			for (HouseParticularsAIDTO houseParticularsAIDTO : preAlertAIDTO.getHouseParticularsAIDTO()) {
 
-				HouseParticularsVO houseParticularsVO = new HouseParticularsVO();
-				houseParticularsVO.setHouseNO(houseParticularsDTO.getHouseNO());
-				houseParticularsVO.setDate(houseParticularsDTO.getDate());
-				houseParticularsVO.setJobNo(houseParticularsDTO.getJobNo());
-				houseParticularsVO.setJobBranch(houseParticularsDTO.getJobBranch());
-				houseParticularsVO.setClosed(houseParticularsDTO.getClosed());
-				houseParticularsVO.setPkgs(houseParticularsDTO.getPkgs());
-				houseParticularsVO.setGrwt(houseParticularsDTO.getGrwt());
-				houseParticularsVO.setChwt(houseParticularsDTO.getChwt());
-				houseParticularsVO.setShipper(houseParticularsDTO.getShipper());
-				houseParticularsVO.setConsignee(houseParticularsDTO.getConsignee());
-				houseParticularsVO.setBro(houseParticularsDTO.getBro());
-				houseParticularsVO.setNotify(houseParticularsDTO.getNotify());
-				houseParticularsVO.setSalesCategory(houseParticularsDTO.getSalesCategory());
-				houseParticularsVO.setSalesPerson(houseParticularsDTO.getSalesPerson());
-				houseParticularsVO.setPod(houseParticularsDTO.getPod());
-				houseParticularsVO.setFpod(houseParticularsDTO.getFpod());
-				houseParticularsVO.setIncoterm(houseParticularsDTO.getIncoterm());
-				houseParticularsVO.setFreight(houseParticularsDTO.getFreight());
-				houseParticularsVO.setIndustry(houseParticularsDTO.getIndustry());
-				houseParticularsVO.setBillOfEntry(houseParticularsDTO.getBillOfEntry());
-				houseParticularsVO.setItemDescription(houseParticularsDTO.getItemDescription());
+				HouseParticularsAIVO houseParticularsAIVO = new HouseParticularsAIVO();
+				houseParticularsAIVO.setHouseNO(houseParticularsAIDTO.getHouseNO());
+				houseParticularsAIVO.setDate(houseParticularsAIDTO.getDate());
+				houseParticularsAIVO.setJobNo(houseParticularsAIDTO.getJobNo());
+				houseParticularsAIVO.setJobBranch(houseParticularsAIDTO.getJobBranch());
+				houseParticularsAIVO.setClosed(houseParticularsAIDTO.getClosed());
+				houseParticularsAIVO.setPkgs(houseParticularsAIDTO.getPkgs());
+				houseParticularsAIVO.setGrwt(houseParticularsAIDTO.getGrwt());
+				houseParticularsAIVO.setChwt(houseParticularsAIDTO.getChwt());
+				houseParticularsAIVO.setShipper(houseParticularsAIDTO.getShipper());
+				houseParticularsAIVO.setConsignee(houseParticularsAIDTO.getConsignee());
+				houseParticularsAIVO.setBro(houseParticularsAIDTO.getBro());
+				houseParticularsAIVO.setNotify(houseParticularsAIDTO.getNotify());
+				houseParticularsAIVO.setSalesCategory(houseParticularsAIDTO.getSalesCategory());
+				houseParticularsAIVO.setSalesPerson(houseParticularsAIDTO.getSalesPerson());
+				houseParticularsAIVO.setPod(houseParticularsAIDTO.getPod());
+				houseParticularsAIVO.setFpod(houseParticularsAIDTO.getFpod());
+				houseParticularsAIVO.setIncoterm(houseParticularsAIDTO.getIncoterm());
+				houseParticularsAIVO.setFreight(houseParticularsAIDTO.getFreight());
+				houseParticularsAIVO.setIndustry(houseParticularsAIDTO.getIndustry());
+				houseParticularsAIVO.setBillOfEntry(houseParticularsAIDTO.getBillOfEntry());
+				houseParticularsAIVO.setItemDescription(houseParticularsAIDTO.getItemDescription());
 				
-				houseParticularsVO.setPreAlertVO(preAlertVO);;
-				houseParticularsVOs.add(houseParticularsVO);
+				houseParticularsAIVO.setPreAlertAIVO(preAlertAIVO);;
+				houseParticularsAIVOs.add(houseParticularsAIVO);
 			}
 		}
 		
 
-		List<PreAlertCarrierDetailsVO> preAlertCarrierDetailsVOS = new ArrayList<>();
-		if (preAlertDTO.getPreAlertCarrierDetailsDTO() != null) {
-			for (PreAlertCarrierDetailsDTO preAlertCarrierDetailsDTO : preAlertDTO.getPreAlertCarrierDetailsDTO()) {
+		List<PreAlertCarrierDetailsAIVO> preAlertCarrierDetailsVOS = new ArrayList<>();
+		if (preAlertAIDTO.getPreAlertCarrierDetailsAIDTO() != null) {
+			for (PreAlertCarrierDetailsAIDTO preAlertCarrierDetailsAIDTO : preAlertAIDTO.getPreAlertCarrierDetailsAIDTO()) {
 
-				PreAlertCarrierDetailsVO preAlertCarrierDetailsVO = new PreAlertCarrierDetailsVO();
-				preAlertCarrierDetailsVO.setAirLineCode(preAlertCarrierDetailsDTO.getAirLineCode());
-				preAlertCarrierDetailsVO.setAirLineName(preAlertCarrierDetailsDTO.getAirLineName());
-				preAlertCarrierDetailsVO.setFlightNo(preAlertCarrierDetailsDTO.getFlightNo());
-				preAlertCarrierDetailsVO.setEta(preAlertCarrierDetailsDTO.getEta());
-				preAlertCarrierDetailsVO.setEtaTime(preAlertCarrierDetailsDTO.getEtaTime());
-				preAlertCarrierDetailsVO.setEtd(preAlertCarrierDetailsDTO.getEtd());
-				preAlertCarrierDetailsVO.setEtdTime(preAlertCarrierDetailsDTO.getEtdTime());
-				preAlertCarrierDetailsVO.setPol(preAlertCarrierDetailsDTO.getPol());
-				preAlertCarrierDetailsVO.setPod(preAlertCarrierDetailsDTO.getPod());
+				PreAlertCarrierDetailsAIVO preAlertCarrierDetailsAIVO = new PreAlertCarrierDetailsAIVO();
+				preAlertCarrierDetailsAIVO.setAirLineCode(preAlertCarrierDetailsAIDTO.getAirLineCode());
+				preAlertCarrierDetailsAIVO.setAirLineName(preAlertCarrierDetailsAIDTO.getAirLineName());
+				preAlertCarrierDetailsAIVO.setFlightNo(preAlertCarrierDetailsAIDTO.getFlightNo());
+				preAlertCarrierDetailsAIVO.setEta(preAlertCarrierDetailsAIDTO.getEta());
+				preAlertCarrierDetailsAIVO.setEtaTime(preAlertCarrierDetailsAIDTO.getEtaTime());
+				preAlertCarrierDetailsAIVO.setEtd(preAlertCarrierDetailsAIDTO.getEtd());
+				preAlertCarrierDetailsAIVO.setEtdTime(preAlertCarrierDetailsAIDTO.getEtdTime());
+				preAlertCarrierDetailsAIVO.setPol(preAlertCarrierDetailsAIDTO.getPol());
+				preAlertCarrierDetailsAIVO.setPod(preAlertCarrierDetailsAIDTO.getPod());
 				
-				preAlertCarrierDetailsVO.setPreAlertVO(preAlertVO);;
-				preAlertCarrierDetailsVOS.add(preAlertCarrierDetailsVO);
+				preAlertCarrierDetailsAIVO.setPreAlertAIVO(preAlertAIVO);;
+				preAlertCarrierDetailsVOS.add(preAlertCarrierDetailsAIVO);
 			}
 		}
 		
-		preAlertVO.setHouseParticularsVO(houseParticularsVOs);;
-		preAlertVO.setPreAlertCarrierDetailsVO(preAlertCarrierDetailsVOS);
+		preAlertAIVO.setHouseParticularsAIVO(houseParticularsAIVOs);;
+		preAlertAIVO.setPreAlertCarrierDetailsAIVO(preAlertCarrierDetailsVOS);
 		
-		return preAlertRepo.save(preAlertVO);
+		return preAlertAIRepo.save(preAlertAIVO);
 
 	}
 
-	private void getPreAlertVOFromPreAlertDTO(@Valid PreAlertDTO preAlertDTO, PreAlertVO preAlertVO) {
-		preAlertVO.setDirect(preAlertDTO.isDirect());
-		preAlertVO.setDocNo(preAlertDTO.getDocNo());
-		preAlertVO.setDocDate(preAlertDTO.getDocDate());
-		preAlertVO.setAirCarrier(preAlertDTO.getAirCarrier());
-		preAlertVO.setDocNo(preAlertDTO.getDocNo());
-		preAlertVO.setDocDate(preAlertDTO.getDocDate());
-		preAlertVO.setAirCarrier(preAlertDTO.getAirCarrier());
-		preAlertVO.setAirCarrierType(preAlertDTO.getAirCarrierType());
-		preAlertVO.setFlightDate(preAlertDTO.getFlightDate());
-		preAlertVO.setFlightTime(preAlertDTO.getFlightTime());
-		preAlertVO.setMasterDate(preAlertDTO.getMasterDate());
-		preAlertVO.setShipType(preAlertDTO.getShipType());
-		preAlertVO.setGrWt(preAlertDTO.getGrWt());
-		preAlertVO.setPol(preAlertDTO.getPol());
-		preAlertVO.setDocDate1(preAlertDTO.getDocDate1());
-		preAlertVO.setFlightNo(preAlertDTO.getFlightNo());
-		preAlertVO.setMasterNo(preAlertDTO.getMasterNo());
-		preAlertVO.setMasterNo1(preAlertDTO.getMasterNo1());
-		preAlertVO.setNoOfPkgs(preAlertDTO.getNoOfPkgs());
-		preAlertVO.setChWt(preAlertDTO.getChWt());
-		preAlertVO.setPod(preAlertDTO.getPod());
-		preAlertVO.setManifestDone(preAlertDTO.isManifestDone());
-		preAlertVO.setJobAssigned(preAlertDTO.getJobAssigned());
-		preAlertVO.setAgent(preAlertDTO.getAgent());
-		preAlertVO.setConsignee(preAlertDTO.getConsignee());
-		preAlertVO.setItemDescription(preAlertDTO.getItemDescription());
-		preAlertVO.setIgmNo(preAlertDTO.getIgmNo());
-		preAlertVO.setIgmNoDate(preAlertDTO.getIgmNoDate());
-		preAlertVO.setDefFreightCurr(preAlertDTO.getDefFreightCurr());
-		preAlertVO.setDefFreightCurr1(preAlertDTO.getDefFreightCurr1());
-		preAlertVO.setMasterFreight(preAlertDTO.getMasterFreight());
-		preAlertVO.setAirlineDoNo(preAlertDTO.getAirlineDoNo());
-		preAlertVO.setSectorAwd(preAlertDTO.getSectorAwd());
-		preAlertVO.setTotHousePkgs(preAlertDTO.getTotHousePkgs());
-		preAlertVO.setTotHouseChWt(preAlertDTO.getTotHouseChWt());
-		preAlertVO.setTotHouseGrwt(preAlertDTO.getTotHouseGrwt());
-		preAlertVO.setUpdatedBy(preAlertDTO.getUpdatedBy());
-		preAlertVO.setCreatedBy(preAlertDTO.getCreatedBy());
-		preAlertVO.setOrgId(preAlertDTO.getOrgId());
-		preAlertVO.setActive(preAlertDTO.isActive());
+	private void getPreAlertAIVOFromPreAlertAIDTO(@Valid PreAlertAIDTO preAlertAIDTO, PreAlertAIVO preAlertAIVO) {
+		preAlertAIVO.setDirect(preAlertAIDTO.isDirect());
+		preAlertAIVO.setDocNo(preAlertAIDTO.getDocNo());
+		preAlertAIVO.setDocDate(preAlertAIDTO.getDocDate());
+		preAlertAIVO.setAirCarrier(preAlertAIDTO.getAirCarrier());
+		preAlertAIVO.setDocNo(preAlertAIDTO.getDocNo());
+		preAlertAIVO.setDocDate(preAlertAIDTO.getDocDate());
+		preAlertAIVO.setAirCarrier(preAlertAIDTO.getAirCarrier());
+		preAlertAIVO.setAirCarrierType(preAlertAIDTO.getAirCarrierType());
+		preAlertAIVO.setFlightDate(preAlertAIDTO.getFlightDate());
+		preAlertAIVO.setFlightTime(preAlertAIDTO.getFlightTime());
+		preAlertAIVO.setMasterDate(preAlertAIDTO.getMasterDate());
+		preAlertAIVO.setShipType(preAlertAIDTO.getShipType());
+		preAlertAIVO.setGrWt(preAlertAIDTO.getGrWt());
+		preAlertAIVO.setPol(preAlertAIDTO.getPol());
+		preAlertAIVO.setDocDate1(preAlertAIDTO.getDocDate1());
+		preAlertAIVO.setFlightNo(preAlertAIDTO.getFlightNo());
+		preAlertAIVO.setMasterNo(preAlertAIDTO.getMasterNo());
+		preAlertAIVO.setMasterNo1(preAlertAIDTO.getMasterNo1());
+		preAlertAIVO.setNoOfPkgs(preAlertAIDTO.getNoOfPkgs());
+		preAlertAIVO.setChWt(preAlertAIDTO.getChWt());
+		preAlertAIVO.setPod(preAlertAIDTO.getPod());
+		preAlertAIVO.setManifestDone(preAlertAIDTO.isManifestDone());
+		preAlertAIVO.setJobAssigned(preAlertAIDTO.getJobAssigned());
+		preAlertAIVO.setAgent(preAlertAIDTO.getAgent());
+		preAlertAIVO.setConsignee(preAlertAIDTO.getConsignee());
+		preAlertAIVO.setItemDescription(preAlertAIDTO.getItemDescription());
+		preAlertAIVO.setIgmNo(preAlertAIDTO.getIgmNo());
+		preAlertAIVO.setIgmNoDate(preAlertAIDTO.getIgmNoDate());
+		preAlertAIVO.setDefFreightCurr(preAlertAIDTO.getDefFreightCurr());
+		preAlertAIVO.setDefFreightCurr1(preAlertAIDTO.getDefFreightCurr1());
+		preAlertAIVO.setMasterFreight(preAlertAIDTO.getMasterFreight());
+		preAlertAIVO.setAirlineDoNo(preAlertAIDTO.getAirlineDoNo());
+		preAlertAIVO.setSectorAwd(preAlertAIDTO.getSectorAwd());
+		preAlertAIVO.setTotHousePkgs(preAlertAIDTO.getTotHousePkgs());
+		preAlertAIVO.setTotHouseChWt(preAlertAIDTO.getTotHouseChWt());
+		preAlertAIVO.setTotHouseGrwt(preAlertAIDTO.getTotHouseGrwt());
+		preAlertAIVO.setUpdatedBy(preAlertAIDTO.getUpdatedBy());
+		preAlertAIVO.setCreatedBy(preAlertAIDTO.getCreatedBy());
+		preAlertAIVO.setOrgId(preAlertAIDTO.getOrgId());
+		preAlertAIVO.setActive(preAlertAIDTO.isActive());
 	}
 
+	
+	//AdvanceCanAiVO
+	
 	@Override
 	public List<AdvanceCanAiVO> getAdvanceCanAiById(Long id) {
 		List<AdvanceCanAiVO> advanceCanAiVO = new ArrayList<>();
@@ -1098,5 +1139,280 @@ public class TransactionServiceImpl implements TransactionService{
 	}
 
 
+	//ContainerAllocation
+	
+	@Override
+	public List<ContainerAllocationSOVO> getContainerAllocationSOById(Long id) {
+			List<ContainerAllocationSOVO> containerAllocationSOVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(id)) {
+				LOGGER.info("Successfully Received  containerAllocationSO BY Id : {}", id);
+				containerAllocationSOVO = containerAllocationSORepo.findContainerAllocationSOById(id);
+			} else {
+				LOGGER.info("Successfully Received  containerAllocationSO For All Id.");
+				containerAllocationSOVO = containerAllocationSORepo.findAll();
+			}
+			return containerAllocationSOVO;
+		}
+	
+	@Override
+	public List<ContainerAllocationSOVO> getContainerAllocationSOByOrgId(Long orgid) {
+			List<ContainerAllocationSOVO> containerAllocationSOVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(orgid)) {
+				LOGGER.info("Successfully Received  containerAllocationSO BY OrgId : {}", orgid);
+				containerAllocationSOVO = containerAllocationSORepo.findContainerAllocationSOByOrgId(orgid);
+			} else {
+				LOGGER.info("Successfully Received  containerAllocationSO For All OrgId.");
+				containerAllocationSOVO = containerAllocationSORepo.findAll();
+			}
+			return containerAllocationSOVO;
+		}
+	
+	@Override
+	public ContainerAllocationSOVO updateCreateContainerAllocationSO(@Valid ContainerAllocationSODTO containerAllocationSODTO) throws ApplicationException {
+		ContainerAllocationSOVO containerAllocationSOVO = new ContainerAllocationSOVO();
+		if (ObjectUtils.isNotEmpty(containerAllocationSODTO.getId())) {
+			containerAllocationSOVO = containerAllocationSORepo.findById(containerAllocationSODTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid ContainerAllocationSO details"));
+		}
+		
+		getContainerAllocationSOVOFromContainerAllocationSODTO(containerAllocationSODTO, containerAllocationSOVO);
+		containerAllocationSOVO = containerAllocationSORepo.save(containerAllocationSOVO);
+
+		List<ContainerDetailsSOVO> containerDetailsSOVO = containerDetailsSORepo.findByContainerAllocationSOVO(containerAllocationSOVO);
+		containerDetailsSORepo.deleteAll(containerDetailsSOVO);
+
+		List<ContainerDetailsSOVO> containerDetailsSOVOs = new ArrayList<>();
+		if (containerAllocationSODTO.getContainerDetailsSODTO() != null) {
+			for (ContainerDetailsSODTO containerDetailsSODTO : containerAllocationSODTO.getContainerDetailsSODTO()) {
+				ContainerDetailsSOVO containerDetailsVO1 = new ContainerDetailsSOVO();
+				containerDetailsVO1.setContainerType(containerDetailsSODTO.getContainerType());
+				containerDetailsVO1.setContainerNo(containerDetailsSODTO.getContainerNo());
+				containerDetailsVO1.setSealNo(containerDetailsSODTO.getSealNo());
+				containerDetailsVO1.setLoad(containerDetailsSODTO.getLoad());
+				containerDetailsVO1.setQty(containerDetailsSODTO.getQty());
+				containerDetailsVO1.setVolume(containerDetailsSODTO.getVolume());
+				containerDetailsVO1.setPkgs(containerDetailsSODTO.getPkgs());
+				containerDetailsVO1.setGrwt(containerDetailsSODTO.getGrwt());
+				
+				containerDetailsVO1.setContainerAllocationSOVO(containerAllocationSOVO);;
+				containerDetailsSOVOs.add(containerDetailsVO1);
+			}
+		}
+
+		
+		containerAllocationSOVO.setContainerDetailsSOVO(containerDetailsSOVOs);;
+		return containerAllocationSORepo.save(containerAllocationSOVO);
+
+	}
+
+	private void getContainerAllocationSOVOFromContainerAllocationSODTO(
+			@Valid ContainerAllocationSODTO containerAllocationSODTO, ContainerAllocationSOVO containerAllocationSOVO) {
+		containerAllocationSOVO.setDocId(containerAllocationSODTO.getDocId());
+		containerAllocationSOVO.setDocDate(containerAllocationSODTO.getDocDate());
+		containerAllocationSOVO.setGlobalShipNo(containerAllocationSODTO.getGlobalShipNo());
+		containerAllocationSOVO.setPoNo(containerAllocationSODTO.getPoNo());
+		containerAllocationSOVO.setJobNo(containerAllocationSODTO.getJobNo());
+		containerAllocationSOVO.setPol(containerAllocationSODTO.getPol());
+		containerAllocationSOVO.setPod(containerAllocationSODTO.getPod());
+		containerAllocationSOVO.setHblNo(containerAllocationSODTO.getHblNo());
+		containerAllocationSOVO.setFpod(containerAllocationSODTO.getFpod());
+		containerAllocationSOVO.setNominatedBy(containerAllocationSODTO.getNominatedBy());
+		containerAllocationSOVO.setMblNo(containerAllocationSODTO.getMblNo());
+		containerAllocationSOVO.setDeliveryTerms(containerAllocationSODTO.getDeliveryTerms());
+		containerAllocationSOVO.setFreight(containerAllocationSODTO.getFreight());
+		containerAllocationSOVO.setDirectMaster(containerAllocationSODTO.isDirectMaster());
+		containerAllocationSOVO.setMasterFinalized(containerAllocationSODTO.isMasterFinalized());
+		containerAllocationSOVO.setTotGrWt(containerAllocationSODTO.getTotGrWt());
+		containerAllocationSOVO.setTotPkgs(containerAllocationSODTO.getTotPkgs());
+		containerAllocationSOVO.setTotVolWt(containerAllocationSODTO.getTotVolWt());
+		containerAllocationSOVO.setFt20(containerAllocationSODTO.getFt20());
+		containerAllocationSOVO.setFt40(containerAllocationSODTO.getFt40());
+		containerAllocationSOVO.setFt45(containerAllocationSODTO.getFt45());
+		containerAllocationSOVO.setCbm(containerAllocationSODTO.getCbm());
+		
+		containerAllocationSOVO.setCreatedBy(containerAllocationSODTO.getCreatedBy());
+		containerAllocationSOVO.setUpdatedBy(containerAllocationSODTO.getUpdatedBy());
+		containerAllocationSOVO.setOrgId(containerAllocationSODTO.getOrgId());
+		containerAllocationSOVO.setActive(containerAllocationSODTO.isActive());
+		
+		
+	}
+
+	//PreAlertSI
+	
+
+	@Override
+	public List<PreAlertSIVO> getPreAlertSIById(Long id) {
+		List<PreAlertSIVO> preAlertSIVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  PreAlertSI BY Id : {}", id);
+			preAlertSIVO = preAlertSIRepo.findPreAlertById(id);
+		} else {
+			LOGGER.info("Successfully Received  PreAlertSI For All Id.");
+			preAlertSIVO = preAlertSIRepo.findAll();
+		}
+		return preAlertSIVO;
+	}
+
+	@Override
+	public List<PreAlertSIVO> getPreAlertSIByOrgId(Long orgid) {
+		List<PreAlertSIVO> preAlertSIVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  PreAlertSI BY OrgId : {}", orgid);
+			preAlertSIVO = preAlertSIRepo.findPreAlertByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  PreAlertSI For All OrgId.");
+			preAlertSIVO = preAlertSIRepo.findAll();
+		}
+		return preAlertSIVO;
+	}
+
+	@Override
+	public PreAlertSIVO updateCreatePreAlertSI(@Valid PreAlertSIDTO preAlertSIDTO) throws ApplicationException {
+		PreAlertSIVO preAlertSIVO = new PreAlertSIVO();
+		if (ObjectUtils.isNotEmpty(preAlertSIDTO.getId())) {
+			preAlertSIVO = preAlertSIRepo.findById(preAlertSIDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid PreAlertSI details"));
+		}
+		getPreAlertSIVOFromPreAlertSIDTO(preAlertSIDTO, preAlertSIVO);
+		preAlertSIVO = preAlertSIRepo.save(preAlertSIVO);
+		
+		List<VesselDetailsSIVO> VesselDetailsSIVOList = vesselDetailsSIRepo.findByPreAlertSIVO(preAlertSIVO);
+		vesselDetailsSIRepo.deleteAll(VesselDetailsSIVOList);
+		
+		List<HouseParticularsSIVO> houseParticularsSIVOList = houseParticularsSIRepo.findByPreAlertSIVO(preAlertSIVO);
+		houseParticularsSIRepo.deleteAll(houseParticularsSIVOList);
+		
+		List<ContainerDetailsSIVO> containerDetailsSIVOList = containerDetailsSIRepo.findByPreAlertSIVO(preAlertSIVO);
+		containerDetailsSIRepo.deleteAll(containerDetailsSIVOList);
+		
+
+		List<VesselDetailsSIVO> vesselDetailsSIVOs = new ArrayList<>();
+		if (preAlertSIDTO.getVesselDetailsSIDTO() != null) {
+			for (VesselDetailsSIDTO vesselDetailsSIDTO : preAlertSIDTO.getVesselDetailsSIDTO()) {
+
+				VesselDetailsSIVO vesselDetailsSIVO = new VesselDetailsSIVO();
+				vesselDetailsSIVO.setType(vesselDetailsSIDTO.getType());;
+				vesselDetailsSIVO.setVesselName(vesselDetailsSIDTO.getVesselName());
+				vesselDetailsSIVO.setVoyage(vesselDetailsSIDTO.getVoyage());
+				vesselDetailsSIVO.setEta(vesselDetailsSIDTO.getEta());
+				vesselDetailsSIVO.setEtaTime(vesselDetailsSIDTO.getEtaTime());
+				vesselDetailsSIVO.setEtd(vesselDetailsSIDTO.getEtd());
+				vesselDetailsSIVO.setEtdTime(vesselDetailsSIDTO.getEtdTime());
+				vesselDetailsSIVO.setPol(vesselDetailsSIDTO.getPol());
+				vesselDetailsSIVO.setPod(vesselDetailsSIDTO.getPod());
+				
+				vesselDetailsSIVO.setPreAlertSIVO(preAlertSIVO);;
+				vesselDetailsSIVOs.add(vesselDetailsSIVO);
+			}
+		}
+		
+
+		List<HouseParticularsSIVO> houseParticularsSIVOs = new ArrayList<>();
+		if (preAlertSIDTO.getHouseParticularsSIDTO() != null) {
+			for (HouseParticularsSIDTO houseParticularsSIDTO : preAlertSIDTO.getHouseParticularsSIDTO()) {
+
+				HouseParticularsSIVO houseParticularsSIVO = new HouseParticularsSIVO();
+				houseParticularsSIVO.setHouseNO(houseParticularsSIDTO.getHouseNO());
+				houseParticularsSIVO.setDate(houseParticularsSIDTO.getDate());
+				houseParticularsSIVO.setJobNo(houseParticularsSIDTO.getJobNo());
+				houseParticularsSIVO.setJobBranch(houseParticularsSIDTO.getJobBranch());
+				houseParticularsSIVO.setClosed(houseParticularsSIDTO.getClosed());
+				houseParticularsSIVO.setPkgs(houseParticularsSIDTO.getPkgs());
+				houseParticularsSIVO.setGrwt(houseParticularsSIDTO.getGrwt());
+				houseParticularsSIVO.setVolume(houseParticularsSIDTO.getVolume());
+				houseParticularsSIVO.setShipper(houseParticularsSIDTO.getShipper());
+				houseParticularsSIVO.setConsignee(houseParticularsSIDTO.getConsignee());
+				houseParticularsSIVO.setBro(houseParticularsSIDTO.getBro());
+				houseParticularsSIVO.setNotify(houseParticularsSIDTO.getNotify());
+				houseParticularsSIVO.setSalesCategory(houseParticularsSIDTO.getSalesCategory());
+				houseParticularsSIVO.setSalesPerson(houseParticularsSIDTO.getSalesPerson());
+				houseParticularsSIVO.setPod(houseParticularsSIDTO.getPod());
+				houseParticularsSIVO.setFpod(houseParticularsSIDTO.getFpod());
+				houseParticularsSIVO.setIncoterm(houseParticularsSIDTO.getIncoterm());
+				houseParticularsSIVO.setFreight(houseParticularsSIDTO.getFreight());
+				houseParticularsSIVO.setIndustry(houseParticularsSIDTO.getIndustry());
+				houseParticularsSIVO.setBillOfEntry(houseParticularsSIDTO.getBillOfEntry());
+				houseParticularsSIVO.setItemDescription(houseParticularsSIDTO.getItemDescription());
+				
+				houseParticularsSIVO.setPreAlertSIVO(preAlertSIVO);;
+				houseParticularsSIVOs.add(houseParticularsSIVO);
+			}
+		}
+		
+		List<ContainerDetailsSIVO> containerDetailsSIVOs = new ArrayList<>();
+		if (preAlertSIDTO.getContainerDetailsSIDTO() != null) {
+			for (ContainerDetailsSIDTO containerDetailsSIDTO : preAlertSIDTO.getContainerDetailsSIDTO()) {
+
+				ContainerDetailsSIVO containerDetailsSIVO = new ContainerDetailsSIVO();
+				containerDetailsSIVO.setContainerNo(containerDetailsSIDTO.getContainerNo());;
+				containerDetailsSIVO.setContainerType(containerDetailsSIDTO.getContainerType());
+				containerDetailsSIVO.setContainerWt(containerDetailsSIDTO.getContainerWt());
+				containerDetailsSIVO.setPkgs(containerDetailsSIDTO.getPkgs());
+				containerDetailsSIVO.setGrwt(containerDetailsSIDTO.getGrwt());
+				containerDetailsSIVO.setMLineNo(containerDetailsSIDTO.getMLineNo());
+				containerDetailsSIVO.setSLineNo(containerDetailsSIDTO.getSLineNo());
+				containerDetailsSIVO.setSealNo(containerDetailsSIDTO.getSealNo());
+				
+				containerDetailsSIVO.setPreAlertSIVO(preAlertSIVO);;
+				containerDetailsSIVOs.add(containerDetailsSIVO);
+			}
+		}
+		preAlertSIVO.setVesselDetailsSIVO(vesselDetailsSIVOs);
+		preAlertSIVO.setHouseParticularsSIVO(houseParticularsSIVOs);;
+		preAlertSIVO.setContainerDetailsSIVO(containerDetailsSIVOs);
+		
+		return preAlertSIRepo.save(preAlertSIVO);
+		
+	}
+
+	private void getPreAlertSIVOFromPreAlertSIDTO(@Valid PreAlertSIDTO preAlertSIDTO, PreAlertSIVO preAlertSIVO) {
+		preAlertSIVO.setDirect(preAlertSIDTO.isDirect());
+		preAlertSIVO.setAutoEdi(preAlertSIDTO.isAutoEdi());
+		preAlertSIVO.setDocNo(preAlertSIDTO.getDocNo());
+		preAlertSIVO.setDocDate(preAlertSIDTO.getDocDate());
+		preAlertSIVO.setManifestDone(preAlertSIDTO.isManifestDone());
+		preAlertSIVO.setManifestNo(preAlertSIDTO.getManifestNo());
+		preAlertSIVO.setJobAssigned(preAlertSIDTO.isJobAssigned());
+		preAlertSIVO.setSmptNo(preAlertSIDTO.getSmptNo());
+		preAlertSIVO.setSeaCarrier(preAlertSIDTO.getSeaCarrier());
+		preAlertSIVO.setItemDescription(preAlertSIDTO.getItemDescription());
+		preAlertSIVO.setMasterNo(preAlertSIDTO.getMasterNo());
+		preAlertSIVO.setMasterDate(preAlertSIDTO.getMasterDate());
+		preAlertSIVO.setIgmNo(preAlertSIDTO.getIgmNo());
+		preAlertSIVO.setIgmDate(preAlertSIDTO.getIgmDate());
+		preAlertSIVO.setMasterFreight(preAlertSIDTO.getMasterFreight());
+		preAlertSIVO.setVesselEta(preAlertSIDTO.getVesselEta());
+		preAlertSIVO.setLocalIgmNo(preAlertSIDTO.getLocalIgmNo());
+		preAlertSIVO.setLocalIgmDate(preAlertSIDTO.getLocalIgmDate());
+		preAlertSIVO.setNoOfPkgs(preAlertSIDTO.getNoOfPkgs());
+		preAlertSIVO.setGrwtInKgs(preAlertSIDTO.getGrwtInKgs());
+		preAlertSIVO.setDefFreightCurr(preAlertSIDTO.getDefFreightCurr());
+		preAlertSIVO.setDefFreightCurr1(preAlertSIDTO.getDefFreightCurr1());
+		preAlertSIVO.setPol(preAlertSIDTO.getPol());
+		preAlertSIVO.setPod(preAlertSIDTO.getPod());
+		preAlertSIVO.setCfs(preAlertSIDTO.getCfs());
+		preAlertSIVO.setContainerAllocationDone(preAlertSIDTO.isContainerAllocationDone());
+		preAlertSIVO.setAgent(preAlertSIDTO.getAgent());
+		preAlertSIVO.setConsignee(preAlertSIDTO.getConsignee());
+		preAlertSIVO.setTotPkgs(preAlertSIDTO.getTotPkgs());
+		preAlertSIVO.setTotGrwt(preAlertSIDTO.getTotGrwt());
+		preAlertSIVO.setTotVolume(preAlertSIDTO.getTotVolume());
+		preAlertSIVO.setEta1(preAlertSIDTO.getEta1());
+		preAlertSIVO.setContainerReturnCount(preAlertSIDTO.getContainerReturnCount());
+		preAlertSIVO.setEmptyReturnCount(preAlertSIDTO.getEmptyReturnCount());
+		preAlertSIVO.setEmptyContReturn(preAlertSIDTO.isEmptyContReturn());
+		preAlertSIVO.setEmptyContSurrender(preAlertSIDTO.isEmptyContSurrender());
+		preAlertSIVO.setCargoHandOver(preAlertSIDTO.isCargoHandOver());
+		preAlertSIVO.setContainerCount(preAlertSIDTO.getContainerCount());
+		preAlertSIVO.setOrgId(preAlertSIDTO.getOrgId());
+		preAlertSIVO.setActive(preAlertSIDTO.isActive());
+		preAlertSIVO.setUpdatedBy(preAlertSIDTO.getUpdatedBy());
+		preAlertSIVO.setCreatedBy(preAlertSIDTO.getCreatedBy());
+		
+		
+		
+	}
+	
 
 }

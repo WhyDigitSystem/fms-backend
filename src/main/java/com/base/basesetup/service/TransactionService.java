@@ -7,15 +7,19 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import com.base.basesetup.dto.AdvanceCanAiDTO;
+import com.base.basesetup.dto.ContainerAllocationSODTO;
 import com.base.basesetup.dto.MasterAirWayBillDTO;
-import com.base.basesetup.dto.PreAlertDTO;
+import com.base.basesetup.dto.PreAlertAIDTO;
+import com.base.basesetup.dto.PreAlertSIDTO;
 import com.base.basesetup.dto.ShipmentAODTO;
 import com.base.basesetup.dto.ShipmentAOFollowUpDTO;
 import com.base.basesetup.dto.ShipmentSODTO;
 import com.base.basesetup.dto.ShipmentSOFollowUpDTO;
 import com.base.basesetup.entity.AdvanceCanAiVO;
+import com.base.basesetup.entity.ContainerAllocationSOVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
-import com.base.basesetup.entity.PreAlertVO;
+import com.base.basesetup.entity.PreAlertAIVO;
+import com.base.basesetup.entity.PreAlertSIVO;
 import com.base.basesetup.entity.ShipmentAOVO;
 import com.base.basesetup.entity.ShipmentSOVO;
 import com.base.basesetup.exception.ApplicationException;
@@ -51,11 +55,11 @@ public interface TransactionService {
 
 	//PreAlert
 	
-	List<PreAlertVO> getPreAlertById(Long id);
+	List<PreAlertAIVO> getPreAlertAIById(Long id);
 
-	List<PreAlertVO> getPreAlertByOrgId(Long orgid);
+	List<PreAlertAIVO> getPreAlertAIByOrgId(Long orgid);
 
-	PreAlertVO updateCreatePreAlert(@Valid PreAlertDTO preAlertDTO) throws ApplicationException;
+	PreAlertAIVO updateCreatePreAlertAI(@Valid PreAlertAIDTO preAlertAIDTO) throws ApplicationException;
 	
 	//AdvanceCanAi
 
@@ -80,5 +84,25 @@ public interface TransactionService {
 	List<ShipmentSOVO> getShipmentSOFollowUpByOrgId(Long orgid);
 
 	ShipmentSOVO getShipmentSOFollowUpByDocId(String docId);
+	
+	//containerAllocation
+
+	List<ContainerAllocationSOVO> getContainerAllocationSOById(Long id);
+
+	List<ContainerAllocationSOVO> getContainerAllocationSOByOrgId(Long orgid);
+
+	ContainerAllocationSOVO updateCreateContainerAllocationSO(@Valid ContainerAllocationSODTO containerAllocationSODTO) throws ApplicationException;
+
+	//PreALertSI
+	List<PreAlertSIVO> getPreAlertSIById(Long id);
+
+	List<PreAlertSIVO> getPreAlertSIByOrgId(Long orgid);
+
+	PreAlertSIVO updateCreatePreAlertSI(@Valid PreAlertSIDTO preAlertSIDTO) throws ApplicationException;
+
+
+
+
+
 
 }

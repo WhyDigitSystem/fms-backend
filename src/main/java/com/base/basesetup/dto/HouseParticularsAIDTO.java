@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HouseParticularsDTO {
+public class HouseParticularsAIDTO {
 
 	private Long id;
 	private String houseNO;

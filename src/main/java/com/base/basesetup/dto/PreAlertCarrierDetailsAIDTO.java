@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PreAlertCarrierDetailsDTO {
+public class PreAlertCarrierDetailsAIDTO {
 
 	private Long id;
 	private Long airLineCode;

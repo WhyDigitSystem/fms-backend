@@ -26,7 +26,7 @@ public class UserResponseDTO {
 	private String email;
     private String reportingTO;
 	private String location;
-	private boolean isActive;
+	private boolean active;
 	private LocalDate deactivatedOn;
 	private Long orgId;
 	

@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class HouseParticularsVO {
+public class HouseParticularsAIVO {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ef_aiord_dtlgen")
@@ -82,7 +82,7 @@ public class HouseParticularsVO {
 	@ManyToOne
 	@JoinColumn(name = "ef_aiord_hdrid")
 	@JsonBackReference
-	private PreAlertVO preAlertVO;
+	private PreAlertAIVO preAlertAIVO;
 	
 	
 	

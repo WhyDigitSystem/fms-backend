@@ -17,6 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.base.basesetup.dto.CreatedUpdatedDate;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PreAlertVO {
+public class PreAlertAIVO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ef_aiord_hdrgen")
 	@SequenceGenerator(name = "ef_aiord_hdrgen", sequenceName = "ef_aiord_hdrseq", initialValue = 1000000001, allocationSize = 1)
@@ -114,16 +115,21 @@ public class PreAlertVO {
 	@Column(name="active")
     private boolean active;
 	
-	@OneToMany(mappedBy = "preAlertVO",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "preAlertAIVO",cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<HouseParticularsVO> houseParticularsVO;
+	private List<HouseParticularsAIVO> houseParticularsAIVO;
 	
-	@OneToMany(mappedBy = "preAlertVO",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "preAlertAIVO",cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<PreAlertCarrierDetailsVO> preAlertCarrierDetailsVO;
+	private List<PreAlertCarrierDetailsAIVO> preAlertCarrierDetailsAIVO;
 	
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
+	
+	@JsonGetter("active")
+	public String getActive() {
+		return active ? "Active" : "In-Active";
+	}
 	
 	
 }

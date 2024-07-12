@@ -58,4 +58,6 @@ public class MappingVO {
 	@Embedded
 	@Builder.Default
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
+	
+	
 }

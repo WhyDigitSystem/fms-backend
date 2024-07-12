@@ -14,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.base.basesetup.dto.CreatedUpdatedDate;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
@@ -53,6 +54,11 @@ public class DocumentTypeMappingVO {
 	@OneToMany(mappedBy = "documentTypeMappingVO",cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<MappingVO> mappingVO;
+	
+	@JsonGetter("active")
+	public String getActive() {
+		return active ? "Active" : "In-Active";
+	}
 	
 
 	@Embedded

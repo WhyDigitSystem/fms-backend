@@ -23,16 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.base.basesetup.common.CommonConstant;
 import com.base.basesetup.common.UserConstants;
 import com.base.basesetup.dto.AdvanceCanAiDTO;
+import com.base.basesetup.dto.ContainerAllocationSODTO;
 import com.base.basesetup.dto.MasterAirWayBillDTO;
-import com.base.basesetup.dto.PreAlertDTO;
+import com.base.basesetup.dto.PreAlertAIDTO;
+import com.base.basesetup.dto.PreAlertSIDTO;
 import com.base.basesetup.dto.ResponseDTO;
 import com.base.basesetup.dto.ShipmentAODTO;
 import com.base.basesetup.dto.ShipmentAOFollowUpDTO;
 import com.base.basesetup.dto.ShipmentSODTO;
 import com.base.basesetup.dto.ShipmentSOFollowUpDTO;
 import com.base.basesetup.entity.AdvanceCanAiVO;
+import com.base.basesetup.entity.ContainerAllocationSOVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
-import com.base.basesetup.entity.PreAlertVO;
+import com.base.basesetup.entity.PreAlertAIVO;
+import com.base.basesetup.entity.PreAlertSIVO;
 import com.base.basesetup.entity.ShipmentAOVO;
 import com.base.basesetup.entity.ShipmentSOVO;
 import com.base.basesetup.service.TransactionService;
@@ -315,52 +319,52 @@ public class TransactionController extends BaseController  {
 	
 	//PreAlert
 	
-	@GetMapping("/getPreAlertById")
-	public ResponseEntity<ResponseDTO> getPreAlertById(@RequestParam(required = false) Long id) {
-		String methodName = "getPreAlertById()";
+	@GetMapping("/getPreAlertAIById")
+	public ResponseEntity<ResponseDTO> getPreAlertAIById(@RequestParam(required = false) Long id) {
+		String methodName = "getPreAlertAIById()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
-		List<PreAlertVO> preAlertVO = new ArrayList<>();
+		List<PreAlertAIVO> preAlertAIVO = new ArrayList<>();
 		try {
-			preAlertVO = transactionService.getPreAlertById(id);
+			preAlertAIVO = transactionService.getPreAlertAIById(id);
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
 		}
 		if (StringUtils.isBlank(errorMsg)) {
-			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlert information get successfully By Id");
-			responseObjectsMap.put("preAlertVO", preAlertVO);
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlertAI information get successfully By Id");
+			responseObjectsMap.put("preAlertAIVO", preAlertAIVO);
 			responseDTO = createServiceResponse(responseObjectsMap);
 		} else {
-			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlert information receive failed By Id",
+			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertAI information receive failed By Id",
 					errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@GetMapping("/getPreAlertByOrgId")
-	public ResponseEntity<ResponseDTO> getPreAlertByOrgId(@RequestParam(required = false) Long orgid) {
-		String methodName = "getPreAlertByOrgId()";
+	@GetMapping("/getPreAlertAIByOrgId")
+	public ResponseEntity<ResponseDTO> getPreAlertAIByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getPreAlertAIByOrgId()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
-		List<PreAlertVO> preAlertVO = new ArrayList<>();
+		List<PreAlertAIVO> preAlertAIVO = new ArrayList<>();
 		try {
-			preAlertVO = transactionService.getPreAlertByOrgId(orgid);
+			preAlertAIVO = transactionService.getPreAlertAIByOrgId(orgid);
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
 		}
 		if (StringUtils.isBlank(errorMsg)) {
-			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlert information get successfully By OrgId");
-			responseObjectsMap.put("preAlertVO", preAlertVO);
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlertAI information get successfully By OrgId");
+			responseObjectsMap.put("preAlertAIVO", preAlertAIVO);
 			responseDTO = createServiceResponse(responseObjectsMap);
 		} else {
-			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlert information receive failed By OrgId",
+			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertAI information receive failed By OrgId",
 					errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
@@ -368,27 +372,27 @@ public class TransactionController extends BaseController  {
 	}
 	
 	
-	@PostMapping("/updateCreatePreAlert")
-	public ResponseEntity<ResponseDTO> updateCreatePreAlert(@Valid @RequestBody PreAlertDTO preAlertDTO) {
-		String methodName = "updateCreatePreAlert()";
+	@PostMapping("/updateCreatePreAlertAI")
+	public ResponseEntity<ResponseDTO> updateCreatePreAlertAI(@Valid @RequestBody PreAlertAIDTO preAlertAIDTO) {
+		String methodName = "updateCreatePreAlertAI()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
 		try {
-			PreAlertVO preAlertVO = transactionService.updateCreatePreAlert(preAlertDTO);
-			if (preAlertVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlert updated successfully");
-				responseObjectsMap.put("preAlertVO", preAlertVO);
+			PreAlertAIVO preAlertAIVO = transactionService.updateCreatePreAlertAI(preAlertAIDTO);
+			if (preAlertAIVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlertAI updated successfully");
+				responseObjectsMap.put("preAlertAIVO", preAlertAIVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "PreAlert not found for ID: " + preAlertDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "PreAlert update failed", errorMsg);
+				errorMsg = "PreAlertAI not found for ID: " + preAlertAIDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertAI update failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlert update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertAI update failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -661,6 +665,165 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
+	//ContainerAllocation
 	
+	@GetMapping("/getContainerAllocationSOById")
+	public ResponseEntity<ResponseDTO> getContainerAllocationSOById(@RequestParam(required = false) Long id) {
+		String methodName = "getContainerAllocationSOById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<ContainerAllocationSOVO> containerAllocationSOVO = new ArrayList<>();
+		try {
+			containerAllocationSOVO = transactionService.getContainerAllocationSOById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ContainerAllocationSO information get successfully By Id");
+			responseObjectsMap.put("containerAllocationSOVO", containerAllocationSOVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "ContainerAllocationSO information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getContainerAllocationSOByOrgId")
+	public ResponseEntity<ResponseDTO> getContainerAllocationSOByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getContainerAllocationSOByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<ContainerAllocationSOVO> containerAllocationSOVO = new ArrayList<>();
+		try {
+			containerAllocationSOVO = transactionService.getContainerAllocationSOByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ContainerAllocationSO information get successfully By OrgId");
+			responseObjectsMap.put("containerAllocationSOVO", containerAllocationSOVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "ContainerAllocationSO information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PostMapping("/updateCreateContainerAllocationSO")
+	public ResponseEntity<ResponseDTO> updateCreateContainerAllocationSO(@Valid @RequestBody ContainerAllocationSODTO containerAllocationSODTO) {
+		String methodName = "updateCreateContainerAllocationSO()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			ContainerAllocationSOVO containerAllocationSOVO = transactionService.updateCreateContainerAllocationSO(containerAllocationSODTO);
+			if (containerAllocationSOVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ContainerAllocationSO updated successfully");
+				responseObjectsMap.put("containerAllocationSOVO", containerAllocationSOVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "containerAllocationSO not found for ID: " + containerAllocationSODTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "ContainerAllocationSO update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "ContainerAllocationSO update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+   //PreAlretSI
+	
+	@GetMapping("/getPreAlertSIById")
+	public ResponseEntity<ResponseDTO> getPreAlertSIById(@RequestParam(required = false) Long id) {
+		String methodName = "getPreAlertSIById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<PreAlertSIVO> preAlertSIVO = new ArrayList<>();
+		try {
+			preAlertSIVO = transactionService.getPreAlertSIById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlertSI information get successfully By Id");
+			responseObjectsMap.put("preAlertSIVO", preAlertSIVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertSI information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getPreAlertSIByOrgId")
+	public ResponseEntity<ResponseDTO> getPreAlertSIByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getPreAlertSIByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<PreAlertSIVO> preAlertSIVO = new ArrayList<>();
+		try {
+			preAlertSIVO = transactionService.getPreAlertSIByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlertSI information get successfully By OrgId");
+			responseObjectsMap.put("preAlertSIVO", preAlertSIVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertSI information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PostMapping("/updateCreatePreAlertSI")
+	public ResponseEntity<ResponseDTO> updateCreatePreAlertSI(@Valid @RequestBody PreAlertSIDTO preAlertSIDTO) {
+		String methodName = "updateCreatePreAlertSI()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			PreAlertSIVO preAlertSIVO = transactionService.updateCreatePreAlertSI(preAlertSIDTO);
+			if (preAlertSIVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlertSI updated successfully");
+				responseObjectsMap.put("preAlertSIVO", preAlertSIVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "PreAlertSI not found for ID: " + preAlertSIDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertSI update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertSI update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+
 	
 }

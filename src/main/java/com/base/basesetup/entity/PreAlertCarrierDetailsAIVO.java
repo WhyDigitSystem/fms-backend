@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PreAlertCarrierDetailsVO {
+public class PreAlertCarrierDetailsAIVO {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ef_aiord_carrierdtlgen")
@@ -57,9 +57,11 @@ public class PreAlertCarrierDetailsVO {
 	@ManyToOne
 	@JoinColumn(name = "ef_aiord_hdrid")
 	@JsonBackReference
-	private PreAlertVO preAlertVO;
+	private PreAlertAIVO preAlertAIVO;
 	
 	@Embedded
 	@Builder.Default
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
+	
+	
 }
