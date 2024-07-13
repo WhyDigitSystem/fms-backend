@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.base.basesetup.common.CommonConstant;
 import com.base.basesetup.common.UserConstants;
 import com.base.basesetup.dto.AdvanceCanAiDTO;
+import com.base.basesetup.dto.ContainerAllocationSIDTO;
 import com.base.basesetup.dto.ContainerAllocationSODTO;
 import com.base.basesetup.dto.MasterAirWayBillDTO;
 import com.base.basesetup.dto.PreAlertAIDTO;
@@ -33,6 +34,7 @@ import com.base.basesetup.dto.ShipmentAOFollowUpDTO;
 import com.base.basesetup.dto.ShipmentSODTO;
 import com.base.basesetup.dto.ShipmentSOFollowUpDTO;
 import com.base.basesetup.entity.AdvanceCanAiVO;
+import com.base.basesetup.entity.ContainerAllocationSIVO;
 import com.base.basesetup.entity.ContainerAllocationSOVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.PreAlertAIVO;
@@ -825,5 +827,109 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 
+	//ContainerAllocationSI
 	
+	@GetMapping("/getContainerAllocationSIById")
+	public ResponseEntity<ResponseDTO> getContainerAllocationSIById(@RequestParam(required = false) Long id) {
+		String methodName = "getContainerAllocationSIById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<ContainerAllocationSIVO> containerAllocationSIVO = new ArrayList<>();
+		try {
+			containerAllocationSIVO = transactionService.getContainerAllocationSIById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "containerAllocationSI information get successfully By Id");
+			responseObjectsMap.put("containerAllocationSIVO", containerAllocationSIVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "containerAllocationSI information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getContainerAllocationSIByOrgId")
+	public ResponseEntity<ResponseDTO> getContainerAllocationSIByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getContainerAllocationSIByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<ContainerAllocationSIVO> containerAllocationSIVO = new ArrayList<>();
+		try {
+			containerAllocationSIVO = transactionService.getContainerAllocationSIByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "containerAllocationSI information get successfully By OrgId");
+			responseObjectsMap.put("containerAllocationSIVO", containerAllocationSIVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "containerAllocationSI information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+//	@PostMapping("/updateCreateContainerAllocationSI")
+//	public ResponseEntity<ResponseDTO> updateCreateContainerAllocationSI(@Valid @RequestBody ContainerAllocationSIDTO containerAllocationSIDTO) {
+//		String methodName = "updateCreateContainerAllocationSI()";
+//		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+//		String errorMsg = null;
+//		Map<String, Object> responseObjectsMap = new HashMap<>();
+//		ResponseDTO responseDTO = null;
+//		try {
+//			ContainerAllocationSIVO containerAllocationSIVO = transactionService.updateCreateContainerAllocationSI(containerAllocationSIDTO);
+//			if (containerAllocationSIVO != null) {
+//				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ContainerAllocationSI updated successfully");
+//				responseObjectsMap.put("containerAllocationSIVO", containerAllocationSIVO);
+//				responseDTO = createServiceResponse(responseObjectsMap);
+//			} else {
+//				errorMsg = "ContainerAllocationSI not found for ID: " + containerAllocationSIDTO.getId();
+//				responseDTO = createServiceResponseError(responseObjectsMap, "ContainerAllocationSI update failed", errorMsg);
+//			}
+//		} catch (Exception e) {
+//			errorMsg = e.getMessage();
+//			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+//			responseDTO = createServiceResponseError(responseObjectsMap, "ContainerAllocationSI update failed", errorMsg);
+//		}
+//		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+//		return ResponseEntity.ok().body(responseDTO);
+//	}
+	
+	@PostMapping("/updateCreateContainerAllocationSI")
+	public ResponseEntity<ResponseDTO> updateCreateContainerAllocationSI(@Valid @RequestBody ContainerAllocationSIDTO containerAllocationSIDTO) {
+		String methodName = "updateCreateContainerAllocationSI()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			ContainerAllocationSIVO containerAllocationSIVO = transactionService.updateCreateContainerAllocationSI(containerAllocationSIDTO);
+			if (containerAllocationSIVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlertSI updated successfully");
+				responseObjectsMap.put("containerAllocationSIVO", containerAllocationSIVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "containerAllocationSIVO not found for ID: " + containerAllocationSIDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "containerAllocationSIVO update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "containerAllocationSIVO update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
 }

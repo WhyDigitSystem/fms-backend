@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.Column;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +16,7 @@ public class PreAlertAIDTO {
 
 	private Long id;
 	private boolean direct;
+	private boolean isAutoEdi;
 	private String docNo;
 	private LocalDate docDate;
 	private String airCarrier;

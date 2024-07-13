@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import com.base.basesetup.dto.AdvanceCanAiDTO;
+import com.base.basesetup.dto.ContainerAllocationSIDTO;
 import com.base.basesetup.dto.ContainerAllocationSODTO;
 import com.base.basesetup.dto.MasterAirWayBillDTO;
 import com.base.basesetup.dto.PreAlertAIDTO;
@@ -16,6 +17,7 @@ import com.base.basesetup.dto.ShipmentAOFollowUpDTO;
 import com.base.basesetup.dto.ShipmentSODTO;
 import com.base.basesetup.dto.ShipmentSOFollowUpDTO;
 import com.base.basesetup.entity.AdvanceCanAiVO;
+import com.base.basesetup.entity.ContainerAllocationSIVO;
 import com.base.basesetup.entity.ContainerAllocationSOVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.PreAlertAIVO;
@@ -99,6 +101,19 @@ public interface TransactionService {
 	List<PreAlertSIVO> getPreAlertSIByOrgId(Long orgid);
 
 	PreAlertSIVO updateCreatePreAlertSI(@Valid PreAlertSIDTO preAlertSIDTO) throws ApplicationException;
+
+	//ContainerAllocationSI
+	
+	List<ContainerAllocationSIVO> getContainerAllocationSIById(Long id);
+
+	List<ContainerAllocationSIVO> getContainerAllocationSIByOrgId(Long orgid);
+
+	ContainerAllocationSIVO updateCreateContainerAllocationSI(@Valid ContainerAllocationSIDTO containerAllocationSIDTO) throws ApplicationException;
+
+
+//	ContainerAllocationSIVO updateCreateContainerAllocationSI(@Valid ContainerAllocationSIDTO containerAllocationSIDTO)
+//			throws ApplicationException;
+
 
 
 

@@ -37,6 +37,8 @@ public class PreAlertAIVO {
 	private Long id;
 	@Column(name = "direct")
 	private boolean direct;
+	@Column(name = "isautoedi")
+	private boolean isAutoEdi;
 	@Column(name = "docno")
 	private String docNo;
 	@Column(name = "docdate")

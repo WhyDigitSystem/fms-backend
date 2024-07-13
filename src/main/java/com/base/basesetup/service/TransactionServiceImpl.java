@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import com.base.basesetup.dto.AdvanceCanAiDTO;
 import com.base.basesetup.dto.CarrierDetailsDTO;
 import com.base.basesetup.dto.ChargeParticularDTO;
+import com.base.basesetup.dto.ContainerAllocationSIDTO;
 import com.base.basesetup.dto.ContainerAllocationSODTO;
+import com.base.basesetup.dto.ContainerDetailsDTO;
 import com.base.basesetup.dto.ContainerDetailsSIDTO;
 import com.base.basesetup.dto.ContainerDetailsSODTO;
 import com.base.basesetup.dto.CostEstimateDTO;
@@ -38,9 +40,11 @@ import com.base.basesetup.dto.VesselDetailsSIDTO;
 import com.base.basesetup.entity.AdvanceCanAiVO;
 import com.base.basesetup.entity.CarrierDetailsVO;
 import com.base.basesetup.entity.ChargeParticularVO;
+import com.base.basesetup.entity.ContainerAllocationSIVO;
 import com.base.basesetup.entity.ContainerAllocationSOVO;
 import com.base.basesetup.entity.ContainerDetailsSIVO;
 import com.base.basesetup.entity.ContainerDetailsSOVO;
+import com.base.basesetup.entity.ContainerDetailsVO;
 import com.base.basesetup.entity.CostEstimateVO;
 import com.base.basesetup.entity.DeclaredByVO;
 import com.base.basesetup.entity.HouseDetailsVO;
@@ -61,7 +65,9 @@ import com.base.basesetup.exception.ApplicationException;
 import com.base.basesetup.repo.AdvanceCanAiRepo;
 import com.base.basesetup.repo.CarrierDetailsRepo;
 import com.base.basesetup.repo.ChargeParticularRepo;
+import com.base.basesetup.repo.ContainerAllocationSIRepo;
 import com.base.basesetup.repo.ContainerAllocationSORepo;
+import com.base.basesetup.repo.ContainerDetailsRepo;
 import com.base.basesetup.repo.ContainerDetailsSIRepo;
 import com.base.basesetup.repo.ContainerDetailsSORepo;
 import com.base.basesetup.repo.CostEstimateRepo;
@@ -82,112 +88,117 @@ import com.base.basesetup.repo.SoPackingListRepo;
 import com.base.basesetup.repo.VesselDetailsSIRepo;
 
 @Service
-public class TransactionServiceImpl implements TransactionService{
+public class TransactionServiceImpl implements TransactionService {
 
 	public static final Logger LOGGER = LoggerFactory.getLogger(BasicMasterServiceImpl.class);
 
 	@Autowired
 	ShipmentAORepo shipmentAORepo;
-	
+
 	@Autowired
 	PackingListRepo packingListRepo;
-	
+
 	@Autowired
 	CostEstimateRepo costEstimateRepo;
-	
+
 	@Autowired
 	MasterAirWayBillRepo masterAirWayBillRepo;
-	
+
 	@Autowired
 	HouseDetailsRepo houseDetailsRepo;
-	
+
 	@Autowired
 	CarrierDetailsRepo carrierDetailsRepo;
-	
+
 	@Autowired
 	DeclaredByRepo declaredByRepo;
-	
+
 	@Autowired
 	PrintDetailsRepo printDetailsRepo;
-	
+
 	@Autowired
 	PreAlertAIRepo preAlertAIRepo;
-	
+
 	@Autowired
 	HouseParticularsAIRepo houseParticularsAIRepo;
-	
+
 	@Autowired
 	PreAlertCarrierDetailsAIRepo preAlertCarrierDetailsAIRepo;
-	
+
 	@Autowired
 	AdvanceCanAiRepo advanceCanAiRepo;
-	
+
 	@Autowired
 	ChargeParticularRepo chargeParticulaRepo;
-	
+
 	@Autowired
 	ShipmentSORepo shipmentSORepo;
-	
+
 	@Autowired
 	SoPackingListRepo soPackingListRepo;
-	
+
 	@Autowired
 	SoCostEstimateRepo soCostEstimateRepo;
-	
+
 	@Autowired
 	ContainerAllocationSORepo containerAllocationSORepo;
-	
+
 	@Autowired
 	ContainerDetailsSORepo containerDetailsSORepo;
-	
+
 	@Autowired
 	PreAlertSIRepo preAlertSIRepo;
-	
+
 	@Autowired
 	VesselDetailsSIRepo vesselDetailsSIRepo;
 
 	@Autowired
 	HouseParticularsSIRepo houseParticularsSIRepo;
-	
+
 	@Autowired
 	ContainerDetailsSIRepo containerDetailsSIRepo;
-	
-	//ShipmentAO
-	
+
+	@Autowired
+	ContainerAllocationSIRepo containerAllocationSIRepo;
+
+	@Autowired
+	ContainerDetailsRepo containerDetailsRepo;
+
+	// ShipmentAO
+
 	@Override
 	public List<ShipmentAOVO> getShipmentAOById(Long id) {
-			List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(id)) {
-				LOGGER.info("Successfully Received  ShipmentAO BY Id : {}", id);
-				shipmentAOVO = shipmentAORepo.findShipmentAOById(id);
-			} else {
-				LOGGER.info("Successfully Received  ShipmentAO For All Id.");
-				shipmentAOVO = shipmentAORepo.findAll();
-			}
-			return shipmentAOVO;
+		List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  ShipmentAO BY Id : {}", id);
+			shipmentAOVO = shipmentAORepo.findShipmentAOById(id);
+		} else {
+			LOGGER.info("Successfully Received  ShipmentAO For All Id.");
+			shipmentAOVO = shipmentAORepo.findAll();
 		}
+		return shipmentAOVO;
+	}
 
 	@Override
 	public List<ShipmentAOVO> getShipmentAOByOrgId(Long orgId) {
-			List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(orgId)) {
-				LOGGER.info("Successfully Received  ShipmentAO BY Id : {}", orgId);
-				shipmentAOVO = shipmentAORepo.getShipmentAOByOrgId(orgId);
-			} else {
-				LOGGER.info("Successfully Received  ShipmentAO For All OrgId.");
-				shipmentAOVO = shipmentAORepo.findAll();
-			}
-			return shipmentAOVO;
+		List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgId)) {
+			LOGGER.info("Successfully Received  ShipmentAO BY Id : {}", orgId);
+			shipmentAOVO = shipmentAORepo.getShipmentAOByOrgId(orgId);
+		} else {
+			LOGGER.info("Successfully Received  ShipmentAO For All OrgId.");
+			shipmentAOVO = shipmentAORepo.findAll();
 		}
-	
+		return shipmentAOVO;
+	}
+
 	@Override
 	public ShipmentAOVO updateCreateShipmentAO(@Valid ShipmentAODTO shipmentAODTO) throws ApplicationException {
 		ShipmentAOVO shipmentAOVO = new ShipmentAOVO();
 		if (ObjectUtils.isNotEmpty(shipmentAODTO.getId())) {
 			shipmentAOVO = shipmentAORepo.findById(shipmentAODTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ShipmentAO details"));
-		}
-		else {
+		} else {
 			// Create a new shipmentAOVO instance if the doc ID is not present
 			shipmentAOVO = new ShipmentAOVO();
 
@@ -198,7 +209,7 @@ public class TransactionServiceImpl implements TransactionService{
 			shipmentAORepo.getbydocsid();
 			shipmentAOVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
 		}
-		
+
 		getShipmentAOVOFromShipmentAODTO(shipmentAODTO, shipmentAOVO);
 		shipmentAOVO = shipmentAORepo.save(shipmentAOVO);
 
@@ -230,7 +241,7 @@ public class TransactionServiceImpl implements TransactionService{
 
 		List<CostEstimateVO> costEstimateVOt = costEstimateRepo.findByShipmentAOVO(shipmentAOVO);
 		costEstimateRepo.deleteAll(costEstimateVOt);
-		
+
 		List<CostEstimateVO> costEstimateVOs = new ArrayList<>();
 		if (shipmentAODTO.getCostEstimateDTO() != null) {
 			for (CostEstimateDTO costEstimateDTO : shipmentAODTO.getCostEstimateDTO()) {
@@ -243,7 +254,7 @@ public class TransactionServiceImpl implements TransactionService{
 				costEstimateVO1.setAmountInInr(costEstimateDTO.getAmountInInr());
 				costEstimateVO1.setEstimatePayDate(costEstimateDTO.getEstimatePayDate());
 				costEstimateVO1.setFunReqDate(costEstimateDTO.getFunReqDate());
-				
+
 				costEstimateVO1.setShipmentAOVO(shipmentAOVO);
 				costEstimateVOs.add(costEstimateVO1);
 			}
@@ -295,39 +306,40 @@ public class TransactionServiceImpl implements TransactionService{
 		shipmentAOVO.setOrgId(shipmentAODTO.getOrgId());
 		shipmentAOVO.setUpdatedBy(shipmentAODTO.getUpdatedBy());
 		shipmentAOVO.setCreatedBy(shipmentAODTO.getCreatedBy());
-		
 
 	}
-	
-	//ShipmentFollowUp
-	
+
+	// ShipmentFollowUp
+
 	@Override
 	public List<ShipmentAOVO> getShipmentAOFollowUpById(Long id) {
-			List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(id)) {
-				LOGGER.info("Successfully Received  ShipmentAOFollowUp BY Id : {}", id);
-				shipmentAOVO = shipmentAORepo.findShipmentAOFollowUpById(id);
-			} else {
-				LOGGER.info("Successfully Received  ShipperAOFollowUp For All Id.");
-				shipmentAOVO = shipmentAORepo.findAll();
-			}
-			return shipmentAOVO;
+		List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  ShipmentAOFollowUp BY Id : {}", id);
+			shipmentAOVO = shipmentAORepo.findShipmentAOFollowUpById(id);
+		} else {
+			LOGGER.info("Successfully Received  ShipperAOFollowUp For All Id.");
+			shipmentAOVO = shipmentAORepo.findAll();
 		}
-	
+		return shipmentAOVO;
+	}
+
 	@Override
 	public List<ShipmentAOVO> getShipmentAOFollowUpByOrgId(Long orgId) {
-			List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(orgId)) {
-				LOGGER.info("Successfully Received  ShipmentAOFollowUp BY Id : {}", orgId);
-				shipmentAOVO = shipmentAORepo.getShipmentAOFollowUpByOrgId(orgId);
-			} else {
-				LOGGER.info("Successfully Received  ShipmentAOFollowUp For All OrgId.");
-				shipmentAOVO = shipmentAORepo.findAll();
-			}
-			return shipmentAOVO;
+		List<ShipmentAOVO> shipmentAOVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgId)) {
+			LOGGER.info("Successfully Received  ShipmentAOFollowUp BY Id : {}", orgId);
+			shipmentAOVO = shipmentAORepo.getShipmentAOFollowUpByOrgId(orgId);
+		} else {
+			LOGGER.info("Successfully Received  ShipmentAOFollowUp For All OrgId.");
+			shipmentAOVO = shipmentAORepo.findAll();
 		}
+		return shipmentAOVO;
+	}
+
 	@Override
-	public ShipmentAOVO updateCreateShipmentAOFollowUp(@Valid ShipmentAOFollowUpDTO shipmentAOFollowUpDTO) throws ApplicationException {
+	public ShipmentAOVO updateCreateShipmentAOFollowUp(@Valid ShipmentAOFollowUpDTO shipmentAOFollowUpDTO)
+			throws ApplicationException {
 		ShipmentAOVO shipmentAOVO = new ShipmentAOVO();
 		if (ObjectUtils.isNotEmpty(shipmentAOFollowUpDTO.getId())) {
 			shipmentAOVO = shipmentAORepo.findById(shipmentAOFollowUpDTO.getId())
@@ -338,7 +350,8 @@ public class TransactionServiceImpl implements TransactionService{
 
 	}
 
-	private void getShipmentAOVOFromShipmentFollowUpDTO(@Valid ShipmentAOFollowUpDTO shipmentAOFollowUpDTO, ShipmentAOVO shipmentAOVO) {
+	private void getShipmentAOVOFromShipmentFollowUpDTO(@Valid ShipmentAOFollowUpDTO shipmentAOFollowUpDTO,
+			ShipmentAOVO shipmentAOVO) {
 		shipmentAOVO.setDocDate(shipmentAOFollowUpDTO.getDocDate());
 		shipmentAOVO.setGlobalShipNo(shipmentAOFollowUpDTO.getGlobalShipNo());
 		shipmentAOVO.setPol(shipmentAOFollowUpDTO.getPol());
@@ -388,15 +401,14 @@ public class TransactionServiceImpl implements TransactionService{
 		shipmentAOVO.setPickUpDonedate(shipmentAOFollowUpDTO.getPickUpDonedate());
 		shipmentAOVO.setCustomsClearanceDonedate(shipmentAOFollowUpDTO.getCustomsClearanceDonedate());
 
-
 	}
 
 	@Override
 	public ShipmentAOVO getShipmentAOFollowUpByDocId(String docId) {
 		return shipmentAORepo.getShipmentAOFollowUpByDocId(docId);
 	}
-	
-	//MasterAirWayBill
+
+	// MasterAirWayBill
 
 	@Override
 	public List<MasterAirWayBillVO> getMasterAirWayBillById(Long id) {
@@ -425,21 +437,20 @@ public class TransactionServiceImpl implements TransactionService{
 	}
 
 	@Override
-	public MasterAirWayBillVO updateCreateMasterAirWayBill(@Valid MasterAirWayBillDTO masterAirWayBillDTO) throws ApplicationException {
+	public MasterAirWayBillVO updateCreateMasterAirWayBill(@Valid MasterAirWayBillDTO masterAirWayBillDTO)
+			throws ApplicationException {
 		MasterAirWayBillVO masterAirWayBillVO = new MasterAirWayBillVO();
 		if (ObjectUtils.isNotEmpty(masterAirWayBillDTO.getId())) {
 			masterAirWayBillVO = masterAirWayBillRepo.findById(masterAirWayBillDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid masterAirWayBill details"));
 		}
-		
+
 		getMasterAirWayBillVOFromMasterAirWayBillDTO(masterAirWayBillDTO, masterAirWayBillVO);
 		masterAirWayBillVO = masterAirWayBillRepo.save(masterAirWayBillVO);
 
 		List<HouseDetailsVO> houseDetailsVOList = houseDetailsRepo.findByMasterAirWayBillVO(masterAirWayBillVO);
 		houseDetailsRepo.deleteAll(houseDetailsVOList);
-		
-		
-		
+
 		List<HouseDetailsVO> houseDetailsVOs = new ArrayList<>();
 		if (masterAirWayBillDTO.getHouseDetailsDTO() != null) {
 			for (HouseDetailsDTO houseDetailsDTO : masterAirWayBillDTO.getHouseDetailsDTO()) {
@@ -455,7 +466,7 @@ public class TransactionServiceImpl implements TransactionService{
 				houseDetailsVO.setChwt(houseDetailsDTO.getChwt());
 				houseDetailsVO.setFpod(houseDetailsDTO.getFpod());
 				houseDetailsVO.setJobRemarks(houseDetailsDTO.getJobRemarks());
-				
+
 				houseDetailsVO.setMasterAirWayBillVO(masterAirWayBillVO);
 				houseDetailsVOs.add(houseDetailsVO);
 			}
@@ -463,7 +474,6 @@ public class TransactionServiceImpl implements TransactionService{
 
 		List<CarrierDetailsVO> carrierDetailsVOList = carrierDetailsRepo.findByMasterAirWayBillVO(masterAirWayBillVO);
 		carrierDetailsRepo.deleteAll(carrierDetailsVOList);
-
 
 		List<CarrierDetailsVO> carrierDetailsVOs = new ArrayList<>();
 		if (masterAirWayBillDTO.getCarrierDetailsDTO() != null) {
@@ -477,14 +487,14 @@ public class TransactionServiceImpl implements TransactionService{
 				carrierDetailsVO.setEtaTime(carrierDetailsDTO.getEtaTime());
 				carrierDetailsVO.setPol(carrierDetailsDTO.getPol());
 				carrierDetailsVO.setPod(carrierDetailsDTO.getPod());
-				carrierDetailsVO.setMasterAirWayBillVO(masterAirWayBillVO);;
+				carrierDetailsVO.setMasterAirWayBillVO(masterAirWayBillVO);
+				;
 				carrierDetailsVOs.add(carrierDetailsVO);
 			}
 		}
-		
+
 		List<DeclaredByVO> declaredByVOList = declaredByRepo.findByMasterAirWayBillVO(masterAirWayBillVO);
 		declaredByRepo.deleteAll(declaredByVOList);
-
 
 		List<DeclaredByVO> declaredByVOs = new ArrayList<>();
 		if (masterAirWayBillDTO.getDeclaredByDTO() != null) {
@@ -504,21 +514,22 @@ public class TransactionServiceImpl implements TransactionService{
 				declaredByVO.setLcAccount(declaredByDTO.getLcAccount());
 				declaredByVO.setPayTo(declaredByDTO.getPayTo());
 				declaredByVO.setTerms(declaredByDTO.getTerms());
-				declaredByVO.setMasterAirWayBillVO(masterAirWayBillVO);;
+				declaredByVO.setMasterAirWayBillVO(masterAirWayBillVO);
+				;
 				declaredByVOs.add(declaredByVO);
 			}
 		}
-		
+
 		List<PrintDetailsVO> printDetailsVOList = printDetailsRepo.findByMasterAirWayBillVO(masterAirWayBillVO);
 		printDetailsRepo.deleteAll(printDetailsVOList);
-
 
 		List<PrintDetailsVO> printDetailsVOs = new ArrayList<>();
 		if (masterAirWayBillDTO.getPrintDetailsDTO() != null) {
 			for (PrintDetailsDTO printDetailsDTO : masterAirWayBillDTO.getPrintDetailsDTO()) {
 
 				PrintDetailsVO printDetailsVO = new PrintDetailsVO();
-				printDetailsVO.setCarrierDtl(printDetailsDTO.getCarrierDtl());;
+				printDetailsVO.setCarrierDtl(printDetailsDTO.getCarrierDtl());
+				;
 				printDetailsVO.setAgentIata(printDetailsDTO.getAgentIata());
 				printDetailsVO.setDeptAirport(printDetailsDTO.getDeptAirport());
 				printDetailsVO.setDestAirport(printDetailsDTO.getDestAirport());
@@ -561,12 +572,12 @@ public class TransactionServiceImpl implements TransactionService{
 				printDetailsVO.setOthers(printDetailsDTO.getOthers());
 				printDetailsVO.setDuoAgentCharge(printDetailsDTO.getDuoAgentCharge());
 				printDetailsVO.setPreparedBy(printDetailsDTO.getPreparedBy());
-				printDetailsVO.setMasterAirWayBillVO(masterAirWayBillVO);;
+				printDetailsVO.setMasterAirWayBillVO(masterAirWayBillVO);
+				;
 				printDetailsVOs.add(printDetailsVO);
 			}
 		}
-	
-		
+
 		masterAirWayBillVO.setCarrierDetailsVO(carrierDetailsVOs);
 		masterAirWayBillVO.setDeclaredByVO(declaredByVOs);
 		masterAirWayBillVO.setHouseDetailsVO(houseDetailsVOs);
@@ -577,39 +588,38 @@ public class TransactionServiceImpl implements TransactionService{
 	private void getMasterAirWayBillVOFromMasterAirWayBillDTO(@Valid MasterAirWayBillDTO masterAirWayBillDTO,
 			MasterAirWayBillVO masterAirWayBillVO) {
 		masterAirWayBillVO.setCarrier(masterAirWayBillDTO.getCarrier());
-		masterAirWayBillVO.setMawbNo(masterAirWayBillDTO.getMawbNo());		
-		masterAirWayBillVO.setPol(masterAirWayBillDTO.getPol());		
-		masterAirWayBillVO.setShipType(masterAirWayBillDTO.getShipType());		
-		masterAirWayBillVO.setFrtCurrency(masterAirWayBillDTO.getFrtCurrency());		
-		masterAirWayBillVO.setOtherDetails(masterAirWayBillDTO.getOtherDetails());		
-		masterAirWayBillVO.setOnBoard(masterAirWayBillDTO.isOnBoard());		
-		masterAirWayBillVO.setMawdDate(masterAirWayBillDTO.getMawdDate());		
-		masterAirWayBillVO.setPod(masterAirWayBillDTO.getPod());		
-		masterAirWayBillVO.setFreight(masterAirWayBillDTO.getFreight());		
-		masterAirWayBillVO.setExRate(masterAirWayBillDTO.getExRate());		
-		masterAirWayBillVO.setPreAlertSend(masterAirWayBillDTO.isPreAlertSend());		
-		masterAirWayBillVO.setFinalized(masterAirWayBillDTO.isFinalized());		
-		masterAirWayBillVO.setShipper(masterAirWayBillDTO.getShipper());		
-		masterAirWayBillVO.setShipperAddType(masterAirWayBillDTO.getShipperAddType());		
-		masterAirWayBillVO.setShipperaddress(masterAirWayBillDTO.getShipperaddress());		
-		masterAirWayBillVO.setConsignee(masterAirWayBillDTO.getConsignee());		
-		masterAirWayBillVO.setConsigneeAddType(masterAirWayBillDTO.getConsigneeAddType());		
-		masterAirWayBillVO.setConsigneeAddress(masterAirWayBillDTO.getConsigneeAddress());		
-		masterAirWayBillVO.setExecutingBranch(masterAirWayBillDTO.getExecutingBranch());		
-		masterAirWayBillVO.setTotalHouseGrwt(masterAirWayBillDTO.getTotalHouseGrwt());		
-		masterAirWayBillVO.setTotalNoOfPkgs(masterAirWayBillDTO.getTotalNoOfPkgs());		
-		masterAirWayBillVO.setTotalHouseChWt(masterAirWayBillDTO.getTotalHouseChWt());		
-		masterAirWayBillVO.setMasterChwt(masterAirWayBillDTO.getMasterChwt());		
-		masterAirWayBillVO.setVolumeShare(masterAirWayBillDTO.getVolumeShare());	
-		masterAirWayBillVO.setCreatedBy(masterAirWayBillDTO.getCreatedBy());		
-		masterAirWayBillVO.setUpdatedBy(masterAirWayBillDTO.getUpdatedBy());		
-		masterAirWayBillVO.setActive(masterAirWayBillDTO.isActive());		
-		masterAirWayBillVO.setOrgId(masterAirWayBillDTO.getOrgId());		
+		masterAirWayBillVO.setMawbNo(masterAirWayBillDTO.getMawbNo());
+		masterAirWayBillVO.setPol(masterAirWayBillDTO.getPol());
+		masterAirWayBillVO.setShipType(masterAirWayBillDTO.getShipType());
+		masterAirWayBillVO.setFrtCurrency(masterAirWayBillDTO.getFrtCurrency());
+		masterAirWayBillVO.setOtherDetails(masterAirWayBillDTO.getOtherDetails());
+		masterAirWayBillVO.setOnBoard(masterAirWayBillDTO.isOnBoard());
+		masterAirWayBillVO.setMawdDate(masterAirWayBillDTO.getMawdDate());
+		masterAirWayBillVO.setPod(masterAirWayBillDTO.getPod());
+		masterAirWayBillVO.setFreight(masterAirWayBillDTO.getFreight());
+		masterAirWayBillVO.setExRate(masterAirWayBillDTO.getExRate());
+		masterAirWayBillVO.setPreAlertSend(masterAirWayBillDTO.isPreAlertSend());
+		masterAirWayBillVO.setFinalized(masterAirWayBillDTO.isFinalized());
+		masterAirWayBillVO.setShipper(masterAirWayBillDTO.getShipper());
+		masterAirWayBillVO.setShipperAddType(masterAirWayBillDTO.getShipperAddType());
+		masterAirWayBillVO.setShipperaddress(masterAirWayBillDTO.getShipperaddress());
+		masterAirWayBillVO.setConsignee(masterAirWayBillDTO.getConsignee());
+		masterAirWayBillVO.setConsigneeAddType(masterAirWayBillDTO.getConsigneeAddType());
+		masterAirWayBillVO.setConsigneeAddress(masterAirWayBillDTO.getConsigneeAddress());
+		masterAirWayBillVO.setExecutingBranch(masterAirWayBillDTO.getExecutingBranch());
+		masterAirWayBillVO.setTotalHouseGrwt(masterAirWayBillDTO.getTotalHouseGrwt());
+		masterAirWayBillVO.setTotalNoOfPkgs(masterAirWayBillDTO.getTotalNoOfPkgs());
+		masterAirWayBillVO.setTotalHouseChWt(masterAirWayBillDTO.getTotalHouseChWt());
+		masterAirWayBillVO.setMasterChwt(masterAirWayBillDTO.getMasterChwt());
+		masterAirWayBillVO.setVolumeShare(masterAirWayBillDTO.getVolumeShare());
+		masterAirWayBillVO.setCreatedBy(masterAirWayBillDTO.getCreatedBy());
+		masterAirWayBillVO.setUpdatedBy(masterAirWayBillDTO.getUpdatedBy());
+		masterAirWayBillVO.setActive(masterAirWayBillDTO.isActive());
+		masterAirWayBillVO.setOrgId(masterAirWayBillDTO.getOrgId());
 
-		
 	}
-	
-	//PreAlertAI
+
+	// PreAlertAI
 
 	@Override
 	public List<PreAlertAIVO> getPreAlertAIById(Long id) {
@@ -646,14 +656,14 @@ public class TransactionServiceImpl implements TransactionService{
 		}
 		getPreAlertAIVOFromPreAlertAIDTO(preAlertAIDTO, preAlertAIVO);
 		preAlertAIVO = preAlertAIRepo.save(preAlertAIVO);
-		
-		
+
 		List<HouseParticularsAIVO> houseParticularsVOList = houseParticularsAIRepo.findByPreAlertAIVO(preAlertAIVO);
 		houseParticularsAIRepo.deleteAll(houseParticularsVOList);
-		
-		List<PreAlertCarrierDetailsAIVO> preAlertCarrierDetailsVOList = preAlertCarrierDetailsAIRepo.findByPreAlertAIVO(preAlertAIVO);
+
+		List<PreAlertCarrierDetailsAIVO> preAlertCarrierDetailsVOList = preAlertCarrierDetailsAIRepo
+				.findByPreAlertAIVO(preAlertAIVO);
 		preAlertCarrierDetailsAIRepo.deleteAll(preAlertCarrierDetailsVOList);
-		
+
 		List<HouseParticularsAIVO> houseParticularsAIVOs = new ArrayList<>();
 		if (preAlertAIDTO.getHouseParticularsAIDTO() != null) {
 			for (HouseParticularsAIDTO houseParticularsAIDTO : preAlertAIDTO.getHouseParticularsAIDTO()) {
@@ -680,16 +690,17 @@ public class TransactionServiceImpl implements TransactionService{
 				houseParticularsAIVO.setIndustry(houseParticularsAIDTO.getIndustry());
 				houseParticularsAIVO.setBillOfEntry(houseParticularsAIDTO.getBillOfEntry());
 				houseParticularsAIVO.setItemDescription(houseParticularsAIDTO.getItemDescription());
-				
-				houseParticularsAIVO.setPreAlertAIVO(preAlertAIVO);;
+
+				houseParticularsAIVO.setPreAlertAIVO(preAlertAIVO);
+				;
 				houseParticularsAIVOs.add(houseParticularsAIVO);
 			}
 		}
-		
 
 		List<PreAlertCarrierDetailsAIVO> preAlertCarrierDetailsVOS = new ArrayList<>();
 		if (preAlertAIDTO.getPreAlertCarrierDetailsAIDTO() != null) {
-			for (PreAlertCarrierDetailsAIDTO preAlertCarrierDetailsAIDTO : preAlertAIDTO.getPreAlertCarrierDetailsAIDTO()) {
+			for (PreAlertCarrierDetailsAIDTO preAlertCarrierDetailsAIDTO : preAlertAIDTO
+					.getPreAlertCarrierDetailsAIDTO()) {
 
 				PreAlertCarrierDetailsAIVO preAlertCarrierDetailsAIVO = new PreAlertCarrierDetailsAIVO();
 				preAlertCarrierDetailsAIVO.setAirLineCode(preAlertCarrierDetailsAIDTO.getAirLineCode());
@@ -701,21 +712,24 @@ public class TransactionServiceImpl implements TransactionService{
 				preAlertCarrierDetailsAIVO.setEtdTime(preAlertCarrierDetailsAIDTO.getEtdTime());
 				preAlertCarrierDetailsAIVO.setPol(preAlertCarrierDetailsAIDTO.getPol());
 				preAlertCarrierDetailsAIVO.setPod(preAlertCarrierDetailsAIDTO.getPod());
-				
-				preAlertCarrierDetailsAIVO.setPreAlertAIVO(preAlertAIVO);;
+
+				preAlertCarrierDetailsAIVO.setPreAlertAIVO(preAlertAIVO);
+				;
 				preAlertCarrierDetailsVOS.add(preAlertCarrierDetailsAIVO);
 			}
 		}
-		
-		preAlertAIVO.setHouseParticularsAIVO(houseParticularsAIVOs);;
+
+		preAlertAIVO.setHouseParticularsAIVO(houseParticularsAIVOs);
+		;
 		preAlertAIVO.setPreAlertCarrierDetailsAIVO(preAlertCarrierDetailsVOS);
-		
+
 		return preAlertAIRepo.save(preAlertAIVO);
 
 	}
 
 	private void getPreAlertAIVOFromPreAlertAIDTO(@Valid PreAlertAIDTO preAlertAIDTO, PreAlertAIVO preAlertAIVO) {
 		preAlertAIVO.setDirect(preAlertAIDTO.isDirect());
+		preAlertAIVO.setAutoEdi(preAlertAIDTO.isAutoEdi());
 		preAlertAIVO.setDocNo(preAlertAIDTO.getDocNo());
 		preAlertAIVO.setDocDate(preAlertAIDTO.getDocDate());
 		preAlertAIVO.setAirCarrier(preAlertAIDTO.getAirCarrier());
@@ -757,9 +771,8 @@ public class TransactionServiceImpl implements TransactionService{
 		preAlertAIVO.setActive(preAlertAIDTO.isActive());
 	}
 
-	
-	//AdvanceCanAiVO
-	
+	// AdvanceCanAiVO
+
 	@Override
 	public List<AdvanceCanAiVO> getAdvanceCanAiById(Long id) {
 		List<AdvanceCanAiVO> advanceCanAiVO = new ArrayList<>();
@@ -792,26 +805,24 @@ public class TransactionServiceImpl implements TransactionService{
 		if (ObjectUtils.isNotEmpty(advanceCanAiDTO.getId())) {
 			advanceCanAiVO = advanceCanAiRepo.findById(advanceCanAiDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid AdvanceCanAi details"));
-		}else {
+		} else {
 			// Create a new shipmentAOVO instance if the doc ID is not present
 			advanceCanAiVO = new AdvanceCanAiVO();
 
 			// Generate a new unique doc ID
 			int docid = advanceCanAiRepo.finddocid(); // Ensure this method is correctly implemented to fetch the next
-													// sequence value
+														// sequence value
 			String docsid = "AD" + docid;
 			advanceCanAiRepo.getbydocsid();
 			advanceCanAiVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
 		}
-		
+
 		getAdvanceCanAiVOFromAdvanceCanAiDTO(advanceCanAiDTO, advanceCanAiVO);
 		advanceCanAiVO = advanceCanAiRepo.save(advanceCanAiVO);
- 
+
 		List<ChargeParticularVO> chargeParticularVOList = chargeParticulaRepo.findByAdvanceCanAiVO(advanceCanAiVO);
 		chargeParticulaRepo.deleteAll(chargeParticularVOList);
-		
-		
-		
+
 		List<ChargeParticularVO> ChargeParticularVOs = new ArrayList<>();
 		if (advanceCanAiDTO.getChargeParticularDTO() != null) {
 			for (ChargeParticularDTO chargeParticularDTO : advanceCanAiDTO.getChargeParticularDTO()) {
@@ -829,11 +840,12 @@ public class TransactionServiceImpl implements TransactionService{
 				ChargeParticularVO.setFcAmount(chargeParticularDTO.getFcAmount());
 				ChargeParticularVO.setLcAmount(chargeParticularDTO.getLcAmount());
 				ChargeParticularVO.setBillAmount(chargeParticularDTO.getBillAmount());
-				ChargeParticularVO.setAdvanceCanAiVO(advanceCanAiVO);;
+				ChargeParticularVO.setAdvanceCanAiVO(advanceCanAiVO);
+				;
 				ChargeParticularVOs.add(ChargeParticularVO);
 			}
 		}
-		
+
 		advanceCanAiVO.setChargeParticularVO(ChargeParticularVOs);
 		return advanceCanAiRepo.save(advanceCanAiVO);
 	}
@@ -871,37 +883,35 @@ public class TransactionServiceImpl implements TransactionService{
 		advanceCanAiVO.setOrgId(advanceCanAiDTO.getOrgId());
 		advanceCanAiVO.setActive(advanceCanAiDTO.isActive());
 
-		
 	}
-	
-	//ShipmentSO
-	
+
+	// ShipmentSO
+
 	@Override
 	public List<ShipmentSOVO> getShipmentSOById(Long id) {
-			List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(id)) {
-				LOGGER.info("Successfully Received  ShipmentSO BY Id : {}", id);
-				shipmentSOVO = shipmentSORepo.findShipmentSOById(id);
-			} else {
-				LOGGER.info("Successfully Received  ShipmentSO For All Id.");
-				shipmentSOVO = shipmentSORepo.findAll();
-			}
-			return shipmentSOVO;
+		List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  ShipmentSO BY Id : {}", id);
+			shipmentSOVO = shipmentSORepo.findShipmentSOById(id);
+		} else {
+			LOGGER.info("Successfully Received  ShipmentSO For All Id.");
+			shipmentSOVO = shipmentSORepo.findAll();
 		}
-	
+		return shipmentSOVO;
+	}
+
 	@Override
 	public List<ShipmentSOVO> getShipmentSOByOrgId(Long orgId) {
-			List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(orgId)) {
-				LOGGER.info("Successfully Received  ShipmentSO BY Id : {}", orgId);
-				shipmentSOVO = shipmentSORepo.getShipmentSOByOrgId(orgId);
-			} else {
-				LOGGER.info("Successfully Received  ShipmentSO For All OrgId.");
-				shipmentSOVO = shipmentSORepo.findAll();
-			}
-			return shipmentSOVO;
+		List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgId)) {
+			LOGGER.info("Successfully Received  ShipmentSO BY Id : {}", orgId);
+			shipmentSOVO = shipmentSORepo.getShipmentSOByOrgId(orgId);
+		} else {
+			LOGGER.info("Successfully Received  ShipmentSO For All OrgId.");
+			shipmentSOVO = shipmentSORepo.findAll();
 		}
-
+		return shipmentSOVO;
+	}
 
 	@Override
 	public ShipmentSOVO updateCreateShipmentSO(@Valid ShipmentSODTO shipmentSODTO) throws ApplicationException {
@@ -909,8 +919,7 @@ public class TransactionServiceImpl implements TransactionService{
 		if (ObjectUtils.isNotEmpty(shipmentSODTO.getId())) {
 			shipmentSOVO = shipmentSORepo.findById(shipmentSODTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ShipmentSO details"));
-		}
-		else {
+		} else {
 			// Create a new shipmentAOVO instance if the doc ID is not present
 			shipmentSOVO = new ShipmentSOVO();
 
@@ -921,7 +930,7 @@ public class TransactionServiceImpl implements TransactionService{
 			shipmentSORepo.getbydocsid();
 			shipmentSOVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
 		}
-		
+
 		getShipmentSOVOFromShipmentSODTO(shipmentSODTO, shipmentSOVO);
 		shipmentSOVO = shipmentSORepo.save(shipmentSOVO);
 
@@ -953,7 +962,7 @@ public class TransactionServiceImpl implements TransactionService{
 
 		List<SoCostEstimateVO> soCostEstimateVOt = soCostEstimateRepo.findByShipmentSOVO(shipmentSOVO);
 		soCostEstimateRepo.deleteAll(soCostEstimateVOt);
-		
+
 		List<SoCostEstimateVO> soCostEstimateVOs = new ArrayList<>();
 		if (shipmentSODTO.getSoCostEstimateDTO() != null) {
 			for (SoCostEstimateDTO soCostEstimateDTO : shipmentSODTO.getSoCostEstimateDTO()) {
@@ -966,7 +975,7 @@ public class TransactionServiceImpl implements TransactionService{
 				soCostEstimateVO1.setAmountInInr(soCostEstimateDTO.getAmountInInr());
 				soCostEstimateVO1.setEstimatePayDate(soCostEstimateDTO.getEstimatePayDate());
 				soCostEstimateVO1.setFunReqDate(soCostEstimateDTO.getFunReqDate());
-				
+
 				soCostEstimateVO1.setShipmentSOVO(shipmentSOVO);
 				soCostEstimateVOs.add(soCostEstimateVO1);
 			}
@@ -1018,40 +1027,40 @@ public class TransactionServiceImpl implements TransactionService{
 		shipmentSOVO.setOrgId(shipmentSODTO.getOrgId());
 		shipmentSOVO.setUpdatedBy(shipmentSODTO.getUpdatedBy());
 		shipmentSOVO.setCreatedBy(shipmentSODTO.getCreatedBy());
-		
 
 	}
-	
- //SHIPMENTSO FOLLOWUP
+
+	// SHIPMENTSO FOLLOWUP
 
 	@Override
 	public List<ShipmentSOVO> getShipmentSOFollowUpById(Long id) {
-			List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(id)) {
-				LOGGER.info("Successfully Received  ShipmentSOFollowUp BY Id : {}", id);
-				shipmentSOVO = shipmentSORepo.getShipmentSOFollowUpById(id);
-			} else {
-				LOGGER.info("Successfully Received  ShipmentSOFollowUp For All Id.");
-				shipmentSOVO = shipmentSORepo.findAll();
-			}
-			return shipmentSOVO;
+		List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  ShipmentSOFollowUp BY Id : {}", id);
+			shipmentSOVO = shipmentSORepo.getShipmentSOFollowUpById(id);
+		} else {
+			LOGGER.info("Successfully Received  ShipmentSOFollowUp For All Id.");
+			shipmentSOVO = shipmentSORepo.findAll();
 		}
-	
+		return shipmentSOVO;
+	}
+
 	@Override
 	public List<ShipmentSOVO> getShipmentSOFollowUpByOrgId(Long orgId) {
-			List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(orgId)) {
-				LOGGER.info("Successfully Received  ShipmentSOFollowUp BY Id : {}", orgId);
-				shipmentSOVO = shipmentSORepo.getShipmentSOFollowUpByOrgId(orgId);
-			} else {
-				LOGGER.info("Successfully Received  ShipmentSOFollowUp For All OrgId.");
-				shipmentSOVO = shipmentSORepo.findAll();
-			}
-			return shipmentSOVO;
+		List<ShipmentSOVO> shipmentSOVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgId)) {
+			LOGGER.info("Successfully Received  ShipmentSOFollowUp BY Id : {}", orgId);
+			shipmentSOVO = shipmentSORepo.getShipmentSOFollowUpByOrgId(orgId);
+		} else {
+			LOGGER.info("Successfully Received  ShipmentSOFollowUp For All OrgId.");
+			shipmentSOVO = shipmentSORepo.findAll();
 		}
-	
+		return shipmentSOVO;
+	}
+
 	@Override
-	public ShipmentSOVO updateCreateShipmentSOFollowUp(@Valid ShipmentSOFollowUpDTO shipmentSOFollowUpDTO) throws ApplicationException {
+	public ShipmentSOVO updateCreateShipmentSOFollowUp(@Valid ShipmentSOFollowUpDTO shipmentSOFollowUpDTO)
+			throws ApplicationException {
 		ShipmentSOVO shipmentSOVO = new ShipmentSOVO();
 		if (ObjectUtils.isNotEmpty(shipmentSOFollowUpDTO.getId())) {
 			shipmentSOVO = shipmentSORepo.findById(shipmentSOFollowUpDTO.getId())
@@ -1062,7 +1071,8 @@ public class TransactionServiceImpl implements TransactionService{
 
 	}
 
-	private void getShipmentSOVOFromShipmentSOFollowUpDTO(@Valid ShipmentSOFollowUpDTO shipmentSOFollowUpDTO, ShipmentSOVO shipmentSOVO) {
+	private void getShipmentSOVOFromShipmentSOFollowUpDTO(@Valid ShipmentSOFollowUpDTO shipmentSOFollowUpDTO,
+			ShipmentSOVO shipmentSOVO) {
 		shipmentSOVO.setDocDate(shipmentSOFollowUpDTO.getDocDate());
 		shipmentSOVO.setGlobalShipNo(shipmentSOFollowUpDTO.getGlobalShipNo());
 		shipmentSOVO.setPol(shipmentSOFollowUpDTO.getPol());
@@ -1112,7 +1122,6 @@ public class TransactionServiceImpl implements TransactionService{
 		shipmentSOVO.setPickUpDonedate(shipmentSOFollowUpDTO.getPickUpDonedate());
 		shipmentSOVO.setCustomsClearanceDonedate(shipmentSOFollowUpDTO.getCustomsClearanceDonedate());
 
-		
 		shipmentSOVO.setContainerCount(shipmentSOFollowUpDTO.getContainerCount());
 		shipmentSOVO.setCfcInwardDate(shipmentSOFollowUpDTO.getCfcInwardDate());
 		shipmentSOVO.setContBookingDate(shipmentSOFollowUpDTO.getContBookingDate());
@@ -1129,8 +1138,6 @@ public class TransactionServiceImpl implements TransactionService{
 		shipmentSOVO.setContainerReturnCount(shipmentSOFollowUpDTO.getContainerReturnCount());
 		shipmentSOVO.setEmptyReturnRemarks(shipmentSOFollowUpDTO.getEmptyReturnRemarks());
 
-
-
 	}
 
 	@Override
@@ -1138,47 +1145,48 @@ public class TransactionServiceImpl implements TransactionService{
 		return shipmentSORepo.getShipmentSOFollowUpByDocId(docId);
 	}
 
+	// ContainerAllocation
 
-	//ContainerAllocation
-	
 	@Override
 	public List<ContainerAllocationSOVO> getContainerAllocationSOById(Long id) {
-			List<ContainerAllocationSOVO> containerAllocationSOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(id)) {
-				LOGGER.info("Successfully Received  containerAllocationSO BY Id : {}", id);
-				containerAllocationSOVO = containerAllocationSORepo.findContainerAllocationSOById(id);
-			} else {
-				LOGGER.info("Successfully Received  containerAllocationSO For All Id.");
-				containerAllocationSOVO = containerAllocationSORepo.findAll();
-			}
-			return containerAllocationSOVO;
+		List<ContainerAllocationSOVO> containerAllocationSOVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  containerAllocationSO BY Id : {}", id);
+			containerAllocationSOVO = containerAllocationSORepo.findContainerAllocationSOById(id);
+		} else {
+			LOGGER.info("Successfully Received  containerAllocationSO For All Id.");
+			containerAllocationSOVO = containerAllocationSORepo.findAll();
 		}
-	
+		return containerAllocationSOVO;
+	}
+
 	@Override
 	public List<ContainerAllocationSOVO> getContainerAllocationSOByOrgId(Long orgid) {
-			List<ContainerAllocationSOVO> containerAllocationSOVO = new ArrayList<>();
-			if (ObjectUtils.isNotEmpty(orgid)) {
-				LOGGER.info("Successfully Received  containerAllocationSO BY OrgId : {}", orgid);
-				containerAllocationSOVO = containerAllocationSORepo.findContainerAllocationSOByOrgId(orgid);
-			} else {
-				LOGGER.info("Successfully Received  containerAllocationSO For All OrgId.");
-				containerAllocationSOVO = containerAllocationSORepo.findAll();
-			}
-			return containerAllocationSOVO;
+		List<ContainerAllocationSOVO> containerAllocationSOVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  containerAllocationSO BY OrgId : {}", orgid);
+			containerAllocationSOVO = containerAllocationSORepo.findContainerAllocationSOByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  containerAllocationSO For All OrgId.");
+			containerAllocationSOVO = containerAllocationSORepo.findAll();
 		}
-	
+		return containerAllocationSOVO;
+	}
+
 	@Override
-	public ContainerAllocationSOVO updateCreateContainerAllocationSO(@Valid ContainerAllocationSODTO containerAllocationSODTO) throws ApplicationException {
+	public ContainerAllocationSOVO updateCreateContainerAllocationSO(
+			@Valid ContainerAllocationSODTO containerAllocationSODTO) throws ApplicationException {
 		ContainerAllocationSOVO containerAllocationSOVO = new ContainerAllocationSOVO();
 		if (ObjectUtils.isNotEmpty(containerAllocationSODTO.getId())) {
 			containerAllocationSOVO = containerAllocationSORepo.findById(containerAllocationSODTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ContainerAllocationSO details"));
 		}
-		
+
 		getContainerAllocationSOVOFromContainerAllocationSODTO(containerAllocationSODTO, containerAllocationSOVO);
 		containerAllocationSOVO = containerAllocationSORepo.save(containerAllocationSOVO);
 
-		List<ContainerDetailsSOVO> containerDetailsSOVO = containerDetailsSORepo.findByContainerAllocationSOVO(containerAllocationSOVO);
+		List<ContainerDetailsSOVO> containerDetailsSOVO = containerDetailsSORepo
+				.findByContainerAllocationSOVO(containerAllocationSOVO);
 		containerDetailsSORepo.deleteAll(containerDetailsSOVO);
 
 		List<ContainerDetailsSOVO> containerDetailsSOVOs = new ArrayList<>();
@@ -1193,14 +1201,15 @@ public class TransactionServiceImpl implements TransactionService{
 				containerDetailsVO1.setVolume(containerDetailsSODTO.getVolume());
 				containerDetailsVO1.setPkgs(containerDetailsSODTO.getPkgs());
 				containerDetailsVO1.setGrwt(containerDetailsSODTO.getGrwt());
-				
-				containerDetailsVO1.setContainerAllocationSOVO(containerAllocationSOVO);;
+
+				containerDetailsVO1.setContainerAllocationSOVO(containerAllocationSOVO);
+				;
 				containerDetailsSOVOs.add(containerDetailsVO1);
 			}
 		}
 
-		
-		containerAllocationSOVO.setContainerDetailsSOVO(containerDetailsSOVOs);;
+		containerAllocationSOVO.setContainerDetailsSOVO(containerDetailsSOVOs);
+		;
 		return containerAllocationSORepo.save(containerAllocationSOVO);
 
 	}
@@ -1229,17 +1238,15 @@ public class TransactionServiceImpl implements TransactionService{
 		containerAllocationSOVO.setFt40(containerAllocationSODTO.getFt40());
 		containerAllocationSOVO.setFt45(containerAllocationSODTO.getFt45());
 		containerAllocationSOVO.setCbm(containerAllocationSODTO.getCbm());
-		
+
 		containerAllocationSOVO.setCreatedBy(containerAllocationSODTO.getCreatedBy());
 		containerAllocationSOVO.setUpdatedBy(containerAllocationSODTO.getUpdatedBy());
 		containerAllocationSOVO.setOrgId(containerAllocationSODTO.getOrgId());
 		containerAllocationSOVO.setActive(containerAllocationSODTO.isActive());
-		
-		
+
 	}
 
-	//PreAlertSI
-	
+	// PreAlertSI
 
 	@Override
 	public List<PreAlertSIVO> getPreAlertSIById(Long id) {
@@ -1276,23 +1283,23 @@ public class TransactionServiceImpl implements TransactionService{
 		}
 		getPreAlertSIVOFromPreAlertSIDTO(preAlertSIDTO, preAlertSIVO);
 		preAlertSIVO = preAlertSIRepo.save(preAlertSIVO);
-		
+
 		List<VesselDetailsSIVO> VesselDetailsSIVOList = vesselDetailsSIRepo.findByPreAlertSIVO(preAlertSIVO);
 		vesselDetailsSIRepo.deleteAll(VesselDetailsSIVOList);
-		
+
 		List<HouseParticularsSIVO> houseParticularsSIVOList = houseParticularsSIRepo.findByPreAlertSIVO(preAlertSIVO);
 		houseParticularsSIRepo.deleteAll(houseParticularsSIVOList);
-		
+
 		List<ContainerDetailsSIVO> containerDetailsSIVOList = containerDetailsSIRepo.findByPreAlertSIVO(preAlertSIVO);
 		containerDetailsSIRepo.deleteAll(containerDetailsSIVOList);
-		
 
 		List<VesselDetailsSIVO> vesselDetailsSIVOs = new ArrayList<>();
 		if (preAlertSIDTO.getVesselDetailsSIDTO() != null) {
 			for (VesselDetailsSIDTO vesselDetailsSIDTO : preAlertSIDTO.getVesselDetailsSIDTO()) {
 
 				VesselDetailsSIVO vesselDetailsSIVO = new VesselDetailsSIVO();
-				vesselDetailsSIVO.setType(vesselDetailsSIDTO.getType());;
+				vesselDetailsSIVO.setType(vesselDetailsSIDTO.getType());
+				;
 				vesselDetailsSIVO.setVesselName(vesselDetailsSIDTO.getVesselName());
 				vesselDetailsSIVO.setVoyage(vesselDetailsSIDTO.getVoyage());
 				vesselDetailsSIVO.setEta(vesselDetailsSIDTO.getEta());
@@ -1301,12 +1308,12 @@ public class TransactionServiceImpl implements TransactionService{
 				vesselDetailsSIVO.setEtdTime(vesselDetailsSIDTO.getEtdTime());
 				vesselDetailsSIVO.setPol(vesselDetailsSIDTO.getPol());
 				vesselDetailsSIVO.setPod(vesselDetailsSIDTO.getPod());
-				
-				vesselDetailsSIVO.setPreAlertSIVO(preAlertSIVO);;
+
+				vesselDetailsSIVO.setPreAlertSIVO(preAlertSIVO);
+				;
 				vesselDetailsSIVOs.add(vesselDetailsSIVO);
 			}
 		}
-		
 
 		List<HouseParticularsSIVO> houseParticularsSIVOs = new ArrayList<>();
 		if (preAlertSIDTO.getHouseParticularsSIDTO() != null) {
@@ -1334,18 +1341,20 @@ public class TransactionServiceImpl implements TransactionService{
 				houseParticularsSIVO.setIndustry(houseParticularsSIDTO.getIndustry());
 				houseParticularsSIVO.setBillOfEntry(houseParticularsSIDTO.getBillOfEntry());
 				houseParticularsSIVO.setItemDescription(houseParticularsSIDTO.getItemDescription());
-				
-				houseParticularsSIVO.setPreAlertSIVO(preAlertSIVO);;
+
+				houseParticularsSIVO.setPreAlertSIVO(preAlertSIVO);
+				;
 				houseParticularsSIVOs.add(houseParticularsSIVO);
 			}
 		}
-		
+
 		List<ContainerDetailsSIVO> containerDetailsSIVOs = new ArrayList<>();
 		if (preAlertSIDTO.getContainerDetailsSIDTO() != null) {
 			for (ContainerDetailsSIDTO containerDetailsSIDTO : preAlertSIDTO.getContainerDetailsSIDTO()) {
 
 				ContainerDetailsSIVO containerDetailsSIVO = new ContainerDetailsSIVO();
-				containerDetailsSIVO.setContainerNo(containerDetailsSIDTO.getContainerNo());;
+				containerDetailsSIVO.setContainerNo(containerDetailsSIDTO.getContainerNo());
+				;
 				containerDetailsSIVO.setContainerType(containerDetailsSIDTO.getContainerType());
 				containerDetailsSIVO.setContainerWt(containerDetailsSIDTO.getContainerWt());
 				containerDetailsSIVO.setPkgs(containerDetailsSIDTO.getPkgs());
@@ -1353,17 +1362,19 @@ public class TransactionServiceImpl implements TransactionService{
 				containerDetailsSIVO.setMLineNo(containerDetailsSIDTO.getMLineNo());
 				containerDetailsSIVO.setSLineNo(containerDetailsSIDTO.getSLineNo());
 				containerDetailsSIVO.setSealNo(containerDetailsSIDTO.getSealNo());
-				
-				containerDetailsSIVO.setPreAlertSIVO(preAlertSIVO);;
+
+				containerDetailsSIVO.setPreAlertSIVO(preAlertSIVO);
+				;
 				containerDetailsSIVOs.add(containerDetailsSIVO);
 			}
 		}
 		preAlertSIVO.setVesselDetailsSIVO(vesselDetailsSIVOs);
-		preAlertSIVO.setHouseParticularsSIVO(houseParticularsSIVOs);;
+		preAlertSIVO.setHouseParticularsSIVO(houseParticularsSIVOs);
+		
 		preAlertSIVO.setContainerDetailsSIVO(containerDetailsSIVOs);
-		
+
 		return preAlertSIRepo.save(preAlertSIVO);
-		
+
 	}
 
 	private void getPreAlertSIVOFromPreAlertSIDTO(@Valid PreAlertSIDTO preAlertSIDTO, PreAlertSIVO preAlertSIVO) {
@@ -1409,10 +1420,93 @@ public class TransactionServiceImpl implements TransactionService{
 		preAlertSIVO.setActive(preAlertSIDTO.isActive());
 		preAlertSIVO.setUpdatedBy(preAlertSIDTO.getUpdatedBy());
 		preAlertSIVO.setCreatedBy(preAlertSIDTO.getCreatedBy());
-		
-		
+
+	}
+
+	// ContainerAllocationSI
+
+	@Override
+	public List<ContainerAllocationSIVO> getContainerAllocationSIById(Long id) {
+		List<ContainerAllocationSIVO> containerAllocationSIVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  containerAllocationSI BY Id : {}", id);
+			containerAllocationSIVO = containerAllocationSIRepo.findContainerAllocationSIById(id);
+		} else {
+			LOGGER.info("Successfully Received  containerAllocationSI For All Id.");
+			containerAllocationSIVO = containerAllocationSIRepo.findAll();
+		}
+		return containerAllocationSIVO;
+	}
+
+	@Override
+	public List<ContainerAllocationSIVO> getContainerAllocationSIByOrgId(Long orgid) {
+		List<ContainerAllocationSIVO> containerAllocationSIVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  containerAllocationSI BY Id : {}", orgid);
+			containerAllocationSIVO = containerAllocationSIRepo.findContainerAllocationSIByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  containerAllocationSI For All Id.");
+			containerAllocationSIVO = containerAllocationSIRepo.findAll();
+		}
+		return containerAllocationSIVO;
+	}
+
+	@Override
+	public ContainerAllocationSIVO updateCreateContainerAllocationSI(
+			@Valid ContainerAllocationSIDTO containerAllocationSIDTO) throws ApplicationException {
+		ContainerAllocationSIVO containerAllocationSIVO = new ContainerAllocationSIVO();
+		if (ObjectUtils.isNotEmpty(containerAllocationSIDTO.getId())) {
+			containerAllocationSIVO = containerAllocationSIRepo.findById(containerAllocationSIDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid ContainerAllocationSI details"));
+		}
+		getContainerAllocationSIVOFromContainerAllocationSIDTO(containerAllocationSIDTO, containerAllocationSIVO);
+		containerAllocationSIVO = containerAllocationSIRepo.save(containerAllocationSIVO);
+        
+		List<ContainerDetailsVO> containerDetailsVOList = containerDetailsRepo.findByContainerAllocationSIVO(containerAllocationSIVO);
+		containerDetailsRepo.deleteAll(containerDetailsVOList);
+ 
+		List<ContainerDetailsVO> containerDetailsVOs = new ArrayList<>();
+		if (containerAllocationSIDTO.getContainerDetailsDTO() != null) {
+			for (ContainerDetailsDTO containerDetailsDTO : containerAllocationSIDTO.getContainerDetailsDTO()) {
+
+				ContainerDetailsVO containerDetails1 = new ContainerDetailsVO();
+				containerDetails1.setHouseNo(containerDetailsDTO.getHouseNo());
+				containerDetails1.setJobNo(containerDetailsDTO.getJobNo());
+				containerDetails1.setContainerType(containerDetailsDTO.getContainerType());
+				containerDetails1.setContainerNo(containerDetailsDTO.getContainerType());
+				containerDetails1.setSealNo(containerDetailsDTO.getSealNo());
+				containerDetails1.setLoad(containerDetailsDTO.getLoad());
+				containerDetails1.setQty(containerDetailsDTO.getQty());
+				containerDetails1.setVolume(containerDetailsDTO.getVolume());
+				containerDetails1.setPkgs(containerDetailsDTO.getPkgs());
+				containerDetails1.setGrwt(containerDetailsDTO.getGrwt());
+			
+				containerDetails1.setContainerAllocationSIVO(containerAllocationSIVO);;
+				
+				containerDetailsVOs.add(containerDetails1);
+			}
+		}
+		containerAllocationSIVO.setContainerDetailsVO(containerDetailsVOs);
+
+		return containerAllocationSIRepo.save(containerAllocationSIVO);
+
 		
 	}
-	
+
+	private void getContainerAllocationSIVOFromContainerAllocationSIDTO(
+			@Valid ContainerAllocationSIDTO containerAllocationSIDTO, ContainerAllocationSIVO containerAllocationSIVO) {
+		containerAllocationSIVO.setMasterNo(containerAllocationSIDTO.getMasterNo());
+		containerAllocationSIVO.setMasterDate(containerAllocationSIDTO.getMasterDate());
+		containerAllocationSIVO.setOrderNo(containerAllocationSIDTO.getOrderNo());
+		containerAllocationSIVO.setOrderDate(containerAllocationSIDTO.getOrderDate());
+		containerAllocationSIVO.setPkgs(containerAllocationSIDTO.getPkgs());
+		containerAllocationSIVO.setGrwt(containerAllocationSIDTO.getGrwt());
+		containerAllocationSIVO.setCreatedBy(containerAllocationSIDTO.getCreatedBy());
+		containerAllocationSIVO.setUpdatedBy(containerAllocationSIDTO.getUpdatedBy());
+		containerAllocationSIVO.setOrgId(containerAllocationSIDTO.getOrgId());
+		containerAllocationSIVO.setActive(containerAllocationSIDTO.isActive());		
+	}
+
+
 
 }
