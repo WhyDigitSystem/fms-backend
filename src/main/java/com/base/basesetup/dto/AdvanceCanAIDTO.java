@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdvanceCanAiDTO {
+public class AdvanceCanAIDTO {
 
 	private Long id;
 	private String docId;
@@ -50,7 +50,7 @@ public class AdvanceCanAiDTO {
 	private Long orgId;
     private boolean active;
     
-	private List<ChargeParticularDTO> chargeParticularDTO;
+	private List<ChargeParticularAIDTO> chargeParticularAIDTO;
 
 	
 }

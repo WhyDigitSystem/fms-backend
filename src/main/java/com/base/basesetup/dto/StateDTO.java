@@ -16,5 +16,7 @@ public class StateDTO {
 	private int stateNumber;
 	private Long orgId;
 	private boolean active;
+	private String createdBy;
+	private String updatedBy;
 
 }

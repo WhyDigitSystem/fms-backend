@@ -1227,7 +1227,7 @@ public class BasicMasterController extends BaseController {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateDocumentType")
+	@PutMapping("/updateCreateDocumentType")
 	public ResponseEntity<ResponseDTO> updateCreateDocumentType(@Valid @RequestBody DocumentTypeDTO documentTypeDTO) {
 		String methodName = "updateCreateDocumentType()";
 
@@ -1310,7 +1310,7 @@ public class BasicMasterController extends BaseController {
 	}
 	
 
-	@PostMapping("/updateCreateDocumentTypeMapping")
+	@PutMapping("/updateCreateDocumentTypeMapping")
 	public ResponseEntity<ResponseDTO> updateCreateDocumentTypeMapping(@Valid @RequestBody DocumentTypeMappingDTO documentTypeMappingDTO) {
 		String methodName = "updateCreateDocumentTypeMapping()";
 
@@ -1392,7 +1392,7 @@ public class BasicMasterController extends BaseController {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateListOfValues")
+	@PutMapping("/updateCreateListOfValues")
 	public ResponseEntity<ResponseDTO> updateCreateListOfValues(@Valid @RequestBody ListOfValuesDTO listOfValuesDTO) {
 		String methodName = "updateCreateListOfValues()";
 
@@ -1555,7 +1555,7 @@ public class BasicMasterController extends BaseController {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateGstIn")
+	@PutMapping("/updateCreateGstIn")
 	public ResponseEntity<ResponseDTO> updateCreateGstIn(@Valid @RequestBody GstInDTO gstInDTO) {
 		String methodName = "updateCreateGstIn()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);

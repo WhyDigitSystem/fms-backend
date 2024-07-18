@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdvanceCanAiVO {
+public class AdvanceCanAIVO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ef_acaninvoicehdrgen")
 	@SequenceGenerator(name = "ef_acaninvoicehdrgen", sequenceName = "ef_acaninvoicehdrseq", initialValue = 1000000001, allocationSize = 1)
@@ -104,9 +104,9 @@ public class AdvanceCanAiVO {
 	@Column(name="active")
     private boolean active;
 
-	@OneToMany(mappedBy = "advanceCanAiVO",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "advanceCanAIVO",cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<ChargeParticularVO> chargeParticularVO;
+	private List<ChargeParticularAIVO> chargeParticularAIVO;
 	
 	@JsonGetter("active")
 	public String getActive() {

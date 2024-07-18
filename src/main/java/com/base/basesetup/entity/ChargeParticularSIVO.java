@@ -2,7 +2,6 @@ package com.base.basesetup.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -24,17 +23,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "ef_acaninvoicedtl")
+@Table(name = "ef_scaninvoicedtl")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChargeParticularVO {
-
+public class ChargeParticularSIVO {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ef_acaninvoicedtlgen")
-	@SequenceGenerator(name = "ef_acaninvoicedtlgen", sequenceName = "ef_acaninvoicedtlseq", initialValue = 1000000001, allocationSize = 1)
-	@Column(name = "ef_acaninvoicedtlid")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ef_scaninvoicedtlgen")
+	@SequenceGenerator(name = "ef_scaninvoicedtlgen", sequenceName = "ef_scaninvoicedtlseq", initialValue = 1000000001, allocationSize = 1)
+	@Column(name = "ef_scaninvoicedtlid")
 	private Long id;
 	@Column(name = "type")
 	private String type;
@@ -48,6 +46,8 @@ public class ChargeParticularVO {
 	private String ccf;
 	@Column(name = "applyon")
 	private LocalDate applyOn;
+	@Column(name = "qty")
+	private int qty;
 	@Column(name = "rate")
 	private BigDecimal rate;
 	@Column(name = "currency")
@@ -58,17 +58,20 @@ public class ChargeParticularVO {
 	private BigDecimal exRate;
 	@Column(name = "lcAmount")
 	private BigDecimal lcAmount;
+	@Column(name = "taxablepercentage")
+	private String taxablePercentage;
+	@Column(name = "tlcamount")
+	private BigDecimal tlcAmount;
 	@Column(name = "billamount")
 	private BigDecimal billAmount;
 	
 	@ManyToOne
-	@JoinColumn(name = "ef_acaninvoicehdrid")
+	@JoinColumn(name = "ef_scaninvoicehdrid")
 	@JsonBackReference
-	private AdvanceCanAiVO advanceCanAiVO;
+	private AdvanceCanSIVO advanceCanSIVO;
 	
 	@Embedded
 	@Builder.Default
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
-	
 	
 }

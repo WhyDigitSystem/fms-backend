@@ -38,7 +38,7 @@ public class DesignationVO {
 	@Column(name="cancel")
 	private boolean cancel;
 	@Column(name="cancelremarks")
-	private boolean cancelRemarks;
+	private String cancelRemarks;
 	private boolean active;
 	
 	@Embedded

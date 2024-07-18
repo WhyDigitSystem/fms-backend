@@ -41,8 +41,6 @@ public class StateVO {
     private int stateNumber;
 	@Column(name="active")
     private boolean active;
-    @Column(unique = true)
-	private String dupchk;
     @Column(name="createdby")
     private String createdBy;
     @Column(name="modifiedby")
@@ -51,6 +49,9 @@ public class StateVO {
 	private Long orgId;
     @Column(name="cancel")
 	private boolean cancel;
+    @Column(name="cancelremarks")
+   	private boolean cancelRemarks;
+    
 
 	@Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();

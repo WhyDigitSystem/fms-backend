@@ -1,5 +1,7 @@
 package com.base.basesetup.dto;
 
+import javax.persistence.Column;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +15,7 @@ public class CountryDTO {
 	private String countryName;
 	private Long orgId;
 	private boolean active;
+	private String createdBy;
+	private String updatedBy;
 
 }

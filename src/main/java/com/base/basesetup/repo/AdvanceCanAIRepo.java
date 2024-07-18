@@ -6,16 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.base.basesetup.entity.AdvanceCanAiVO;
+import com.base.basesetup.entity.AdvanceCanAIVO;
 
 @Repository
-public interface AdvanceCanAiRepo extends JpaRepository<AdvanceCanAiVO, Long> {
+public interface AdvanceCanAIRepo extends JpaRepository<AdvanceCanAIVO, Long> {
 
 	@Query(value = "select * from ef_acaninvoicehdr where ef_acaninvoicehdrid=?1",nativeQuery =true)
-	List<AdvanceCanAiVO> findAdvanceCanAiById(Long id);
+	List<AdvanceCanAIVO> findAdvanceCanAiById(Long id);
 
 	@Query(value = "select * from ef_acaninvoicehdr where orgid=?1",nativeQuery =true)
-	List<AdvanceCanAiVO> findAdvanceCanAiByOrgId(Long orgid);
+	List<AdvanceCanAIVO> findAdvanceCanAiByOrgId(Long orgid);
 
 	@Query(nativeQuery = true, value = "select sequence_value from ef_acaninvoicehdr_docidseqs")
 	int finddocid();

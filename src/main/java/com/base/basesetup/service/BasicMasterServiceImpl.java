@@ -230,6 +230,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		countryVO.setActive(countryDTO.isActive());
 		countryVO.setCountryCode(countryDTO.getCountryCode());
 		countryVO.setCountryName(countryDTO.getCountryName());
+		countryVO.setUpdatedBy(countryDTO.getUpdatedBy());
+		countryVO.setCreatedBy(countryDTO.getCreatedBy());
+
 	}
 
 	// CITY
@@ -276,14 +279,25 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 
 		// update check
+		
 		if (ObjectUtils.isNotEmpty(cityDTO.getId())) {
-			if (cityRepo.existsByCityNameAndOrgId(cityDTO.getCityName(), cityDTO.getOrgId())) {
-				throw new ApplicationException("The given city name already exists.");
+			CityVO city = cityRepo.findById(cityDTO.getId()).orElse(null);
+
+			if (!city.getCityName().equals(cityDTO.getCityName())) {
+
+				if (cityRepo.existsByCityNameAndOrgId(cityDTO.getCityName(), cityDTO.getOrgId())) {
+					throw new ApplicationException("The given city name already exists.");
+				}
 			}
-			if (cityRepo.existsByCityCodeAndOrgId(cityDTO.getCityCode(), cityDTO.getOrgId())) {
-				throw new ApplicationException("The given city code already exists");
+
+			if (!city.getCityCode().equals(cityDTO.getCityCode())) {
+
+				if (cityRepo.existsByCityCodeAndOrgId(cityDTO.getCityCode(), cityDTO.getOrgId())) {
+					throw new ApplicationException("The given city code already exists");
+				}
 			}
 		}
+
 
 		getCityVOFromCityDTO(cityDTO, cityVO);
 		return cityRepo.save(cityVO);
@@ -297,6 +311,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		cityVO.setCityName(cityDTO.getCityName());
 		cityVO.setCountry(cityDTO.getCountry());
 		cityVO.setState(cityDTO.getState());
+		cityVO.setUpdatedBy(cityDTO.getUpdatedBy());
+		cityVO.setCreatedBy(cityDTO.getCreatedBy());
+
 
 	}
 
@@ -348,14 +365,30 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			}
 		}
 		// update check
+//		if (ObjectUtils.isNotEmpty(stateDTO.getId())) {
+//			if (stateRepo.existsByStateCodeAndOrgId(stateDTO.getStateCode(), stateDTO.getOrgId())) {
+//				throw new ApplicationException("The given State Code already exists.");
+//			}
+//			if (stateRepo.existsByStateNameAndOrgId(stateDTO.getStateCode(), stateDTO.getOrgId())) {
+//				throw new ApplicationException("The given State Name already exists");
+//			}
+//		}
+		
 		if (ObjectUtils.isNotEmpty(stateDTO.getId())) {
-			if (stateRepo.existsByStateCodeAndOrgId(stateDTO.getStateCode(), stateDTO.getOrgId())) {
-				throw new ApplicationException("The given State Code already exists.");
+			StateVO state = stateRepo.findById(stateDTO.getId()).orElse(null);
+			if (!state.getStateCode().equals(stateDTO.getStateCode())) {
+				if (stateRepo.existsByStateCodeAndOrgId(stateDTO.getStateCode(), stateDTO.getOrgId())) {
+					throw new ApplicationException("The given State Code already exists.");
+				}
 			}
-			if (stateRepo.existsByStateNameAndOrgId(stateDTO.getStateCode(), stateDTO.getOrgId())) {
-				throw new ApplicationException("The given State Name already exists");
+			if (!state.getStateName().equals(stateDTO.getStateName())) {
+				if (stateRepo.existsByStateCodeAndOrgId(stateDTO.getStateCode(), stateDTO.getOrgId())) {
+					throw new ApplicationException("The given State Code already exists.");
+				}
+
 			}
 		}
+
 
 		getStateVOFromStateDTO(stateDTO, stateVO);
 		return stateRepo.save(stateVO);
@@ -370,6 +403,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		stateVO.setCountry(stateDTO.getCountry());
 		stateVO.setRegion(stateDTO.getRegion());
 		stateVO.setStateNumber(stateDTO.getStateNumber());
+		stateVO.setUpdatedBy(stateDTO.getUpdatedBy());
+		stateVO.setCreatedBy(stateDTO.getCreatedBy());
+
 
 	}
 
@@ -442,12 +478,19 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		return departmentVO;
 	}
 
+
 	@Override
-	public List<DepartmentVO> getDepartmentByOrgId(Long orgId) {
-
-		return departmentRepo.findDepartmentByOrgId(orgId);
+	public List<DepartmentVO> getDepartmentByOrgId(Long orgid) {
+		List<DepartmentVO> departmentVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  Department BY OrgId : {}", orgid);
+			departmentVO = departmentRepo.findDepartmentByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  Department For All OrgId.");
+			departmentVO = departmentRepo.findAll();
+		}
+		return departmentVO;
 	}
-
 	// Designation
 
 	@Override
@@ -506,8 +549,15 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 	@Override
 	public List<DesignationVO> getDesignationByOrgId(Long orgid) {
-
-		return designationRepo.findDesignationByorgId(orgid);
+		List<DesignationVO> designationVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  Designation BY OrgId : {}", orgid);
+			designationVO = designationRepo.findDesignationByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  Designation For All OrgId.");
+			designationVO = designationRepo.findAll();
+		}
+		return designationVO;
 	}
 
 	// Employee

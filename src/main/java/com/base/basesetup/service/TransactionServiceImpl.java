@@ -11,9 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.base.basesetup.dto.AdvanceCanAiDTO;
+import com.base.basesetup.dto.AdvanceCanAIDTO;
+import com.base.basesetup.dto.AdvanceCanSIDTO;
 import com.base.basesetup.dto.CarrierDetailsDTO;
-import com.base.basesetup.dto.ChargeParticularDTO;
+import com.base.basesetup.dto.ChargeParticularAIDTO;
+import com.base.basesetup.dto.ChargeParticularSIDTO;
 import com.base.basesetup.dto.ContainerAllocationSIDTO;
 import com.base.basesetup.dto.ContainerAllocationSODTO;
 import com.base.basesetup.dto.ContainerDetailsDTO;
@@ -21,6 +23,7 @@ import com.base.basesetup.dto.ContainerDetailsSIDTO;
 import com.base.basesetup.dto.ContainerDetailsSODTO;
 import com.base.basesetup.dto.CostEstimateDTO;
 import com.base.basesetup.dto.DeclaredByDTO;
+import com.base.basesetup.dto.DeliveryOrderSIDTO;
 import com.base.basesetup.dto.HouseDetailsDTO;
 import com.base.basesetup.dto.HouseParticularsAIDTO;
 import com.base.basesetup.dto.HouseParticularsSIDTO;
@@ -37,9 +40,11 @@ import com.base.basesetup.dto.ShipmentSOFollowUpDTO;
 import com.base.basesetup.dto.SoCostEstimateDTO;
 import com.base.basesetup.dto.SoPackingListDTO;
 import com.base.basesetup.dto.VesselDetailsSIDTO;
-import com.base.basesetup.entity.AdvanceCanAiVO;
+import com.base.basesetup.entity.AdvanceCanAIVO;
+import com.base.basesetup.entity.AdvanceCanSIVO;
 import com.base.basesetup.entity.CarrierDetailsVO;
-import com.base.basesetup.entity.ChargeParticularVO;
+import com.base.basesetup.entity.ChargeParticularAIVO;
+import com.base.basesetup.entity.ChargeParticularSIVO;
 import com.base.basesetup.entity.ContainerAllocationSIVO;
 import com.base.basesetup.entity.ContainerAllocationSOVO;
 import com.base.basesetup.entity.ContainerDetailsSIVO;
@@ -47,6 +52,7 @@ import com.base.basesetup.entity.ContainerDetailsSOVO;
 import com.base.basesetup.entity.ContainerDetailsVO;
 import com.base.basesetup.entity.CostEstimateVO;
 import com.base.basesetup.entity.DeclaredByVO;
+import com.base.basesetup.entity.DeliveryOrderSIVO;
 import com.base.basesetup.entity.HouseDetailsVO;
 import com.base.basesetup.entity.HouseParticularsAIVO;
 import com.base.basesetup.entity.HouseParticularsSIVO;
@@ -62,9 +68,11 @@ import com.base.basesetup.entity.SoCostEstimateVO;
 import com.base.basesetup.entity.SoPackingListVO;
 import com.base.basesetup.entity.VesselDetailsSIVO;
 import com.base.basesetup.exception.ApplicationException;
-import com.base.basesetup.repo.AdvanceCanAiRepo;
+import com.base.basesetup.repo.AdvanceCanAIRepo;
+import com.base.basesetup.repo.AdvanceCanSIRepo;
 import com.base.basesetup.repo.CarrierDetailsRepo;
-import com.base.basesetup.repo.ChargeParticularRepo;
+import com.base.basesetup.repo.ChargeParticularAIRepo;
+import com.base.basesetup.repo.ChargeParticularSIRepo;
 import com.base.basesetup.repo.ContainerAllocationSIRepo;
 import com.base.basesetup.repo.ContainerAllocationSORepo;
 import com.base.basesetup.repo.ContainerDetailsRepo;
@@ -72,6 +80,7 @@ import com.base.basesetup.repo.ContainerDetailsSIRepo;
 import com.base.basesetup.repo.ContainerDetailsSORepo;
 import com.base.basesetup.repo.CostEstimateRepo;
 import com.base.basesetup.repo.DeclaredByRepo;
+import com.base.basesetup.repo.DeliveryOrderSIRepo;
 import com.base.basesetup.repo.HouseDetailsRepo;
 import com.base.basesetup.repo.HouseParticularsAIRepo;
 import com.base.basesetup.repo.HouseParticularsSIRepo;
@@ -126,10 +135,10 @@ public class TransactionServiceImpl implements TransactionService {
 	PreAlertCarrierDetailsAIRepo preAlertCarrierDetailsAIRepo;
 
 	@Autowired
-	AdvanceCanAiRepo advanceCanAiRepo;
+	AdvanceCanAIRepo advanceCanAIRepo;
 
 	@Autowired
-	ChargeParticularRepo chargeParticulaRepo;
+	ChargeParticularAIRepo chargeParticularAIRepo;
 
 	@Autowired
 	ShipmentSORepo shipmentSORepo;
@@ -163,6 +172,15 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Autowired
 	ContainerDetailsRepo containerDetailsRepo;
+	
+	@Autowired
+	AdvanceCanSIRepo advanceCanSIRepo;
+	
+	@Autowired
+	ChargeParticularSIRepo chargeParticularSIRepo;
+	
+	@Autowired
+	DeliveryOrderSIRepo deliveryOrderSIRepo;
 
 	// ShipmentAO
 
@@ -774,114 +792,114 @@ public class TransactionServiceImpl implements TransactionService {
 	// AdvanceCanAiVO
 
 	@Override
-	public List<AdvanceCanAiVO> getAdvanceCanAiById(Long id) {
-		List<AdvanceCanAiVO> advanceCanAiVO = new ArrayList<>();
+	public List<AdvanceCanAIVO> getAdvanceCanAIById(Long id) {
+		List<AdvanceCanAIVO> advanceCanAIVO = new ArrayList<>();
 		if (ObjectUtils.isNotEmpty(id)) {
-			LOGGER.info("Successfully Received  AdvanceCanAi BY Id : {}", id);
-			advanceCanAiVO = advanceCanAiRepo.findAdvanceCanAiById(id);
+			LOGGER.info("Successfully Received  AdvanceCanAI BY Id : {}", id);
+			advanceCanAIVO = advanceCanAIRepo.findAdvanceCanAiById(id);
 		} else {
-			LOGGER.info("Successfully Received  AdvanceCanAi For All Id.");
-			advanceCanAiVO = advanceCanAiRepo.findAll();
+			LOGGER.info("Successfully Received  AdvanceCanAI For All Id.");
+			advanceCanAIVO = advanceCanAIRepo.findAll();
 		}
-		return advanceCanAiVO;
+		return advanceCanAIVO;
 	}
 
 	@Override
-	public List<AdvanceCanAiVO> getAdvanceCanAiByOrgId(Long orgid) {
-		List<AdvanceCanAiVO> advanceCanAiVO = new ArrayList<>();
+	public List<AdvanceCanAIVO> getAdvanceCanAIByOrgId(Long orgid) {
+		List<AdvanceCanAIVO> advanceCanAIVO = new ArrayList<>();
 		if (ObjectUtils.isNotEmpty(orgid)) {
-			LOGGER.info("Successfully Received  AdvanceCanAi BY OrgId : {}", orgid);
-			advanceCanAiVO = advanceCanAiRepo.findAdvanceCanAiByOrgId(orgid);
+			LOGGER.info("Successfully Received  AdvanceCanAI BY OrgId : {}", orgid);
+			advanceCanAIVO = advanceCanAIRepo.findAdvanceCanAiByOrgId(orgid);
 		} else {
-			LOGGER.info("Successfully Received  AdvanceCanAi For All OrgId.");
-			advanceCanAiVO = advanceCanAiRepo.findAll();
+			LOGGER.info("Successfully Received  AdvanceCanAI For All OrgId.");
+			advanceCanAIVO = advanceCanAIRepo.findAll();
 		}
-		return advanceCanAiVO;
+		return advanceCanAIVO;
 	}
 
 	@Override
-	public AdvanceCanAiVO updateCreateAdvanceCanAi(@Valid AdvanceCanAiDTO advanceCanAiDTO) throws ApplicationException {
-		AdvanceCanAiVO advanceCanAiVO = new AdvanceCanAiVO();
-		if (ObjectUtils.isNotEmpty(advanceCanAiDTO.getId())) {
-			advanceCanAiVO = advanceCanAiRepo.findById(advanceCanAiDTO.getId())
-					.orElseThrow(() -> new ApplicationException("Invalid AdvanceCanAi details"));
+	public AdvanceCanAIVO updateCreateAdvanceCanAI(@Valid AdvanceCanAIDTO advanceCanAIDTO) throws ApplicationException {
+		AdvanceCanAIVO advanceCanAIVO = new AdvanceCanAIVO();
+		if (ObjectUtils.isNotEmpty(advanceCanAIDTO.getId())) {
+			advanceCanAIVO = advanceCanAIRepo.findById(advanceCanAIDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid AdvanceCanAI details"));
 		} else {
 			// Create a new shipmentAOVO instance if the doc ID is not present
-			advanceCanAiVO = new AdvanceCanAiVO();
+			advanceCanAIVO = new AdvanceCanAIVO();
 
 			// Generate a new unique doc ID
-			int docid = advanceCanAiRepo.finddocid(); // Ensure this method is correctly implemented to fetch the next
+			int docid = advanceCanAIRepo.finddocid(); // Ensure this method is correctly implemented to fetch the next
 														// sequence value
 			String docsid = "AD" + docid;
-			advanceCanAiRepo.getbydocsid();
-			advanceCanAiVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
+			advanceCanAIRepo.getbydocsid();
+			advanceCanAIVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
 		}
 
-		getAdvanceCanAiVOFromAdvanceCanAiDTO(advanceCanAiDTO, advanceCanAiVO);
-		advanceCanAiVO = advanceCanAiRepo.save(advanceCanAiVO);
+		getAdvanceCanAIVOFromAdvanceCanAIDTO(advanceCanAIDTO, advanceCanAIVO);
+		advanceCanAIVO = advanceCanAIRepo.save(advanceCanAIVO);
 
-		List<ChargeParticularVO> chargeParticularVOList = chargeParticulaRepo.findByAdvanceCanAiVO(advanceCanAiVO);
-		chargeParticulaRepo.deleteAll(chargeParticularVOList);
+		List<ChargeParticularAIVO> chargeParticularVOList = chargeParticularAIRepo.findByAdvanceCanAIVO(advanceCanAIVO);
+		chargeParticularAIRepo.deleteAll(chargeParticularVOList);
 
-		List<ChargeParticularVO> ChargeParticularVOs = new ArrayList<>();
-		if (advanceCanAiDTO.getChargeParticularDTO() != null) {
-			for (ChargeParticularDTO chargeParticularDTO : advanceCanAiDTO.getChargeParticularDTO()) {
+		List<ChargeParticularAIVO> ChargeParticularAIVOs = new ArrayList<>();
+		if (advanceCanAIDTO.getChargeParticularAIDTO() != null) {
+			for (ChargeParticularAIDTO chargeParticularAIDTO : advanceCanAIDTO.getChargeParticularAIDTO()) {
 
-				ChargeParticularVO ChargeParticularVO = new ChargeParticularVO();
-				ChargeParticularVO.setType(chargeParticularDTO.getType());
-				ChargeParticularVO.setChargeCode(chargeParticularDTO.getChargeCode());
-				ChargeParticularVO.setChargeName(chargeParticularDTO.getChargeName());
-				ChargeParticularVO.setTaxable(chargeParticularDTO.getTaxable());
-				ChargeParticularVO.setCcf(chargeParticularDTO.getCcf());
-				ChargeParticularVO.setApplyOn(chargeParticularDTO.getApplyOn());
-				ChargeParticularVO.setRate(chargeParticularDTO.getRate());
-				ChargeParticularVO.setCurrency(chargeParticularDTO.getCurrency());
-				ChargeParticularVO.setExRate(chargeParticularDTO.getExRate());
-				ChargeParticularVO.setFcAmount(chargeParticularDTO.getFcAmount());
-				ChargeParticularVO.setLcAmount(chargeParticularDTO.getLcAmount());
-				ChargeParticularVO.setBillAmount(chargeParticularDTO.getBillAmount());
-				ChargeParticularVO.setAdvanceCanAiVO(advanceCanAiVO);
+				ChargeParticularAIVO ChargeParticularAIVO = new ChargeParticularAIVO();
+				ChargeParticularAIVO.setType(chargeParticularAIDTO.getType());
+				ChargeParticularAIVO.setChargeCode(chargeParticularAIDTO.getChargeCode());
+				ChargeParticularAIVO.setChargeName(chargeParticularAIDTO.getChargeName());
+				ChargeParticularAIVO.setTaxable(chargeParticularAIDTO.getTaxable());
+				ChargeParticularAIVO.setCcf(chargeParticularAIDTO.getCcf());
+				ChargeParticularAIVO.setApplyOn(chargeParticularAIDTO.getApplyOn());
+				ChargeParticularAIVO.setRate(chargeParticularAIDTO.getRate());
+				ChargeParticularAIVO.setCurrency(chargeParticularAIDTO.getCurrency());
+				ChargeParticularAIVO.setExRate(chargeParticularAIDTO.getExRate());
+				ChargeParticularAIVO.setFcAmount(chargeParticularAIDTO.getFcAmount());
+				ChargeParticularAIVO.setLcAmount(chargeParticularAIDTO.getLcAmount());
+				ChargeParticularAIVO.setBillAmount(chargeParticularAIDTO.getBillAmount());
+				ChargeParticularAIVO.setAdvanceCanAIVO(advanceCanAIVO);
 				;
-				ChargeParticularVOs.add(ChargeParticularVO);
+				ChargeParticularAIVOs.add(ChargeParticularAIVO);
 			}
 		}
 
-		advanceCanAiVO.setChargeParticularVO(ChargeParticularVOs);
-		return advanceCanAiRepo.save(advanceCanAiVO);
+		advanceCanAIVO.setChargeParticularAIVO(ChargeParticularAIVOs);
+		return advanceCanAIRepo.save(advanceCanAIVO);
 	}
 
-	private void getAdvanceCanAiVOFromAdvanceCanAiDTO(@Valid AdvanceCanAiDTO advanceCanAiDTO,
-			AdvanceCanAiVO advanceCanAiVO) {
-		advanceCanAiVO.setBillCurr(advanceCanAiDTO.getBillCurr());
-		advanceCanAiVO.setBexRate(advanceCanAiDTO.getBexRate());
-		advanceCanAiVO.setMasterNo(advanceCanAiDTO.getMasterNo());
-		advanceCanAiVO.setTaxExempt(advanceCanAiDTO.isTaxExempt());
-		advanceCanAiVO.setDocDate(advanceCanAiDTO.getDocDate());
-		advanceCanAiVO.setHouseNo(advanceCanAiDTO.getHouseNo());
-		advanceCanAiVO.setChargeScheme(advanceCanAiDTO.getChargeScheme());
-		advanceCanAiVO.setBillOfEntry(advanceCanAiDTO.getBillOfEntry());
-		advanceCanAiVO.setDefFrtCurr(advanceCanAiDTO.getDefFrtCurr());
-		advanceCanAiVO.setDefFrtCurrType(advanceCanAiDTO.getDefFrtCurrType());
-		advanceCanAiVO.setTotChWt(advanceCanAiDTO.getTotChWt());
-		advanceCanAiVO.setTotGrWt(advanceCanAiDTO.getTotGrWt());
-		advanceCanAiVO.setTotPkgs(advanceCanAiDTO.getTotPkgs());
-		advanceCanAiVO.setUsd(advanceCanAiDTO.getUsd());
-		advanceCanAiVO.setShipper(advanceCanAiDTO.getShipper());
-		advanceCanAiVO.setSAddress(advanceCanAiDTO.getSAddress());
-		advanceCanAiVO.setSAddType(advanceCanAiDTO.getSAddType());
-		advanceCanAiVO.setConsignee(advanceCanAiDTO.getConsignee());
-		advanceCanAiVO.setCAddress(advanceCanAiDTO.getCAddress());
-		advanceCanAiVO.setCAddType(advanceCanAiDTO.getCAddType());
-		advanceCanAiVO.setNotify(advanceCanAiDTO.getNotify());
-		advanceCanAiVO.setNAddress(advanceCanAiDTO.getNAddress());
-		advanceCanAiVO.setNAddType(advanceCanAiDTO.getNAddType());
-		advanceCanAiVO.setBillToParty(advanceCanAiDTO.getBillToParty());
-		advanceCanAiVO.setBAddress(advanceCanAiDTO.getBAddress());
-		advanceCanAiVO.setBAddType(advanceCanAiDTO.getBAddType());
-		advanceCanAiVO.setUpdatedBy(advanceCanAiDTO.getUpdatedBy());
-		advanceCanAiVO.setCreatedBy(advanceCanAiDTO.getCreatedBy());
-		advanceCanAiVO.setOrgId(advanceCanAiDTO.getOrgId());
-		advanceCanAiVO.setActive(advanceCanAiDTO.isActive());
+	private void getAdvanceCanAIVOFromAdvanceCanAIDTO(@Valid AdvanceCanAIDTO advanceCanAIDTO,
+			AdvanceCanAIVO advanceCanAIVO) {
+		advanceCanAIVO.setBillCurr(advanceCanAIDTO.getBillCurr());
+		advanceCanAIVO.setBexRate(advanceCanAIDTO.getBexRate());
+		advanceCanAIVO.setMasterNo(advanceCanAIDTO.getMasterNo());
+		advanceCanAIVO.setTaxExempt(advanceCanAIDTO.isTaxExempt());
+		advanceCanAIVO.setDocDate(advanceCanAIDTO.getDocDate());
+		advanceCanAIVO.setHouseNo(advanceCanAIDTO.getHouseNo());
+		advanceCanAIVO.setChargeScheme(advanceCanAIDTO.getChargeScheme());
+		advanceCanAIVO.setBillOfEntry(advanceCanAIDTO.getBillOfEntry());
+		advanceCanAIVO.setDefFrtCurr(advanceCanAIDTO.getDefFrtCurr());
+		advanceCanAIVO.setDefFrtCurrType(advanceCanAIDTO.getDefFrtCurrType());
+		advanceCanAIVO.setTotChWt(advanceCanAIDTO.getTotChWt());
+		advanceCanAIVO.setTotGrWt(advanceCanAIDTO.getTotGrWt());
+		advanceCanAIVO.setTotPkgs(advanceCanAIDTO.getTotPkgs());
+		advanceCanAIVO.setUsd(advanceCanAIDTO.getUsd());
+		advanceCanAIVO.setShipper(advanceCanAIDTO.getShipper());
+		advanceCanAIVO.setSAddress(advanceCanAIDTO.getSAddress());
+		advanceCanAIVO.setSAddType(advanceCanAIDTO.getSAddType());
+		advanceCanAIVO.setConsignee(advanceCanAIDTO.getConsignee());
+		advanceCanAIVO.setCAddress(advanceCanAIDTO.getCAddress());
+		advanceCanAIVO.setCAddType(advanceCanAIDTO.getCAddType());
+		advanceCanAIVO.setNotify(advanceCanAIDTO.getNotify());
+		advanceCanAIVO.setNAddress(advanceCanAIDTO.getNAddress());
+		advanceCanAIVO.setNAddType(advanceCanAIDTO.getNAddType());
+		advanceCanAIVO.setBillToParty(advanceCanAIDTO.getBillToParty());
+		advanceCanAIVO.setBAddress(advanceCanAIDTO.getBAddress());
+		advanceCanAIVO.setBAddType(advanceCanAIDTO.getBAddType());
+		advanceCanAIVO.setUpdatedBy(advanceCanAIDTO.getUpdatedBy());
+		advanceCanAIVO.setCreatedBy(advanceCanAIDTO.getCreatedBy());
+		advanceCanAIVO.setOrgId(advanceCanAIDTO.getOrgId());
+		advanceCanAIVO.setActive(advanceCanAIDTO.isActive());
 
 	}
 
@@ -1209,7 +1227,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 
 		containerAllocationSOVO.setContainerDetailsSOVO(containerDetailsSOVOs);
-		;
+		
 		return containerAllocationSORepo.save(containerAllocationSOVO);
 
 	}
@@ -1507,6 +1525,192 @@ public class TransactionServiceImpl implements TransactionService {
 		containerAllocationSIVO.setActive(containerAllocationSIDTO.isActive());		
 	}
 
+//AdvanceCanAI
+	
+	@Override
+	public List<AdvanceCanSIVO> getAdvanceCanSIById(Long id) {
+		List<AdvanceCanSIVO> advanceCanSIVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  AdvanceCanASI BY Id : {}", id);
+			advanceCanSIVO = advanceCanSIRepo.findAdvanceCanSIById(id);
+		} else {
+			LOGGER.info("Successfully Received  AdvanceCanSI For All Id.");
+			advanceCanSIVO = advanceCanSIRepo.findAll();
+		}
+		return advanceCanSIVO;
+	}
+	
+	@Override
+	public List<AdvanceCanSIVO> getAdvanceCanSIByOrgId(Long orgid) {
+		List<AdvanceCanSIVO> advanceCanSIVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  AdvanceCanASI BY OrgId : {}", orgid);
+			advanceCanSIVO = advanceCanSIRepo.findAdvanceCanSIByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  AdvanceCanSI For All OrgId.");
+			advanceCanSIVO = advanceCanSIRepo.findAll();
+		}
+		return advanceCanSIVO;
+	}
+	
+	@Override
+	public AdvanceCanSIVO updateCreateAdvanceCanSI(@Valid AdvanceCanSIDTO advanceCanSIDTO) throws ApplicationException {
+		AdvanceCanSIVO advanceCanSIVO = new AdvanceCanSIVO();
+		if (ObjectUtils.isNotEmpty(advanceCanSIDTO.getId())) {
+			advanceCanSIVO = advanceCanSIRepo.findById(advanceCanSIDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid AdvanceCanSI details"));
+		} else {
+			// Create a new shipmentAOVO instance if the doc ID is not present
+			advanceCanSIVO = new AdvanceCanSIVO();
 
+			// Generate a new unique doc ID
+			int docid = advanceCanSIRepo.finddocid(); // Ensure this method is correctly implemented to fetch the next
+														// sequence value
+			String docsid = "AD" + docid;
+			advanceCanSIRepo.getbydocsid();
+			advanceCanSIVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
+		}
+
+
+		getAdvanceCanSIVOFromAdvanceCanSIDTO(advanceCanSIDTO, advanceCanSIVO);
+		advanceCanSIVO = advanceCanSIRepo.save(advanceCanSIVO);
+
+		List<ChargeParticularSIVO> chargeParticularSIVOList = chargeParticularSIRepo.findByAdvanceCanSIVO(advanceCanSIVO);
+		chargeParticularSIRepo.deleteAll(chargeParticularSIVOList);
+
+		List<ChargeParticularSIVO> ChargeParticularSIVOs = new ArrayList<>();
+		if (advanceCanSIDTO.getChargeParticularSIDTO() != null) {
+			for (ChargeParticularSIDTO chargeParticularSIDTO : advanceCanSIDTO.getChargeParticularSIDTO()) {
+
+				ChargeParticularSIVO ChargeParticularSIVO = new ChargeParticularSIVO();
+				ChargeParticularSIVO.setType(chargeParticularSIDTO.getType());
+				ChargeParticularSIVO.setChargeCode(chargeParticularSIDTO.getChargeCode());
+				ChargeParticularSIVO.setChargeName(chargeParticularSIDTO.getChargeName());
+				ChargeParticularSIVO.setTaxable(chargeParticularSIDTO.getTaxable());
+				ChargeParticularSIVO.setCcf(chargeParticularSIDTO.getCcf());
+				ChargeParticularSIVO.setApplyOn(chargeParticularSIDTO.getApplyOn());
+				ChargeParticularSIVO.setQty(chargeParticularSIDTO.getQty());
+				ChargeParticularSIVO.setRate(chargeParticularSIDTO.getRate());
+				ChargeParticularSIVO.setCurrency(chargeParticularSIDTO.getCurrency());
+				ChargeParticularSIVO.setExRate(chargeParticularSIDTO.getExRate());
+				ChargeParticularSIVO.setFcAmount(chargeParticularSIDTO.getFcAmount());
+				ChargeParticularSIVO.setLcAmount(chargeParticularSIDTO.getLcAmount());
+				ChargeParticularSIVO.setTlcAmount(chargeParticularSIDTO.getTlcAmount());
+				ChargeParticularSIVO.setTaxablePercentage(chargeParticularSIDTO.getTaxablePercentage());
+				ChargeParticularSIVO.setBillAmount(chargeParticularSIDTO.getBillAmount());
+				ChargeParticularSIVO.setAdvanceCanSIVO(advanceCanSIVO);
+				
+				ChargeParticularSIVOs.add(ChargeParticularSIVO);
+			}
+		}
+
+		advanceCanSIVO.setChargeParticularSIVO(ChargeParticularSIVOs);
+		return advanceCanSIRepo.save(advanceCanSIVO);
+	}
+
+	private void getAdvanceCanSIVOFromAdvanceCanSIDTO(@Valid AdvanceCanSIDTO advanceCanSIDTO,
+			AdvanceCanSIVO advanceCanSIVO) {
+		advanceCanSIVO.setBillCurr(advanceCanSIDTO.getBillCurr());
+		advanceCanSIVO.setBexRate(advanceCanSIDTO.getBexRate());
+		advanceCanSIVO.setMasterNo(advanceCanSIDTO.getMasterNo());
+		advanceCanSIVO.setTaxExempt(advanceCanSIDTO.isTaxExempt());
+		advanceCanSIVO.setDocDate(advanceCanSIDTO.getDocDate());
+		advanceCanSIVO.setHouseNo(advanceCanSIDTO.getHouseNo());
+		advanceCanSIVO.setChargeScheme(advanceCanSIDTO.getChargeScheme());
+		advanceCanSIVO.setBillOfEntry(advanceCanSIDTO.getBillOfEntry());
+		advanceCanSIVO.setDefFrtCurr(advanceCanSIDTO.getDefFrtCurr());
+		advanceCanSIVO.setDefFrtCurrType(advanceCanSIDTO.getDefFrtCurrType());
+		advanceCanSIVO.setTotGrWt(advanceCanSIDTO.getTotGrWt());
+		advanceCanSIVO.setTotPkgs(advanceCanSIDTO.getTotPkgs());
+		advanceCanSIVO.setUsd(advanceCanSIDTO.getUsd());
+		advanceCanSIVO.setShipper(advanceCanSIDTO.getShipper());
+		advanceCanSIVO.setSAddress(advanceCanSIDTO.getSAddress());
+		advanceCanSIVO.setSAddType(advanceCanSIDTO.getSAddType());
+		advanceCanSIVO.setConsignee(advanceCanSIDTO.getConsignee());
+		advanceCanSIVO.setCAddress(advanceCanSIDTO.getCAddress());
+		advanceCanSIVO.setCAddType(advanceCanSIDTO.getCAddType());
+		advanceCanSIVO.setNotify(advanceCanSIDTO.getNotify());
+		advanceCanSIVO.setNAddress(advanceCanSIDTO.getNAddress());
+		advanceCanSIVO.setNAddType(advanceCanSIDTO.getNAddType());
+		advanceCanSIVO.setBillToParty(advanceCanSIDTO.getBillToParty());
+		advanceCanSIVO.setBAddress(advanceCanSIDTO.getBAddress());
+		advanceCanSIVO.setBAddType(advanceCanSIDTO.getBAddType());
+		advanceCanSIVO.setUpdatedBy(advanceCanSIDTO.getUpdatedBy());
+		advanceCanSIVO.setCreatedBy(advanceCanSIDTO.getCreatedBy());
+		advanceCanSIVO.setOrgId(advanceCanSIDTO.getOrgId());
+		advanceCanSIVO.setActive(advanceCanSIDTO.isActive());
+
+	}
+
+	@Override
+	public List<DeliveryOrderSIVO> getDeliveryOrderSIById(Long id) {
+		List<DeliveryOrderSIVO> deliveryOrderSI = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  DeliveryOrderSI BY Id : {}", id);
+			deliveryOrderSI = deliveryOrderSIRepo.findDeliveryOrderSIById(id);
+		} else {
+			LOGGER.info("Successfully Received  DeliveryOrderSI For All Id.");
+			deliveryOrderSI = deliveryOrderSIRepo.findAll();
+		}
+		return deliveryOrderSI;
+	}
+	
+	@Override
+	public List<DeliveryOrderSIVO> getDeliveryOrderSIByOrgId(Long orgid) {
+		List<DeliveryOrderSIVO> deliveryOrderSI = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  DeliveryOrderSI BY OrgId : {}", orgid);
+			deliveryOrderSI = deliveryOrderSIRepo.findDeliveryOrderSIByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  DeliveryOrderSI For All OrgId.");
+			deliveryOrderSI = deliveryOrderSIRepo.findAll();
+		}
+		return deliveryOrderSI;
+	}
+	
+	public DeliveryOrderSIVO updateCreateDeliveryOrderSI(@Valid DeliveryOrderSIDTO deliveryOrderSIDTO)
+			throws ApplicationException {
+		DeliveryOrderSIVO deliveryOrderSIVO = new DeliveryOrderSIVO();
+		if (ObjectUtils.isNotEmpty(deliveryOrderSIDTO.getId())) {
+			deliveryOrderSIVO = deliveryOrderSIRepo.findById(deliveryOrderSIDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid DeliveryOrderSI details"));
+		}
+		getDeliveryOrderSIVOFromDeliveryOrderSIDTO(deliveryOrderSIDTO, deliveryOrderSIVO);
+		return deliveryOrderSIRepo.save(deliveryOrderSIVO);
+
+	}
+
+	private void getDeliveryOrderSIVOFromDeliveryOrderSIDTO(@Valid DeliveryOrderSIDTO deliveryOrderSIDTO,
+			DeliveryOrderSIVO deliveryOrderSIVO) {
+		deliveryOrderSIVO.setDoNo(deliveryOrderSIDTO.getDoNo());
+		deliveryOrderSIVO.setDoDate(deliveryOrderSIDTO.getDoDate());
+		deliveryOrderSIVO.setConsignee(deliveryOrderSIDTO.getConsignee());
+		deliveryOrderSIVO.setIrnNo(deliveryOrderSIDTO.getIrnNo());
+		deliveryOrderSIVO.setCanDate(deliveryOrderSIDTO.getCanDate());
+		deliveryOrderSIVO.setTotalPkgs(deliveryOrderSIDTO.getTotalPkgs());
+		deliveryOrderSIVO.setBroStatus(deliveryOrderSIDTO.getBroStatus());
+		deliveryOrderSIVO.setBroRecd(deliveryOrderSIDTO.getBroRecd());
+		deliveryOrderSIVO.setJobDate(deliveryOrderSIDTO.getJobDate());
+		deliveryOrderSIVO.setJobNo(deliveryOrderSIDTO.getJobNo());
+		deliveryOrderSIVO.setTotalGrwt(deliveryOrderSIDTO.getTotalGrwt());
+		deliveryOrderSIVO.setMasterNo(deliveryOrderSIDTO.getMasterNo());
+		deliveryOrderSIVO.setHouseNo(deliveryOrderSIDTO.getHouseNo());
+		deliveryOrderSIVO.setNatureOfGoods(deliveryOrderSIDTO.getNatureOfGoods());
+		deliveryOrderSIVO.setBroRefNo(deliveryOrderSIDTO.getBroRefNo());
+		deliveryOrderSIVO.setBroRefDate(deliveryOrderSIDTO.getBroRefDate());
+		deliveryOrderSIVO.setIgmNo(deliveryOrderSIDTO.getIgmNo());
+		deliveryOrderSIVO.setItemNo(deliveryOrderSIDTO.getItemNo());
+		deliveryOrderSIVO.setCanAmount(deliveryOrderSIDTO.getCanAmount());
+		deliveryOrderSIVO.setRemarks(deliveryOrderSIDTO.getRemarks());
+		deliveryOrderSIVO.setOrderTo(deliveryOrderSIDTO.getOrderTo());
+		deliveryOrderSIVO.setCha(deliveryOrderSIDTO.getCha());
+		deliveryOrderSIVO.setCfs(deliveryOrderSIDTO.getCfs());
+		deliveryOrderSIVO.setCreatedBy(deliveryOrderSIDTO.getCreatedBy());
+		deliveryOrderSIVO.setUpdatedBy(deliveryOrderSIDTO.getUpdatedBy());
+		deliveryOrderSIVO.setActive(deliveryOrderSIDTO.isActive());
+		deliveryOrderSIVO.setOrgId(deliveryOrderSIDTO.getOrgId());
+
+	}
+	
 
 }

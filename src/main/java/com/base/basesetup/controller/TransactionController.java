@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.base.basesetup.common.CommonConstant;
 import com.base.basesetup.common.UserConstants;
-import com.base.basesetup.dto.AdvanceCanAiDTO;
+import com.base.basesetup.dto.AdvanceCanAIDTO;
+import com.base.basesetup.dto.AdvanceCanSIDTO;
 import com.base.basesetup.dto.ContainerAllocationSIDTO;
 import com.base.basesetup.dto.ContainerAllocationSODTO;
+import com.base.basesetup.dto.DeliveryOrderSIDTO;
 import com.base.basesetup.dto.MasterAirWayBillDTO;
 import com.base.basesetup.dto.PreAlertAIDTO;
 import com.base.basesetup.dto.PreAlertSIDTO;
@@ -33,9 +35,11 @@ import com.base.basesetup.dto.ShipmentAODTO;
 import com.base.basesetup.dto.ShipmentAOFollowUpDTO;
 import com.base.basesetup.dto.ShipmentSODTO;
 import com.base.basesetup.dto.ShipmentSOFollowUpDTO;
-import com.base.basesetup.entity.AdvanceCanAiVO;
+import com.base.basesetup.entity.AdvanceCanAIVO;
+import com.base.basesetup.entity.AdvanceCanSIVO;
 import com.base.basesetup.entity.ContainerAllocationSIVO;
 import com.base.basesetup.entity.ContainerAllocationSOVO;
+import com.base.basesetup.entity.DeliveryOrderSIVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.PreAlertAIVO;
 import com.base.basesetup.entity.PreAlertSIVO;
@@ -402,79 +406,79 @@ public class TransactionController extends BaseController  {
 	
 	//AdvanceCanAi
 	
-	@GetMapping("/getAdvanceCanAiById")
-	public ResponseEntity<ResponseDTO> getAdvanceCanAiById(@RequestParam(required = false) Long id) {
-		String methodName = "getAdvanceCanAiById()";
+	@GetMapping("/getAdvanceCanAIById")
+	public ResponseEntity<ResponseDTO> getAdvanceCanAIById(@RequestParam(required = false) Long id) {
+		String methodName = "getAdvanceCanAIById()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
-		List<AdvanceCanAiVO> advanceCanAiVO = new ArrayList<>();
+		List<AdvanceCanAIVO> advanceCanAIVO = new ArrayList<>();
 		try {
-			advanceCanAiVO = transactionService.getAdvanceCanAiById(id);
+			advanceCanAIVO = transactionService.getAdvanceCanAIById(id);
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
 		}
 		if (StringUtils.isBlank(errorMsg)) {
-			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanAi information get successfully By Id");
-			responseObjectsMap.put("advanceCanAiVO", advanceCanAiVO);
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanAI information get successfully By Id");
+			responseObjectsMap.put("advanceCanAIVO", advanceCanAIVO);
 			responseDTO = createServiceResponse(responseObjectsMap);
 		} else {
-			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAi information receive failed By Id",
+			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAI information receive failed By Id",
 					errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@GetMapping("/getAdvanceCanAiByOrgId")
-	public ResponseEntity<ResponseDTO> getAdvanceCanAiByOrgId(@RequestParam(required = false) Long orgid) {
-		String methodName = "getAdvanceCanAiByOrgId()";
+	@GetMapping("/getAdvanceCanAIByOrgId")
+	public ResponseEntity<ResponseDTO> getAdvanceCanAIByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getAdvanceCanAIByOrgId()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
-		List<AdvanceCanAiVO> advanceCanAiVO = new ArrayList<>();
+		List<AdvanceCanAIVO> advanceCanAIVO = new ArrayList<>();
 		try {
-			advanceCanAiVO = transactionService.getAdvanceCanAiByOrgId(orgid);
+			advanceCanAIVO = transactionService.getAdvanceCanAIByOrgId(orgid);
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
 		}
 		if (StringUtils.isBlank(errorMsg)) {
-			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanAi information get successfully By OrgId");
-			responseObjectsMap.put("advanceCanAiVO", advanceCanAiVO);
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanAI information get successfully By OrgId");
+			responseObjectsMap.put("advanceCanAIVO", advanceCanAIVO);
 			responseDTO = createServiceResponse(responseObjectsMap);
 		} else {
-			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAi information receive failed By OrgId",
+			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAI information receive failed By OrgId",
 					errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateAdvanceCanAi")
-	public ResponseEntity<ResponseDTO> updateCreateAdvanceCanAi(@Valid @RequestBody AdvanceCanAiDTO advanceCanAiDTO) {
-		String methodName = "updateCreateAdvanceCanAi()";
+	@PostMapping("/updateCreateAdvanceCanAI")
+	public ResponseEntity<ResponseDTO> updateCreateAdvanceCanAI(@Valid @RequestBody AdvanceCanAIDTO advanceCanAIDTO) {
+		String methodName = "updateCreateAdvanceCanAI()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
 		Map<String, Object> responseObjectsMap = new HashMap<>();
 		ResponseDTO responseDTO = null;
 		try {
-			AdvanceCanAiVO advanceCanAiVO = transactionService.updateCreateAdvanceCanAi(advanceCanAiDTO);
-			if (advanceCanAiVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanAi updated successfully");
-				responseObjectsMap.put("advanceCanAiVO", advanceCanAiVO);
+			AdvanceCanAIVO advanceCanAIVO = transactionService.updateCreateAdvanceCanAI(advanceCanAIDTO);
+			if (advanceCanAIVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanAI updated successfully");
+				responseObjectsMap.put("advanceCanAIVO", advanceCanAIVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "AdvanceCanAi not found for ID: " + advanceCanAiDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAi update failed", errorMsg);
+				errorMsg = "AdvanceCanAI not found for ID: " + advanceCanAIDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAI update failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAi update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAI update failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -881,31 +885,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-//	@PostMapping("/updateCreateContainerAllocationSI")
-//	public ResponseEntity<ResponseDTO> updateCreateContainerAllocationSI(@Valid @RequestBody ContainerAllocationSIDTO containerAllocationSIDTO) {
-//		String methodName = "updateCreateContainerAllocationSI()";
-//		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
-//		String errorMsg = null;
-//		Map<String, Object> responseObjectsMap = new HashMap<>();
-//		ResponseDTO responseDTO = null;
-//		try {
-//			ContainerAllocationSIVO containerAllocationSIVO = transactionService.updateCreateContainerAllocationSI(containerAllocationSIDTO);
-//			if (containerAllocationSIVO != null) {
-//				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ContainerAllocationSI updated successfully");
-//				responseObjectsMap.put("containerAllocationSIVO", containerAllocationSIVO);
-//				responseDTO = createServiceResponse(responseObjectsMap);
-//			} else {
-//				errorMsg = "ContainerAllocationSI not found for ID: " + containerAllocationSIDTO.getId();
-//				responseDTO = createServiceResponseError(responseObjectsMap, "ContainerAllocationSI update failed", errorMsg);
-//			}
-//		} catch (Exception e) {
-//			errorMsg = e.getMessage();
-//			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-//			responseDTO = createServiceResponseError(responseObjectsMap, "ContainerAllocationSI update failed", errorMsg);
-//		}
-//		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
-//		return ResponseEntity.ok().body(responseDTO);
-//	}
+
 	
 	@PostMapping("/updateCreateContainerAllocationSI")
 	public ResponseEntity<ResponseDTO> updateCreateContainerAllocationSI(@Valid @RequestBody ContainerAllocationSIDTO containerAllocationSIDTO) {
@@ -932,4 +912,167 @@ public class TransactionController extends BaseController  {
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
 	}
+	
+	//AdvanceCanSI
+	
+
+	@GetMapping("/getAdvanceCanSIById")
+	public ResponseEntity<ResponseDTO> getAdvanceCanSIById(@RequestParam(required = false) Long id) {
+		String methodName = "getAdvanceCanSIById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<AdvanceCanSIVO> advanceCanSIVO = new ArrayList<>();
+		try {
+			advanceCanSIVO = transactionService.getAdvanceCanSIById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanSI information get successfully By Id");
+			responseObjectsMap.put("advanceCanSIVO", advanceCanSIVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanSI information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getAdvanceCanSIByOrgId")
+	public ResponseEntity<ResponseDTO> getAdvanceCanSIByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getAdvanceCanSIByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<AdvanceCanSIVO> advanceCanSIVO = new ArrayList<>();
+		try {
+			advanceCanSIVO = transactionService.getAdvanceCanSIByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanSI information get successfully By OrgId");
+			responseObjectsMap.put("advanceCanSIVO", advanceCanSIVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanSI information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PostMapping("/updateCreateAdvanceCanSI")
+	public ResponseEntity<ResponseDTO> updateCreateAdvanceCanSI(@Valid @RequestBody AdvanceCanSIDTO advanceCanSIDTO) {
+		String methodName = "updateCreateAdvanceCanSI()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			AdvanceCanSIVO advanceCanSIVO = transactionService.updateCreateAdvanceCanSI(advanceCanSIDTO);
+			if (advanceCanSIVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanSI updated successfully");
+				responseObjectsMap.put("advanceCanSIVO", advanceCanSIVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "AdvanceCanSI not found for ID: " + advanceCanSIDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanSI update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanSI update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	//DeliveryOrderSI
+
+	@GetMapping("/getDeliveryOrderSIById")
+	public ResponseEntity<ResponseDTO> getDeliveryOrderSIById(@RequestParam(required = false) Long id) {
+		String methodName = "getDeliveryOrderSIById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<DeliveryOrderSIVO> deliveryOrderSIVO = new ArrayList<>();
+		try {
+			deliveryOrderSIVO = transactionService.getDeliveryOrderSIById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "DeliveryOrderSI information get successfully By Id");
+			responseObjectsMap.put("deliveryOrderSIVO", deliveryOrderSIVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "DeliveryOrderSI information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getDeliveryOrderSIByOrgId")
+	public ResponseEntity<ResponseDTO> getDeliveryOrderSIByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getDeliveryOrderSIByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<DeliveryOrderSIVO> deliveryOrderSIVO = new ArrayList<>();
+		try {
+			deliveryOrderSIVO = transactionService.getDeliveryOrderSIByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "DeliveryOrderSI information get successfully By OrgId");
+			responseObjectsMap.put("deliveryOrderSIVO", deliveryOrderSIVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "DeliveryOrderSI information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PostMapping("/updateCreateDeliveryOrderSI")
+	public ResponseEntity<ResponseDTO> updateCreateDeliveryOrderSI(@Valid @RequestBody DeliveryOrderSIDTO deliveryOrderSIDTO) {
+		String methodName = "updateCreateDeliveryOrderSI()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		try {
+			DeliveryOrderSIVO deliveryOrderSIVO = transactionService.updateCreateDeliveryOrderSI(deliveryOrderSIDTO);
+			if (deliveryOrderSIVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "DeliveryOrderSIVO updated successfully");
+				responseObjectsMap.put("deliveryOrderSIVO", deliveryOrderSIVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "AdvanceCanSI not found for ID: " + deliveryOrderSIDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "DeliveryOrderSIVO update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "DeliveryOrderSIVO update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	
 }

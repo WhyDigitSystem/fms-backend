@@ -4,13 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChargeParticularDTO {
+@Builder
+public class ChargeParticularSIDTO {
 
 	private Long id;
 	private String type;
@@ -19,11 +20,13 @@ public class ChargeParticularDTO {
 	private String taxable;
 	private String ccf;
 	private LocalDate applyOn;
+	private int qty;
 	private BigDecimal rate;
 	private String currency;
 	private BigDecimal fcAmount;
 	private BigDecimal exRate;
 	private BigDecimal lcAmount;
+	private String taxablePercentage;
+	private BigDecimal tlcAmount;
 	private BigDecimal billAmount;
-	
 }

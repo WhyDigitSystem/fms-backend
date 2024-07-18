@@ -12,7 +12,6 @@ public class EventsDTO {
 	private Long id;
 	private String eventDescription;
 	private String eventType;
-	private String eventid;
 	private Long orgId;
 	private String createdBy;
 	private String updatedBy;

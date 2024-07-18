@@ -6,9 +6,11 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
-import com.base.basesetup.dto.AdvanceCanAiDTO;
+import com.base.basesetup.dto.AdvanceCanAIDTO;
+import com.base.basesetup.dto.AdvanceCanSIDTO;
 import com.base.basesetup.dto.ContainerAllocationSIDTO;
 import com.base.basesetup.dto.ContainerAllocationSODTO;
+import com.base.basesetup.dto.DeliveryOrderSIDTO;
 import com.base.basesetup.dto.MasterAirWayBillDTO;
 import com.base.basesetup.dto.PreAlertAIDTO;
 import com.base.basesetup.dto.PreAlertSIDTO;
@@ -16,9 +18,11 @@ import com.base.basesetup.dto.ShipmentAODTO;
 import com.base.basesetup.dto.ShipmentAOFollowUpDTO;
 import com.base.basesetup.dto.ShipmentSODTO;
 import com.base.basesetup.dto.ShipmentSOFollowUpDTO;
-import com.base.basesetup.entity.AdvanceCanAiVO;
+import com.base.basesetup.entity.AdvanceCanAIVO;
+import com.base.basesetup.entity.AdvanceCanSIVO;
 import com.base.basesetup.entity.ContainerAllocationSIVO;
 import com.base.basesetup.entity.ContainerAllocationSOVO;
+import com.base.basesetup.entity.DeliveryOrderSIVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.PreAlertAIVO;
 import com.base.basesetup.entity.PreAlertSIVO;
@@ -65,11 +69,11 @@ public interface TransactionService {
 	
 	//AdvanceCanAi
 
-	List<AdvanceCanAiVO> getAdvanceCanAiById(Long id);
+	List<AdvanceCanAIVO> getAdvanceCanAIById(Long id);
 
-	List<AdvanceCanAiVO> getAdvanceCanAiByOrgId(Long orgid);
+	List<AdvanceCanAIVO> getAdvanceCanAIByOrgId(Long orgid);
 
-	AdvanceCanAiVO updateCreateAdvanceCanAi(@Valid AdvanceCanAiDTO advanceCanAiDTO) throws ApplicationException;
+	AdvanceCanAIVO updateCreateAdvanceCanAI(@Valid AdvanceCanAIDTO advanceCanAIDTO) throws ApplicationException;
 
 	//ShipperSO
 	
@@ -110,9 +114,24 @@ public interface TransactionService {
 
 	ContainerAllocationSIVO updateCreateContainerAllocationSI(@Valid ContainerAllocationSIDTO containerAllocationSIDTO) throws ApplicationException;
 
+	//AdvanceCanSI
+	
+	List<AdvanceCanSIVO> getAdvanceCanSIById(Long id);
 
-//	ContainerAllocationSIVO updateCreateContainerAllocationSI(@Valid ContainerAllocationSIDTO containerAllocationSIDTO)
-//			throws ApplicationException;
+	List<AdvanceCanSIVO> getAdvanceCanSIByOrgId(Long orgid);
+
+	AdvanceCanSIVO updateCreateAdvanceCanSI(@Valid AdvanceCanSIDTO advanceCanSIDTO) throws ApplicationException;
+
+	//DeliveryOrderSI
+	
+	List<DeliveryOrderSIVO> getDeliveryOrderSIById(Long id);
+
+	List<DeliveryOrderSIVO> getDeliveryOrderSIByOrgId(Long orgid);
+
+	DeliveryOrderSIVO updateCreateDeliveryOrderSI(@Valid DeliveryOrderSIDTO deliveryOrderSIDTO) throws ApplicationException;
+
+
+
 
 
 
