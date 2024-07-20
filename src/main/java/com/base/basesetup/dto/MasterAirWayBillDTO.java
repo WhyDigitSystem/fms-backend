@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.Column;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,7 @@ public class MasterAirWayBillDTO {
 	private Long id;
 	private String carrier;
 	private String mawbNo;
+	private String mawbNo1;
 	private String pol;
 	private String shipType;
 	private String frtCurrency;

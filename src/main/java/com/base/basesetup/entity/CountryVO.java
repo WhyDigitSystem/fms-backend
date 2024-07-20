@@ -57,7 +57,7 @@ public class CountryVO {
 	public String getActive() {
 		return active ? "Active" : "In-Active";
 	} 
-	
+	 
     @Embedded
 	private CreatedUpdatedDate commonDate = new CreatedUpdatedDate();
 }

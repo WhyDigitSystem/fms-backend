@@ -53,9 +53,12 @@ import com.base.basesetup.entity.ContainerDetailsVO;
 import com.base.basesetup.entity.CostEstimateVO;
 import com.base.basesetup.entity.DeclaredByVO;
 import com.base.basesetup.entity.DeliveryOrderSIVO;
+import com.base.basesetup.entity.HouseAirWayBillVO;
 import com.base.basesetup.entity.HouseDetailsVO;
 import com.base.basesetup.entity.HouseParticularsAIVO;
 import com.base.basesetup.entity.HouseParticularsSIVO;
+import com.base.basesetup.entity.JobCardAOVO;
+import com.base.basesetup.entity.JobCardSOVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.PackingListVO;
 import com.base.basesetup.entity.PreAlertAIVO;
@@ -81,9 +84,12 @@ import com.base.basesetup.repo.ContainerDetailsSORepo;
 import com.base.basesetup.repo.CostEstimateRepo;
 import com.base.basesetup.repo.DeclaredByRepo;
 import com.base.basesetup.repo.DeliveryOrderSIRepo;
+import com.base.basesetup.repo.HouseAirWayBillRepo;
 import com.base.basesetup.repo.HouseDetailsRepo;
 import com.base.basesetup.repo.HouseParticularsAIRepo;
 import com.base.basesetup.repo.HouseParticularsSIRepo;
+import com.base.basesetup.repo.JobCardsAORepo;
+import com.base.basesetup.repo.JobCardsSORepo;
 import com.base.basesetup.repo.MasterAirWayBillRepo;
 import com.base.basesetup.repo.PackingListRepo;
 import com.base.basesetup.repo.PreAlertAIRepo;
@@ -118,6 +124,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Autowired
 	CarrierDetailsRepo carrierDetailsRepo;
+	
+	@Autowired
+	HouseAirWayBillRepo houseAirWayBillRepo;
 
 	@Autowired
 	DeclaredByRepo declaredByRepo;
@@ -182,6 +191,8 @@ public class TransactionServiceImpl implements TransactionService {
 	@Autowired
 	DeliveryOrderSIRepo deliveryOrderSIRepo;
 
+	@Autowired
+	JobCardsAORepo jobCardsAORepo;
 	// ShipmentAO
 
 	@Override
@@ -272,14 +283,68 @@ public class TransactionServiceImpl implements TransactionService {
 				costEstimateVO1.setAmountInInr(costEstimateDTO.getAmountInInr());
 				costEstimateVO1.setEstimatePayDate(costEstimateDTO.getEstimatePayDate());
 				costEstimateVO1.setFunReqDate(costEstimateDTO.getFunReqDate());
-
 				costEstimateVO1.setShipmentAOVO(shipmentAOVO);
 				costEstimateVOs.add(costEstimateVO1);
 			}
 		}
 		shipmentAOVO.setPackingListVO(packingListVOs);
 		shipmentAOVO.setCostEstimateVO(costEstimateVOs);
-		return shipmentAORepo.save(shipmentAOVO);
+		ShipmentAOVO shipAOVO= shipmentAORepo.save(shipmentAOVO);
+		 if(shipAOVO.isJobAssigned())
+		 {
+			 JobCardAOVO jobCardAOVO=jobCardsAORepo.findByOrdNo(shipAOVO.getDocId());
+			 if(jobCardAOVO==null)
+			 {
+				 JobCardAOVO cardAOVO= new JobCardAOVO();
+				 cardAOVO.setOrdNo(shipAOVO.getDocId());
+				 cardAOVO.setOrdDt(shipAOVO.getDocDate());
+				 cardAOVO.setPol(shipAOVO.getPol());
+				 cardAOVO.setPod(shipAOVO.getPod());
+				 jobCardsAORepo.save(cardAOVO);;
+			 }
+			 else
+			 {
+				 jobCardAOVO.setPol(shipAOVO.getPol());
+				 jobCardAOVO.setPod(shipAOVO.getPod());
+				 jobCardsAORepo.save(jobCardAOVO);
+			 }
+		 }
+		 if(shipAOVO.isJobAssigned()&&!shipAOVO.isDirectMaster())
+		 {
+			 HouseAirWayBillVO houseAirWayBillVO= houseAirWayBillRepo.findBySoNo(shipAOVO.getDocId());
+			 
+			 if(houseAirWayBillVO==null)
+			 {
+				 JobCardAOVO jobCardAOVO=jobCardsAORepo.findByOrdNo(shipAOVO.getDocId());
+				 
+				 HouseAirWayBillVO houseAirWayBillVO2= new HouseAirWayBillVO();
+				 houseAirWayBillVO2.setSoNo(shipAOVO.getDocId());
+				 houseAirWayBillVO2.setSoDate(shipAOVO.getDocDate());
+				 houseAirWayBillVO2.setPrintShipper(shipAOVO.getShipper());
+				 houseAirWayBillVO2.setShipperAddress(shipAOVO.getSAddress());
+				 houseAirWayBillVO2.setPrintConsignee(shipAOVO.getConsignee());
+				 houseAirWayBillVO2.setConsigneeAddress(shipAOVO.getCAddress());
+				 houseAirWayBillVO2.setJobNO(jobCardAOVO.getJobNo());
+				 houseAirWayBillVO2.setPrintNotify(shipAOVO.getNotify());
+				 houseAirWayBillVO2.setNotifyAddress(shipAOVO.getNAddress());
+				 HouseAirWayBillVO houseAirVO= houseAirWayBillRepo.save(houseAirWayBillVO2);
+				 jobCardAOVO.setHouseNo(houseAirVO.getHawbNo());
+				 jobCardsAORepo.save(jobCardAOVO);
+			 }
+			 else
+			 {
+				 houseAirWayBillVO.setPrintShipper(shipAOVO.getShipper());
+				 houseAirWayBillVO.setShipperAddress(shipAOVO.getSAddress());
+				 houseAirWayBillVO.setPrintConsignee(shipAOVO.getConsignee());
+				 houseAirWayBillVO.setConsigneeAddress(shipAOVO.getCAddress());
+				 houseAirWayBillVO.setPrintNotify(shipAOVO.getNotify());
+				 houseAirWayBillVO.setNotifyAddress(shipAOVO.getNAddress());
+				 houseAirWayBillRepo.save(houseAirWayBillVO); 
+			 }
+			 
+		 }
+		 
+		 return shipAOVO;
 
 	}
 
@@ -288,20 +353,13 @@ public class TransactionServiceImpl implements TransactionService {
 		shipmentAOVO.setGlobalShipNo(shipmentAODTO.getGlobalShipNo());
 		shipmentAOVO.setPol(shipmentAODTO.getPol());
 		shipmentAOVO.setPod(shipmentAODTO.getPod());
-		shipmentAOVO.setJobNO(shipmentAODTO.getJobNO());
-		shipmentAOVO.setJobDate(shipmentAODTO.getJobDate());
 		shipmentAOVO.setFpod(shipmentAODTO.getFpod());
 		shipmentAOVO.setNominatedBy(shipmentAODTO.getNominatedBy());
-		shipmentAOVO.setHawbNO(shipmentAODTO.getHawbNO());
-		shipmentAOVO.setHawbDate(shipmentAODTO.getHawbDate());
 		shipmentAOVO.setDeliveryTerms(shipmentAODTO.getDeliveryTerms());
 		shipmentAOVO.setFreight(shipmentAODTO.getFreight());
-		shipmentAOVO.setMawbNo(shipmentAODTO.getMawbNo());
-		shipmentAOVO.setMawbDate(shipmentAODTO.getMawbDate());
 		shipmentAOVO.setProjectCargo(shipmentAODTO.isProjectCargo());
 		shipmentAOVO.setDirectMaster(shipmentAODTO.isDirectMaster());
 		shipmentAOVO.setJobAssigned(shipmentAODTO.isJobAssigned());
-		shipmentAOVO.setMasterFinalize(shipmentAODTO.isMasterFinalize());
 		shipmentAOVO.setShipperInvoiceNo(shipmentAODTO.getShipperInvoiceNo());
 		shipmentAOVO.setBillOfEntry(shipmentAODTO.getBillOfEntry());
 		shipmentAOVO.setShipper(shipmentAODTO.getShipper());
@@ -472,7 +530,7 @@ public class TransactionServiceImpl implements TransactionService {
 		List<HouseDetailsVO> houseDetailsVOs = new ArrayList<>();
 		if (masterAirWayBillDTO.getHouseDetailsDTO() != null) {
 			for (HouseDetailsDTO houseDetailsDTO : masterAirWayBillDTO.getHouseDetailsDTO()) {
-
+				
 				HouseDetailsVO houseDetailsVO = new HouseDetailsVO();
 				houseDetailsVO.setJobNo(houseDetailsDTO.getJobNo());
 				houseDetailsVO.setHouseNo(houseDetailsDTO.getHouseNo());
@@ -484,9 +542,14 @@ public class TransactionServiceImpl implements TransactionService {
 				houseDetailsVO.setChwt(houseDetailsDTO.getChwt());
 				houseDetailsVO.setFpod(houseDetailsDTO.getFpod());
 				houseDetailsVO.setJobRemarks(houseDetailsDTO.getJobRemarks());
-
 				houseDetailsVO.setMasterAirWayBillVO(masterAirWayBillVO);
 				houseDetailsVOs.add(houseDetailsVO);
+				
+				JobCardAOVO jobcards = jobCardsAORepo.findByJobNo(houseDetailsDTO.getJobNo());
+				jobcards.setMasterNo(masterAirWayBillDTO.getMawbNo()+masterAirWayBillDTO.getMawbNo1());
+				jobcards.setMasterDt(masterAirWayBillDTO.getMawdDate());
+				jobCardsAORepo.save(jobcards);
+				
 			}
 		}
 
@@ -533,7 +596,6 @@ public class TransactionServiceImpl implements TransactionService {
 				declaredByVO.setPayTo(declaredByDTO.getPayTo());
 				declaredByVO.setTerms(declaredByDTO.getTerms());
 				declaredByVO.setMasterAirWayBillVO(masterAirWayBillVO);
-				;
 				declaredByVOs.add(declaredByVO);
 			}
 		}
@@ -607,6 +669,7 @@ public class TransactionServiceImpl implements TransactionService {
 			MasterAirWayBillVO masterAirWayBillVO) {
 		masterAirWayBillVO.setCarrier(masterAirWayBillDTO.getCarrier());
 		masterAirWayBillVO.setMawbNo(masterAirWayBillDTO.getMawbNo());
+		masterAirWayBillVO.setMawbNo1(masterAirWayBillDTO.getMawbNo1());
 		masterAirWayBillVO.setPol(masterAirWayBillDTO.getPol());
 		masterAirWayBillVO.setShipType(masterAirWayBillDTO.getShipType());
 		masterAirWayBillVO.setFrtCurrency(masterAirWayBillDTO.getFrtCurrency());

@@ -38,6 +38,8 @@ public class MasterAirWayBillVO {
 	private String carrier;
 	@Column(name = "mawbno")
 	private String mawbNo;
+	@Column(name = "mawbno1")
+	private String mawbNo1;
 	@Column(name = "pol")
 	private String pol;
 	@Column(name = "shiptype")

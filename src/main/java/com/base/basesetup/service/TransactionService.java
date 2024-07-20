@@ -41,7 +41,7 @@ public interface TransactionService {
 
 	ShipmentAOVO updateCreateShipmentAO(@Valid ShipmentAODTO shipmentAODTO) throws ApplicationException;
 	
-	//ShipmentFollowUp
+	//ShipmentAOFollowUp
 
 	List<ShipmentAOVO> getShipmentAOFollowUpById(Long id);
 
@@ -59,7 +59,7 @@ public interface TransactionService {
 
 	MasterAirWayBillVO updateCreateMasterAirWayBill(@Valid MasterAirWayBillDTO masterAirWayBillDTO) throws ApplicationException;
 
-	//PreAlert
+	//PreAlertAI
 	
 	List<PreAlertAIVO> getPreAlertAIById(Long id);
 
@@ -67,7 +67,7 @@ public interface TransactionService {
 
 	PreAlertAIVO updateCreatePreAlertAI(@Valid PreAlertAIDTO preAlertAIDTO) throws ApplicationException;
 	
-	//AdvanceCanAi
+	//AdvanceCanAI
 
 	List<AdvanceCanAIVO> getAdvanceCanAIById(Long id);
 
@@ -131,7 +131,7 @@ public interface TransactionService {
 	DeliveryOrderSIVO updateCreateDeliveryOrderSI(@Valid DeliveryOrderSIDTO deliveryOrderSIDTO) throws ApplicationException;
 
 
-
+   
 
 
 
