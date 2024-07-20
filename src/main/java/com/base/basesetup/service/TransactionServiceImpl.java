@@ -58,7 +58,6 @@ import com.base.basesetup.entity.HouseDetailsVO;
 import com.base.basesetup.entity.HouseParticularsAIVO;
 import com.base.basesetup.entity.HouseParticularsSIVO;
 import com.base.basesetup.entity.JobCardAOVO;
-import com.base.basesetup.entity.JobCardSOVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.PackingListVO;
 import com.base.basesetup.entity.PreAlertAIVO;
@@ -89,7 +88,6 @@ import com.base.basesetup.repo.HouseDetailsRepo;
 import com.base.basesetup.repo.HouseParticularsAIRepo;
 import com.base.basesetup.repo.HouseParticularsSIRepo;
 import com.base.basesetup.repo.JobCardsAORepo;
-import com.base.basesetup.repo.JobCardsSORepo;
 import com.base.basesetup.repo.MasterAirWayBillRepo;
 import com.base.basesetup.repo.PackingListRepo;
 import com.base.basesetup.repo.PreAlertAIRepo;
@@ -416,11 +414,7 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public ShipmentAOVO updateCreateShipmentAOFollowUp(@Valid ShipmentAOFollowUpDTO shipmentAOFollowUpDTO)
 			throws ApplicationException {
-		ShipmentAOVO shipmentAOVO = new ShipmentAOVO();
-		if (ObjectUtils.isNotEmpty(shipmentAOFollowUpDTO.getId())) {
-			shipmentAOVO = shipmentAORepo.findById(shipmentAOFollowUpDTO.getId())
-					.orElseThrow(() -> new ApplicationException("Invalid ShipmentAO details"));
-		}
+		ShipmentAOVO shipmentAOVO = shipmentAORepo.findByDocId(shipmentAOFollowUpDTO.getDocId());
 		getShipmentAOVOFromShipmentFollowUpDTO(shipmentAOFollowUpDTO, shipmentAOVO);
 		return shipmentAORepo.save(shipmentAOVO);
 
@@ -428,48 +422,6 @@ public class TransactionServiceImpl implements TransactionService {
 
 	private void getShipmentAOVOFromShipmentFollowUpDTO(@Valid ShipmentAOFollowUpDTO shipmentAOFollowUpDTO,
 			ShipmentAOVO shipmentAOVO) {
-		shipmentAOVO.setDocDate(shipmentAOFollowUpDTO.getDocDate());
-		shipmentAOVO.setGlobalShipNo(shipmentAOFollowUpDTO.getGlobalShipNo());
-		shipmentAOVO.setPol(shipmentAOFollowUpDTO.getPol());
-		shipmentAOVO.setPod(shipmentAOFollowUpDTO.getPod());
-		shipmentAOVO.setJobNO(shipmentAOFollowUpDTO.getJobNO());
-		shipmentAOVO.setJobDate(shipmentAOFollowUpDTO.getJobDate());
-		shipmentAOVO.setFpod(shipmentAOFollowUpDTO.getFpod());
-		shipmentAOVO.setNominatedBy(shipmentAOFollowUpDTO.getNominatedBy());
-		shipmentAOVO.setHawbNO(shipmentAOFollowUpDTO.getHawbNO());
-		shipmentAOVO.setHawbDate(shipmentAOFollowUpDTO.getHawbDate());
-		shipmentAOVO.setDeliveryTerms(shipmentAOFollowUpDTO.getDeliveryTerms());
-		shipmentAOVO.setFreight(shipmentAOFollowUpDTO.getFreight());
-		shipmentAOVO.setMawbNo(shipmentAOFollowUpDTO.getMawbNo());
-		shipmentAOVO.setMawbDate(shipmentAOFollowUpDTO.getMawbDate());
-		shipmentAOVO.setProjectCargo(shipmentAOFollowUpDTO.isProjectCargo());
-		shipmentAOVO.setDirectMaster(shipmentAOFollowUpDTO.isDirectMaster());
-		shipmentAOVO.setJobAssigned(shipmentAOFollowUpDTO.isJobAssigned());
-		shipmentAOVO.setMasterFinalize(shipmentAOFollowUpDTO.isMasterFinalize());
-		shipmentAOVO.setShipperInvoiceNo(shipmentAOFollowUpDTO.getShipperInvoiceNo());
-		shipmentAOVO.setBillOfEntry(shipmentAOFollowUpDTO.getBillOfEntry());
-		shipmentAOVO.setShipper(shipmentAOFollowUpDTO.getShipper());
-		shipmentAOVO.setSAddType(shipmentAOFollowUpDTO.getSAddType());
-		shipmentAOVO.setSAddress(shipmentAOFollowUpDTO.getSAddress());
-		shipmentAOVO.setNotify(shipmentAOFollowUpDTO.getNotify());
-		shipmentAOVO.setNAddType(shipmentAOFollowUpDTO.getNAddType());
-		shipmentAOVO.setNAddress(shipmentAOFollowUpDTO.getNAddress());
-		shipmentAOVO.setConsignee(shipmentAOFollowUpDTO.getConsignee());
-		shipmentAOVO.setCaddType(shipmentAOFollowUpDTO.getCaddType());
-		shipmentAOVO.setCAddress(shipmentAOFollowUpDTO.getCAddress());
-		shipmentAOVO.setSalesCategory(shipmentAOFollowUpDTO.getSalesCategory());
-		shipmentAOVO.setSalesPerson(shipmentAOFollowUpDTO.getSalesPerson());
-		shipmentAOVO.setTotalNoOfPkgs(shipmentAOFollowUpDTO.getTotalNoOfPkgs());
-		shipmentAOVO.setTotalGrtWt(shipmentAOFollowUpDTO.getTotalGrtWt());
-		shipmentAOVO.setTotalChWt(shipmentAOFollowUpDTO.getTotalChWt());
-		shipmentAOVO.setTotalVolWt(shipmentAOFollowUpDTO.getTotalVolWt());
-		shipmentAOVO.setTotEstimationCost(shipmentAOFollowUpDTO.getTotEstimationCost());
-		shipmentAOVO.setActive(shipmentAOFollowUpDTO.isActive());
-		shipmentAOVO.setOrgId(shipmentAOFollowUpDTO.getOrgId());
-		shipmentAOVO.setUpdatedBy(shipmentAOFollowUpDTO.getUpdatedBy());
-		shipmentAOVO.setCreatedBy(shipmentAOFollowUpDTO.getCreatedBy());
-		shipmentAOVO.setShippingBill(shipmentAOFollowUpDTO.getShippingBill());
-		shipmentAOVO.setDate(shipmentAOFollowUpDTO.getDate());
 		shipmentAOVO.setDocumentReceived(shipmentAOFollowUpDTO.isDocumentReceived());
 		shipmentAOVO.setPickUpDone(shipmentAOFollowUpDTO.isPickUpDone());
 		shipmentAOVO.setCustomsClearanceDone(shipmentAOFollowUpDTO.isCustomsClearanceDone());
@@ -479,10 +431,6 @@ public class TransactionServiceImpl implements TransactionService {
 
 	}
 
-	@Override
-	public ShipmentAOVO getShipmentAOFollowUpByDocId(String docId) {
-		return shipmentAORepo.getShipmentAOFollowUpByDocId(docId);
-	}
 
 	// MasterAirWayBill
 
@@ -546,7 +494,8 @@ public class TransactionServiceImpl implements TransactionService {
 				houseDetailsVOs.add(houseDetailsVO);
 				
 				JobCardAOVO jobcards = jobCardsAORepo.findByJobNo(houseDetailsDTO.getJobNo());
-				jobcards.setMasterNo(masterAirWayBillDTO.getMawbNo()+masterAirWayBillDTO.getMawbNo1());
+				String masterno=masterAirWayBillDTO.getMawbNo()+masterAirWayBillDTO.getMawbNo1();
+				jobcards.setMasterNo(masterno);
 				jobcards.setMasterDt(masterAirWayBillDTO.getMawdDate());
 				jobCardsAORepo.save(jobcards);
 				
@@ -1774,6 +1723,10 @@ public class TransactionServiceImpl implements TransactionService {
 		deliveryOrderSIVO.setOrgId(deliveryOrderSIDTO.getOrgId());
 
 	}
+
+
+
+	
 	
 
 }

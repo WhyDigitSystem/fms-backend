@@ -49,7 +49,6 @@ public interface TransactionService {
 
 	ShipmentAOVO updateCreateShipmentAOFollowUp(@Valid ShipmentAOFollowUpDTO shipmentFollowUpDTO) throws ApplicationException;
 
-	ShipmentAOVO getShipmentAOFollowUpByDocId(String docId);
 	
 	//MasterAirWayBill
 
