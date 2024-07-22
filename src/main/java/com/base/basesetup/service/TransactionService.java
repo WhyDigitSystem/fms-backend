@@ -88,7 +88,7 @@ public interface TransactionService {
 
 	List<ShipmentSOVO> getShipmentSOFollowUpByOrgId(Long orgid);
 
-	ShipmentSOVO getShipmentSOFollowUpByDocId(String docId);
+//	ShipmentSOVO getShipmentSOFollowUpByDocId(String docId);
 	
 	//containerAllocation
 

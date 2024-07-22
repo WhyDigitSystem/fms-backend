@@ -204,7 +204,7 @@ public class TransactionController extends BaseController  {
 				responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "shipmentAO not found for ID: " + shipmentFollowUpDTO.getId();
+				errorMsg = "shipmentAO not found for ID: " + shipmentFollowUpDTO.getDocId();
 				responseDTO = createServiceResponseError(responseObjectsMap, "shipmentAOFollowup update failed", errorMsg);
 			}
 		} catch (Exception e) {
@@ -216,31 +216,31 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@GetMapping("/getShipmentAOFollowUpByDocId")
-	public ResponseEntity<ResponseDTO> getShipmentAOFollowUpByDocId(@RequestParam(required = false) String docId) {
-		String methodName = "getShipmentAOFollowUpByDocId()";
-		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
-		String errorMsg = null;
-		Map<String, Object> responseObjectsMap = new HashMap<>();
-		ResponseDTO responseDTO = null;
-		ShipmentAOVO shipmentAOVO = new ShipmentAOVO();
-		try {
-			shipmentAOVO = transactionService.getShipmentAOFollowUpByDocId(docId);
-		} catch (Exception e) {
-			errorMsg = e.getMessage();
-			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-		}
-		if (StringUtils.isBlank(errorMsg)) {
-			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentAOFollowup information get successfully By DocId");
-			responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
-			responseDTO = createServiceResponse(responseObjectsMap);
-		} else {
-			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentAOFollowup information receive failed By DocId",
-					errorMsg);
-		}
-		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
-		return ResponseEntity.ok().body(responseDTO);
-	}
+//	@GetMapping("/getShipmentAOFollowUpByDocId")
+//	public ResponseEntity<ResponseDTO> getShipmentAOFollowUpByDocId(@RequestParam(required = false) String docId) {
+//		String methodName = "getShipmentAOFollowUpByDocId()";
+//		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+//		String errorMsg = null;
+//		Map<String, Object> responseObjectsMap = new HashMap<>();
+//		ResponseDTO responseDTO = null;
+//		ShipmentAOVO shipmentAOVO = new ShipmentAOVO();
+//		try {
+//			shipmentAOVO = transactionService.getShipmentAOFollowUpByDocId(docId);
+//		} catch (Exception e) {
+//			errorMsg = e.getMessage();
+//			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+//		}
+//		if (StringUtils.isBlank(errorMsg)) {
+//			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentAOFollowup information get successfully By DocId");
+//			responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
+//			responseDTO = createServiceResponse(responseObjectsMap);
+//		} else {
+//			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentAOFollowup information receive failed By DocId",
+//					errorMsg);
+//		}
+//		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+//		return ResponseEntity.ok().body(responseDTO);
+//	}
 	
 	//MasterAirWayBill
 	
@@ -633,7 +633,7 @@ public class TransactionController extends BaseController  {
 				responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "shipmentSO not found for ID: " + shipmentSOFollowUpDTO.getId();
+				errorMsg = "shipmentSO not found for ID: " + shipmentSOFollowUpDTO.getDocId();
 				responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSOFollowup update failed", errorMsg);
 			}
 		} catch (Exception e) {
@@ -646,31 +646,31 @@ public class TransactionController extends BaseController  {
 	}
 	
 
-	@GetMapping("/getShipmentSOFollowUpByDocId")
-	public ResponseEntity<ResponseDTO> getShipmentSOFollowUpByDocId(@RequestParam(required = false) String docId) {
-		String methodName = "getShipmentSOFollowUpByDocId()";
-		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
-		String errorMsg = null;
-		Map<String, Object> responseObjectsMap = new HashMap<>();
-		ResponseDTO responseDTO = null;
-		ShipmentSOVO shipmentSOVO = new ShipmentSOVO();
-		try {
-			shipmentSOVO = transactionService.getShipmentSOFollowUpByDocId(docId);
-		} catch (Exception e) {
-			errorMsg = e.getMessage();
-			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-		}
-		if (StringUtils.isBlank(errorMsg)) {
-			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentSOFollowup information get successfully By DocId");
-			responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
-			responseDTO = createServiceResponse(responseObjectsMap);
-		} else {
-			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSOFollowup information receive failed By DocId",
-					errorMsg);
-		}
-		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
-		return ResponseEntity.ok().body(responseDTO);
-	}
+//	@GetMapping("/getShipmentSOFollowUpByDocId")
+//	public ResponseEntity<ResponseDTO> getShipmentSOFollowUpByDocId(@RequestParam(required = false) String docId) {
+//		String methodName = "getShipmentSOFollowUpByDocId()";
+//		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+//		String errorMsg = null;
+//		Map<String, Object> responseObjectsMap = new HashMap<>();
+//		ResponseDTO responseDTO = null;
+//		ShipmentSOVO shipmentSOVO = new ShipmentSOVO();
+//		try {
+//			shipmentSOVO = transactionService.getShipmentSOFollowUpByDocId(docId);
+//		} catch (Exception e) {
+//			errorMsg = e.getMessage();
+//			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+//		}
+//		if (StringUtils.isBlank(errorMsg)) {
+//			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentSOFollowup information get successfully By DocId");
+//			responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
+//			responseDTO = createServiceResponse(responseObjectsMap);
+//		} else {
+//			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSOFollowup information receive failed By DocId",
+//					errorMsg);
+//		}
+//		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+//		return ResponseEntity.ok().body(responseDTO);
+//	}
 	
 	//ContainerAllocation
 	

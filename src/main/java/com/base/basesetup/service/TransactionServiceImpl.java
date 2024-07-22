@@ -1056,7 +1056,9 @@ public class TransactionServiceImpl implements TransactionService {
 		shipmentSOVO.setActive(shipmentSODTO.isActive());
 		shipmentSOVO.setOrgId(shipmentSODTO.getOrgId());
 		shipmentSOVO.setUpdatedBy(shipmentSODTO.getUpdatedBy());
-		shipmentSOVO.setCreatedBy(shipmentSODTO.getCreatedBy());
+		shipmentSOVO.setShippingBill(shipmentSODTO.getShippingBill());
+		shipmentSOVO.setDate(shipmentSODTO.getDate());
+
 
 	}
 
@@ -1092,8 +1094,8 @@ public class TransactionServiceImpl implements TransactionService {
 	public ShipmentSOVO updateCreateShipmentSOFollowUp(@Valid ShipmentSOFollowUpDTO shipmentSOFollowUpDTO)
 			throws ApplicationException {
 		ShipmentSOVO shipmentSOVO = new ShipmentSOVO();
-		if (ObjectUtils.isNotEmpty(shipmentSOFollowUpDTO.getId())) {
-			shipmentSOVO = shipmentSORepo.findById(shipmentSOFollowUpDTO.getId())
+		if (ObjectUtils.isNotEmpty(shipmentSOFollowUpDTO.getDocId())) {
+			shipmentSOVO = shipmentSORepo.findByDocId(shipmentSOFollowUpDTO.getDocId())
 					.orElseThrow(() -> new ApplicationException("Invalid ShipmentSO details"));
 		}
 		getShipmentSOVOFromShipmentSOFollowUpDTO(shipmentSOFollowUpDTO, shipmentSOVO);
@@ -1103,48 +1105,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 	private void getShipmentSOVOFromShipmentSOFollowUpDTO(@Valid ShipmentSOFollowUpDTO shipmentSOFollowUpDTO,
 			ShipmentSOVO shipmentSOVO) {
-		shipmentSOVO.setDocDate(shipmentSOFollowUpDTO.getDocDate());
-		shipmentSOVO.setGlobalShipNo(shipmentSOFollowUpDTO.getGlobalShipNo());
-		shipmentSOVO.setPol(shipmentSOFollowUpDTO.getPol());
-		shipmentSOVO.setPod(shipmentSOFollowUpDTO.getPod());
-		shipmentSOVO.setJobNO(shipmentSOFollowUpDTO.getJobNO());
-		shipmentSOVO.setJobDate(shipmentSOFollowUpDTO.getJobDate());
-		shipmentSOVO.setFpod(shipmentSOFollowUpDTO.getFpod());
-		shipmentSOVO.setNominatedBy(shipmentSOFollowUpDTO.getNominatedBy());
-		shipmentSOVO.setHawbNO(shipmentSOFollowUpDTO.getHawbNO());
-		shipmentSOVO.setHawbDate(shipmentSOFollowUpDTO.getHawbDate());
-		shipmentSOVO.setDeliveryTerms(shipmentSOFollowUpDTO.getDeliveryTerms());
-		shipmentSOVO.setFreight(shipmentSOFollowUpDTO.getFreight());
-		shipmentSOVO.setMawbNo(shipmentSOFollowUpDTO.getMawbNo());
-		shipmentSOVO.setMawbDate(shipmentSOFollowUpDTO.getMawbDate());
-		shipmentSOVO.setProjectCargo(shipmentSOFollowUpDTO.isProjectCargo());
-		shipmentSOVO.setDirectMaster(shipmentSOFollowUpDTO.isDirectMaster());
-		shipmentSOVO.setJobAssigned(shipmentSOFollowUpDTO.isJobAssigned());
-		shipmentSOVO.setMasterFinalize(shipmentSOFollowUpDTO.isMasterFinalize());
-		shipmentSOVO.setShipperInvoiceNo(shipmentSOFollowUpDTO.getShipperInvoiceNo());
-		shipmentSOVO.setBillOfEntry(shipmentSOFollowUpDTO.getBillOfEntry());
-		shipmentSOVO.setShipper(shipmentSOFollowUpDTO.getShipper());
-		shipmentSOVO.setSAddType(shipmentSOFollowUpDTO.getSAddType());
-		shipmentSOVO.setSAddress(shipmentSOFollowUpDTO.getSAddress());
-		shipmentSOVO.setNotify(shipmentSOFollowUpDTO.getNotify());
-		shipmentSOVO.setNAddType(shipmentSOFollowUpDTO.getNAddType());
-		shipmentSOVO.setNAddress(shipmentSOFollowUpDTO.getNAddress());
-		shipmentSOVO.setConsignee(shipmentSOFollowUpDTO.getConsignee());
-		shipmentSOVO.setCaddType(shipmentSOFollowUpDTO.getCaddType());
-		shipmentSOVO.setCAddress(shipmentSOFollowUpDTO.getCAddress());
-		shipmentSOVO.setSalesCategory(shipmentSOFollowUpDTO.getSalesCategory());
-		shipmentSOVO.setSalesPerson(shipmentSOFollowUpDTO.getSalesPerson());
-		shipmentSOVO.setTotalNoOfPkgs(shipmentSOFollowUpDTO.getTotalNoOfPkgs());
-		shipmentSOVO.setTotalGrtWt(shipmentSOFollowUpDTO.getTotalGrtWt());
-		shipmentSOVO.setTotalChWt(shipmentSOFollowUpDTO.getTotalChWt());
-		shipmentSOVO.setTotalVolWt(shipmentSOFollowUpDTO.getTotalVolWt());
-		shipmentSOVO.setTotEstimationCost(shipmentSOFollowUpDTO.getTotEstimationCost());
-		shipmentSOVO.setActive(shipmentSOFollowUpDTO.isActive());
-		shipmentSOVO.setOrgId(shipmentSOFollowUpDTO.getOrgId());
-		shipmentSOVO.setUpdatedBy(shipmentSOFollowUpDTO.getUpdatedBy());
-		shipmentSOVO.setCreatedBy(shipmentSOFollowUpDTO.getCreatedBy());
-		shipmentSOVO.setShippingBill(shipmentSOFollowUpDTO.getShippingBill());
-		shipmentSOVO.setDate(shipmentSOFollowUpDTO.getDate());
+		
 		shipmentSOVO.setDocumentReceived(shipmentSOFollowUpDTO.isDocumentReceived());
 		shipmentSOVO.setPickUpDone(shipmentSOFollowUpDTO.isPickUpDone());
 		shipmentSOVO.setCustomsClearanceDone(shipmentSOFollowUpDTO.isCustomsClearanceDone());
@@ -1170,10 +1131,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 	}
 
-	@Override
-	public ShipmentSOVO getShipmentSOFollowUpByDocId(String docId) {
-		return shipmentSORepo.getShipmentSOFollowUpByDocId(docId);
-	}
+//	@Override
+//	public ShipmentSOVO getShipmentSOFollowUpByDocId(String docId) {
+//		return shipmentSORepo.getShipmentSOFollowUpByDocId(docId);
+//	}
 
 	// ContainerAllocation
 

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.base.basesetup.entity.ShipmentAOVO;
-import com.base.basesetup.entity.ShipmentSOVO;
 
 @Repository
 public interface ShipmentAORepo extends JpaRepository<ShipmentAOVO, Long> {
@@ -29,7 +28,6 @@ public interface ShipmentAORepo extends JpaRepository<ShipmentAOVO, Long> {
 
 	@Query(nativeQuery = true, value = "select * from t_aesohdr where orgid=?1")
 	List<ShipmentAOVO> getShipmentAOFollowUpByOrgId(Long orgid);
-
 
 	ShipmentAOVO findByDocId(String docId);
 
