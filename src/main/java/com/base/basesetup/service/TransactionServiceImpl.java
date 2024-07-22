@@ -60,6 +60,7 @@ import com.base.basesetup.entity.HouseParticularsSIVO;
 import com.base.basesetup.entity.JobCardAOVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
 import com.base.basesetup.entity.PackingListVO;
+import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.PreAlertAIVO;
 import com.base.basesetup.entity.PreAlertCarrierDetailsAIVO;
 import com.base.basesetup.entity.PreAlertSIVO;
@@ -90,6 +91,7 @@ import com.base.basesetup.repo.HouseParticularsSIRepo;
 import com.base.basesetup.repo.JobCardsAORepo;
 import com.base.basesetup.repo.MasterAirWayBillRepo;
 import com.base.basesetup.repo.PackingListRepo;
+import com.base.basesetup.repo.PortRepo;
 import com.base.basesetup.repo.PreAlertAIRepo;
 import com.base.basesetup.repo.PreAlertCarrierDetailsAIRepo;
 import com.base.basesetup.repo.PreAlertSIRepo;
@@ -191,6 +193,10 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Autowired
 	JobCardsAORepo jobCardsAORepo;
+	
+	@Autowired
+	PortRepo portRepo;
+	
 	// ShipmentAO
 
 	@Override
@@ -381,6 +387,16 @@ public class TransactionServiceImpl implements TransactionService {
 		shipmentAOVO.setUpdatedBy(shipmentAODTO.getUpdatedBy());
 		shipmentAOVO.setCreatedBy(shipmentAODTO.getCreatedBy());
 
+	}
+	
+	@Override
+	public List<PortVO> getPolForShipmentAO() {
+		return 	portRepo.findPolForShipmentAO();
+	}
+	
+	@Override
+	public List<PortVO> getPodForShipmentAO() {
+		return 	portRepo.findPodForShipmentAO();
 	}
 
 	// ShipmentFollowUp

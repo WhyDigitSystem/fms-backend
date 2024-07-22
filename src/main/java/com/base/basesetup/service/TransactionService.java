@@ -24,6 +24,7 @@ import com.base.basesetup.entity.ContainerAllocationSIVO;
 import com.base.basesetup.entity.ContainerAllocationSOVO;
 import com.base.basesetup.entity.DeliveryOrderSIVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
+import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.PreAlertAIVO;
 import com.base.basesetup.entity.PreAlertSIVO;
 import com.base.basesetup.entity.ShipmentAOVO;
@@ -40,6 +41,11 @@ public interface TransactionService {
 	List<ShipmentAOVO> getShipmentAOByOrgId(Long orgId);
 
 	ShipmentAOVO updateCreateShipmentAO(@Valid ShipmentAODTO shipmentAODTO) throws ApplicationException;
+	
+	List<PortVO> getPolForShipmentAO();
+	
+	List<PortVO> getPodForShipmentAO();
+
 	
 	//ShipmentAOFollowUp
 
@@ -128,6 +134,8 @@ public interface TransactionService {
 	List<DeliveryOrderSIVO> getDeliveryOrderSIByOrgId(Long orgid);
 
 	DeliveryOrderSIVO updateCreateDeliveryOrderSI(@Valid DeliveryOrderSIDTO deliveryOrderSIDTO) throws ApplicationException;
+
+
 
 
    

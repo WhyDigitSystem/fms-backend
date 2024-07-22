@@ -30,6 +30,8 @@ public interface ShipmentAORepo extends JpaRepository<ShipmentAOVO, Long> {
 	List<ShipmentAOVO> getShipmentAOFollowUpByOrgId(Long orgid);
 
 	ShipmentAOVO findByDocId(String docId);
+	
+
 
 
 }

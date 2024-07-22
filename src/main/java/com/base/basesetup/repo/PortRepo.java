@@ -23,4 +23,10 @@ public interface PortRepo extends JpaRepository<PortVO, Long>{
 
 	boolean existsByCodeAndOrgIdAndId(String code, Long orgId, Long id);
 
+	@Query(nativeQuery = true, value = "select * from port where active='1' AND country='india'AND type='air'")
+	List<PortVO> findPolForShipmentAO();
+
+	@Query(nativeQuery = true, value = "select * from port where active='1' AND NOT country='india'AND type='air'")
+	List<PortVO> findPodForShipmentAO();
+
 }

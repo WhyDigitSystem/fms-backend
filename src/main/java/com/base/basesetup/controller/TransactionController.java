@@ -42,6 +42,7 @@ import com.base.basesetup.entity.ContainerAllocationSIVO;
 import com.base.basesetup.entity.ContainerAllocationSOVO;
 import com.base.basesetup.entity.DeliveryOrderSIVO;
 import com.base.basesetup.entity.MasterAirWayBillVO;
+import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.PreAlertAIVO;
 import com.base.basesetup.entity.PreAlertSIVO;
 import com.base.basesetup.entity.ShipmentAOVO;
@@ -131,6 +132,58 @@ public class TransactionController extends BaseController  {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
 			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentAO update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getPolForShipmentAO")
+	public ResponseEntity<ResponseDTO> getPolForShipmentAO() {
+		String methodName = "getPolForShipmentAO()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<PortVO> portVO = new ArrayList<>();
+		try {
+			portVO = transactionService.getPolForShipmentAO();
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PortVO information get successfully By Pol");
+			responseObjectsMap.put("portVO", portVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "PortVO information receive failed By Pol",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getPodForShipmentAO")
+	public ResponseEntity<ResponseDTO> getPodForShipmentAO() {
+		String methodName = "getPodForShipmentAO()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<PortVO> portVO = new ArrayList<>();
+		try {
+			portVO = transactionService.getPodForShipmentAO();
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PortVO information get successfully By Pod");
+			responseObjectsMap.put("portVO", portVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "PortVO information receive failed By Pod",
+					errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
