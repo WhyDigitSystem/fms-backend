@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -111,7 +111,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateShipmentAO")
+	@PutMapping("/updateCreateShipmentAO")
 	public ResponseEntity<ResponseDTO> updateCreateShipmentAO(@Valid @RequestBody ShipmentAODTO shipmentAODTO) {
 		String methodName = "updateCreateShipmentAO()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -243,7 +243,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateShipmentAOFollowUp")
+	@PutMapping("/updateCreateShipmentAOFollowUp")
 	public ResponseEntity<ResponseDTO> updateCreateAOShipmentFollowUp(@Valid @RequestBody ShipmentAOFollowUpDTO shipmentFollowUpDTO) {
 		String methodName = "updateCreateShipmentAOFollowUp()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -349,7 +349,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateMasterAirWayBill")
+	@PutMapping("/updateCreateMasterAirWayBill")
 	public ResponseEntity<ResponseDTO> updateCreateMasterAirWayBill(@Valid @RequestBody MasterAirWayBillDTO masterAirWayBillDTO) {
 		String methodName = "updateCreateMasterAirWayBill()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -432,7 +432,7 @@ public class TransactionController extends BaseController  {
 	}
 	
 	
-	@PostMapping("/updateCreatePreAlertAI")
+	@PutMapping("/updateCreatePreAlertAI")
 	public ResponseEntity<ResponseDTO> updateCreatePreAlertAI(@Valid @RequestBody PreAlertAIDTO preAlertAIDTO) {
 		String methodName = "updateCreatePreAlertAI()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -512,7 +512,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateAdvanceCanAI")
+	@PutMapping("/updateCreateAdvanceCanAI")
 	public ResponseEntity<ResponseDTO> updateCreateAdvanceCanAI(@Valid @RequestBody AdvanceCanAIDTO advanceCanAIDTO) {
 		String methodName = "updateCreateAdvanceCanAI()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -592,7 +592,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateShipmentSO")
+	@PutMapping("/updateCreateShipmentSO")
 	public ResponseEntity<ResponseDTO> updateCreateShipmentSO(@Valid @RequestBody ShipmentSODTO shipmentSODTO) {
 		String methodName = "updateCreateShipmentSO()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -672,7 +672,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateShipmentSOFollowUp")
+	@PutMapping("/updateCreateShipmentSOFollowUp")
 	public ResponseEntity<ResponseDTO> updateCreateShipmentSOFollowUp(@Valid @RequestBody ShipmentSOFollowUpDTO shipmentSOFollowUpDTO) {
 		String methodName = "updateCreateShipmentSOFollowUp()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -779,7 +779,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateContainerAllocationSO")
+	@PutMapping("/updateCreateContainerAllocationSO")
 	public ResponseEntity<ResponseDTO> updateCreateContainerAllocationSO(@Valid @RequestBody ContainerAllocationSODTO containerAllocationSODTO) {
 		String methodName = "updateCreateContainerAllocationSO()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -859,7 +859,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreatePreAlertSI")
+	@PutMapping("/updateCreatePreAlertSI")
 	public ResponseEntity<ResponseDTO> updateCreatePreAlertSI(@Valid @RequestBody PreAlertSIDTO preAlertSIDTO) {
 		String methodName = "updateCreatePreAlertSI()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -941,7 +941,7 @@ public class TransactionController extends BaseController  {
 	
 
 	
-	@PostMapping("/updateCreateContainerAllocationSI")
+	@PutMapping("/updateCreateContainerAllocationSI")
 	public ResponseEntity<ResponseDTO> updateCreateContainerAllocationSI(@Valid @RequestBody ContainerAllocationSIDTO containerAllocationSIDTO) {
 		String methodName = "updateCreateContainerAllocationSI()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -1022,7 +1022,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateAdvanceCanSI")
+	@PutMapping("/updateCreateAdvanceCanSI")
 	public ResponseEntity<ResponseDTO> updateCreateAdvanceCanSI(@Valid @RequestBody AdvanceCanSIDTO advanceCanSIDTO) {
 		String methodName = "updateCreateAdvanceCanSI()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
@@ -1102,7 +1102,7 @@ public class TransactionController extends BaseController  {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
-	@PostMapping("/updateCreateDeliveryOrderSI")
+	@PutMapping("/updateCreateDeliveryOrderSI")
 	public ResponseEntity<ResponseDTO> updateCreateDeliveryOrderSI(@Valid @RequestBody DeliveryOrderSIDTO deliveryOrderSIDTO) {
 		String methodName = "updateCreateDeliveryOrderSI()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);

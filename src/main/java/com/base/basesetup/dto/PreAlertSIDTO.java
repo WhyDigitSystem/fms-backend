@@ -4,10 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.base.basesetup.entity.ContainerDetailsSIVO;
-import com.base.basesetup.entity.HouseParticularsSIVO;
-import com.base.basesetup.entity.VesselDetailsSIVO;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

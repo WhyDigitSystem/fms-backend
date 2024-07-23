@@ -7,15 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CityDTO {
+public class PartyStateDTO {
 	private Long id;
-	private String cityCode;
-	private String country;
-	private String cityName;
 	private String state;
-	private Long orgId;
-	private boolean active;
-	private String createdBy;
-	private String updatedBy;
-
+	private String gstIn;
+	private String stateNo;
+	private String contactPerson;
+	private String contactPhoneNo;
+	private int contactEmail;
+	private boolean stateCode;
 }
