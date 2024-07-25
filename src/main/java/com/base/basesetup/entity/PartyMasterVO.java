@@ -164,9 +164,9 @@ public class PartyMasterVO {
 	
 	@OneToMany(mappedBy = "partyMasterVO",cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<PartyPartnerTaggingVO> partnerTaggingVO;
+	private List<PartyPartnerTaggingVO> partyPartnerTaggingVO;
 	
-	@OneToOne(mappedBy = "partyMasterVO",cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "partyMasterVO",cascade = CascadeType.ALL,orphanRemoval = true)
 	@JsonManagedReference
 	private PartyVendorEvaluationVO partyVendorEvaluationVO;
 	

@@ -19,6 +19,7 @@ import com.base.basesetup.dto.EmployeeDTO;
 import com.base.basesetup.dto.EventsDTO;
 import com.base.basesetup.dto.GstInDTO;
 import com.base.basesetup.dto.ListOfValuesDTO;
+import com.base.basesetup.dto.PartyMasterDTO;
 import com.base.basesetup.dto.PartyScreeningDTO;
 import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.RegionDTO;
@@ -37,6 +38,7 @@ import com.base.basesetup.entity.EmployeeVO;
 import com.base.basesetup.entity.EventsVO;
 import com.base.basesetup.entity.GstInVO;
 import com.base.basesetup.entity.ListOfValuesVO;
+import com.base.basesetup.entity.PartyMasterVO;
 import com.base.basesetup.entity.PartyScreeningVO;
 import com.base.basesetup.entity.PortVO;
 import com.base.basesetup.entity.RegionVO;
@@ -202,6 +204,14 @@ public interface BasicMasterService {
 	List<PartyScreeningVO> getPartyScreeningByOrgId(Long orgid);
 
 	PartyScreeningVO updateCreatePartyScreening(@Valid PartyScreeningDTO partyScreeningDTO) throws ApplicationException;
+
+	//PartyMaster
+	
+	List<PartyMasterVO> getPartyMasterById(Long id);
+
+	List<PartyMasterVO> getPartyMasterByOrgId(Long orgid);
+
+	PartyMasterVO updateCreatePartyMaster(@Valid PartyMasterDTO partyMasterDTO) throws ApplicationException;
 
 	
 	

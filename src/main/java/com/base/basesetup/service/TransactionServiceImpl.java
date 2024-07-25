@@ -700,7 +700,7 @@ public class TransactionServiceImpl implements TransactionService {
 			preAlertAIVO = preAlertAIRepo.findById(preAlertAIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid PreAlertAI details"));
 		}
-		getPreAlertAIVOFromPreAlertAIDTO(preAlertAIDTO, preAlertAIVO);
+	
 		preAlertAIVO = preAlertAIRepo.save(preAlertAIVO);
 
 		List<HouseParticularsAIVO> houseParticularsVOList = houseParticularsAIRepo.findByPreAlertAIVO(preAlertAIVO);
@@ -760,15 +760,15 @@ public class TransactionServiceImpl implements TransactionService {
 				preAlertCarrierDetailsAIVO.setPod(preAlertCarrierDetailsAIDTO.getPod());
 
 				preAlertCarrierDetailsAIVO.setPreAlertAIVO(preAlertAIVO);
-				;
+				
 				preAlertCarrierDetailsVOS.add(preAlertCarrierDetailsAIVO);
 			}
 		}
-
+		getPreAlertAIVOFromPreAlertAIDTO(preAlertAIDTO, preAlertAIVO);
+	
 		preAlertAIVO.setHouseParticularsAIVO(houseParticularsAIVOs);
-		;
+		
 		preAlertAIVO.setPreAlertCarrierDetailsAIVO(preAlertCarrierDetailsVOS);
-
 		return preAlertAIRepo.save(preAlertAIVO);
 
 	}
@@ -863,7 +863,6 @@ public class TransactionServiceImpl implements TransactionService {
 			advanceCanAIVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
 		}
 
-		getAdvanceCanAIVOFromAdvanceCanAIDTO(advanceCanAIDTO, advanceCanAIVO);
 		advanceCanAIVO = advanceCanAIRepo.save(advanceCanAIVO);
 
 		List<ChargeParticularAIVO> chargeParticularVOList = chargeParticularAIRepo.findByAdvanceCanAIVO(advanceCanAIVO);
@@ -891,7 +890,7 @@ public class TransactionServiceImpl implements TransactionService {
 				ChargeParticularAIVOs.add(ChargeParticularAIVO);
 			}
 		}
-
+		getAdvanceCanAIVOFromAdvanceCanAIDTO(advanceCanAIDTO, advanceCanAIVO);
 		advanceCanAIVO.setChargeParticularAIVO(ChargeParticularAIVOs);
 		return advanceCanAIRepo.save(advanceCanAIVO);
 	}

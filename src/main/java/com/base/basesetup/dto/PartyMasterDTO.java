@@ -41,6 +41,7 @@ public class PartyMasterDTO {
 	private String gstRegistration;
 	private String panNo;
 	private String panName;
+	
 	private String tanNo;
 	private String caf;
 	private String psu;
