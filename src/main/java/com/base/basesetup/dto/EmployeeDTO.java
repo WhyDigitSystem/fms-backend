@@ -39,7 +39,6 @@ public class EmployeeDTO {
 	private boolean status;
 	
 	private String createdBy;
-	private String updatedBy;
 	private boolean active;
 
 }

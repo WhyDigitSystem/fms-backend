@@ -231,6 +231,7 @@ public class TransactionServiceImpl implements TransactionService {
 		if (ObjectUtils.isNotEmpty(shipmentAODTO.getId())) {
 			shipmentAOVO = shipmentAORepo.findById(shipmentAODTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ShipmentAO details"));
+			shipmentAOVO.setUpdatedBy(shipmentAODTO.getCreatedBy());
 		} else {
 			// Create a new shipmentAOVO instance if the doc ID is not present
 			shipmentAOVO = new ShipmentAOVO();
@@ -241,6 +242,9 @@ public class TransactionServiceImpl implements TransactionService {
 			String docsid = "SH" + docid;
 			shipmentAORepo.getbydocsid();
 			shipmentAOVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
+			
+			shipmentAOVO.setUpdatedBy(shipmentAODTO.getCreatedBy());
+			shipmentAOVO.setCreatedBy(shipmentAODTO.getCreatedBy());
 		}
 
 		getShipmentAOVOFromShipmentAODTO(shipmentAODTO, shipmentAOVO);
@@ -384,8 +388,7 @@ public class TransactionServiceImpl implements TransactionService {
 		shipmentAOVO.setTotEstimationCost(shipmentAODTO.getTotEstimationCost());
 		shipmentAOVO.setActive(shipmentAODTO.isActive());
 		shipmentAOVO.setOrgId(shipmentAODTO.getOrgId());
-		shipmentAOVO.setUpdatedBy(shipmentAODTO.getUpdatedBy());
-		shipmentAOVO.setCreatedBy(shipmentAODTO.getCreatedBy());
+		
 
 	}
 	
@@ -483,6 +486,10 @@ public class TransactionServiceImpl implements TransactionService {
 		if (ObjectUtils.isNotEmpty(masterAirWayBillDTO.getId())) {
 			masterAirWayBillVO = masterAirWayBillRepo.findById(masterAirWayBillDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid masterAirWayBill details"));
+			masterAirWayBillVO.setUpdatedBy(masterAirWayBillDTO.getCreatedBy());
+		}else {
+			masterAirWayBillVO.setCreatedBy(masterAirWayBillDTO.getCreatedBy());
+			masterAirWayBillVO.setUpdatedBy(masterAirWayBillDTO.getCreatedBy());
 		}
 
 		getMasterAirWayBillVOFromMasterAirWayBillDTO(masterAirWayBillDTO, masterAirWayBillVO);
@@ -534,7 +541,6 @@ public class TransactionServiceImpl implements TransactionService {
 				carrierDetailsVO.setPol(carrierDetailsDTO.getPol());
 				carrierDetailsVO.setPod(carrierDetailsDTO.getPod());
 				carrierDetailsVO.setMasterAirWayBillVO(masterAirWayBillVO);
-				;
 				carrierDetailsVOs.add(carrierDetailsVO);
 			}
 		}
@@ -658,8 +664,6 @@ public class TransactionServiceImpl implements TransactionService {
 		masterAirWayBillVO.setTotalHouseChWt(masterAirWayBillDTO.getTotalHouseChWt());
 		masterAirWayBillVO.setMasterChwt(masterAirWayBillDTO.getMasterChwt());
 		masterAirWayBillVO.setVolumeShare(masterAirWayBillDTO.getVolumeShare());
-		masterAirWayBillVO.setCreatedBy(masterAirWayBillDTO.getCreatedBy());
-		masterAirWayBillVO.setUpdatedBy(masterAirWayBillDTO.getUpdatedBy());
 		masterAirWayBillVO.setActive(masterAirWayBillDTO.isActive());
 		masterAirWayBillVO.setOrgId(masterAirWayBillDTO.getOrgId());
 
@@ -699,6 +703,11 @@ public class TransactionServiceImpl implements TransactionService {
 		if (ObjectUtils.isNotEmpty(preAlertAIDTO.getId())) {
 			preAlertAIVO = preAlertAIRepo.findById(preAlertAIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid PreAlertAI details"));
+			preAlertAIVO.setUpdatedBy(preAlertAIDTO.getCreatedBy());
+		}
+		else {
+			preAlertAIVO.setUpdatedBy(preAlertAIDTO.getCreatedBy());
+			preAlertAIVO.setCreatedBy(preAlertAIDTO.getCreatedBy());
 		}
 	
 		preAlertAIVO = preAlertAIRepo.save(preAlertAIVO);
@@ -738,7 +747,6 @@ public class TransactionServiceImpl implements TransactionService {
 				houseParticularsAIVO.setItemDescription(houseParticularsAIDTO.getItemDescription());
 
 				houseParticularsAIVO.setPreAlertAIVO(preAlertAIVO);
-				;
 				houseParticularsAIVOs.add(houseParticularsAIVO);
 			}
 		}
@@ -811,8 +819,6 @@ public class TransactionServiceImpl implements TransactionService {
 		preAlertAIVO.setTotHousePkgs(preAlertAIDTO.getTotHousePkgs());
 		preAlertAIVO.setTotHouseChWt(preAlertAIDTO.getTotHouseChWt());
 		preAlertAIVO.setTotHouseGrwt(preAlertAIDTO.getTotHouseGrwt());
-		preAlertAIVO.setUpdatedBy(preAlertAIDTO.getUpdatedBy());
-		preAlertAIVO.setCreatedBy(preAlertAIDTO.getCreatedBy());
 		preAlertAIVO.setOrgId(preAlertAIDTO.getOrgId());
 		preAlertAIVO.setActive(preAlertAIDTO.isActive());
 	}
@@ -851,6 +857,7 @@ public class TransactionServiceImpl implements TransactionService {
 		if (ObjectUtils.isNotEmpty(advanceCanAIDTO.getId())) {
 			advanceCanAIVO = advanceCanAIRepo.findById(advanceCanAIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid AdvanceCanAI details"));
+			advanceCanAIVO.setUpdatedBy(advanceCanAIDTO.getCreatedBy());
 		} else {
 			// Create a new shipmentAOVO instance if the doc ID is not present
 			advanceCanAIVO = new AdvanceCanAIVO();
@@ -861,6 +868,9 @@ public class TransactionServiceImpl implements TransactionService {
 			String docsid = "AD" + docid;
 			advanceCanAIRepo.getbydocsid();
 			advanceCanAIVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
+			
+			advanceCanAIVO.setUpdatedBy(advanceCanAIDTO.getCreatedBy());
+			advanceCanAIVO.setCreatedBy(advanceCanAIDTO.getCreatedBy());
 		}
 
 		advanceCanAIVO = advanceCanAIRepo.save(advanceCanAIVO);
@@ -886,7 +896,7 @@ public class TransactionServiceImpl implements TransactionService {
 				ChargeParticularAIVO.setLcAmount(chargeParticularAIDTO.getLcAmount());
 				ChargeParticularAIVO.setBillAmount(chargeParticularAIDTO.getBillAmount());
 				ChargeParticularAIVO.setAdvanceCanAIVO(advanceCanAIVO);
-				;
+				
 				ChargeParticularAIVOs.add(ChargeParticularAIVO);
 			}
 		}
@@ -923,8 +933,6 @@ public class TransactionServiceImpl implements TransactionService {
 		advanceCanAIVO.setBillToParty(advanceCanAIDTO.getBillToParty());
 		advanceCanAIVO.setBAddress(advanceCanAIDTO.getBAddress());
 		advanceCanAIVO.setBAddType(advanceCanAIDTO.getBAddType());
-		advanceCanAIVO.setUpdatedBy(advanceCanAIDTO.getUpdatedBy());
-		advanceCanAIVO.setCreatedBy(advanceCanAIDTO.getCreatedBy());
 		advanceCanAIVO.setOrgId(advanceCanAIDTO.getOrgId());
 		advanceCanAIVO.setActive(advanceCanAIDTO.isActive());
 
@@ -964,6 +972,7 @@ public class TransactionServiceImpl implements TransactionService {
 		if (ObjectUtils.isNotEmpty(shipmentSODTO.getId())) {
 			shipmentSOVO = shipmentSORepo.findById(shipmentSODTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ShipmentSO details"));
+			shipmentSOVO.setUpdatedBy(shipmentSODTO.getCreatedBy());
 		} else {
 			// Create a new shipmentAOVO instance if the doc ID is not present
 			shipmentSOVO = new ShipmentSOVO();
@@ -974,6 +983,9 @@ public class TransactionServiceImpl implements TransactionService {
 			String docsid = "SO" + docid;
 			shipmentSORepo.getbydocsid();
 			shipmentSOVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
+			
+			shipmentSOVO.setUpdatedBy(shipmentSODTO.getCreatedBy());
+			shipmentSOVO.setCreatedBy(shipmentSODTO.getCreatedBy());
 		}
 
 		getShipmentSOVOFromShipmentSODTO(shipmentSODTO, shipmentSOVO);
@@ -1070,7 +1082,6 @@ public class TransactionServiceImpl implements TransactionService {
 		shipmentSOVO.setTotEstimationCost(shipmentSODTO.getTotEstimationCost());
 		shipmentSOVO.setActive(shipmentSODTO.isActive());
 		shipmentSOVO.setOrgId(shipmentSODTO.getOrgId());
-		shipmentSOVO.setUpdatedBy(shipmentSODTO.getUpdatedBy());
 		shipmentSOVO.setShippingBill(shipmentSODTO.getShippingBill());
 		shipmentSOVO.setDate(shipmentSODTO.getDate());
 
@@ -1186,6 +1197,10 @@ public class TransactionServiceImpl implements TransactionService {
 		if (ObjectUtils.isNotEmpty(containerAllocationSODTO.getId())) {
 			containerAllocationSOVO = containerAllocationSORepo.findById(containerAllocationSODTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ContainerAllocationSO details"));
+			containerAllocationSOVO.setUpdatedBy(containerAllocationSODTO.getCreatedBy());
+		}else {
+			containerAllocationSOVO.setCreatedBy(containerAllocationSODTO.getCreatedBy());
+			containerAllocationSOVO.setUpdatedBy(containerAllocationSODTO.getCreatedBy());
 		}
 
 		getContainerAllocationSOVOFromContainerAllocationSODTO(containerAllocationSODTO, containerAllocationSOVO);
@@ -1244,9 +1259,6 @@ public class TransactionServiceImpl implements TransactionService {
 		containerAllocationSOVO.setFt40(containerAllocationSODTO.getFt40());
 		containerAllocationSOVO.setFt45(containerAllocationSODTO.getFt45());
 		containerAllocationSOVO.setCbm(containerAllocationSODTO.getCbm());
-
-		containerAllocationSOVO.setCreatedBy(containerAllocationSODTO.getCreatedBy());
-		containerAllocationSOVO.setUpdatedBy(containerAllocationSODTO.getUpdatedBy());
 		containerAllocationSOVO.setOrgId(containerAllocationSODTO.getOrgId());
 		containerAllocationSOVO.setActive(containerAllocationSODTO.isActive());
 
@@ -1286,6 +1298,10 @@ public class TransactionServiceImpl implements TransactionService {
 		if (ObjectUtils.isNotEmpty(preAlertSIDTO.getId())) {
 			preAlertSIVO = preAlertSIRepo.findById(preAlertSIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid PreAlertSI details"));
+			preAlertSIVO.setUpdatedBy(preAlertSIDTO.getCreatedBy());
+		}else {
+			preAlertSIVO.setUpdatedBy(preAlertSIDTO.getCreatedBy());
+			preAlertSIVO.setCreatedBy(preAlertSIDTO.getCreatedBy());
 		}
 		getPreAlertSIVOFromPreAlertSIDTO(preAlertSIDTO, preAlertSIVO);
 		preAlertSIVO = preAlertSIRepo.save(preAlertSIVO);
@@ -1305,7 +1321,6 @@ public class TransactionServiceImpl implements TransactionService {
 
 				VesselDetailsSIVO vesselDetailsSIVO = new VesselDetailsSIVO();
 				vesselDetailsSIVO.setType(vesselDetailsSIDTO.getType());
-				;
 				vesselDetailsSIVO.setVesselName(vesselDetailsSIDTO.getVesselName());
 				vesselDetailsSIVO.setVoyage(vesselDetailsSIDTO.getVoyage());
 				vesselDetailsSIVO.setEta(vesselDetailsSIDTO.getEta());
@@ -1316,7 +1331,6 @@ public class TransactionServiceImpl implements TransactionService {
 				vesselDetailsSIVO.setPod(vesselDetailsSIDTO.getPod());
 
 				vesselDetailsSIVO.setPreAlertSIVO(preAlertSIVO);
-				;
 				vesselDetailsSIVOs.add(vesselDetailsSIVO);
 			}
 		}
@@ -1349,7 +1363,6 @@ public class TransactionServiceImpl implements TransactionService {
 				houseParticularsSIVO.setItemDescription(houseParticularsSIDTO.getItemDescription());
 
 				houseParticularsSIVO.setPreAlertSIVO(preAlertSIVO);
-				;
 				houseParticularsSIVOs.add(houseParticularsSIVO);
 			}
 		}
@@ -1360,7 +1373,6 @@ public class TransactionServiceImpl implements TransactionService {
 
 				ContainerDetailsSIVO containerDetailsSIVO = new ContainerDetailsSIVO();
 				containerDetailsSIVO.setContainerNo(containerDetailsSIDTO.getContainerNo());
-				;
 				containerDetailsSIVO.setContainerType(containerDetailsSIDTO.getContainerType());
 				containerDetailsSIVO.setContainerWt(containerDetailsSIDTO.getContainerWt());
 				containerDetailsSIVO.setPkgs(containerDetailsSIDTO.getPkgs());
@@ -1370,7 +1382,6 @@ public class TransactionServiceImpl implements TransactionService {
 				containerDetailsSIVO.setSealNo(containerDetailsSIDTO.getSealNo());
 
 				containerDetailsSIVO.setPreAlertSIVO(preAlertSIVO);
-				;
 				containerDetailsSIVOs.add(containerDetailsSIVO);
 			}
 		}
@@ -1424,8 +1435,7 @@ public class TransactionServiceImpl implements TransactionService {
 		preAlertSIVO.setContainerCount(preAlertSIDTO.getContainerCount());
 		preAlertSIVO.setOrgId(preAlertSIDTO.getOrgId());
 		preAlertSIVO.setActive(preAlertSIDTO.isActive());
-		preAlertSIVO.setUpdatedBy(preAlertSIDTO.getUpdatedBy());
-		preAlertSIVO.setCreatedBy(preAlertSIDTO.getCreatedBy());
+		
 
 	}
 
@@ -1464,6 +1474,10 @@ public class TransactionServiceImpl implements TransactionService {
 		if (ObjectUtils.isNotEmpty(containerAllocationSIDTO.getId())) {
 			containerAllocationSIVO = containerAllocationSIRepo.findById(containerAllocationSIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ContainerAllocationSI details"));
+			containerAllocationSIVO.setUpdatedBy(containerAllocationSIDTO.getCreatedBy());
+		}else {
+			containerAllocationSIVO.setCreatedBy(containerAllocationSIDTO.getCreatedBy());
+			containerAllocationSIVO.setUpdatedBy(containerAllocationSIDTO.getCreatedBy());
 		}
 		getContainerAllocationSIVOFromContainerAllocationSIDTO(containerAllocationSIDTO, containerAllocationSIVO);
 		containerAllocationSIVO = containerAllocationSIRepo.save(containerAllocationSIVO);
@@ -1507,8 +1521,6 @@ public class TransactionServiceImpl implements TransactionService {
 		containerAllocationSIVO.setOrderDate(containerAllocationSIDTO.getOrderDate());
 		containerAllocationSIVO.setPkgs(containerAllocationSIDTO.getPkgs());
 		containerAllocationSIVO.setGrwt(containerAllocationSIDTO.getGrwt());
-		containerAllocationSIVO.setCreatedBy(containerAllocationSIDTO.getCreatedBy());
-		containerAllocationSIVO.setUpdatedBy(containerAllocationSIDTO.getUpdatedBy());
 		containerAllocationSIVO.setOrgId(containerAllocationSIDTO.getOrgId());
 		containerAllocationSIVO.setActive(containerAllocationSIDTO.isActive());		
 	}
@@ -1547,6 +1559,7 @@ public class TransactionServiceImpl implements TransactionService {
 		if (ObjectUtils.isNotEmpty(advanceCanSIDTO.getId())) {
 			advanceCanSIVO = advanceCanSIRepo.findById(advanceCanSIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid AdvanceCanSI details"));
+			advanceCanSIVO.setUpdatedBy(advanceCanSIDTO.getCreatedBy());
 		} else {
 			// Create a new shipmentAOVO instance if the doc ID is not present
 			advanceCanSIVO = new AdvanceCanSIVO();
@@ -1557,6 +1570,9 @@ public class TransactionServiceImpl implements TransactionService {
 			String docsid = "AD" + docid;
 			advanceCanSIRepo.getbydocsid();
 			advanceCanSIVO.setDocId(docsid); // Assuming this sets the unique DOC ID to the ShipmentAOVO
+			
+			advanceCanSIVO.setUpdatedBy(advanceCanSIDTO.getCreatedBy());
+			advanceCanSIVO.setCreatedBy(advanceCanSIDTO.getCreatedBy());
 		}
 
 
@@ -1623,8 +1639,6 @@ public class TransactionServiceImpl implements TransactionService {
 		advanceCanSIVO.setBillToParty(advanceCanSIDTO.getBillToParty());
 		advanceCanSIVO.setBAddress(advanceCanSIDTO.getBAddress());
 		advanceCanSIVO.setBAddType(advanceCanSIDTO.getBAddType());
-		advanceCanSIVO.setUpdatedBy(advanceCanSIDTO.getUpdatedBy());
-		advanceCanSIVO.setCreatedBy(advanceCanSIDTO.getCreatedBy());
 		advanceCanSIVO.setOrgId(advanceCanSIDTO.getOrgId());
 		advanceCanSIVO.setActive(advanceCanSIDTO.isActive());
 
@@ -1656,12 +1670,17 @@ public class TransactionServiceImpl implements TransactionService {
 		return deliveryOrderSI;
 	}
 	
+	@Override
 	public DeliveryOrderSIVO updateCreateDeliveryOrderSI(@Valid DeliveryOrderSIDTO deliveryOrderSIDTO)
 			throws ApplicationException {
 		DeliveryOrderSIVO deliveryOrderSIVO = new DeliveryOrderSIVO();
 		if (ObjectUtils.isNotEmpty(deliveryOrderSIDTO.getId())) {
 			deliveryOrderSIVO = deliveryOrderSIRepo.findById(deliveryOrderSIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid DeliveryOrderSI details"));
+			deliveryOrderSIVO.setUpdatedBy(deliveryOrderSIDTO.getCreatedBy());
+		}else {
+			deliveryOrderSIVO.setCreatedBy(deliveryOrderSIDTO.getCreatedBy());
+			deliveryOrderSIVO.setUpdatedBy(deliveryOrderSIDTO.getCreatedBy());
 		}
 		getDeliveryOrderSIVOFromDeliveryOrderSIDTO(deliveryOrderSIDTO, deliveryOrderSIVO);
 		return deliveryOrderSIRepo.save(deliveryOrderSIVO);
@@ -1693,16 +1712,9 @@ public class TransactionServiceImpl implements TransactionService {
 		deliveryOrderSIVO.setOrderTo(deliveryOrderSIDTO.getOrderTo());
 		deliveryOrderSIVO.setCha(deliveryOrderSIDTO.getCha());
 		deliveryOrderSIVO.setCfs(deliveryOrderSIDTO.getCfs());
-		deliveryOrderSIVO.setCreatedBy(deliveryOrderSIDTO.getCreatedBy());
-		deliveryOrderSIVO.setUpdatedBy(deliveryOrderSIDTO.getUpdatedBy());
 		deliveryOrderSIVO.setActive(deliveryOrderSIDTO.isActive());
 		deliveryOrderSIVO.setOrgId(deliveryOrderSIDTO.getOrgId());
 
 	}
-
-
-
-	
-	
 
 }

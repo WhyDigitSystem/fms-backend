@@ -42,7 +42,6 @@ public class MasterAirWayBillDTO {
 	private Long volumeShare;
 
 	private String createdBy;
-	private String  updatedBy;
 	private Long orgId;
     private boolean active;
 	

@@ -17,7 +17,6 @@ public class PartyScreeningDTO {
 	private String screeningStatus;
 	private long orgId;
 	private String createdBy;
-	private String updatedBy;
 	private boolean active;
 
 	

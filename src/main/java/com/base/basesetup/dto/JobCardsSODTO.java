@@ -21,7 +21,6 @@ public class JobCardsSODTO {
 
 	
 	private Long orgId;
-	private String updatedBy;
 	private String createdBy;
 	private boolean active;
 

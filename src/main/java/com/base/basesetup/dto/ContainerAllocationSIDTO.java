@@ -21,7 +21,6 @@ public class ContainerAllocationSIDTO {
 	private String grwt;
 	
 	private String createdBy;
-	private String  updatedBy;
 	private Long orgId;
     private boolean active;
 	

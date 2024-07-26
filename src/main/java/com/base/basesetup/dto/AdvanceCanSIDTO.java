@@ -43,7 +43,6 @@ public class AdvanceCanSIDTO {
     
     private boolean active;
     private String createdBy;
-	private String updatedBy;
 	private Long orgId;
 	
 	private List<ChargeParticularSIDTO> chargeParticularSIDTO;

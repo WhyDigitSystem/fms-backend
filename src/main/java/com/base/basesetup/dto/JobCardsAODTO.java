@@ -21,7 +21,6 @@ public class JobCardsAODTO {
 
 	
 	private Long orgId;
-	private String updatedBy;
 	private String createdBy;
 	private boolean active;
 

@@ -50,7 +50,6 @@ public class PreAlertAIDTO {
 	private BigDecimal totHouseGrwt;
 	private BigDecimal totHouseChWt;
 	
-	private String  updatedBy;
 	private Long orgId;
     private boolean active;
 	private String createdBy;

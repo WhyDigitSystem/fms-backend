@@ -22,7 +22,6 @@ public class PortDTO {
 	private Long orgId;
 
 	private String createdBy;
-	private String updatedBy;
 	private boolean active;
 
 }

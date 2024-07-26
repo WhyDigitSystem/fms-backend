@@ -38,7 +38,6 @@ public class ContainerAllocationSODTO {
 	private BigDecimal cbm;
 	
 	private String createdBy;
-	private String  updatedBy;
 	private Long orgId;
     private boolean active;
     

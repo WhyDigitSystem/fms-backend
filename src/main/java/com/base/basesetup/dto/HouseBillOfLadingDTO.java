@@ -24,7 +24,6 @@ public class HouseBillOfLadingDTO {
 	
 	private boolean active;
 	private String createdBy;
-	private String updatedBy;
 	private Long orgId;
 	
 	List<HouseAddressDetailsDTO> houseAddressDetailsDTO;

@@ -13,7 +13,6 @@ public class SegmentsDTO {
 	private String segmentDescription;
 	private Long orgId;
 	private String createdBy;
-	private String updatedBy;
 	private boolean active;
 
 }

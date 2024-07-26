@@ -39,7 +39,6 @@ import com.base.basesetup.dto.PartyScreeningDTO;
 import com.base.basesetup.dto.PartySpecialTDSDTO;
 import com.base.basesetup.dto.PartyStateDTO;
 import com.base.basesetup.dto.PartyTdsExemptedDTO;
-import com.base.basesetup.dto.PartyVendorEvaluationDTO;
 import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.RegionDTO;
 import com.base.basesetup.dto.SegmentsDTO;
@@ -258,6 +257,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
 			countryVO = countryRepo.findById(countryDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Country Details"));
+			
+			countryVO.setUpdatedBy(countryDTO.getCreatedBy());
 		} else {
 			if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
 				throw new ApplicationException("The given Country Name already exists.");
@@ -265,6 +266,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
 				throw new ApplicationException("The given Country Code already exists.");
 			}
+			countryVO.setUpdatedBy(countryDTO.getCreatedBy());
+			countryVO.setCreatedBy(countryDTO.getCreatedBy());
 		}
 		// update check
 		if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
@@ -297,8 +300,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		countryVO.setActive(countryDTO.isActive());
 		countryVO.setCountryCode(countryDTO.getCountryCode());
 		countryVO.setCountryName(countryDTO.getCountryName());
-		countryVO.setUpdatedBy(countryDTO.getUpdatedBy());
-		countryVO.setCreatedBy(countryDTO.getCreatedBy());
+		
 
 	}
 
@@ -336,6 +338,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(cityDTO.getId())) {
 			cityVO = cityRepo.findById(cityDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid City Details"));
+			
+			cityVO.setUpdatedBy(cityDTO.getCreatedBy());
+
 		} else {
 			if (cityRepo.existsByCityNameAndOrgId(cityDTO.getCityName(), cityDTO.getOrgId())) {
 				throw new ApplicationException("The given city name already exists.");
@@ -343,6 +348,10 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			if (cityRepo.existsByCityCodeAndOrgId(cityDTO.getCityCode(), cityDTO.getOrgId())) {
 				throw new ApplicationException("The given city code already exists.");
 			}
+			
+			cityVO.setUpdatedBy(cityDTO.getCreatedBy());
+			cityVO.setCreatedBy(cityDTO.getCreatedBy());
+
 		}
 
 		// update check
@@ -378,9 +387,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		cityVO.setCityName(cityDTO.getCityName());
 		cityVO.setCountry(cityDTO.getCountry());
 		cityVO.setState(cityDTO.getState());
-		cityVO.setUpdatedBy(cityDTO.getUpdatedBy());
-		cityVO.setCreatedBy(cityDTO.getCreatedBy());
-
+		
 
 	}
 
@@ -423,6 +430,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(stateDTO.getId())) {
 			stateVO = stateRepo.findById(stateDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid State Details"));
+			
+			stateVO.setUpdatedBy(stateDTO.getCreatedBy());
+
 		} else {
 			if (stateRepo.existsByStateCodeAndOrgId(stateDTO.getStateCode(), stateDTO.getOrgId())) {
 				throw new ApplicationException("The given State Code already exists.");
@@ -430,6 +440,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			if (stateRepo.existsByStateNameAndOrgId(stateDTO.getStateName(), stateDTO.getOrgId())) {
 				throw new ApplicationException("The given state name already exists.");
 			}
+			stateVO.setUpdatedBy(stateDTO.getCreatedBy());
+			stateVO.setCreatedBy(stateDTO.getCreatedBy());
 		}
 		// update check
 //		if (ObjectUtils.isNotEmpty(stateDTO.getId())) {
@@ -470,9 +482,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		stateVO.setCountry(stateDTO.getCountry());
 		stateVO.setRegion(stateDTO.getRegion());
 		stateVO.setStateNumber(stateDTO.getStateNumber());
-		stateVO.setUpdatedBy(stateDTO.getUpdatedBy());
-		stateVO.setCreatedBy(stateDTO.getCreatedBy());
-
+		
 
 	}
 
@@ -490,6 +500,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			departmentVO = departmentRepo.findById(departmentDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Department Details"));
 
+			departmentVO.setUpdatedBy(departmentDTO.getCreatedBy());
+
 		} else {
 			if (departmentRepo.existsByDepartmentAndOrgId(departmentDTO.getDepartment(), departmentDTO.getOrgId())) {
 				throw new ApplicationException("Department already exists");
@@ -498,6 +510,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					departmentDTO.getOrgId())) {
 				throw new ApplicationException("DepartmentCode already exists");
 			}
+			departmentVO.setUpdatedBy(departmentDTO.getCreatedBy());
+			departmentVO.setCreatedBy(departmentDTO.getCreatedBy());
 		}
 
 		if (ObjectUtils.isNotEmpty(departmentDTO.getId())) {
@@ -527,9 +541,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		departmentVO.setDepartmentCode(departmentDTO.getDepartmentCode());
 		departmentVO.setOrgId(departmentDTO.getOrgId());
 		departmentVO.setActive(departmentDTO.isActive());
-		departmentVO.setUpdatedBy(departmentDTO.getUpdatedBy());
-		departmentVO.setCreatedBy(departmentDTO.getCreatedBy());
-
+		
 	}
 
 	@Override
@@ -566,7 +578,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(designationDTO.getId())) {
 			designationVO = designationRepo.findById(designationDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Designation Details"));
-
+			designationVO.setUpdatedBy(designationDTO.getCreatedBy());
 		}
 
 		else {
@@ -574,6 +586,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					designationDTO.getOrgId())) {
 				throw new ApplicationException("Designation already Exists");
 			}
+			designationVO.setUpdatedBy(designationDTO.getCreatedBy());
+			designationVO.setCreatedBy(designationDTO.getCreatedBy());
 
 		}
 
@@ -596,8 +610,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		designationVO.setDesignation(designationDTO.getDesignation());
 		designationVO.setOrgId(designationDTO.getOrgId());
 		designationVO.setActive(designationDTO.isActive());
-		designationVO.setUpdatedBy(designationDTO.getUpdatedBy());
-		designationVO.setCreatedBy(designationDTO.getCreatedBy());
+		
 
 	}
 
@@ -661,6 +674,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(employeeDTO.getId())) {
 			employeeVO = employeeRepo.findById(employeeDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Employee Details"));
+			
+			employeeVO.setUpdatedBy(employeeDTO.getCreatedBy());
+		}else {
+			employeeVO.setUpdatedBy(employeeDTO.getCreatedBy());
+			employeeVO.setCreatedBy(employeeDTO.getCreatedBy());
 		}
 
 		getEmployeeVOFromEmployeeDTO(employeeDTO, employeeVO);
@@ -683,8 +701,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		employeeVO.setStatus(employeeDTO.isStatus());
 		employeeVO.setOrgId(employeeDTO.getOrgId());
 		employeeVO.setActive(employeeDTO.isActive());
-		employeeVO.setUpdatedBy(employeeDTO.getUpdatedBy());
-		employeeVO.setCreatedBy(employeeDTO.getCreatedBy());
+		
 
 	}
 
@@ -696,6 +713,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(portDTO.getId())) {
 			portVO = portRepo.findById(portDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Port Details"));
+			
+			portVO.setUpdatedBy(portDTO.getCreatedBy());
 		} else {
 			// duplicate control while creating
 			if (portRepo.existsByPortAndOrgId(portDTO.getPort(), portDTO.getOrgId())) {
@@ -704,6 +723,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			if (portRepo.existsByCodeAndOrgId(portDTO.getCode(), portDTO.getOrgId())) {
 				throw new ApplicationException("Port Code already exists");
 			}
+			portVO.setUpdatedBy(portDTO.getCreatedBy());
+			portVO.setCreatedBy(portDTO.getCreatedBy());
 		}
 		if (ObjectUtils.isNotEmpty(portDTO.getId())) {
 			PortVO port = portRepo.findById(portDTO.getId()).orElse(null);
@@ -731,8 +752,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		portVO.setOrgId(portDTO.getOrgId());
 		portVO.setPort(portDTO.getPort());
 		portVO.setActive(portDTO.isActive());
-		portVO.setUpdatedBy(portDTO.getUpdatedBy());
-		portVO.setCreatedBy(portDTO.getCreatedBy());
+		
 
 	}
 
@@ -772,6 +792,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			// Fetch the existing event or throw an exception if it doesn't exist
 			eventsVO = eventsRepo.findById(eventsDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Events Details"));
+			eventsVO.setUpdatedBy(eventsDTO.getCreatedBy());
 		} else {
 			// Create a new EventsVO instance if the event ID is not present
 			eventsVO = new EventsVO();
@@ -786,6 +807,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			if (eventsRepo.existsByEventDescriptionAndOrgId(eventsDTO.getEventDescription(), eventsDTO.getOrgId())) {
 				throw new ApplicationException("EventsDescription Already exists");
 			}
+			eventsVO.setCreatedBy(eventsDTO.getCreatedBy());
+			eventsVO.setUpdatedBy(eventsDTO.getCreatedBy());
 		}
 
 		// Duplicate check
@@ -812,8 +835,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		eventsVO.setEventType(eventsDTO.getEventType());
 		eventsVO.setOrgId(eventsDTO.getOrgId());
 		eventsVO.setActive(eventsDTO.isActive());
-		eventsVO.setCreatedBy(eventsDTO.getCreatedBy());
-		eventsVO.setUpdatedBy(eventsDTO.getUpdatedBy());
+		
 	}
 
 	@Override
@@ -885,6 +907,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(companyDTO.getId())) {
 			companyVO = companyRepo.findById(companyDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid company Details"));
+			companyVO.setUpdatedBy(companyDTO.getCreatedBy());
+		}
+		else {
+			companyVO.setCreatedBy(companyDTO.getCreatedBy());
+			companyVO.setUpdatedBy(companyDTO.getCreatedBy());
 		}
 		getCompanyVOFromCompanyDTO(companyDTO, companyVO);
 		return companyRepo.save(companyVO);
@@ -904,8 +931,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		companyVO.setPassport(companyDTO.getPassport());
 		companyVO.setOrgId(companyDTO.getOrgId());
 		companyVO.setActive(companyDTO.isActive());
-		companyVO.setCreatedBy(companyDTO.getCreatedBy());
-		companyVO.setUpdatedBy(companyDTO.getUpdatedBy());
+		
 
 	}
 
@@ -943,6 +969,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(containerDTO.getId())) {
 			containerVO = containerRepo.findById(containerDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Container Details"));
+			containerVO.setUpdatedBy(containerDTO.getCreatedBy());
 		}
 
 		// Duplicate check
@@ -950,6 +977,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			if (containerRepo.existsByCategoryAndOrgId(containerDTO.getCategory(), containerDTO.getOrgId())) {
 				throw new ApplicationException("Category already Exists");
 			}
+			containerVO.setCreatedBy(containerDTO.getCreatedBy());
+			containerVO.setUpdatedBy(containerDTO.getCreatedBy());
 		}
 
 		if (ObjectUtils.isNotEmpty(containerDTO.getId())) {
@@ -974,8 +1003,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		containerVO.setVolume(containerDTO.getVolume());
 		containerVO.setOrgId(containerDTO.getOrgId());
 		containerVO.setActive(containerDTO.isActive());
-		containerVO.setCreatedBy(containerDTO.getCreatedBy());
-		containerVO.setUpdatedBy(containerDTO.getUpdatedBy());
+		
 
 	}
 
@@ -1013,6 +1041,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(segmentsDTO.getId())) {
 			segmentsVO = segmentsRepo.findById(segmentsDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Segments Details"));
+			segmentsVO.setUpdatedBy(segmentsDTO.getCreatedBy());
 		}
 		else {
 			if (segmentsRepo.existsBySegmentNameAndOrgId(segmentsDTO.getSegmentName(),
@@ -1023,6 +1052,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					segmentsDTO.getOrgId())) {
 				throw new ApplicationException("SegmentDescription already Exists");
 			}
+			segmentsVO.setCreatedBy(segmentsDTO.getCreatedBy());
+			segmentsVO.setUpdatedBy(segmentsDTO.getCreatedBy());
 			
 		}
 
@@ -1052,8 +1083,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		segmentsVO.setSegmentDescription(segmentsDTO.getSegmentDescription());
 		segmentsVO.setOrgId(segmentsDTO.getOrgId());
 		segmentsVO.setActive(segmentsDTO.isActive());
-		segmentsVO.setCreatedBy(segmentsDTO.getCreatedBy());
-		segmentsVO.setUpdatedBy(segmentsDTO.getUpdatedBy());
+	
 
 	}
 
@@ -1091,6 +1121,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(regionDTO.getId())) {
 			regionVO = regionRepo.findById(regionDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid Region Details"));
+			regionVO.setUpdatedBy(regionDTO.getCreatedBy());
 		}
 		else {
 			if (regionRepo.existsByRegionNameAndOrgId(regionDTO.getRegionName(),
@@ -1101,6 +1132,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					regionDTO.getOrgId())) {
 				throw new ApplicationException("RegionCode already exists");
 			}
+			regionVO.setCreatedBy(regionDTO.getCreatedBy());
+			regionVO.setUpdatedBy(regionDTO.getCreatedBy());
 		}
 
 		if (ObjectUtils.isNotEmpty(regionDTO.getId())) {
@@ -1128,8 +1161,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		regionVO.setRegionName(regionDTO.getRegionName());
 		regionVO.setOrgId(regionDTO.getOrgId());
 		regionVO.setActive(regionDTO.isActive());
-		regionVO.setCreatedBy(regionDTO.getCreatedBy());
-		regionVO.setUpdatedBy(regionDTO.getUpdatedBy());
+		
 
 	}
 
@@ -1179,6 +1211,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(documentTypeDTO.getId())) {
 			documentTypeVO = documentTypeRepo.findById(documentTypeDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid DocumentType details"));
+			documentTypeVO.setUpdatedBy(documentTypeDTO.getCreatedBy());
 		}
 		// Duplicate check
 		else {
@@ -1190,6 +1223,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					documentTypeDTO.getOrgId())) {
 				throw new ApplicationException("DocumentType already exists");
 			}
+			documentTypeVO.setCreatedBy(documentTypeDTO.getCreatedBy());
+			documentTypeVO.setUpdatedBy(documentTypeDTO.getCreatedBy());
 		}
 
 		if (ObjectUtils.isNotEmpty(documentTypeDTO.getId())) {
@@ -1254,8 +1289,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 
 		documentTypeVO.setOrgId(documentTypeDTO.getOrgId());
 		documentTypeVO.setActive(documentTypeDTO.isActive());
-		documentTypeVO.setCreatedBy(documentTypeDTO.getCreatedBy());
-		documentTypeVO.setUpdatedBy(documentTypeDTO.getUpdatedBy());
+		
 
 	}
 
@@ -1294,6 +1328,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(documentTypeMappingDTO.getId())) {
 			documentTypeMappingVO = documentTypeMappingRepo.findById(documentTypeMappingDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid DocumentTypeMapping details"));
+			documentTypeMappingVO.setUpdatedBy(documentTypeMappingDTO.getCreatedBy());
 		}
 
 		else {
@@ -1305,6 +1340,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					documentTypeMappingDTO.getOrgId())) {
 				throw new ApplicationException("FinancialYear already exists");
 			}
+			documentTypeMappingVO.setCreatedBy(documentTypeMappingDTO.getCreatedBy());
+			documentTypeMappingVO.setUpdatedBy(documentTypeMappingDTO.getCreatedBy());
 		}
 
 		if (ObjectUtils.isNotEmpty(documentTypeMappingDTO.getId())) {
@@ -1359,8 +1396,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		documentTypeMappingVO.setBranch(documentTypeMappingDTO.getBranch());
 		documentTypeMappingVO.setOrgId(documentTypeMappingDTO.getOrgId());
 		documentTypeMappingVO.setFinancialYear(documentTypeMappingDTO.getFinancialYear());
-		documentTypeMappingVO.setCreatedBy(documentTypeMappingDTO.getCreatedBy());
-		documentTypeMappingVO.setUpdatedBy(documentTypeMappingDTO.getUpdatedBy());
 		documentTypeMappingVO.setActive(documentTypeMappingDTO.isActive());
 
 	}
@@ -1399,6 +1434,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(listOfValuesDTO.getId())) {
 			listOfValuesVO = listOfValuesRepo.findById(listOfValuesDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ListOfValues details"));
+			listOfValuesVO.setUpdatedBy(listOfValuesDTO.getCreatedBy());
 		}
 		
 		else {
@@ -1410,7 +1446,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					listOfValuesDTO.getOrgId())) {
 				throw new ApplicationException("ListDescription already Exists");
 			}
-			
+			listOfValuesVO.setUpdatedBy(listOfValuesDTO.getCreatedBy());
+			listOfValuesVO.setCreatedBy(listOfValuesDTO.getCreatedBy());
 		}
 
 		if (ObjectUtils.isNotEmpty(listOfValuesDTO.getId())) {
@@ -1467,8 +1504,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		listOfValuesVO.setOrgId(listOfValuesDTO.getOrgId());
 		listOfValuesVO.setListDescription(listOfValuesDTO.getListDescription());
 		listOfValuesVO.setActive(listOfValuesDTO.isActive());
-		listOfValuesVO.setUpdatedBy(listOfValuesDTO.getUpdatedBy());
-		listOfValuesVO.setCreatedBy(listOfValuesDTO.getCreatedBy());
+		
 
 	}
 
@@ -1507,6 +1543,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(termsAndConditionDTO.getId())) {
 			termsAndConditionVO = termsAndConditionRepo.findById(termsAndConditionDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid TermsAndCondition Details"));
+			termsAndConditionVO.setUpdatedBy(termsAndConditionDTO.getCreatedBy());
 		}
 		
 		else {
@@ -1522,6 +1559,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					termsAndConditionDTO.getOrgId())) {
 				throw new ApplicationException("Terms already exists");
 			}
+			termsAndConditionVO.setCreatedBy(termsAndConditionDTO.getCreatedBy());
+			termsAndConditionVO.setUpdatedBy(termsAndConditionDTO.getCreatedBy());
 		}
 
 		if (ObjectUtils.isNotEmpty(termsAndConditionDTO.getId())) {
@@ -1558,8 +1597,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		termsAndConditionVO.setPartyType(termsAndConditionDTO.getPartyType());
 		termsAndConditionVO.setOrgId(termsAndConditionDTO.getOrgId());
 		termsAndConditionVO.setActive(termsAndConditionDTO.isActive());
-		termsAndConditionVO.setCreatedBy(termsAndConditionDTO.getCreatedBy());
-		termsAndConditionVO.setUpdatedBy(termsAndConditionDTO.getUpdatedBy());
+	
 
 	}
 
@@ -1597,6 +1635,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(gstInDTO.getId())) {
 			gstInVO = gstInRepo.findById(gstInDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid gstIn details"));
+			gstInVO.setUpdatedBy(gstInDTO.getCreatedBy());
+
 		}
 		// duplicate check
 
@@ -1607,6 +1647,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			if (gstInRepo.existsByPartyNameAndOrgId(gstInDTO.getPartyName(), gstInDTO.getOrgId())) {
 				throw new ApplicationException("PartyName already Exists");
 			}
+			gstInVO.setUpdatedBy(gstInDTO.getCreatedBy());
+			gstInVO.setCreatedBy(gstInDTO.getCreatedBy());
 		}
 
 		if (ObjectUtils.isNotEmpty(gstInDTO.getId())) {
@@ -1682,9 +1724,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		gstInVO.setBussinessType(gstInDTO.getBussinessType());
 		gstInVO.setOrgId(gstInDTO.getOrgId());
 		gstInVO.setActive(gstInDTO.isActive());
-		gstInVO.setUpdatedBy(gstInDTO.getUpdatedBy());
-		gstInVO.setCreatedBy(gstInDTO.getCreatedBy());
-
+		
 	}
 
 	// PartyScreening
@@ -1722,6 +1762,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(partyScreeningDTO.getId())) {
 			partyScreeningVO = partyScreeningRepo.findById(partyScreeningDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid PartyScreening Details"));
+			partyScreeningVO.setUpdatedBy(partyScreeningDTO.getCreatedBy());
+
 		} else {
 			if (partyScreeningRepo.existsByEntityNameAndOrgId(partyScreeningDTO.getEntityName(),
 					partyScreeningDTO.getOrgId())) {
@@ -1743,6 +1785,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					partyScreeningDTO.getOrgId())) {
 				throw new ApplicationException("ScreeningStatus already Exists");
 			}
+			partyScreeningVO.setCreatedBy(partyScreeningDTO.getCreatedBy());
+			partyScreeningVO.setUpdatedBy(partyScreeningDTO.getCreatedBy());
 		}
 
 		if (ObjectUtils.isNotEmpty(partyScreeningDTO.getId())) {
@@ -1796,9 +1840,7 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		partyScreeningVO.setScreeningStatus(partyScreeningDTO.getScreeningStatus());
 		partyScreeningVO.setOrgId(partyScreeningDTO.getOrgId());
 		partyScreeningVO.setActive(partyScreeningDTO.isActive());
-		partyScreeningVO.setCreatedBy(partyScreeningDTO.getCreatedBy());
-		partyScreeningVO.setUpdatedBy(partyScreeningDTO.getUpdatedBy());
-
+	
 	}
 	
 	//PartyMaster
@@ -1836,8 +1878,12 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		if (ObjectUtils.isNotEmpty(partyMasterDTO.getId())) {
 			partyMasterVO = partyMasterRepo.findById(partyMasterDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid PartyMaster Details"));
+			partyMasterVO.setUpdatedBy(partyMasterDTO.getCreatedBy());
 		} 
-		
+		else {
+			partyMasterVO.setCreatedBy(partyMasterDTO.getCreatedBy());
+			partyMasterVO.setUpdatedBy(partyMasterDTO.getCreatedBy());
+		}
         partyMasterVO = partyMasterRepo.save(partyMasterVO);
 		
         if(ObjectUtils.isNotEmpty(partyMasterDTO.getId())){
@@ -2075,8 +2121,6 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		partyMasterVO.setAccountsType(partyMasterDTO.getAccountsType());
 		partyMasterVO.setIfscCode(partyMasterDTO.getIfscCode());
 		partyMasterVO.setSwift(partyMasterDTO.getSwift());
-		partyMasterVO.setCreatedBy(partyMasterDTO.getCreatedBy());
-		partyMasterVO.setUpdatedBy(partyMasterDTO.getUpdatedBy());
 		partyMasterVO.setActive(partyMasterDTO.isActive());
 		partyMasterVO.setOrgId(partyMasterDTO.getOrgId());
 

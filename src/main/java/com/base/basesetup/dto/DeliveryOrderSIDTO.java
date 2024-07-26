@@ -38,7 +38,6 @@ public class DeliveryOrderSIDTO {
 
 	private boolean active;
 	private String createdBy;
-	private String updatedBy;
 	private Long orgId;
 
 }

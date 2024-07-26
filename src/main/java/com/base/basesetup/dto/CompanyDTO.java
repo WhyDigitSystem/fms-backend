@@ -23,7 +23,6 @@ public class CompanyDTO {
 	private String userId;
 	private Long orgId;
 	private String createdBy;
-	private String updatedBy;
 	private boolean active;
 }
 

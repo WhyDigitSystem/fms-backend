@@ -48,7 +48,6 @@ public class ShipmentAODTO {
 	
 	private boolean cancel;
 	private String createdBy;
-	private String  updatedBy;
 	private String cancelRemarks;
 	private Long orgId;
     private boolean active;
