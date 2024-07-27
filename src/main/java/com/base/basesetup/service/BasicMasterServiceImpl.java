@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.base.basesetup.dto.BranchDTO;
 import com.base.basesetup.dto.BusinessAddressDTO;
 import com.base.basesetup.dto.CityDTO;
 import com.base.basesetup.dto.CompanyDTO;
@@ -46,6 +47,7 @@ import com.base.basesetup.dto.StateDTO;
 import com.base.basesetup.dto.StateGstDTO;
 import com.base.basesetup.dto.SubTypesDTO;
 import com.base.basesetup.dto.TermsAndConditionDTO;
+import com.base.basesetup.entity.BranchVO;
 import com.base.basesetup.entity.BusinessAddressVO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CompanyVO;
@@ -81,6 +83,7 @@ import com.base.basesetup.entity.StateVO;
 import com.base.basesetup.entity.SubTypesVO;
 import com.base.basesetup.entity.TermsAndConditionVO;
 import com.base.basesetup.exception.ApplicationException;
+import com.base.basesetup.repo.BranchRepo;
 import com.base.basesetup.repo.BusinessAddressRepo;
 import com.base.basesetup.repo.CityRepo;
 import com.base.basesetup.repo.CompanyRepo;
@@ -222,6 +225,9 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	
 	@Autowired
 	PartyVendorEvaluationRepo partyVendorEvaluationRepo;
+	
+   @Autowired
+   BranchRepo branchRepo;
 	
 	// COUNTRY
 
@@ -570,6 +576,13 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		}
 		return departmentVO;
 	}
+	
+
+	@Override
+	public List<DepartmentVO> getAllDepartmentByActive(Long orgid) {
+		return departmentRepo.findAllDepartmentByActive(orgid);
+	}
+	
 	// Designation
 
 	@Override
@@ -638,6 +651,11 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			designationVO = designationRepo.findAll();
 		}
 		return designationVO;
+	}
+	
+	@Override
+	public List<DesignationVO> getAllDesignationByActive(Long orgid) {
+		return designationRepo.findAllDesignationByActive(orgid);
 	}
 
 	// Employee
@@ -2125,6 +2143,86 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		partyMasterVO.setOrgId(partyMasterDTO.getOrgId());
 
 	}
+	
+	//Branch
+	
+	@Override
+	public List<BranchVO> getBranchById(Long id) {
+		List<BranchVO> branchVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  Branch BY Id : {}", id);
+			branchVO = branchRepo.findBranchById(id);
+		} else {
+			LOGGER.info("Successfully Received  Branch For All Id.");
+			branchVO = branchRepo.findAll();
+		}
+		return branchVO;
+	}
+	
+	@Override
+	public List<BranchVO> getBranchByOrgId(Long orgid) {
+		List<BranchVO> branchVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  Branch BY Id : {}", orgid);
+			branchVO = branchRepo.findBranchByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  Branch For All Id.");
+			branchVO = branchRepo.findAll();
+		}
+		return branchVO;
+	}
+
+	@Override
+	public BranchVO updateCreateBranch(@Valid BranchDTO branchDTO)
+			throws ApplicationException {
+		BranchVO branchVO = new BranchVO();
+		if (ObjectUtils.isNotEmpty(branchDTO.getId())) {
+			branchVO = branchRepo.findById(branchDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid Branch Details"));
+			branchVO.setUpdatedBy(branchDTO.getCreatedBy());
+
+		} 
+		else {
+			branchVO.setUpdatedBy(branchDTO.getCreatedBy());
+			branchVO.setCreatedBy(branchDTO.getCreatedBy());
+		}
+		getBranchVOFromBranchDTO(branchDTO, branchVO);
+		return branchRepo.save(branchVO);
+	}
+
+	private void getBranchVOFromBranchDTO(@Valid BranchDTO branchDTO,
+			BranchVO branchVO) {
+		branchVO.setMastertype(branchDTO.getMastertype());
+		branchVO.setCompany(branchDTO.getCompany());
+		branchVO.setAddressLine1(branchDTO.getAddressLine1());
+		branchVO.setStCode(branchDTO.getStCode());
+		branchVO.setStRegNo(branchDTO.getStRegNo());
+		branchVO.setBranchCode(branchDTO.getBranchCode());
+		branchVO.setAddressLine2(branchDTO.getAddressLine2());
+		branchVO.setPanNo(branchDTO.getPanNo());
+		branchVO.setGstIn(branchDTO.getGstIn());
+		branchVO.setBranchName(branchDTO.getBranchName());
+		branchVO.setCountry(branchDTO.getCountry());
+		branchVO.setState(branchDTO.getState());
+		branchVO.setCity(branchDTO.getCity());
+		branchVO.setPinCode(branchDTO.getPinCode());
+		branchVO.setStateNo(branchDTO.getStateNo());
+		branchVO.setStateCode(branchDTO.getStateCode());
+		
+		branchVO.setRegion(branchDTO.getRegion());
+		branchVO.setCgmPrefix(branchDTO.getCgmPrefix());
+		branchVO.setRaCode(branchDTO.getRaCode());
+		branchVO.setLcCurrency(branchDTO.getLcCurrency());
+		branchVO.setLetterPadFooter1(branchDTO.getLetterPadFooter1());
+		branchVO.setLetterPadFooter2(branchDTO.getLetterPadFooter2());
+		branchVO.setActive(branchDTO.isActive());
+		branchVO.setOrgId(branchDTO.getOrgId());
+
+	
+	}
+
+
+	
 	
 
 }

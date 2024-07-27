@@ -17,4 +17,10 @@ public interface DesignationRepo extends JpaRepository<DesignationVO, Long>{
 
 	@Query(value = "select * from designation where orgid=?1",nativeQuery = true)
 	List<DesignationVO> findDesignationByOrgId(Long orgid);
+
+	@Query(value = "select * from designation where orgid=?1 and active='1'",nativeQuery = true)
+	List<DesignationVO> findAllDesignationByActive(Long orgid);
+
+
+
 }

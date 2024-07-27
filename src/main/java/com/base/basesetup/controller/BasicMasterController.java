@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.base.basesetup.common.CommonConstant;
 import com.base.basesetup.common.UserConstants;
+import com.base.basesetup.dto.BranchDTO;
 import com.base.basesetup.dto.CityDTO;
 import com.base.basesetup.dto.CompanyDTO;
 import com.base.basesetup.dto.ContainerDTO;
@@ -44,6 +45,7 @@ import com.base.basesetup.dto.ResponseDTO;
 import com.base.basesetup.dto.SegmentsDTO;
 import com.base.basesetup.dto.StateDTO;
 import com.base.basesetup.dto.TermsAndConditionDTO;
+import com.base.basesetup.entity.BranchVO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CompanyVO;
 import com.base.basesetup.entity.ContainerVO;
@@ -449,6 +451,32 @@ public class BasicMasterController extends BaseController {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
+	@GetMapping("/getAllDepartmentByActive")
+	public ResponseEntity<ResponseDTO> getAllDepartmentByActive(@RequestParam(required = false) Long orgid) {
+		String methodName = "getAllDepartmentByActive()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<DepartmentVO> departmentVO = new ArrayList<>();
+		try {
+			departmentVO = basicMasterService.getAllDepartmentByActive(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Department information get successfully");
+			responseObjectsMap.put("departmentVO", departmentVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "Department information receive failed",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
 	
 	// DESIGNATION
 	
@@ -505,7 +533,7 @@ public class BasicMasterController extends BaseController {
 	}
 	
 	@GetMapping("/getDesignationByOrgId")
-	public ResponseEntity<ResponseDTO> getDesignationByOrgId(@RequestParam(required = false) Long Orgid) {
+	public ResponseEntity<ResponseDTO> getDesignationByOrgId(@RequestParam(required = false) Long orgid) {
 		String methodName = "getDesignationByOrgId()";
 		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
 		String errorMsg = null;
@@ -513,7 +541,7 @@ public class BasicMasterController extends BaseController {
 		ResponseDTO responseDTO = null;
 		List<DesignationVO> designationVO = new ArrayList<>();
 		try {
-			designationVO = basicMasterService.getDesignationByOrgId(Orgid);
+			designationVO = basicMasterService.getDesignationByOrgId(orgid);
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
@@ -524,6 +552,32 @@ public class BasicMasterController extends BaseController {
 			responseDTO = createServiceResponse(responseObjectsMap);
 		} else {
 			responseDTO = createServiceResponseError(responseObjectsMap, "Designation information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getAllDesignationByActive")
+	public ResponseEntity<ResponseDTO> getAllDesignationByActive(@RequestParam(required = false) Long orgid) {
+		String methodName = "getAllDesignationByActive()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<DesignationVO> designationVO = new ArrayList<>();
+		try {
+			designationVO = basicMasterService.getAllDesignationByActive(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Designation information get successfully");
+			responseObjectsMap.put("designationVO", designationVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "Designation information receive failed",
 					errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
@@ -1744,4 +1798,83 @@ public class BasicMasterController extends BaseController {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 	
+	//BRANCH
+	
+	@GetMapping("/getBranchById")
+	public ResponseEntity<ResponseDTO> getBranchById(@RequestParam(required = false) Long id) {
+		String methodName = "getBranchById()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<BranchVO> branchVO = new ArrayList<>();
+		try {
+			branchVO = basicMasterService.getBranchById(id);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Branch information get successfully By Id");
+			responseObjectsMap.put("branchVO", branchVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "BranchVO information receive failed By Id",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@GetMapping("/getBranchByOrgId")
+	public ResponseEntity<ResponseDTO> getBranchByOrgId(@RequestParam(required = false) Long orgid) {
+		String methodName = "getBranchByOrgId()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;
+		List<BranchVO> branchVO = new ArrayList<>();
+		try {
+			branchVO = basicMasterService.getBranchByOrgId(orgid);
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+		}
+		if (StringUtils.isBlank(errorMsg)) {
+			responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Branch information get successfully By OrgId");
+			responseObjectsMap.put("branchVO", branchVO);
+			responseDTO = createServiceResponse(responseObjectsMap);
+		} else {
+			responseDTO = createServiceResponseError(responseObjectsMap, "BranchVO information receive failed By OrgId",
+					errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
+	
+	@PutMapping("/updateCreateBranch")
+	public ResponseEntity<ResponseDTO> updateCreateBranch(@Valid @RequestBody BranchDTO branchDTO) {
+		String methodName = "updateCreateBranch()";
+		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+		String errorMsg = null;
+		Map<String, Object> responseObjectsMap = new HashMap<>();
+		ResponseDTO responseDTO = null;	
+		     try {
+		    	 BranchVO branchVO = basicMasterService.updateCreateBranch(branchDTO);
+			if (branchVO != null) {
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Branch updated successfully");
+				responseObjectsMap.put("branchVO", branchVO);
+				responseDTO = createServiceResponse(responseObjectsMap);
+			} else {
+				errorMsg = "Branch not found for ID: " + branchDTO.getId();
+				responseDTO = createServiceResponseError(responseObjectsMap, "Branch update failed", errorMsg);
+			}
+		} catch (Exception e) {
+			errorMsg = e.getMessage();
+			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, "Branch update failed", errorMsg);
+		}
+		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+		return ResponseEntity.ok().body(responseDTO);
+	}
 }

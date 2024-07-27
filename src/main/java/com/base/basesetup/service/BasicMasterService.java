@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
+import com.base.basesetup.dto.BranchDTO;
 import com.base.basesetup.dto.CityDTO;
 import com.base.basesetup.dto.CompanyDTO;
 import com.base.basesetup.dto.ContainerDTO;
@@ -26,6 +27,7 @@ import com.base.basesetup.dto.RegionDTO;
 import com.base.basesetup.dto.SegmentsDTO;
 import com.base.basesetup.dto.StateDTO;
 import com.base.basesetup.dto.TermsAndConditionDTO;
+import com.base.basesetup.entity.BranchVO;
 import com.base.basesetup.entity.CityVO;
 import com.base.basesetup.entity.CompanyVO;
 import com.base.basesetup.entity.ContainerVO;
@@ -85,6 +87,9 @@ public interface BasicMasterService {
 	List<DepartmentVO> getDepartmentById(Long id);
 
 	List<DepartmentVO> getDepartmentByOrgId(Long orgId);
+	
+	List<DepartmentVO> getAllDepartmentByActive(Long orgid);
+
 
 	// Designation
 
@@ -93,6 +98,10 @@ public interface BasicMasterService {
 	List<DesignationVO> getDesignationById(Long id);
 
 	List<DesignationVO> getDesignationByOrgId(Long orgid);
+
+	List<DesignationVO> getAllDesignationByActive(Long orgid);
+
+
 	
 	// Employee
 	
@@ -212,6 +221,17 @@ public interface BasicMasterService {
 	List<PartyMasterVO> getPartyMasterByOrgId(Long orgid);
 
 	PartyMasterVO updateCreatePartyMaster(@Valid PartyMasterDTO partyMasterDTO) throws ApplicationException;
+	
+	//BRANCH
+
+	List<BranchVO> getBranchById(Long id);
+
+	List<BranchVO> getBranchByOrgId(Long orgid);
+
+	BranchVO updateCreateBranch(@Valid BranchDTO branchDTO) throws ApplicationException;
+
+
+
 
 	
 	
