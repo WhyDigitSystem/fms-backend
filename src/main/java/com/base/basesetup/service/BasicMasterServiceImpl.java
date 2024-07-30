@@ -257,59 +257,108 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		return countryVO;
 	}
 
+//	@Override
+//	public CountryVO updateCreateCountry(@Valid CountryDTO countryDTO) throws ApplicationException {
+//		CountryVO countryVO = new CountryVO();
+//		if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
+//			countryVO = countryRepo.findById(countryDTO.getId())
+//					.orElseThrow(() -> new ApplicationException("Invalid Country Details"));
+//			
+//			countryVO.setUpdatedBy(countryDTO.getCreatedBy());
+//		} else {
+//			if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
+//				throw new ApplicationException("The given Country Name already exists.");
+//			}
+//			if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
+//				throw new ApplicationException("The given Country Code already exists.");
+//			}
+//			countryVO.setUpdatedBy(countryDTO.getCreatedBy());
+//			countryVO.setCreatedBy(countryDTO.getCreatedBy());
+//		}
+//		// update check
+//		if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
+//			CountryVO country = countryRepo.findById(countryDTO.getId()).orElse(null);
+//
+//			if (!country.getCountryName().equals(countryDTO.getCountryName())) {
+//
+//				if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
+//					throw new ApplicationException("The given Country Name already exists.");
+//				}
+//			}
+//
+//			if (!country.getCountryCode().equals(countryDTO.getCountryCode())) {
+//
+//				if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
+//					throw new ApplicationException("The given Country Code already exists");
+//				}
+//
+//			}
+//		}
+//
+//		getCountryVOFromCountryDTO(countryDTO, countryVO);
+//		return countryRepo.save(countryVO);
+//	}
+//
+//	private void getCountryVOFromCountryDTO(@Valid CountryDTO countryDTO, CountryVO countryVO)
+//			throws ApplicationException {
+//
+//		countryVO.setOrgId(countryDTO.getOrgId());
+//		countryVO.setActive(countryDTO.isActive());
+//		countryVO.setCountryCode(countryDTO.getCountryCode());
+//		countryVO.setCountryName(countryDTO.getCountryName());
+//		
+	
+//
+//	}
+
 	@Override
 	public CountryVO updateCreateCountry(@Valid CountryDTO countryDTO) throws ApplicationException {
-		CountryVO countryVO = new CountryVO();
-		if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
-			countryVO = countryRepo.findById(countryDTO.getId())
-					.orElseThrow(() -> new ApplicationException("Invalid Country Details"));
-			
-			countryVO.setUpdatedBy(countryDTO.getCreatedBy());
-		} else {
-			if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
-				throw new ApplicationException("The given Country Name already exists.");
-			}
-			if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
-				throw new ApplicationException("The given Country Code already exists.");
-			}
-			countryVO.setUpdatedBy(countryDTO.getCreatedBy());
-			countryVO.setCreatedBy(countryDTO.getCreatedBy());
-		}
-		// update check
-		if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
-			CountryVO country = countryRepo.findById(countryDTO.getId()).orElse(null);
+	    CountryVO countryVO = new CountryVO();
+	    boolean isUpdate = false;
 
-			if (!country.getCountryName().equals(countryDTO.getCountryName())) {
+	    if (ObjectUtils.isNotEmpty(countryDTO.getId())) {
+	        isUpdate = true;
+	        countryVO = countryRepo.findById(countryDTO.getId())
+	                .orElseThrow(() -> new ApplicationException("Invalid Country Details"));
+	        countryVO.setUpdatedBy(countryDTO.getCreatedBy());
+	    } else {
+	        if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
+	            throw new ApplicationException("The given Country Name already exists.");
+	        }
+	        if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
+	            throw new ApplicationException("The given Country Code already exists.");
+	        }
+	        countryVO.setUpdatedBy(countryDTO.getCreatedBy());
+	        countryVO.setCreatedBy(countryDTO.getCreatedBy());
+	    }
 
-				if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
-					throw new ApplicationException("The given Country Name already exists.");
-				}
-			}
+	    if (isUpdate) {
+	        CountryVO existingCountry = countryRepo.findById(countryDTO.getId()).orElse(null);
 
-			if (!country.getCountryCode().equals(countryDTO.getCountryCode())) {
+	        if (!existingCountry.getCountryName().equals(countryDTO.getCountryName())) {
+	            if (countryRepo.existsByCountryNameAndOrgId(countryDTO.getCountryName(), countryDTO.getOrgId())) {
+	                throw new ApplicationException("The given Country Name already exists.");
+	            }
+	        }
 
-				if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
-					throw new ApplicationException("The given Country Code already exists");
-				}
+	        if (!existingCountry.getCountryCode().equals(countryDTO.getCountryCode())) {
+	            if (countryRepo.existsByCountryCodeAndOrgId(countryDTO.getCountryCode(), countryDTO.getOrgId())) {
+	                throw new ApplicationException("The given Country Code already exists.");
+	            }
+	        }
+	    }
 
-			}
-		}
-
-		getCountryVOFromCountryDTO(countryDTO, countryVO);
-		return countryRepo.save(countryVO);
+	    getCountryVOFromCountryDTO(countryDTO, countryVO);
+	    return countryRepo.save(countryVO);
 	}
 
-	private void getCountryVOFromCountryDTO(@Valid CountryDTO countryDTO, CountryVO countryVO)
-			throws ApplicationException {
-
-		countryVO.setOrgId(countryDTO.getOrgId());
-		countryVO.setActive(countryDTO.isActive());
-		countryVO.setCountryCode(countryDTO.getCountryCode());
-		countryVO.setCountryName(countryDTO.getCountryName());
-		
-
+	private void getCountryVOFromCountryDTO(@Valid CountryDTO countryDTO, CountryVO countryVO) throws ApplicationException {
+	    countryVO.setOrgId(countryDTO.getOrgId());
+	    countryVO.setActive(countryDTO.isActive());
+	    countryVO.setCountryCode(countryDTO.getCountryCode());
+	    countryVO.setCountryName(countryDTO.getCountryName());
 	}
-
+	
 	// CITY
 
 	@Override

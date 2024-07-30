@@ -27,7 +27,7 @@ public class ShipmentSODTO {
 	private String deliveryTerms;
 	private String freight;
 	private String mawbNo;
-	private String mawbDate;
+	private LocalDate mawbDate;
 	private boolean projectCargo;
 	private boolean directMaster;
 	private boolean jobAssigned;

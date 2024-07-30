@@ -52,18 +52,10 @@ public class ShipmentAOVO {
 	private String fpod;
 	@Column(name = "nominatedby")
 	private String nominatedBy;
-	@Column(name = "hawbno")
-	private String hawbNO;
-	@Column(name = "hawbdate")
-	private LocalDate hawbDate;
 	@Column(name = "deliveryterms")
 	private String deliveryTerms;
 	@Column(name = "freight")
 	private String freight;
-	@Column(name = "mawbno")
-	private String mawbNo;
-	@Column(name = "mawbdate")
-	private String mawbDate;
 	@Column(name = "projectcargo")
 	private boolean projectCargo;
 	@Column(name = "directmaster")

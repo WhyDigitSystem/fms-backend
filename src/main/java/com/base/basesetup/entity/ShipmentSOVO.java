@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.bytebuddy.asm.Advice.Local;
 
 @Entity
 @Table(name="t_sesohdr")
@@ -64,7 +65,7 @@ public class ShipmentSOVO {
 	@Column(name = "mawbno")
 	private String mawbNo;
 	@Column(name = "mawbdate")
-	private String mawbDate;
+	private LocalDate mawbDate;
 	@Column(name = "projectcargo")
 	private boolean projectCargo;
 	@Column(name = "directmaster")

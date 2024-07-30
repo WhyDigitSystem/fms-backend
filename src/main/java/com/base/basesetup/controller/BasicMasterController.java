@@ -131,31 +131,61 @@ public class BasicMasterController extends BaseController {
 		return ResponseEntity.ok().body(responseDTO);
 	}
 
+//	@PutMapping("/updateCreateCountry")
+//	public ResponseEntity<ResponseDTO> updateCreateCurrency(@Valid @RequestBody CountryDTO countryDTO) {
+//		String methodName = "updateCreateCountry()";
+//		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+//		String errorMsg = null;
+//		Map<String, Object> responseObjectsMap = new HashMap<>();
+//		ResponseDTO responseDTO = null;
+//		try {
+//			CountryVO countryVO = basicMasterService.updateCreateCountry(countryDTO);
+//			if (countryVO != null) {
+//				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Country updated successfully");
+//				responseObjectsMap.put("countryVO", countryVO);
+//				responseDTO = createServiceResponse(responseObjectsMap);
+//			} else {
+//				errorMsg = "Country not found for ID: " + countryDTO.getId();
+//				responseDTO = createServiceResponseError(responseObjectsMap, "Country update failed", errorMsg);
+//			}
+//		} catch (Exception e) {
+//			errorMsg = e.getMessage();
+//			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+//			responseDTO = createServiceResponseError(responseObjectsMap, "Country update failed", errorMsg);
+//		}
+//		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+//		return ResponseEntity.ok().body(responseDTO);
+//	}
+	
 	@PutMapping("/updateCreateCountry")
 	public ResponseEntity<ResponseDTO> updateCreateCurrency(@Valid @RequestBody CountryDTO countryDTO) {
-		String methodName = "updateCreateCountry()";
-		LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
-		String errorMsg = null;
-		Map<String, Object> responseObjectsMap = new HashMap<>();
-		ResponseDTO responseDTO = null;
-		try {
-			CountryVO countryVO = basicMasterService.updateCreateCountry(countryDTO);
-			if (countryVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "Country updated successfully");
-				responseObjectsMap.put("countryVO", countryVO);
-				responseDTO = createServiceResponse(responseObjectsMap);
-			} else {
-				errorMsg = "Country not found for ID: " + countryDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "Country update failed", errorMsg);
-			}
-		} catch (Exception e) {
-			errorMsg = e.getMessage();
-			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "Country update failed", errorMsg);
-		}
-		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
-		return ResponseEntity.ok().body(responseDTO);
+	    String methodName = "updateCreateCountry()";
+	    LOGGER.debug(CommonConstant.STARTING_METHOD, methodName);
+	    String errorMsg = null;
+	    Map<String, Object> responseObjectsMap = new HashMap<>();
+	    ResponseDTO responseDTO = null;
+	    try {
+	        CountryVO countryVO = basicMasterService.updateCreateCountry(countryDTO);
+	        if (countryVO != null) {
+	            boolean isUpdate = countryDTO.getId() != null;
+	            responseObjectsMap.put(CommonConstant.STRING_MESSAGE, isUpdate ? "Country updated successfully" : "Country created successfully");
+	            responseObjectsMap.put("countryVO", countryVO);
+	            responseDTO = createServiceResponse(responseObjectsMap);
+	        } else {
+	            boolean isUpdate = countryDTO.getId() != null;
+	            errorMsg = isUpdate ? "Country not found for ID: " + countryDTO.getId() : "Country creation failed";
+	            responseDTO = createServiceResponseError(responseObjectsMap, isUpdate ? "Country update failed" : "Country creation failed", errorMsg);
+	        }
+	    } catch (Exception e) {
+	        errorMsg = e.getMessage();
+	        boolean isUpdate = countryDTO.getId() != null;
+	        LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
+	        responseDTO = createServiceResponseError(responseObjectsMap, isUpdate ? "Country update failed" : "Country creation failed", errorMsg);
+	    }
+	    LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
+	    return ResponseEntity.ok().body(responseDTO);
 	}
+
 	
       //CITY 
 	
