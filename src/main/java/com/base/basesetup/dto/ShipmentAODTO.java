@@ -17,7 +17,6 @@ public class ShipmentAODTO {
 	private Long id;
 	private String docId;
 	private LocalDate docDate;
-	private String globalShipNo;
 	private String pol;
 	private String pod;
 	private String fpod;

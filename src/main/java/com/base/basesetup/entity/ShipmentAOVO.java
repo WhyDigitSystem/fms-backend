@@ -38,6 +38,8 @@ public class ShipmentAOVO {
 	private String docId;
 	@Column(name = "docdate")
 	private LocalDate docDate;
+	@Column(name = "orderno")
+	private String orderNo;
 	@Column(name = "globalshipno")
 	private String globalShipNo;
 	@Column(name = "pol")

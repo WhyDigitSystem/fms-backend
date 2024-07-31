@@ -358,7 +358,6 @@ public class TransactionServiceImpl implements TransactionService {
 
 	private void getShipmentAOVOFromShipmentAODTO(@Valid ShipmentAODTO shipmentAODTO, ShipmentAOVO shipmentAOVO) {
 		shipmentAOVO.setDocDate(shipmentAODTO.getDocDate());
-		shipmentAOVO.setGlobalShipNo(shipmentAODTO.getGlobalShipNo());
 		shipmentAOVO.setPol(shipmentAODTO.getPol());
 		shipmentAOVO.setPod(shipmentAODTO.getPod());
 		shipmentAOVO.setFpod(shipmentAODTO.getFpod());
@@ -388,8 +387,6 @@ public class TransactionServiceImpl implements TransactionService {
 		shipmentAOVO.setTotEstimationCost(shipmentAODTO.getTotEstimationCost());
 		shipmentAOVO.setActive(shipmentAODTO.isActive());
 		shipmentAOVO.setOrgId(shipmentAODTO.getOrgId());
-		
-
 	}
 	
 	@Override
