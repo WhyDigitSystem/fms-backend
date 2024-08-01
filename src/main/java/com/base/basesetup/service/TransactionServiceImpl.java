@@ -228,7 +228,9 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public ShipmentAOVO updateCreateShipmentAO(@Valid ShipmentAODTO shipmentAODTO) throws ApplicationException {
 		ShipmentAOVO shipmentAOVO = new ShipmentAOVO();
+		boolean isUpdate = false;
 		if (ObjectUtils.isNotEmpty(shipmentAODTO.getId())) {
+			isUpdate = true;
 			shipmentAOVO = shipmentAORepo.findById(shipmentAODTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ShipmentAO details"));
 			shipmentAOVO.setUpdatedBy(shipmentAODTO.getCreatedBy());
@@ -479,8 +481,10 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public MasterAirWayBillVO updateCreateMasterAirWayBill(@Valid MasterAirWayBillDTO masterAirWayBillDTO)
 			throws ApplicationException {
+		boolean isUpdate = false;
 		MasterAirWayBillVO masterAirWayBillVO = new MasterAirWayBillVO();
 		if (ObjectUtils.isNotEmpty(masterAirWayBillDTO.getId())) {
+			isUpdate = true;
 			masterAirWayBillVO = masterAirWayBillRepo.findById(masterAirWayBillDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid masterAirWayBill details"));
 			masterAirWayBillVO.setUpdatedBy(masterAirWayBillDTO.getCreatedBy());
@@ -697,7 +701,9 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public PreAlertAIVO updateCreatePreAlertAI(@Valid PreAlertAIDTO preAlertAIDTO) throws ApplicationException {
 		PreAlertAIVO preAlertAIVO = new PreAlertAIVO();
+		boolean isUpdate = false;
 		if (ObjectUtils.isNotEmpty(preAlertAIDTO.getId())) {
+			isUpdate = true;
 			preAlertAIVO = preAlertAIRepo.findById(preAlertAIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid PreAlertAI details"));
 			preAlertAIVO.setUpdatedBy(preAlertAIDTO.getCreatedBy());
@@ -851,7 +857,9 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public AdvanceCanAIVO updateCreateAdvanceCanAI(@Valid AdvanceCanAIDTO advanceCanAIDTO) throws ApplicationException {
 		AdvanceCanAIVO advanceCanAIVO = new AdvanceCanAIVO();
+		boolean isUpdate = false;
 		if (ObjectUtils.isNotEmpty(advanceCanAIDTO.getId())) {
+			isUpdate = true;
 			advanceCanAIVO = advanceCanAIRepo.findById(advanceCanAIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid AdvanceCanAI details"));
 			advanceCanAIVO.setUpdatedBy(advanceCanAIDTO.getCreatedBy());
@@ -965,7 +973,9 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public ShipmentSOVO updateCreateShipmentSO(@Valid ShipmentSODTO shipmentSODTO) throws ApplicationException {
 		ShipmentSOVO shipmentSOVO = new ShipmentSOVO();
+		boolean isUpdate = false;
 		if (ObjectUtils.isNotEmpty(shipmentSODTO.getId())) {
+			isUpdate = true;
 			shipmentSOVO = shipmentSORepo.findById(shipmentSODTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ShipmentSO details"));
 			shipmentSOVO.setUpdatedBy(shipmentSODTO.getCreatedBy());
@@ -1182,7 +1192,9 @@ public class TransactionServiceImpl implements TransactionService {
 	public ContainerAllocationSOVO updateCreateContainerAllocationSO(
 			@Valid ContainerAllocationSODTO containerAllocationSODTO) throws ApplicationException {
 		ContainerAllocationSOVO containerAllocationSOVO = new ContainerAllocationSOVO();
+		boolean isUpdate = false;
 		if (ObjectUtils.isNotEmpty(containerAllocationSODTO.getId())) {
+		     isUpdate = true;
 			containerAllocationSOVO = containerAllocationSORepo.findById(containerAllocationSODTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ContainerAllocationSO details"));
 			containerAllocationSOVO.setUpdatedBy(containerAllocationSODTO.getCreatedBy());
@@ -1283,7 +1295,9 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public PreAlertSIVO updateCreatePreAlertSI(@Valid PreAlertSIDTO preAlertSIDTO) throws ApplicationException {
 		PreAlertSIVO preAlertSIVO = new PreAlertSIVO();
+		boolean isUpdate = false;
 		if (ObjectUtils.isNotEmpty(preAlertSIDTO.getId())) {
+			 isUpdate = true;
 			preAlertSIVO = preAlertSIRepo.findById(preAlertSIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid PreAlertSI details"));
 			preAlertSIVO.setUpdatedBy(preAlertSIDTO.getCreatedBy());
@@ -1459,7 +1473,10 @@ public class TransactionServiceImpl implements TransactionService {
 	public ContainerAllocationSIVO updateCreateContainerAllocationSI(
 			@Valid ContainerAllocationSIDTO containerAllocationSIDTO) throws ApplicationException {
 		ContainerAllocationSIVO containerAllocationSIVO = new ContainerAllocationSIVO();
+		boolean isUpdate = false;
+		
 		if (ObjectUtils.isNotEmpty(containerAllocationSIDTO.getId())) {
+			isUpdate = true;
 			containerAllocationSIVO = containerAllocationSIRepo.findById(containerAllocationSIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid ContainerAllocationSI details"));
 			containerAllocationSIVO.setUpdatedBy(containerAllocationSIDTO.getCreatedBy());
@@ -1544,7 +1561,9 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public AdvanceCanSIVO updateCreateAdvanceCanSI(@Valid AdvanceCanSIDTO advanceCanSIDTO) throws ApplicationException {
 		AdvanceCanSIVO advanceCanSIVO = new AdvanceCanSIVO();
+		boolean isUpdate = false;
 		if (ObjectUtils.isNotEmpty(advanceCanSIDTO.getId())) {
+			 isUpdate = true;
 			advanceCanSIVO = advanceCanSIRepo.findById(advanceCanSIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid AdvanceCanSI details"));
 			advanceCanSIVO.setUpdatedBy(advanceCanSIDTO.getCreatedBy());
@@ -1645,6 +1664,8 @@ public class TransactionServiceImpl implements TransactionService {
 		return deliveryOrderSI;
 	}
 	
+	//DeliveryOrdersSI
+	
 	@Override
 	public List<DeliveryOrderSIVO> getDeliveryOrderSIByOrgId(Long orgid) {
 		List<DeliveryOrderSIVO> deliveryOrderSI = new ArrayList<>();
@@ -1661,8 +1682,10 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public DeliveryOrderSIVO updateCreateDeliveryOrderSI(@Valid DeliveryOrderSIDTO deliveryOrderSIDTO)
 			throws ApplicationException {
+		boolean isUpdate = false;
 		DeliveryOrderSIVO deliveryOrderSIVO = new DeliveryOrderSIVO();
 		if (ObjectUtils.isNotEmpty(deliveryOrderSIDTO.getId())) {
+			 isUpdate = true;
 			deliveryOrderSIVO = deliveryOrderSIRepo.findById(deliveryOrderSIDTO.getId())
 					.orElseThrow(() -> new ApplicationException("Invalid DeliveryOrderSI details"));
 			deliveryOrderSIVO.setUpdatedBy(deliveryOrderSIDTO.getCreatedBy());

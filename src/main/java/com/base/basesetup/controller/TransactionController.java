@@ -121,17 +121,20 @@ public class TransactionController extends BaseController  {
 		try {
 			ShipmentAOVO shipmentAOVO = transactionService.updateCreateShipmentAO(shipmentAODTO);
 			if (shipmentAOVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentAO updated successfully");
+				boolean isUpdate = shipmentAODTO.getId() != null;
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE,isUpdate? "shipmentAO updated successfully" : "shipmentAO created Successfully");
 				responseObjectsMap.put("shipmentAOVO", shipmentAOVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "shipmentAO not found for ID: " + shipmentAODTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "shipmentAO update failed", errorMsg);
+				boolean isUpdate = shipmentAODTO.getId() != null;
+				errorMsg = isUpdate? "shipmentAO not found for ID: " + shipmentAODTO.getId(): "shipmentAO created failed";
+				responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "shipmentAO update failed" : "shipmentAO created failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
+			boolean isUpdate = shipmentAODTO.getId() != null;
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentAO update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "shipmentAO update failed" : "shipmentAO created failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -359,17 +362,20 @@ public class TransactionController extends BaseController  {
 		try {
 			MasterAirWayBillVO masterAirWayBillVO = transactionService.updateCreateMasterAirWayBill(masterAirWayBillDTO);
 			if (masterAirWayBillVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "MasterAirWayBill updated successfully");
+				boolean isUpdate = masterAirWayBillDTO.getId() != null;
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE,isUpdate? "MasterAirWayBill updated successfully" :"MasterAirWayBill created successfully");
 				responseObjectsMap.put("masterAirWayBillVO", masterAirWayBillVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "MasterAirWayBill not found for ID: " + masterAirWayBillDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "MasterAirWayBill update failed", errorMsg);
+				boolean isUpdate = masterAirWayBillDTO.getId() != null;
+				errorMsg = isUpdate? "MasterAirWayBill not found for ID: " + masterAirWayBillDTO.getId():"MasterAirWayBill created failed";
+				responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "MasterAirWayBill update failed" :"MasterAirWayBill created failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
+			boolean isUpdate = masterAirWayBillDTO.getId() != null;
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "MasterAirWayBill update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "MasterAirWayBill update failed" :"MasterAirWayBill created failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -442,17 +448,20 @@ public class TransactionController extends BaseController  {
 		try {
 			PreAlertAIVO preAlertAIVO = transactionService.updateCreatePreAlertAI(preAlertAIDTO);
 			if (preAlertAIVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlertAI updated successfully");
+				boolean isUpdate = preAlertAIDTO.getId() != null;
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE,isUpdate? "PreAlertAI updated successfully" : "PreAlertAI created successfully");
 				responseObjectsMap.put("preAlertAIVO", preAlertAIVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "PreAlertAI not found for ID: " + preAlertAIDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertAI update failed", errorMsg);
+				boolean isUpdate = preAlertAIDTO.getId() != null;
+				errorMsg = isUpdate? "PreAlertAI not found for ID: " + preAlertAIDTO.getId() :"PreAlertAI created failed";
+				responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "PreAlertAI update failed" : "PreAlert Created failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
+			boolean isUpdate = preAlertAIDTO.getId() != null;
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertAI update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "PreAlertAI update failed" : "PreAlertAI created failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -522,17 +531,20 @@ public class TransactionController extends BaseController  {
 		try {
 			AdvanceCanAIVO advanceCanAIVO = transactionService.updateCreateAdvanceCanAI(advanceCanAIDTO);
 			if (advanceCanAIVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanAI updated successfully");
+				boolean isUpdate = advanceCanAIDTO.getId() != null;
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, isUpdate? "AdvanceCanAI updated successfully" : "AdvanceCanAI created Successfully");
 				responseObjectsMap.put("advanceCanAIVO", advanceCanAIVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "AdvanceCanAI not found for ID: " + advanceCanAIDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAI update failed", errorMsg);
+				boolean isUpdate = advanceCanAIDTO.getId() != null;
+				errorMsg = isUpdate? "AdvanceCanAI not found for ID" + advanceCanAIDTO.getId() : "AdvanceCanAI created failed";
+				responseDTO = createServiceResponseError(responseObjectsMap, isUpdate? "AdvanceCanAI updated failed" : "AdvanceCanAI created failed",errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
+			boolean isUpdate = advanceCanAIDTO.getId() != null;
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanAI update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, isUpdate? "AdvanceCanAI updated failed" : "AdvanceCanAI created failed",errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -602,17 +614,20 @@ public class TransactionController extends BaseController  {
 		try {
 			ShipmentSOVO shipmentSOVO = transactionService.updateCreateShipmentSO(shipmentSODTO);
 			if (shipmentSOVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "shipmentSO updated successfully");
+				boolean isUpdate = shipmentSODTO.getId() != null;
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, isUpdate ? "shipmentSO updated successfully" : "shipmentSO created succesfully");
 				responseObjectsMap.put("shipmentSOVO", shipmentSOVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "shipmentSO not found for ID: " + shipmentSODTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSO update failed", errorMsg);
+				boolean isUpdate = shipmentSODTO.getId() != null;
+				errorMsg =isUpdate? "shipmentSO not found for ID: " + shipmentSODTO.getId(): "shipmentSO create failed";
+				responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "shipmentSO update failed" :"shipmentSO created failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
+			boolean isUpdate = shipmentSODTO.getId() != null;
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "shipmentSO update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "shipmentSO update failed" :"shipmentSO created failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -789,17 +804,20 @@ public class TransactionController extends BaseController  {
 		try {
 			ContainerAllocationSOVO containerAllocationSOVO = transactionService.updateCreateContainerAllocationSO(containerAllocationSODTO);
 			if (containerAllocationSOVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "ContainerAllocationSO updated successfully");
+				boolean isUpdate = containerAllocationSODTO.getId() != null;
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE,isUpdate? "ContainerAllocationSO updated successfully" : "ContainerAllocationSOVO created successfully");
 				responseObjectsMap.put("containerAllocationSOVO", containerAllocationSOVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "containerAllocationSO not found for ID: " + containerAllocationSODTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "ContainerAllocationSO update failed", errorMsg);
+				boolean isUpdate = containerAllocationSODTO.getId() != null;
+				errorMsg = isUpdate? "containerAllocationSO not found for ID: " + containerAllocationSODTO.getId() :"ContainerAllocation created failed";
+				responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "ContainerAllocationSO updated failed" : "ContainerAllocationSOVO created failed",errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
+			boolean isUpdate = containerAllocationSODTO.getId() != null;
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "ContainerAllocationSO update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, isUpdate? "ContainerAllocationSO update failed" : "ContainerAllocationSO created failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -869,17 +887,20 @@ public class TransactionController extends BaseController  {
 		try {
 			PreAlertSIVO preAlertSIVO = transactionService.updateCreatePreAlertSI(preAlertSIDTO);
 			if (preAlertSIVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlertSI updated successfully");
+				boolean isUpdate = preAlertSIDTO.getId() != null;
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE,isUpdate? "PreAlertSI updated successfully" :"PreAlertSI created successfully");
 				responseObjectsMap.put("preAlertSIVO", preAlertSIVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "PreAlertSI not found for ID: " + preAlertSIDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertSI update failed", errorMsg);
+				boolean isUpdate = preAlertSIDTO.getId() != null;
+				errorMsg =isUpdate? "PreAlertSI not found for ID: " + preAlertSIDTO.getId() :"PreAlertSI created failed";
+				responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "PreAlertSI update failed" : "PreAlertSI created failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
+			boolean isUpdate = preAlertSIDTO.getId() != null;
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "PreAlertSI update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "PreAlertSI update failed" :"PreAlertSI created failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -951,17 +972,20 @@ public class TransactionController extends BaseController  {
 		try {
 			ContainerAllocationSIVO containerAllocationSIVO = transactionService.updateCreateContainerAllocationSI(containerAllocationSIDTO);
 			if (containerAllocationSIVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "PreAlertSI updated successfully");
+				boolean isUpdate = containerAllocationSIDTO.getId() != null;
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE,isUpdate? "PreAlertSI updated successfully" :"PreAlert created Successfully");
 				responseObjectsMap.put("containerAllocationSIVO", containerAllocationSIVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "containerAllocationSIVO not found for ID: " + containerAllocationSIDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "containerAllocationSIVO update failed", errorMsg);
+				boolean isUpdate = containerAllocationSIDTO.getId() != null;
+				errorMsg =isUpdate? "containerAllocationSIVO not found for ID: " + containerAllocationSIDTO.getId() : "containerAllocation created failed";
+				responseDTO = createServiceResponseError(responseObjectsMap, isUpdate? "containerAllocationSIVO update failed" :"containerAllocationSIVO created failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
+			boolean isUpdate = containerAllocationSIDTO.getId() != null;
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "containerAllocationSIVO update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "containerAllocationSIVO update failed" :"containerAllocation created failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -1032,17 +1056,20 @@ public class TransactionController extends BaseController  {
 		try {
 			AdvanceCanSIVO advanceCanSIVO = transactionService.updateCreateAdvanceCanSI(advanceCanSIDTO);
 			if (advanceCanSIVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "AdvanceCanSI updated successfully");
+				boolean isUpdate = advanceCanSIDTO.getId() != null;
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE,isUpdate? "AdvanceCanSI updated successfully" :"AdvanceCanSI created successfully");
 				responseObjectsMap.put("advanceCanSIVO", advanceCanSIVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "AdvanceCanSI not found for ID: " + advanceCanSIDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanSI update failed", errorMsg);
+				boolean isUpdate = advanceCanSIDTO.getId() != null;
+				errorMsg = isUpdate? "AdvanceCanSI not found for ID: " + advanceCanSIDTO.getId() :"AdvanceCanSI created failed";
+				responseDTO = createServiceResponseError(responseObjectsMap, isUpdate? "AdvanceCanSI update failed" : "AdvanceCanSI created failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
+			boolean isUpdate = advanceCanSIDTO.getId() != null;
 			LOGGER.error(UserConstants.ERROR_MSG_METHOD_NAME, methodName, errorMsg);
-			responseDTO = createServiceResponseError(responseObjectsMap, "AdvanceCanSI update failed", errorMsg);
+			responseDTO = createServiceResponseError(responseObjectsMap, isUpdate? "AdvanceCanSI update failed" : "AdvanceCanSI created failed", errorMsg);
 		}
 		LOGGER.debug(CommonConstant.ENDING_METHOD, methodName);
 		return ResponseEntity.ok().body(responseDTO);
@@ -1112,12 +1139,15 @@ public class TransactionController extends BaseController  {
 		try {
 			DeliveryOrderSIVO deliveryOrderSIVO = transactionService.updateCreateDeliveryOrderSI(deliveryOrderSIDTO);
 			if (deliveryOrderSIVO != null) {
-				responseObjectsMap.put(CommonConstant.STRING_MESSAGE, "DeliveryOrderSIVO updated successfully");
+				boolean isUpdate =deliveryOrderSIDTO.getId()!= null;
+				responseObjectsMap.put(CommonConstant.STRING_MESSAGE,isUpdate? "DeliveryOrderSI"
+						+ " updated successfully" :"DeliveryOrderSI created successfully");
 				responseObjectsMap.put("deliveryOrderSIVO", deliveryOrderSIVO);
 				responseDTO = createServiceResponse(responseObjectsMap);
 			} else {
-				errorMsg = "AdvanceCanSI not found for ID: " + deliveryOrderSIDTO.getId();
-				responseDTO = createServiceResponseError(responseObjectsMap, "DeliveryOrderSIVO update failed", errorMsg);
+				boolean isUpdate =deliveryOrderSIDTO.getId()!= null;
+				errorMsg =isUpdate? "DeliveryOrderSI not found for ID: " + deliveryOrderSIDTO.getId() : "DeliveryOrderSI created failed";
+				responseDTO = createServiceResponseError(responseObjectsMap,isUpdate? "DeliveryOrderSI update failed" : "DeliveryOrderSI create failed", errorMsg);
 			}
 		} catch (Exception e) {
 			errorMsg = e.getMessage();
