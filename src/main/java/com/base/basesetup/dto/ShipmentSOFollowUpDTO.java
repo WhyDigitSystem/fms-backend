@@ -35,7 +35,8 @@ public class ShipmentSOFollowUpDTO {
 	private Long containerReturnCount;
 	private String emptyReturnRemarks;
 	
-	
+	private String shippingBill;
+	private LocalDate date;
 	
 	
 }

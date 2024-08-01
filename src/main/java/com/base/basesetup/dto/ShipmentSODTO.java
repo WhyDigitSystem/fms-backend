@@ -15,23 +15,15 @@ public class ShipmentSODTO {
 	private Long id;
 	private String docId;
 	private LocalDate docDate;
-	private String globalShipNo;
 	private String pol;
 	private String pod;
-	private String jobNO;
-	private LocalDate jobDate;
 	private String fpod;
 	private String nominatedBy;
-	private String hawbNO;
-	private LocalDate hawbDate;
 	private String deliveryTerms;
 	private String freight;
-	private String mawbNo;
-	private LocalDate mawbDate;
 	private boolean projectCargo;
 	private boolean directMaster;
 	private boolean jobAssigned;
-	private boolean masterFinalize;
 	private String shipperInvoiceNo;
 	private String billOfEntry;
 	private String shipper;
@@ -50,11 +42,7 @@ public class ShipmentSODTO {
 	private BigDecimal totalChWt;
 	private BigDecimal totalVolWt;
 	private BigDecimal totEstimationCost;
-	private String shippingBill;
-	private LocalDate date;
-	
-	
-	
+
 	private boolean cancel;
 	private String createdBy;
 	private String cancelRemarks;

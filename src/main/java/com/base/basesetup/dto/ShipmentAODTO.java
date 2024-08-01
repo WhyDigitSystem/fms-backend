@@ -44,9 +44,6 @@ public class ShipmentAODTO {
 	private BigDecimal totalChWt;
 	private BigDecimal totalVolWt;
 	private BigDecimal totEstimationCost;
-	
-	
-	
 	private boolean cancel;
 	private String createdBy;
 	private String cancelRemarks;

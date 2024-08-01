@@ -871,6 +871,7 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 
 		advanceCanAIVO = advanceCanAIRepo.save(advanceCanAIVO);
+		
 
 		List<ChargeParticularAIVO> chargeParticularVOList = chargeParticularAIRepo.findByAdvanceCanAIVO(advanceCanAIVO);
 		chargeParticularAIRepo.deleteAll(chargeParticularVOList);
@@ -878,7 +879,6 @@ public class TransactionServiceImpl implements TransactionService {
 		List<ChargeParticularAIVO> ChargeParticularAIVOs = new ArrayList<>();
 		if (advanceCanAIDTO.getChargeParticularAIDTO() != null) {
 			for (ChargeParticularAIDTO chargeParticularAIDTO : advanceCanAIDTO.getChargeParticularAIDTO()) {
-
 				ChargeParticularAIVO ChargeParticularAIVO = new ChargeParticularAIVO();
 				ChargeParticularAIVO.setType(chargeParticularAIDTO.getType());
 				ChargeParticularAIVO.setChargeCode(chargeParticularAIDTO.getChargeCode());
@@ -893,7 +893,6 @@ public class TransactionServiceImpl implements TransactionService {
 				ChargeParticularAIVO.setLcAmount(chargeParticularAIDTO.getLcAmount());
 				ChargeParticularAIVO.setBillAmount(chargeParticularAIDTO.getBillAmount());
 				ChargeParticularAIVO.setAdvanceCanAIVO(advanceCanAIVO);
-				
 				ChargeParticularAIVOs.add(ChargeParticularAIVO);
 			}
 		}
@@ -1042,23 +1041,15 @@ public class TransactionServiceImpl implements TransactionService {
 
 	private void getShipmentSOVOFromShipmentSODTO(@Valid ShipmentSODTO shipmentSODTO, ShipmentSOVO shipmentSOVO) {
 		shipmentSOVO.setDocDate(shipmentSODTO.getDocDate());
-		shipmentSOVO.setGlobalShipNo(shipmentSODTO.getGlobalShipNo());
 		shipmentSOVO.setPol(shipmentSODTO.getPol());
 		shipmentSOVO.setPod(shipmentSODTO.getPod());
-		shipmentSOVO.setJobNO(shipmentSODTO.getJobNO());
-		shipmentSOVO.setJobDate(shipmentSODTO.getJobDate());
 		shipmentSOVO.setFpod(shipmentSODTO.getFpod());
 		shipmentSOVO.setNominatedBy(shipmentSODTO.getNominatedBy());
-		shipmentSOVO.setHawbNO(shipmentSODTO.getHawbNO());
-		shipmentSOVO.setHawbDate(shipmentSODTO.getHawbDate());
 		shipmentSOVO.setDeliveryTerms(shipmentSODTO.getDeliveryTerms());
 		shipmentSOVO.setFreight(shipmentSODTO.getFreight());
-		shipmentSOVO.setMawbNo(shipmentSODTO.getMawbNo());
-		shipmentSOVO.setMawbDate(shipmentSODTO.getMawbDate());
 		shipmentSOVO.setProjectCargo(shipmentSODTO.isProjectCargo());
 		shipmentSOVO.setDirectMaster(shipmentSODTO.isDirectMaster());
 		shipmentSOVO.setJobAssigned(shipmentSODTO.isJobAssigned());
-		shipmentSOVO.setMasterFinalize(shipmentSODTO.isMasterFinalize());
 		shipmentSOVO.setShipperInvoiceNo(shipmentSODTO.getShipperInvoiceNo());
 		shipmentSOVO.setBillOfEntry(shipmentSODTO.getBillOfEntry());
 		shipmentSOVO.setShipper(shipmentSODTO.getShipper());
@@ -1079,8 +1070,7 @@ public class TransactionServiceImpl implements TransactionService {
 		shipmentSOVO.setTotEstimationCost(shipmentSODTO.getTotEstimationCost());
 		shipmentSOVO.setActive(shipmentSODTO.isActive());
 		shipmentSOVO.setOrgId(shipmentSODTO.getOrgId());
-		shipmentSOVO.setShippingBill(shipmentSODTO.getShippingBill());
-		shipmentSOVO.setDate(shipmentSODTO.getDate());
+	
 
 
 	}
@@ -1135,7 +1125,6 @@ public class TransactionServiceImpl implements TransactionService {
 		shipmentSOVO.setDocumentReceiveddate(shipmentSOFollowUpDTO.getDocumentReceiveddate());
 		shipmentSOVO.setPickUpDonedate(shipmentSOFollowUpDTO.getPickUpDonedate());
 		shipmentSOVO.setCustomsClearanceDonedate(shipmentSOFollowUpDTO.getCustomsClearanceDonedate());
-
 		shipmentSOVO.setContainerCount(shipmentSOFollowUpDTO.getContainerCount());
 		shipmentSOVO.setCfcInwardDate(shipmentSOFollowUpDTO.getCfcInwardDate());
 		shipmentSOVO.setContBookingDate(shipmentSOFollowUpDTO.getContBookingDate());
@@ -1151,6 +1140,8 @@ public class TransactionServiceImpl implements TransactionService {
 		shipmentSOVO.setEmptyContSurrenderDate(shipmentSOFollowUpDTO.getEmptyContSurrenderDate());
 		shipmentSOVO.setContainerReturnCount(shipmentSOFollowUpDTO.getContainerReturnCount());
 		shipmentSOVO.setEmptyReturnRemarks(shipmentSOFollowUpDTO.getEmptyReturnRemarks());
+		shipmentSOVO.setShippingBill(shipmentSOFollowUpDTO.getShippingBill());
+		shipmentSOVO.setDate(shipmentSOFollowUpDTO.getDate());
 
 	}
 
