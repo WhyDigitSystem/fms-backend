@@ -3,6 +3,7 @@ package com.base.basesetup.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -23,8 +24,12 @@ import com.base.basesetup.dto.DepartmentDTO;
 import com.base.basesetup.dto.DesignationDTO;
 import com.base.basesetup.dto.DocumentTypeDTO;
 import com.base.basesetup.dto.DocumentTypeMappingDTO;
+import com.base.basesetup.dto.DocumentTypesDTO;
+import com.base.basesetup.dto.DocumentTypesMappingDTO;
+import com.base.basesetup.dto.DocumentTypesMappingDetailsDTO;
 import com.base.basesetup.dto.EmployeeDTO;
 import com.base.basesetup.dto.EventsDTO;
+import com.base.basesetup.dto.FinancialYearDTO;
 import com.base.basesetup.dto.GstInDTO;
 import com.base.basesetup.dto.ListOfValues1DTO;
 import com.base.basesetup.dto.ListOfValuesDTO;
@@ -42,6 +47,8 @@ import com.base.basesetup.dto.PartyStateDTO;
 import com.base.basesetup.dto.PartyTdsExemptedDTO;
 import com.base.basesetup.dto.PortDTO;
 import com.base.basesetup.dto.RegionDTO;
+import com.base.basesetup.dto.ScreenDTO;
+import com.base.basesetup.dto.ScreenVO;
 import com.base.basesetup.dto.SegmentsDTO;
 import com.base.basesetup.dto.StateDTO;
 import com.base.basesetup.dto.StateGstDTO;
@@ -57,8 +64,12 @@ import com.base.basesetup.entity.DepartmentVO;
 import com.base.basesetup.entity.DesignationVO;
 import com.base.basesetup.entity.DocumentTypeMappingVO;
 import com.base.basesetup.entity.DocumentTypeVO;
+import com.base.basesetup.entity.DocumentTypesMappingDetailsVO;
+import com.base.basesetup.entity.DocumentTypesMappingVO;
+import com.base.basesetup.entity.DocumentTypesVO;
 import com.base.basesetup.entity.EmployeeVO;
 import com.base.basesetup.entity.EventsVO;
+import com.base.basesetup.entity.FinancialYearVO;
 import com.base.basesetup.entity.GstInVO;
 import com.base.basesetup.entity.ListOfValues1VO;
 import com.base.basesetup.entity.ListOfValuesVO;
@@ -93,8 +104,12 @@ import com.base.basesetup.repo.DepartmentRepo;
 import com.base.basesetup.repo.DesignationRepo;
 import com.base.basesetup.repo.DocumentTypeMappingRepo;
 import com.base.basesetup.repo.DocumentTypeRepo;
+import com.base.basesetup.repo.DocumentTypesMappingDetailsRepo;
+import com.base.basesetup.repo.DocumentTypesMappingRepo;
+import com.base.basesetup.repo.DocumentTypesRepo;
 import com.base.basesetup.repo.EmployeeRepo;
 import com.base.basesetup.repo.EventsRepo;
+import com.base.basesetup.repo.FinancialYearRepo;
 import com.base.basesetup.repo.GstInRepo;
 import com.base.basesetup.repo.ListOfValues1Repo;
 import com.base.basesetup.repo.ListOfValuesRepo;
@@ -113,6 +128,7 @@ import com.base.basesetup.repo.PartyTdsExemptedRepo;
 import com.base.basesetup.repo.PartyVendorEvaluationRepo;
 import com.base.basesetup.repo.PortRepo;
 import com.base.basesetup.repo.RegionRepo;
+import com.base.basesetup.repo.ScreenRepo;
 import com.base.basesetup.repo.SegmentsRepo;
 import com.base.basesetup.repo.StateGstRepo;
 import com.base.basesetup.repo.StateRepo;
@@ -228,6 +244,22 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	
    @Autowired
    BranchRepo branchRepo;
+   
+   
+   @Autowired
+   ScreenRepo screenRepo;
+   
+   @Autowired
+   DocumentTypesRepo documentTypesRepo;
+   
+   @Autowired
+   DocumentTypesMappingRepo documentTypesMappingRepo;
+   
+   @Autowired
+   DocumentTypesMappingDetailsRepo documentTypesMappingDetailsRepo;
+   
+   @Autowired
+   FinancialYearRepo finRepo;
 	
 	// COUNTRY
 
@@ -1899,12 +1931,14 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 						partyScreeningDTO.getOrgId())) {
 					throw new ApplicationException("EntityName already Exists");
 				}
+			}
 				if (!partyScreeningVO.getAlternativeEntityNames()
 						.equals(partyScreeningDTO.getAlternativeEntityNames())) {
 					if (partyScreeningRepo.existsByAlternativeEntityNamesAndOrgId(
 							partyScreeningDTO.getAlternativeEntityNames(), partyScreeningDTO.getOrgId())) {
 						throw new ApplicationException("AlternativeEntityName already Exists");
 					}
+				}
 
 					if (partyScreeningVO.getUniqueId() != partyScreeningDTO.getUniqueId()) {
 						if (partyScreeningRepo.existsByUniqueIdAndOrgId(partyScreeningDTO.getUniqueId(),
@@ -1926,8 +1960,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 					}
 
 				}
-			}
-		}
+			
+		
 		getPartyScreeningVOFromPartyScreeningDTO(partyScreeningDTO, partyScreeningVO);
 		return partyScreeningRepo.save(partyScreeningVO);
 	}
@@ -2310,8 +2344,302 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 	
 	}
 
+	@Override
+	public List<ScreenVO> getScreenById(Long id) {
+		List<ScreenVO> screenVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  Screen BY Id : {}", id);
+			screenVO = screenRepo.findScreenById(id);
+		} else {
+			LOGGER.info("Successfully Received  Screen For All Id.");
+			screenVO = screenRepo.findAll();
+		}
+		return screenVO;
+	}
+	
+	public List<ScreenVO> getScreenByOrgId(Long orgid) {
+		List<ScreenVO> screenVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  Screen BY Id : {}", orgid);
+			screenVO = screenRepo.findScreenByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  Screen For All Id.");
+			screenVO = screenRepo.findAll();
+		}
+		return screenVO;
+	}
+
+	@Override
+	public ScreenVO updateCreateScreen(@Valid 	ScreenDTO screenDTO)
+			throws ApplicationException {
+		ScreenVO screenVO = new ScreenVO();
+		boolean isUpdate = false;
+		if (ObjectUtils.isNotEmpty(screenDTO.getId())) {
+			isUpdate = true;
+			screenVO = screenRepo.findById(screenDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid Screen Details"));
+			screenVO.setUpdatedBy(screenDTO.getCreatedBy());
+		} else {
+			if (screenRepo.existsByScreenName(screenDTO.getScreenName())) {
+				throw new ApplicationException("ScreenName already Exists");
+			}
+			if (screenRepo.existsByScreenCode(screenDTO.getScreenCode())) {
+				throw new ApplicationException("ScreenCode already Exists");
+			}
+			screenVO.setCreatedBy(screenDTO.getCreatedBy());
+			screenVO.setUpdatedBy(screenDTO.getCreatedBy());
+		}
+
+		if (isUpdate) {
+			ScreenVO screen = screenRepo.findById(screenDTO.getId()).orElse(null);
+			if (!screenVO.getScreenName().equals(screenDTO.getScreenName())) {
+				if (screenRepo.existsByScreenName(screenDTO.getScreenName())) {
+					throw new ApplicationException("ScreenName already Exists");
+				}
+			}
+				if (!screenVO.getScreenCode()
+						.equals(screenDTO.getScreenCode())) {
+					if (screenRepo.existsByScreenCode(
+							screenDTO.getScreenCode())) {
+						throw new ApplicationException("ScreenCode already Exists");
+					}
+					}}
+		getScreenVOFromScreenDTO(screenDTO , screenVO);
+		return screenRepo.save(screenVO);
+	}
+
+	private void getScreenVOFromScreenDTO(@Valid ScreenDTO screenDTO,
+			ScreenVO screenVO) {
+		screenVO.setScreenName(screenDTO.getScreenName());
+		screenVO.setScreenCode(screenDTO.getScreenCode());
+		screenVO.setActive(screenDTO.isActive());
+	}
+	
+	@Override
+	public Set<Object[]> getAllScreenCode() {
+		return screenRepo.findAllScreenCode();
+	}
 
 	
+	//DocumentTypes
 	
+	@Override
+	public List<DocumentTypesVO> getDocumentTypesById(Long id) {
+		List<DocumentTypesVO> documentTypesVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  DocumentTypes BY Id : {}", id);
+			documentTypesVO = documentTypesRepo.findDocumentTypesById(id);
+		} else {
+			LOGGER.info("Successfully Received  DocumentTypes For All Id.");
+			documentTypesVO = documentTypesRepo.findAll();
+		}
+		return documentTypesVO;
+	}
+	
+	public List<DocumentTypesVO> getDocumentTypesByOrgId(Long orgid) {
+		List<DocumentTypesVO> documentTypesVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  DocumentTypes BY OrgId : {}", orgid);
+			documentTypesVO = documentTypesRepo.findDocumentTypesByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  DocumentTypes For All OrgId.");
+			documentTypesVO = documentTypesRepo.findAll();
+		}
+		return documentTypesVO;
+	}
+
+	
+	@Override
+	public DocumentTypesVO updateCreateDocumentTypes(@Valid DocumentTypesDTO documentTypesDTO)
+			throws ApplicationException {
+		DocumentTypesVO documentTypesVO = new DocumentTypesVO();
+		boolean isUpdate = false;
+		if (ObjectUtils.isNotEmpty(documentTypesDTO.getId())) {
+			isUpdate = true;
+			documentTypesVO = documentTypesRepo.findById(documentTypesDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid DocumentTypes Details"));
+			documentTypesVO.setUpdatedBy(documentTypesDTO.getCreatedBy());
+		}
+		else {
+			documentTypesVO.setUpdatedBy(documentTypesDTO.getCreatedBy());
+			documentTypesVO.setCreatedBy(documentTypesDTO.getCreatedBy());
+		}
+		getDocumentTypesVOFromDocumentTypesDTO(documentTypesDTO , documentTypesVO);
+		return documentTypesRepo.save(documentTypesVO);
+	}
+
+	private void getDocumentTypesVOFromDocumentTypesDTO(@Valid DocumentTypesDTO documentTypesDTO,
+			DocumentTypesVO documentTypesVO) {
+		documentTypesVO.setScreenName(documentTypesDTO.getScreenName());
+		documentTypesVO.setScreenCode(documentTypesDTO.getScreenCode());
+		documentTypesVO.setDocCode(documentTypesDTO.getDocCode());
+		documentTypesVO.setActive(documentTypesDTO.isActive());
+	}
+
+	//DocumentTypesMapping
+	
+	@Override
+	public List<DocumentTypesMappingVO> getDocumentTypesMappingById(Long id) {
+		List<DocumentTypesMappingVO> documentTypesMappingVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(id)) {
+			LOGGER.info("Successfully Received  DocumentTypesMapping BY Id : {}", id);
+			documentTypesMappingVO = documentTypesMappingRepo.findDocumentTypesMappingById(id);
+		} else {
+			LOGGER.info("Successfully Received  DocumentTypesMapping For All Id.");
+			documentTypesMappingVO = documentTypesMappingRepo.findAll();
+		}
+		return documentTypesMappingVO;
+	}
+	
+
+	@Override
+	public List<DocumentTypesMappingVO> getDocumentTypesMappingByOrgId(Long orgid) {
+		List<DocumentTypesMappingVO> documentTypesMappingVO = new ArrayList<>();
+		if (ObjectUtils.isNotEmpty(orgid)) {
+			LOGGER.info("Successfully Received  DocumentTypesMapping BY OrgId : {}", orgid);
+			documentTypesMappingVO = documentTypesMappingRepo.findDocumentTypesMappingByOrgId(orgid);
+		} else {
+			LOGGER.info("Successfully Received  DocumentTypesMapping For All OrgId.");
+			documentTypesMappingVO = documentTypesMappingRepo.findAll();
+		}
+		return documentTypesMappingVO;
+	}
+
+	@Override
+	public DocumentTypesMappingVO updateCreateDocumentTypesMapping(@Valid DocumentTypesMappingDTO documentTypesMappingDTO)
+			throws ApplicationException {
+		DocumentTypesMappingVO documentTypesMappingVO = new DocumentTypesMappingVO();
+		boolean isUpdate = false;
+		if (ObjectUtils.isNotEmpty(documentTypesMappingDTO.getId())) {
+			isUpdate = true;
+			documentTypesMappingVO = documentTypesMappingRepo.findById(documentTypesMappingDTO.getId())
+					.orElseThrow(() -> new ApplicationException("Invalid DocumentTypesMapping Details"));
+			documentTypesMappingVO.setUpdatedBy(documentTypesMappingDTO.getCreatedBy());
+		}
+		else {
+			documentTypesMappingVO.setUpdatedBy(documentTypesMappingDTO.getCreatedBy());
+			documentTypesMappingVO.setCreatedBy(documentTypesMappingDTO.getCreatedBy());
+		}
+		
+		documentTypesMappingVO = documentTypesMappingRepo.save(documentTypesMappingVO);
+
+		List<DocumentTypesMappingDetailsVO> documentTypesMappingDetailsVOList = documentTypesMappingDetailsRepo.findByDocumentTypesMappingVO(documentTypesMappingVO);
+		documentTypesMappingDetailsRepo.deleteAll(documentTypesMappingDetailsVOList);
+
+
+		List<DocumentTypesMappingDetailsVO> documentTypesMappingDetailsVOs = new ArrayList<>();
+		if (documentTypesMappingDTO.getDocumentTypeMappingDetailsDTO() != null) {
+			for (DocumentTypesMappingDetailsDTO documentTypesMappingDetailsDTO : documentTypesMappingDTO.getDocumentTypeMappingDetailsDTO()) {
+
+				DocumentTypesMappingDetailsVO documentTypesMappingDetailsVO = new DocumentTypesMappingDetailsVO();
+				documentTypesMappingDetailsVO.setScreenName(documentTypesMappingDetailsDTO.getScreenName());
+				documentTypesMappingDetailsVO.setScreenCode(documentTypesMappingDetailsDTO.getScreenCode());
+				documentTypesMappingDetailsVO.setFinYear(documentTypesMappingDetailsDTO.getFinYear());
+				documentTypesMappingDetailsVO.setBranch(documentTypesMappingDetailsDTO.getBranch());
+				documentTypesMappingDetailsVO.setBranchCode(documentTypesMappingDetailsDTO.getBranchCode());
+				documentTypesMappingDetailsVO.setFinyearId(documentTypesMappingDetailsDTO.getFinyearId());
+				documentTypesMappingDetailsVO.setDocCode(documentTypesMappingDetailsDTO.getDocCode());
+				documentTypesMappingDetailsVO.setOrgId(documentTypesMappingDTO.getOrgId());
+				documentTypesMappingDetailsVO.setPrefix(documentTypesMappingDetailsDTO.getPrefix());
+				documentTypesMappingDetailsVO.setLastNo(documentTypesMappingDetailsDTO.getLastNo());
+				documentTypesMappingDetailsVO.setDocumentTypesMappingVO(documentTypesMappingVO);;
+				documentTypesMappingDetailsVOs.add(documentTypesMappingDetailsVO);
+			}
+		}
+		getDocumentTypesVOFromDocumentTypesDTO(documentTypesMappingDTO , documentTypesMappingVO);
+		documentTypesMappingVO.setDocumentTypesMappingDetailsVO(documentTypesMappingDetailsVOs);
+		return documentTypesMappingRepo.save(documentTypesMappingVO);
+	}
+ 
+	private void getDocumentTypesVOFromDocumentTypesDTO(@Valid DocumentTypesMappingDTO documentTypesMappingDTO,
+			DocumentTypesMappingVO documentTypesMappingVO) {
+		documentTypesMappingVO.setFinYear(documentTypesMappingDTO.getFinYear());
+		documentTypesMappingVO.setBranch(documentTypesMappingDTO.getBranch());
+		documentTypesMappingVO.setOrgId(documentTypesMappingDTO.getOrgId());
+		documentTypesMappingVO.setActive(documentTypesMappingDTO.isActive());
+	}
+
+	
+	// FinancialYear
+		@Override
+		public List<FinancialYearVO> getFinancialYearById(Long id) {
+			List<FinancialYearVO> financialYearVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(id)) {
+				LOGGER.info("Successfully Received FinancialYear BY Id : {}", id);
+				financialYearVO = finRepo.findFinancialYearById(id);
+			} else {
+				LOGGER.info("Successfully Received FinancialYear For All Id.");
+				financialYearVO = finRepo.findAll();
+			}
+			return financialYearVO;
+		}
+
+		@Override
+		public List<FinancialYearVO> getFinancialYearByOrgId(Long orgId) {
+			List<FinancialYearVO> financialYearVO = new ArrayList<>();
+			if (ObjectUtils.isNotEmpty(orgId)) {
+				LOGGER.info("Successfully Received FinancialYear BY OrgId : {}", orgId);
+				financialYearVO = finRepo.findFinancialYearByOrgId(orgId);
+			} else {
+				LOGGER.info("Successfully Received FinancialYear For All OrgId.");
+				financialYearVO = finRepo.findAll();
+			}
+			return financialYearVO;
+		}
+
+//		@Override
+//		public FinancialYearVO createFinancial(FinancialYearVO financialYearVO) {
+//			return finRepo.save(financialYearVO);
+//		}
+//
+//		@Override
+//		public Optional<FinancialYearVO> updateFinancial(FinancialYearVO financialYearVO) {
+//			if (finRepo.existsById(financialYearVO.getId())) {
+//				return Optional.of(finRepo.save(financialYearVO));
+//			} else {
+//				return Optional.empty();
+//       	}
+//		}
+	
+		@Override
+		public FinancialYearVO updateCreateFinancialYear(@Valid FinancialYearDTO financialYearDTO)
+				throws ApplicationException {
+			FinancialYearVO financialYearVO = new FinancialYearVO();
+			boolean isUpdate = false;
+			if (ObjectUtils.isNotEmpty(financialYearDTO.getId())) {
+				isUpdate = true;
+				financialYearVO = finRepo.findById(financialYearDTO.getId())
+						.orElseThrow(() -> new ApplicationException("Invalid FinancialYear Details"));
+				financialYearVO.setUpdatedBy(financialYearDTO.getCreatedBy());
+			}
+			else {
+				financialYearVO.setUpdatedBy(financialYearDTO.getCreatedBy());
+				financialYearVO.setCreatedBy(financialYearDTO.getCreatedBy());
+			}
+			getFinancialYearVOFromFinancialYearDTO(financialYearDTO , financialYearVO);
+			return finRepo.save(financialYearVO);
+		}
+
+		private void getFinancialYearVOFromFinancialYearDTO(@Valid FinancialYearDTO financialYearDTO,
+		FinancialYearVO financialYearVO) {
+			financialYearVO.setOrgId(financialYearDTO.getOrgId());
+			financialYearVO.setActive(financialYearDTO.isActive());
+			financialYearVO.setSno(financialYearDTO.getSno());
+			financialYearVO.setFinYr(financialYearDTO.getFinYr());	
+			financialYearVO.setFinYrId(financialYearDTO.getFinYrId());
+			financialYearVO.setFinYrIdentifier(financialYearDTO.getFinYrIdentifier());
+			financialYearVO.setStartDate(financialYearDTO.getStartDate());
+			financialYearVO.setEndDate(financialYearDTO.getEndDate());	
+			financialYearVO.setCurrentFinYr(financialYearDTO.isCurrentFinYr());
+			financialYearVO.setClosed(financialYearDTO.isClosed());
+			financialYearVO.setOpen(financialYearDTO.isOpen());
+			financialYearVO.setAction(financialYearDTO.isAction());
+			financialYearVO.setCompany(financialYearDTO.getCompany());
+			financialYearVO.setUserId(financialYearDTO.getUserId());
+  }
+		
+		
+
+		
 
 }
