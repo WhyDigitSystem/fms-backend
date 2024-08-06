@@ -56,8 +56,6 @@ public class FinancialYearVO {
 	private boolean closed;
 	@Column(name = "open")
 	private boolean open;
-	@Column(name="action")
-	private boolean action;
 	@Column(name = "company")
 	private String company;
 	@Column(name = "userid")

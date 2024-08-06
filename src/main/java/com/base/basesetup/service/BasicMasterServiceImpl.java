@@ -1,10 +1,13 @@
 package com.base.basesetup.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -2474,6 +2477,8 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		documentTypesVO.setScreenCode(documentTypesDTO.getScreenCode());
 		documentTypesVO.setDocCode(documentTypesDTO.getDocCode());
 		documentTypesVO.setActive(documentTypesDTO.isActive());
+		documentTypesVO.setOrgId(documentTypesDTO.getOrgId());
+
 	}
 
 	//DocumentTypesMapping
@@ -2559,8 +2564,35 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 		documentTypesMappingVO.setActive(documentTypesMappingDTO.isActive());
 	}
 
+	 @Override
+	    @Transactional
+	    public List<Map<String,Object>> getAllDocumentTypesMappingDetailsByDocumentType(String branch, String branchCode, String finYr, Long orgId,String finyrId) {
+
+	        Set<Object[]> result = documentTypesMappingRepo.findAllDocumentTypesMappingDetailsByDocumentType(branch, branchCode, finYr, orgId,finyrId);
+	        return getresult(result);
+	    }
 	
-	// FinancialYear
+	private List<Map<String, Object>> getresult(Set<Object[]> result) {
+		 List<Map<String, Object>> details1 = new ArrayList<>();
+	        for (Object[] fs : result) {
+	            Map<String, Object> part = new HashMap<>();
+	            part.put("screenCode", fs[0] != null ? fs[0].toString() : "");
+	            part.put("screenName", fs[1] != null ? fs[1].toString() : "");
+	            part.put("docCode", fs[2] != null ? fs[2].toString() : "");
+	            part.put("finYrIdentifierId", fs[3] != null ? fs[3].toString() : "");
+	            part.put("finyr", fs[4] != null ? fs[4].toString() : "");
+	            part.put("branch", fs[5] != null ? fs[5].toString() : "");
+	            part.put("branchCode", fs[6] != null ? fs[6].toString() : "");
+	            part.put("prefix", fs[7] != null ? fs[7].toString() : "");
+//	            part.put("orgId", fs[6] != null ? fs[6].toString() : "");
+//	            part.put("docCode", fs[7] != null ? fs[7].toString() : "");
+//	            part.put("prefix", fs[8] != null ? fs[8].toString() : "");
+	            details1.add(part);
+	        }
+	        return details1;
+	}
+
+		// FinancialYear
 		@Override
 		public List<FinancialYearVO> getFinancialYearById(Long id) {
 			List<FinancialYearVO> financialYearVO = new ArrayList<>();
@@ -2633,13 +2665,22 @@ public class BasicMasterServiceImpl implements BasicMasterService {
 			financialYearVO.setCurrentFinYr(financialYearDTO.isCurrentFinYr());
 			financialYearVO.setClosed(financialYearDTO.isClosed());
 			financialYearVO.setOpen(financialYearDTO.isOpen());
-			financialYearVO.setAction(financialYearDTO.isAction());
 			financialYearVO.setCompany(financialYearDTO.getCompany());
 			financialYearVO.setUserId(financialYearDTO.getUserId());
   }
 		
 		
+		 @Override
+		    @Transactional
+		    public Set<Object[]> getFinyrAndFinyrIdByOrgId( Long orgId) {
+		        LOGGER.debug("Executing query with parameters: orgId={}",orgId);
 
+		        Set<Object[]> result = finRepo.findAllFinyrAndFinyrIdByOrgId( orgId);
+
+		        LOGGER.debug("Query executed successfully, result size: {}", result.size());
+
+		        return result;
+		    }
 		
 
 }

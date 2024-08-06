@@ -22,7 +22,6 @@ public class FinancialYearDTO {
 	private boolean currentFinYr;
 	private boolean closed;
 	private boolean open;
-	private boolean action;
 	private String company;
 	private String userId;
 	private String createdBy;

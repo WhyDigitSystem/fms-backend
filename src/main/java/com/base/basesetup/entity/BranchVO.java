@@ -49,7 +49,7 @@ public class BranchVO {
 	private String panNo;
 	@Column(name = "gstin")
 	private String gstIn;
-	@Column(name = "branchname")
+	@Column(name = "branch")
 	private String branchName;
 	@Column(name = "country")
 	private String country;

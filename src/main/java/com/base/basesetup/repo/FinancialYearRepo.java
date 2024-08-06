@@ -18,4 +18,7 @@ public interface FinancialYearRepo extends JpaRepository<FinancialYearVO, Long> 
 	@Query(nativeQuery = true, value = "select finyr from  financialyear where orgid=?1 and closed=0 and  active=1")
 	Set<Object[]> getFinyer(Long orgId);
 
+	@Query(nativeQuery = true, value = "select finyr , finyrid from  financialyear where orgid=?1 and closed=0 and  active=1 and open=1")
+	Set<Object[]> findAllFinyrAndFinyrIdByOrgId(Long orgId);
+
 }
